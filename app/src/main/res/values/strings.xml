@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Trip2gether</string>
+    <string name="gallery">Open Gallery</string>
+    <string name="google">Search Google</string>
+    <string name="title_activity_trip_list">TripList</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_new_trip">NewTrip</string>
+    <string name="userHint">Username</string>
+    <string name="passwHint">Password</string>
+    <string name="loginButton">Login</string>
+    <string name="registerButton">Register</string>
+    <string name="addTitle">Add new trip</string>
+    <string name="loginErr">User not found</string>
+
+
+</resources>
