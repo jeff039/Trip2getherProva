@@ -65,11 +65,18 @@ public class RegisterForm extends ActionBarActivity {
         params.put("mail", mail);
         params.put("password", password);
 
-        ArrayList registerResponse = ParseCloud.callFunction("register", params); //crida al BE
-        if(registerResponse.size() == 1) //tenim un usuari
-            success = true;
-        System.out.println(success);
-        return success;
+        ArrayList checkRegistro = ParseCloud.callFunction("checkUserSignIn", params);
+
+        if (checkRegistro.size() == 1){//mail existente
+            return success;
+        }
+        else {
+            ArrayList registerResponse = ParseCloud.callFunction("register", params); //crida al BE
+            if (registerResponse.size() == 1) //tenim un usuari
+                success = true;
+            System.out.println(success);
+            return success;
+        }
     }
 
 
