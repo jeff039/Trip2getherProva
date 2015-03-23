@@ -5,6 +5,7 @@
     <string name="gallery">Open Gallery</string>
     <string name="google">Search Google</string>
     <string name="title_activity_trip_list">TripList</string>
+    <string name="title_activity_register_form">Register</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_new_trip">NewTrip</string>
     <string name="userHint">Username</string>
@@ -13,6 +14,12 @@
     <string name="registerButton">Register</string>
     <string name="addTitle">Add new trip</string>
     <string name="loginErr">User not found</string>
+    <string name="nombre">Name</string>
+    <string name="apellidos">Surname</string>
+    <string name="ciudad">City</string>
+    <string name="fecha_nacimiento">Date of birth</string>
+    <string name="mail">Mail</string>
+    <string name="send_register">Send register</string>
 
 
 </resources>
