@@ -2,6 +2,7 @@ package group.lis.uab.trip2gether.controller;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -12,6 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.io.ByteArrayOutputStream;
 
 import group.lis.uab.trip2gether.R;
 
@@ -46,6 +54,26 @@ public class NewTrip extends ActionBarActivity {
             // String picturePath contains the path of selected Image
             ImageView imageView = (ImageView) findViewById(R.id.image);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+
+
+
+            ///////////////////PROVA UPDATE///////////////////
+            Bitmap image = BitmapFactory.decodeFile(picturePath);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] dataImage = stream.toByteArray();
+            ParseFile file = new ParseFile("viaje.png", dataImage);
+
+
+            ParseQuery query = new ParseQuery("Viaje");
+            try {
+                ParseObject o = query.get("ATDImGclly");
+                o.put("Imagen",file);
+                o.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
