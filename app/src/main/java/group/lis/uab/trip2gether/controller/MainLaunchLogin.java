@@ -48,7 +48,9 @@ public class MainLaunchLogin extends ActionBarActivity {
     private void initializeButtons()
     {
         Button login = (Button)findViewById(R.id.loginButton);
+        Button register = (Button)findViewById(R.id.registerButton);
         login.setOnClickListener(clickLogin);
+        register.setOnClickListener(clickRegister);
     }
 
     public Button.OnClickListener clickLogin = new Button.OnClickListener() {
@@ -67,6 +69,14 @@ public class MainLaunchLogin extends ActionBarActivity {
             } catch (ParseException e) { //llancem missatge si no e trobem
                 e.printStackTrace();
             }
+        }
+    };
+
+    public Button.OnClickListener clickRegister = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent registerForm = new Intent(MainLaunchLogin.this, RegisterForm.class);
+            startActivity(registerForm);
         }
     };
 
