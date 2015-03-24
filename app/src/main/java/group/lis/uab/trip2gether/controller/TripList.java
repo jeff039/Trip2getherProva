@@ -1,6 +1,8 @@
 package group.lis.uab.trip2gether.controller;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -9,10 +11,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import group.lis.uab.trip2gether.R;
 
 public class TripList extends ActionBarActivity {
+
+    private static Intent intent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +28,14 @@ public class TripList extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-    }
+        intent = getIntent();
 
+        //Mostrem la Action Bar en la activity
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.ic_action);
+        getSupportActionBar().setTitle("      Mis Viajes");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,6 +72,18 @@ public class TripList extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_trip_list, container, false);
+
+            if(intent!=null){
+                String nombre = intent.getStringExtra("nombre");
+                String pais = intent.getStringExtra("pais");
+                String ciudad = intent.getStringExtra("ciudad");
+                String fechaInicio = intent.getStringExtra("fechaInicio");
+                String fechaFinal = intent.getStringExtra("fechaFinal");
+
+                TextView nombreViaje = (TextView) rootView.findViewById(R.id.nombreViaje);
+                nombreViaje.setText(nombre);
+            }
+
             return rootView;
         }
     }

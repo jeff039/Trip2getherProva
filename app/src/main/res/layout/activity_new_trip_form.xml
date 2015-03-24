@@ -1,4 +1,4 @@
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,41 +6,180 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".NewTripForm"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:background="#212121">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".NewTrip">
 
     <LinearLayout
+        android:id="@+id/linearLayoutNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <!--USERNAME LABEL-->
-        <EditText
-            android:id="@+id/tripName"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/TextViewNombre"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#3b4148"
-            android:hint="@string/tripHint"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="#888888"
-            android:textColorHint="#5e6266" />
+            android:layout_marginLeft="20dp"
+            android:text="Nombre:"/>
+
+        <EditText
+            android:id="@+id/EditTextNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:inputType="text"
+            android:ems="10"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutPais"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/linearLayoutNombre"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/TextViewPais"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="País:"/>
+
+        <Spinner
+            android:id="@+id/SpinnerPaises"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/arrayPaises"
+            android:layout_marginLeft="105dp"
+            style="@style/styleSpinner"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCiudad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/linearLayoutPais"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/TextViewCiudad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Ciudad:"/>
+
+        <Spinner
+            android:id="@+id/SpinnerCiudades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/arrayCiudades"
+            android:layout_marginLeft="110dp"
+            style="@style/styleSpinner"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutFechaInici"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/linearLayoutCiudad"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/TextViewFechaInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Fecha inicio:"/>
+
+        <EditText
+            android:id="@+id/EditTextFechaInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:inputType="date"
+            android:ems="9"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutFechaFinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/linearLayoutFechaInici"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/TextViewFechaFinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Fecha final:"/>
+
+        <EditText
+            android:id="@+id/EditTextFechaFinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:inputType="date"
+            android:ems="9"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutAddPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/linearLayoutFechaFinal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageButton
+            android:id="@+id/ImageButtonAddFirends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_action_add_group"
+            android:background="@color/bright_foreground_inverse_material_light"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutExtraFuncions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_below="@+id/linearLayoutAddPerson"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/gallery"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/image"/>
 
         <Button
             android:id="@+id/google"
@@ -50,4 +189,4 @@
 
     </LinearLayout>
 
-</ScrollView>
+</RelativeLayout>

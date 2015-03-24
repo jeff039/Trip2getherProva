@@ -3,4 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="group.lis.uab.trip2gether.controller.NewTripForm">
 
+    <item
+        android:id="@+id/saveTrip"
+        android:title="@string/saveTrip"
+        app:showAsAction="ifRoom"
+        android:layout_height= "match_parent"/>
+
 </menu>

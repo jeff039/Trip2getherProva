@@ -22,7 +22,28 @@
     <string name="mail">Mail</string>
     <string name="send_register">Send register</string>
     <string name="tripHint">Trip title</string>
+    <string name="saveTrip">GUARDAR</string>
 
+    <string-array name="arrayPaises">
+        <item>Spain</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
 
+    <string-array name="arrayCiudades">
+        <item>Barcelona</item>
+        <item>Madrid</item>
+        <item>Paris</item>
+        <item>Roma</item>
+        <item>Berlin</item>
+        <item>Londres</item>
+        <item>Rotterdam</item>
+        <item>Praga</item>
+    </string-array>
 
 </resources>

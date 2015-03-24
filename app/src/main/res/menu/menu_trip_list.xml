@@ -4,7 +4,7 @@
     tools:context="group.lis.uab.trip2gether.controller.TripList">
 
     <item android:id="@+id/addTrip"
-        android:icon="@drawable/add"
+        android:icon="@drawable/ic_action_new"
         android:title="@string/addTitle"
         app:showAsAction="ifRoom"
         android:layout_height= "match_parent"/>
