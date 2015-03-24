@@ -23,14 +23,14 @@ import java.io.ByteArrayOutputStream;
 
 import group.lis.uab.trip2gether.R;
 
-public class NewTrip extends ActionBarActivity {
+public class NewTripForm extends ActionBarActivity {
 
     private static final int LOAD_IMAGE = 1; //static final -> no canviarà (s'ha d'inicializar)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_trip);
+        setContentView(R.layout.activity_new_trip_form);
         this.initializeButtons();
     }
 
@@ -60,6 +60,7 @@ public class NewTrip extends ActionBarActivity {
 
             ///////////////////PROVA UPDATE///////////////////
             //commit2
+            /*
             Bitmap image = BitmapFactory.decodeFile(picturePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -74,7 +75,7 @@ public class NewTrip extends ActionBarActivity {
                 o.save();
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 
@@ -110,7 +111,7 @@ public class NewTrip extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_new_trip, menu);
+        getMenuInflater().inflate(R.menu.menu_new_trip_form, menu);
         return true;
     }
 

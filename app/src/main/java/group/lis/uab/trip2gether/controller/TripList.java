@@ -2,7 +2,6 @@ package group.lis.uab.trip2gether.controller;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 import group.lis.uab.trip2gether.R;
 
@@ -44,7 +42,7 @@ public class TripList extends ActionBarActivity {
 
         if(id == R.id.addTrip)
         {
-            Intent newTrip = new Intent(this, NewTrip.class);
+            Intent newTrip = new Intent(this, NewTripForm.class);
             startActivity(newTrip);
         }
 

@@ -21,6 +21,7 @@
     <string name="fecha_nacimiento">Date of birth</string>
     <string name="mail">Mail</string>
     <string name="send_register">Send register</string>
+    <string name="tripHint">Trip title</string>
 
 
 

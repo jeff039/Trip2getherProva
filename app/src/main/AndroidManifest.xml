@@ -35,7 +35,7 @@
             android:label="@string/title_activity_trip_list" >
         </activity>
         <activity
-            android:name=".controller.NewTrip"
+            android:name=".controller.NewTripForm"
             android:label="@string/title_activity_new_trip" >
         </activity>
         <activity
