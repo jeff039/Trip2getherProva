@@ -16,6 +16,7 @@
     <string name="loginErr">User not found</string>
     <string name="nombre">Name</string>
     <string name="apellidos">Surname</string>
+    <string name="pais">Country</string>
     <string name="ciudad">City</string>
     <string name="fecha_nacimiento">Date of birth</string>
     <string name="mail">Mail</string>

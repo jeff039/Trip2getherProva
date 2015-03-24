@@ -53,6 +53,20 @@
             android:textColor="#888888"
             android:textColorHint="#5e6266" />
 
+        <!--COUNTRY LABEL-->
+        <EditText
+            android:id="@+id/country"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="#3b4148"
+            android:hint="@string/pais"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:inputType="textCapWords"
+            android:textColor="#888888"
+            android:textColorHint="#5e6266" />
+
         <!--CITY LABEL-->
         <EditText
             android:id="@+id/city"
@@ -83,7 +97,6 @@
             android:hint="@string/mail"
             android:padding="10dp"
             android:singleLine="true"
-            android:inputType="textCapWords"
             android:textColor="#888888"
             android:textColorHint="#5e6266" />
 
@@ -98,10 +111,10 @@
             android:hint="@string/passwHint"
             android:padding="10dp"
             android:singleLine="true"
-            android:inputType="textCapWords"
+            android:inputType="textPassword"
             android:textColor="#888888"
             android:textColorHint="#5e6266" />
-        <!--android:inputType="textPassword"-->
+        <!--android:inputType="textCapWords"-->
 
 
 
