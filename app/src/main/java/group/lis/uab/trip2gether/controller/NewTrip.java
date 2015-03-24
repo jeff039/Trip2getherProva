@@ -59,6 +59,7 @@ public class NewTrip extends ActionBarActivity {
 
 
             ///////////////////PROVA UPDATE///////////////////
+            //commit2
             Bitmap image = BitmapFactory.decodeFile(picturePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.PNG, 100, stream);

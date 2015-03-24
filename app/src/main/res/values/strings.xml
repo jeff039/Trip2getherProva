@@ -11,15 +11,17 @@
     <string name="userHint">Username</string>
     <string name="passwHint">Password</string>
     <string name="loginButton">Login</string>
-    <string name="registerButton">Register</string>
+    <string name="registerButton">New to Trip2Gether? Register here</string>
     <string name="addTitle">Add new trip</string>
     <string name="loginErr">User not found</string>
     <string name="nombre">Name</string>
     <string name="apellidos">Surname</string>
+    <string name="pais">Country</string>
     <string name="ciudad">City</string>
     <string name="fecha_nacimiento">Date of birth</string>
     <string name="mail">Mail</string>
     <string name="send_register">Send register</string>
+
 
 
 </resources>
