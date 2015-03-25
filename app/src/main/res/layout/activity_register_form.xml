@@ -81,11 +81,19 @@
             android:textColor="#888888"
             android:textColorHint="#5e6266" />
 
-        <!--<TextView
-            android:id="@+id/date_of_birth_text"
-            android:layout_width="wrap_content"
+        <!--DATE OF BIRTH LABEL-->
+        <EditText
+            android:id="@+id/date_of_birth"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/fecha_nacimiento"/>-->
+            android:layout_marginBottom="10dp"
+            android:background="#3b4148"
+            android:hint="@string/fecha_nacimiento"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:editable="false"
+            android:textColor="#888888"
+            android:textColorHint="#5e6266" />
 
        <!--EMAIL LABEL-->
         <EditText

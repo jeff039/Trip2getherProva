@@ -1,13 +1,16 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,10 +20,13 @@ import com.parse.ParseException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Locale;
 
 import group.lis.uab.trip2gether.R;
 
@@ -28,17 +34,28 @@ import group.lis.uab.trip2gether.R;
  * Created by Jofré on 18/03/2015.
  */
 public class RegisterForm extends ActionBarActivity {
+
+    //UI References
+    private EditText pickDate;
+    private DatePickerDialog pickDateDialog;
+    private SimpleDateFormat dateFormatter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_form);
         this.initializeButtons();
+        this.setDateTimeField();
     }
 
     /////////////////INTERFÍCIE////////////////////////////////////
     public void initializeButtons() {
         Button sendRegister = (Button)findViewById(R.id.sendRegister);
         sendRegister.setOnClickListener(clickSendRegister);
+        pickDate = (EditText) findViewById(R.id.date_of_birth);
+        pickDate.setOnClickListener(clickPickDate);
+        pickDate.setInputType(InputType.TYPE_NULL);
     }
 
     public Button.OnClickListener clickSendRegister = new Button.OnClickListener() {
@@ -47,7 +64,7 @@ public class RegisterForm extends ActionBarActivity {
                 boolean register = RegisterForm.this.register(RegisterForm.this.getName(),
                         RegisterForm.this.getSurname(),RegisterForm.this.getCity(),
                         RegisterForm.this.getMail(),RegisterForm.this.getPassword(),
-                        RegisterForm.this.getCountry());
+                        RegisterForm.this.getCountry(), RegisterForm.this.getDateOfBirth());
 
             if(register) {
                 Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
@@ -59,12 +76,37 @@ public class RegisterForm extends ActionBarActivity {
             }
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
         }
     };
 
+    public EditText.OnClickListener clickPickDate = new EditText.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            pickDateDialog.show();
+        }
+    };
+
+    private void setDateTimeField() {
+        Calendar newCalendar = Calendar.getInstance();
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        pickDateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                pickDate.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+    }
+
     ////////////////REGISTER////////////////////////////////////////
-    public boolean register(String name, String surname, String city, String mail, String password, String country) throws ParseException {
+    public boolean register(String name, String surname, String city, String mail, String password,
+                            String country, Date date_of_birth) throws ParseException {
         boolean success = false;
         password = RegisterForm.encryptPassword(password);
         HashMap<String, Object> params = new HashMap<String, Object>();
@@ -74,13 +116,15 @@ public class RegisterForm extends ActionBarActivity {
         params.put("mail", mail);
         params.put("password", password);
         params.put("country", country);
+        params.put("date_of_birth", date_of_birth);
 
+        //Comprovem si el mail existeix a la BD
         ArrayList checkRegistro = ParseCloud.callFunction("checkUserSignIn", params);
-
         if (checkRegistro.size() == 1){//mail existente
             return success;
         }
         else {
+            //Creem el nou usuari a la BD
             String registerResponse = ParseCloud.callFunction("register", params); //crida al BE
             if(registerResponse.isEmpty() == false) //S'ha creat l'usuari
                 success = true;
@@ -88,7 +132,6 @@ public class RegisterForm extends ActionBarActivity {
             return success;
         }
     }
-
 
     public String getName() {
         EditText name = (EditText) findViewById(R.id.name);
@@ -108,10 +151,14 @@ public class RegisterForm extends ActionBarActivity {
         return cityText;
     }
 
-    //public Date getDateOfBirth() {
-    //EditText dateOfBirth = (EditText) findViewById(R.id.date_of_birth);
-    //String dateOfBirthText = dateOfBirth.getText().
-    //}
+    public Date getDateOfBirth() throws java.text.ParseException {
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        EditText dateOfBirth = (EditText) findViewById(R.id.date_of_birth);
+        Date dateOfBirthDate;
+        dateOfBirthDate = dateFormatter.parse(dateOfBirth.getText().toString());
+        dateOfBirthDate.setHours(13);
+        return dateOfBirthDate;
+    }
 
     public String getMail() {
         EditText mail = (EditText)findViewById(R.id.mail);
