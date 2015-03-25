@@ -1,5 +1,7 @@
 package group.lis.uab.trip2gether.controller;
 
+import java.util.Date;
+
 public class Trip {
 
     private String nombre;
@@ -8,9 +10,9 @@ public class Trip {
 
     private String ciudad;
 
-    private String fechaInicio;
+    private Date fechaInicio;
 
-    private String fechaFinal;
+    private Date fechaFinal;
 
     public void setNombre(String nombre){
         this.nombre = nombre;
@@ -36,23 +38,23 @@ public class Trip {
         return  this.ciudad;
     }
 
-    public void setFechaInicio(String fechaInicio){
+    public void setFechaInicio(Date fechaInicio){
         this.fechaInicio = fechaInicio;
     }
 
-    public String getFechaInicio(){
+    public Date getFechaInicio(){
         return  this.fechaInicio;
     }
 
-    public void setFechaFinal(String fechaFinal){
+    public void setFechaFinal(Date fechaFinal){
         this.fechaFinal = fechaFinal;
     }
 
-    public String getFechaFinal(){
+    public Date getFechaFinal(){
         return  this.fechaFinal;
     }
 
-    public Trip(String nombre, String pais, String ciudad, String fechaInicio, String fechaFinal) {
+    public Trip(String nombre, String pais, String ciudad, Date fechaInicio, Date fechaFinal) {
         this.setNombre(nombre);
         this.setPais(pais);
         this.setCiudad(ciudad);

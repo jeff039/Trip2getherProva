@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.parse.ParseCloud;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import group.lis.uab.trip2gether.R;
 
 public class TripList extends ActionBarActivity {
@@ -82,6 +87,7 @@ public class TripList extends ActionBarActivity {
 
                 TextView nombreViaje = (TextView) rootView.findViewById(R.id.nombreViaje);
                 nombreViaje.setText(nombre);
+
             }
 
             return rootView;

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
 import group.lis.uab.trip2gether.R;
 
 public class NewTripForm extends ActionBarActivity {
@@ -132,6 +143,12 @@ public class NewTripForm extends ActionBarActivity {
                 intent.putExtra("ciudad", nuevoViaje.getCiudad());
                 intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
                 intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
+
+                try {
+                    GuardarViajeBDD(nuevoViaje);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 startActivity(intent);
 
                 return true;
@@ -159,6 +176,41 @@ public class NewTripForm extends ActionBarActivity {
         EditText TextFechaFinal =(EditText)findViewById(R.id.EditTextFechaFinal);
         String fechaFinal = TextFechaFinal.getText().toString();
 
-        return new Trip(nombre, pais, ciudad, fechaInicio, fechaFinal);
+        Date dataInicial = ConvertStringToDate(fechaInicio);
+        Date dataFinal = ConvertStringToDate(fechaFinal);
+
+        return new Trip(nombre, pais, ciudad, dataInicial, dataFinal);
+    }
+
+    public boolean GuardarViajeBDD(Trip nuevoViaje) throws ParseException{
+        boolean success = false;
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("name", nuevoViaje.getNombre());
+        params.put("ciudad", nuevoViaje.getCiudad());
+        params.put("fechaInicial", nuevoViaje.getFechaInicio());
+        params.put("fechaFinal", nuevoViaje.getFechaFinal());
+
+        String addTripResponse = ParseCloud.callFunction("addTrip", params);
+            if(!addTripResponse.isEmpty())
+                success = true;
+            Log.i("Add newTrip:", addTripResponse);
+
+        return success;
+    }
+
+    /**
+     * ConvertStringToDate
+     * @param fecha
+     * @return data
+     */
+    public Date ConvertStringToDate(String fecha){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date data = null;
+        try {
+            data = formatter.parse(fecha);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 }
