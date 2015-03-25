@@ -56,6 +56,8 @@ public class RegisterForm extends ActionBarActivity {
         pickDate = (EditText) findViewById(R.id.date_of_birth);
         pickDate.setOnClickListener(clickPickDate);
         pickDate.setInputType(InputType.TYPE_NULL);
+        pickDate.setOnFocusChangeListener(focusPickDate);
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
     }
 
     public Button.OnClickListener clickSendRegister = new Button.OnClickListener() {
@@ -89,9 +91,17 @@ public class RegisterForm extends ActionBarActivity {
         }
     };
 
+    public EditText.OnFocusChangeListener focusPickDate = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus)
+                pickDateDialog.show();
+            v.clearFocus();
+        }
+    };
+
     private void setDateTimeField() {
         Calendar newCalendar = Calendar.getInstance();
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
         pickDateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -103,6 +113,8 @@ public class RegisterForm extends ActionBarActivity {
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
     }
+
+
 
     ////////////////REGISTER////////////////////////////////////////
     public boolean register(String name, String surname, String city, String mail, String password,
