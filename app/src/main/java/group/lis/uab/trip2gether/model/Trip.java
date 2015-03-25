@@ -1,4 +1,4 @@
-package group.lis.uab.trip2gether.controller;
+package group.lis.uab.trip2gether.model;
 
 import java.util.Date;
 

@@ -45,5 +45,6 @@
         <item>Rotterdam</item>
         <item>Praga</item>
     </string-array>
+    <string name="title_activity_site_maps">Map</string>
 
 </resources>

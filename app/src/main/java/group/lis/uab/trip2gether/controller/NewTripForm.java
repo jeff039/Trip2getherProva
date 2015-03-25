@@ -21,13 +21,12 @@ import android.widget.Spinner;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.model.Trip;
 
 public class NewTripForm extends ActionBarActivity {
 
@@ -97,7 +96,18 @@ public class NewTripForm extends ActionBarActivity {
         gallery.setOnClickListener(clickGallery);
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
+
+        Button maps = (Button)findViewById(R.id.maps);
+        maps.setOnClickListener(clickMaps);
+
     }
+
+    public Button.OnClickListener clickMaps = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(NewTripForm.this, SiteMapsActivity.class);
+            startActivity(i);
+        }
+    };
 
     public Button.OnClickListener clickGallery = new Button.OnClickListener() {
         public void onClick(View v) {
