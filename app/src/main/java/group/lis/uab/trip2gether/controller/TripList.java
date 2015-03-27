@@ -12,7 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import android.widget.ListAdapter;
+import android.database.Cursor;
+import android.widget.ListView;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Toast;
 import com.parse.ParseCloud;
 
 import java.util.ArrayList;
@@ -21,6 +26,10 @@ import java.util.HashMap;
 import group.lis.uab.trip2gether.R;
 
 public class TripList extends ActionBarActivity {
+    protected Cursor cursor;
+
+    protected ListAdapter adapter;
+
 
     private static Intent intent = null;
 
@@ -46,8 +55,10 @@ public class TripList extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_trip_list, menu);
+
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -56,19 +67,26 @@ public class TripList extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == R.id.addTrip)
-        {
-            Intent newTrip = new Intent(this, NewTripForm.class);
-            startActivity(newTrip);
-        }
+        switch(id) {
+            case (R.id.addTrip):
 
-        return super.onOptionsItemSelected(item);
+                Intent newTrip = new Intent(this, NewTripForm.class);
+                startActivity(newTrip);
+                return true;
+            case (R.id.goToSites):
+                Intent goToSites = new Intent(this, SiteList.class);
+                startActivity(goToSites);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
+
 
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment{
 
         public PlaceholderFragment() {
         }
@@ -92,5 +110,7 @@ public class TripList extends ActionBarActivity {
 
             return rootView;
         }
-    }
+
+     };
+
 }
