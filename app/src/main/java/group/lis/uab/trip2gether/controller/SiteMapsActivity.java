@@ -1,7 +1,12 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -9,6 +14,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 import group.lis.uab.trip2gether.R;
 
@@ -23,6 +30,59 @@ public class SiteMapsActivity extends FragmentActivity {
         setContentView(R.layout.activity_site_maps);
         setUpMapIfNeeded();
     }
+
+    /////BOTÓ OK/////////////
+    public void initializeButtonsAdd()
+    {
+        Button ok = (Button) findViewById(R.id.maps_ok);
+        ok.setOnClickListener(clickOKAdd);
+    }
+
+    public void initializeButtonsRoute()
+    {
+        Button ok = (Button) findViewById(R.id.maps_ok);
+        ok.setOnClickListener(clickOKRoute);
+    }
+
+    public Button.OnClickListener clickOKAdd = new Button.OnClickListener() {
+        public void onClick(View v) {
+            if(marker != null) { //si hem marcat
+                //cridem el formulari (pas2)
+                Bundle params = getIntent().getExtras();
+                String tripId = params.getString("tripId");
+                //enviem el punt al formulari si l'hem marcat
+                Bundle paramsSiteForm = new Bundle();
+                paramsSiteForm.putString("tripId", tripId);
+                paramsSiteForm.putDouble("latitude", marker.getPosition().latitude);
+                paramsSiteForm.putDouble("logitude", marker.getPosition().longitude);
+                //cridem el formulari
+                Intent newSite = new Intent(SiteMapsActivity.this, NewSiteForm.class);
+                newSite.putExtras(paramsSiteForm);
+                startActivity(newSite);
+            }
+            else
+            {
+                String alertString = getResources().getString(R.string.anyLocation); //missatge de alerta
+                //Enviem el missatge dient que 's'ha inserit correctament
+                new AlertDialog.Builder(SiteMapsActivity.this) //ens trobem en una funció de un botó, especifiquem la classe (no this)
+                        //.setTitle("DB")
+                        .setMessage(alertString)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //no fem res
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+            }
+        }
+    };
+
+    public Button.OnClickListener clickOKRoute = new Button.OnClickListener() {
+        public void onClick(View v) {
+            SiteMapsActivity.super.onBackPressed(); //tornem enrere
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -65,32 +125,66 @@ public class SiteMapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        //SI ESTEM EDITANT UN PUNT
-        Bundle coord = getIntent().getExtras();
-        double latitutde = coord.getDouble("latitude");
-        double longitude = coord.getDouble("longitude");
-        ////////////////////////////////////
-        CameraUpdate center =
-                CameraUpdateFactory.newLatLng(new LatLng(latitutde, longitude));
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-        mMap.moveCamera(center);
-        mMap.animateCamera(zoom);
-        /*mMap.addMarker(new MarkerOptions().position(
-                new LatLng(41.50082099999999, 2.107275999999956))
-                .title(getResources().getString(R.string.maps_instructions)).draggable(true));*/
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        Bundle params = getIntent().getExtras();
 
-            @Override
-            public void onMapClick(LatLng point) {
-                mMap.clear(); //eliminem els markers anteriors
-                String positionText = point.toString();
-                marker = new MarkerOptions()
-                        .position(new LatLng(point.latitude, point.longitude))
-                        .title(positionText);
-                mMap.addMarker(marker); //nou marker
-                //System.out.println(point.latitude + "---" + point.longitude);
+        if(params.getString("route").equals("false")) { //afegint
+            //SI ESTEM EDITANT UN PUNT
+            double latitutde = params.getDouble("latitude");
+            double longitude = params.getDouble("longitude");
+            ////////////////////////////////////
+            CameraUpdate center =
+                    CameraUpdateFactory.newLatLng(new LatLng(latitutde, longitude));
+            CameraUpdate zoom = CameraUpdateFactory.zoomTo(12);
+            mMap.moveCamera(center);
+            mMap.animateCamera(zoom);
+
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+                @Override
+                public void onMapClick(LatLng point) {
+                    mMap.clear(); //eliminem els markers anteriors
+                    String positionText = point.toString();
+                    marker = new MarkerOptions()
+                            .position(new LatLng(point.latitude, point.longitude))
+                            .title(positionText);
+                    mMap.addMarker(marker); //nou marker
+                    //System.out.println(point.latitude + "---" + point.longitude);
+                }
+            });
+
+            this.initializeButtonsAdd();
+        }
+        else if (params.getString("route").equals("true")) //mirant la ruta
+        {
+            //SI ESTEM EDITANT UN PUNT
+            double latitutde = params.getDouble("latitude");
+            double longitude = params.getDouble("longitude");
+            ////////////////////////////////////
+            CameraUpdate center =
+                    CameraUpdateFactory.newLatLng(new LatLng(latitutde, longitude));
+            CameraUpdate zoom = CameraUpdateFactory.zoomTo(12);
+            mMap.moveCamera(center);
+            mMap.animateCamera(zoom);
+
+            ArrayList<String> sitesLatitude = new ArrayList<String>();
+            ArrayList<String> sitesLongitude = new ArrayList<String>();
+            ArrayList<String> sitesName = new ArrayList<String>();
+
+            sitesLatitude = params.getStringArrayList("latitudeArray");
+            sitesLongitude = params.getStringArrayList("longitudeArray");
+            sitesName = params.getStringArrayList("nameArray");
+
+            for(int i = 0; i < sitesLatitude.size(); i++) //afegim els punts
+            {
+                mMap.addMarker(new MarkerOptions().position(
+                        new LatLng(Double.parseDouble(sitesLatitude.get(i)), Double.parseDouble(sitesLongitude.get(i))))
+                        .title(sitesName.get(i)).draggable(true));
+                //no cal internacionalització per els noms, els afegeix el propi usuari
             }
-        });
+
+            this.initializeButtonsRoute();
+
+        }
     }
 }

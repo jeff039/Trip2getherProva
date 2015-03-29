@@ -21,4 +21,5 @@
         android:textColor="#ffffff"
         android:layout_marginLeft="100px"
         android:textSize="24sp" />
+
 </LinearLayout>

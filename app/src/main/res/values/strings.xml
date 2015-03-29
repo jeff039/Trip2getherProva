@@ -53,5 +53,9 @@
         <item>My trips</item>
         <item>Friends</item>
     </string-array>
+    <string name="OK">OK</string>
+    <string name="mapRoute">View route in map</string>
+    <string name="addSite">Add new Site</string>
+    <string name="anyLocation">You have not selected any location!</string>
 
 </resources>

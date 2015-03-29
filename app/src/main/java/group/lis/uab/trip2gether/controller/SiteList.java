@@ -32,6 +32,7 @@ package group.lis.uab.trip2gether.controller;
         import java.lang.reflect.Array;
         import java.util.ArrayList;
         import java.util.HashMap;
+        import java.util.List;
 
         import group.lis.uab.trip2gether.R;
         import group.lis.uab.trip2gether.model.DrawerItemClickListener;
@@ -112,16 +113,13 @@ public class SiteList  extends ActionBarActivity {
 
         if(id == R.id.addSite)
         {
-            Intent siteMaps = new Intent(this, SiteMapsActivity.class);
-            //enviem la ubicació del viatge per fer focus
-            Bundle coord = new Bundle();
-
             //rebem el viatge en que estem
-            Bundle trip = getIntent().getExtras();
-            String tripId = coord.getString("trip");
+            //Bundle trip = getIntent().getExtras();
+            //String tripId = trip.getString("tripId");
 
+            //HARDCODED
             //PROVISIONAL (TESTBARCELONA)
-            tripId = "36IJhdT4rp";
+            String tripId = "36IJhdT4rp";
 
             try {
                 ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");
@@ -134,19 +132,80 @@ public class SiteList  extends ActionBarActivity {
                 Double latitude = cityCoordQuery.getFirst().getDouble("Latitud");
                 Double longitude = cityCoordQuery.getFirst().getDouble("Longitud");
 
-                coord.putDouble("latitude", latitude);
-                coord.putDouble("longitude", longitude);
 
-                siteMaps.putExtras(coord);
+                //enviem el viatge i la ubicació per fer focus
+                Bundle paramsMaps = new Bundle();
+                paramsMaps.putDouble("latitude", latitude);
+                paramsMaps.putDouble("longitude", longitude);
+                paramsMaps.putString("tripId", tripId);
+                paramsMaps.putString("route", "false"); //estarem editant, no mirant la ruta
+
+                Intent siteMaps = new Intent(this, SiteMapsActivity.class);
+                siteMaps.putExtras(paramsMaps);
                 startActivity(siteMaps);
 
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            /*
-            Intent newSite = new Intent(this, NewSiteForm.class);
-            startActivity(newSite);*/
+        }
+
+        if(id == R.id.mapRoute)
+        {
+            //rebem el viatge en que estem
+            //Bundle trip = getIntent().getExtras();
+            //String tripId = trip.getString("tripId");
+
+            //HARDCODED
+            //PROVISIONAL (TESTBARCELONA)
+            String tripId = "36IJhdT4rp";
+            ParseQuery<ParseObject> siteCoordQuery = ParseQuery.getQuery("Sitio");
+            siteCoordQuery.whereEqualTo("Id_Viaje", tripId);
+            ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");
+            tripCoordQuery.whereEqualTo("objectId", tripId);
+
+
+            try {
+                String cityId = tripCoordQuery.getFirst().getString("Id_Ciudad");
+                ParseQuery<ParseObject> cityCoordQuery = ParseQuery.getQuery("Ciudad");
+                cityCoordQuery.whereEqualTo("objectId", cityId);
+                Double latitude = cityCoordQuery.getFirst().getDouble("Latitud");
+                Double longitude = cityCoordQuery.getFirst().getDouble("Longitud");
+
+                ArrayList<String> sitesLatitudeArray = new ArrayList<String>();
+                ArrayList<String> sitesLongitudeArray = new ArrayList<String>();
+                ArrayList<String> sitesNameArray = new ArrayList<String>();
+
+                List<ParseObject> sites = siteCoordQuery.find();
+
+                for(int i = 0; i < sites.size(); i++) //tots els llocs
+                {
+                    Double siteLatitude = sites.get(i).getDouble("Latitud");
+                    Double siteLongitude = sites.get(i).getDouble("Longitud");
+                    String siteName = sites.get(i).getString("Nombre");
+                    sitesLatitudeArray.add(siteLatitude.toString());
+                    sitesLongitudeArray.add(siteLongitude.toString());
+                    sitesNameArray.add(siteName.toString());
+                }
+
+                //enviem el viatge i la ubicació per fer focus
+                Bundle paramsMaps = new Bundle();
+                paramsMaps.putString("route", "true"); //mirem la ruta
+                paramsMaps.putStringArrayList("latitudeArray", sitesLatitudeArray);
+                paramsMaps.putStringArrayList("longitudeArray", sitesLongitudeArray);
+                paramsMaps.putStringArrayList("nameArray", sitesNameArray);
+                //per focus
+                paramsMaps.putString("tripId", tripId);
+                paramsMaps.putDouble("latitude", latitude);
+                paramsMaps.putDouble("longitude", longitude);
+
+                Intent siteMaps = new Intent(this, SiteMapsActivity.class);
+                siteMaps.putExtras(paramsMaps);
+                startActivity(siteMaps);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         return super.onOptionsItemSelected(item);
