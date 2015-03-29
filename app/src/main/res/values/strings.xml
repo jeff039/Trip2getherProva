@@ -46,5 +46,11 @@
         <item>Praga</item>
     </string-array>
     <string name="title_activity_site_maps">Map</string>
+    <!-- OPCIONS DE LA DRAWER LIST -->
+    <string-array name="options_array">
+        <item>Profile</item>
+        <item>My trips</item>
+        <item>Friends</item>
+    </string-array>
 
 </resources>

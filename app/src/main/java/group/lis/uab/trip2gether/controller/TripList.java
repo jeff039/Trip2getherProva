@@ -3,14 +3,20 @@ package group.lis.uab.trip2gether.controller;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ListAdapter;
 import android.database.Cursor;
@@ -24,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 
 public class TripList extends ActionBarActivity {
     protected Cursor cursor;
@@ -42,15 +49,52 @@ public class TripList extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        intent = getIntent();
-
-        //Mostrem la Action Bar en la activity
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action);
-        getSupportActionBar().setTitle("      Mis Viajes");
+        this.setSupportBar();
+        this.initializeDrawerLayout();
+        this.initializeButtons();
     }
 
+/////////////ELEMENTS DE LA INTERFÍCIE///////////////
+    public void initializeButtons()
+    {
+        ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
+        openDrawer.setOnClickListener(clickDrawer);
+    }
+
+    public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
+        public void onClick(View v) {
+            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+            else
+            {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        }
+    };
+
+
+
+    ////////////////////////////////////////////////////////
+    //DRAWER LAYOUT////////////////////////////
+    ////////////////////////////////////////////////////
+    public void initializeDrawerLayout(){
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //no cal fer un adaptador a la mDrawer,
+        //ja est� configurat en la situaci� dels elements al xml
+        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        //per� s� en la ListView:
+        //agafem les opcions de "strings"
+        String [] options = getResources().getStringArray(R.array.options_array);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, options));
+        //simple_list_itm_1, �s un layout "prefabricat" que ve amb la API,
+        //consistent en un  layout amb un text simple que requereix el ArrayAdapter
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+    }
+
+//////////////BARRA SUPERIOR///////////////////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,6 +126,13 @@ public class TripList extends ActionBarActivity {
         }
     }
 
+    public void setSupportBar()
+    {
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
+        //barra personalitzada
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar);
+    }
 
     /**
      * A placeholder fragment containing a simple view.
