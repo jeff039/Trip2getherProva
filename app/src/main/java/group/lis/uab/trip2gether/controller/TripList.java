@@ -21,13 +21,6 @@ import android.widget.TextView;
 import android.widget.ListAdapter;
 import android.database.Cursor;
 import android.widget.ListView;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Toast;
-import com.parse.ParseCloud;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
@@ -131,7 +124,7 @@ public class TripList extends ActionBarActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
         //barra personalitzada
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setCustomView(R.layout.action_bar_trip_list);
     }
 
     /**

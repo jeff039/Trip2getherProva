@@ -5,6 +5,7 @@
     <string name="gallery">Open Gallery</string>
     <string name="google">Search Google</string>
     <string name="title_activity_trip_list">TripList</string>
+    <string name="title_activity_site_list">SiteList</string>
     <string name="title_activity_register_form">Register</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_new_trip">NewTrip</string>

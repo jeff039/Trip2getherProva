@@ -3,6 +3,8 @@ package group.lis.uab.trip2gether.controller;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -13,6 +15,7 @@ import group.lis.uab.trip2gether.R;
 public class SiteMapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    MarkerOptions marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,32 @@ public class SiteMapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        //SI ESTEM EDITANT UN PUNT
+        Bundle coord = getIntent().getExtras();
+        double latitutde = coord.getDouble("latitude");
+        double longitude = coord.getDouble("longitude");
+        ////////////////////////////////////
+        CameraUpdate center =
+                CameraUpdateFactory.newLatLng(new LatLng(latitutde, longitude));
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+        mMap.moveCamera(center);
+        mMap.animateCamera(zoom);
+        /*mMap.addMarker(new MarkerOptions().position(
+                new LatLng(41.50082099999999, 2.107275999999956))
+                .title(getResources().getString(R.string.maps_instructions)).draggable(true));*/
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+                mMap.clear(); //eliminem els markers anteriors
+                String positionText = point.toString();
+                marker = new MarkerOptions()
+                        .position(new LatLng(point.latitude, point.longitude))
+                        .title(positionText);
+                mMap.addMarker(marker); //nou marker
+                //System.out.println(point.latitude + "---" + point.longitude);
+            }
+        });
     }
 }
