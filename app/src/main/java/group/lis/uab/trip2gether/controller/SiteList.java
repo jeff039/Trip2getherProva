@@ -36,6 +36,8 @@ package group.lis.uab.trip2gether.controller;
 
         import group.lis.uab.trip2gether.R;
         import group.lis.uab.trip2gether.model.DrawerItemClickListener;
+//Implementar bé els métodes de la classe DrawerItemClickListener;
+        //import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 
 /**
  * Created by Mireia on 25/03/2015.

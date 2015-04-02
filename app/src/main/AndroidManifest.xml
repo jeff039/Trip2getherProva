@@ -49,6 +49,10 @@
             android:name=".controller.RegisterForm"
             android:label="@string/title_activity_register_form" >
         </activity>
+        <activity
+            android:name=".controller.EditUserForm"
+            android:label="@string/title_activity_register_form" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -70,6 +74,10 @@
         <activity
             android:name=".controller.Friends"
             android:label="@string/title_activity_friends" >
+        </activity>
+        <activity
+            android:name=".controller.UserProfile"
+            android:label="User" >
         </activity>
     </application>
 

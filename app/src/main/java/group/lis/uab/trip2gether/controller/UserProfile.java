@@ -1,14 +1,14 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,49 +19,49 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.ListAdapter;
-import android.database.Cursor;
 import android.widget.ListView;
+import android.widget.TextView;
+
+
 import group.lis.uab.trip2gether.R;
-//Implementar bé els métodes de la classe DrawerItemClickListener;
-//import group.lis.uab.trip2gether.model.DrawerItemClickListener;
-import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.User;
 
-public class TripList extends ActionBarActivity {
-
-    protected Cursor cursor;
-
-    protected ListAdapter adapter;
-
-    private static Intent intent = null;
+/**
+ * Created by Jofré on 31/03/2015.
+ */
+public class UserProfile extends ActionBarActivity {
 
     private User myUser;
 
-    /**
-     * Method onCreate
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trip_list);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+        setContentView(R.layout.activity_user_profile);
+        Intent intent = getIntent();
+        myUser = (User) intent.getSerializableExtra("myUser");
         this.setSupportBar();
         this.initializeDrawerLayout();
         this.initializeButtons();
-        Intent intent = getIntent();
-        myUser = (User) intent.getSerializableExtra("myUser");
+        this.initializeUserData();
+
     }
 
-    /**
-     * Method initializeButtons. Elements de la interfície
-     */
+    ////////////INTERFÍCIE/////////////////
+
+    public void initializeUserData() {
+        TextView name = (TextView)findViewById(R.id.user_name);
+        name.setText(myUser.getName());
+        TextView surname = (TextView)findViewById(R.id.user_surname);
+        surname.setText(myUser.getSurname());
+        TextView city = (TextView)findViewById(R.id.user_city);
+        city.setText(myUser.getCity());
+        TextView country = (TextView)findViewById(R.id.user_country);
+        country.setText(myUser.getCountry());
+        TextView mail = (TextView)findViewById(R.id.user_mail);
+        mail.setText(myUser.getMail());
+
+    }
+
     public void initializeButtons(){
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
@@ -125,7 +125,7 @@ public class TripList extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_trip_list, menu);
+        getMenuInflater().inflate(R.menu.menu_user_profile, menu);
 
         return true;
     }
@@ -143,14 +143,10 @@ public class TripList extends ActionBarActivity {
         int id = item.getItemId();
 
         switch(id) {
-            case (R.id.addTrip):
-
-                Intent newTrip = new Intent(this, NewTripForm.class);
-                startActivity(newTrip);
-                return true;
-            case (R.id.goToSites):
-                Intent goToSites = new Intent(this, SiteList.class);
-                startActivity(goToSites);
+            case (R.id.edit_user_profile):
+                Intent editUserForm = new Intent(this, EditUserForm.class);
+                editUserForm.putExtra("myUser", myUser);
+                startActivity(editUserForm);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -165,37 +161,8 @@ public class TripList extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_action);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_trip_list);
-        getSupportActionBar().setTitle("      Mis Viajes");
+        getSupportActionBar().setCustomView(R.layout.action_bar_user_profile);
+        getSupportActionBar().setTitle("      Edit User Profile");
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment{
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_trip_list, container, false);
-
-            if(intent!=null){
-                String nombre = intent.getStringExtra("nombre");
-                String pais = intent.getStringExtra("pais");
-                String ciudad = intent.getStringExtra("ciudad");
-                String fechaInicio = intent.getStringExtra("fechaInicio");
-                String fechaFinal = intent.getStringExtra("fechaFinal");
-
-                TextView nombreViaje = (TextView) rootView.findViewById(R.id.nombreViaje);
-                nombreViaje.setText(nombre);
-            }
-
-            return rootView;
-        }
-
-     };
 
 }
