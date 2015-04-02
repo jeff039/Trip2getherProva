@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/arrayPaises"
-            android:layout_marginLeft="105dp"
+            android:layout_marginLeft="125dp"
             style="@style/styleSpinner"/>
 
     </LinearLayout>
@@ -82,7 +82,7 @@
             android:id="@+id/SpinnerCiudades"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/arrayCiudades"
+            android:entries="@array/arrayDefault"
             android:layout_marginLeft="110dp"
             style="@style/styleSpinner"/>
 
@@ -160,8 +160,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:onClick=""
             android:src="@drawable/ic_action_add_group"
-            android:background="@color/bright_foreground_inverse_material_light"/>
+            android:background="@color/background_floating_material_light"/>
 
     </LinearLayout>
 
@@ -175,7 +176,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-
             android:layout_below="@+id/linearLayoutAddPerson"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
@@ -201,6 +201,5 @@
             android:layout_height="wrap_content"
             android:text="prova maps"/>
     </LinearLayout>
-
 
 </RelativeLayout>

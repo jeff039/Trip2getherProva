@@ -20,7 +20,9 @@
          Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- name AFEGIT -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- name AFEGIT -->
     <application
         android:name=".model.Application"
         android:allowBackup="true"
@@ -31,19 +33,14 @@
             android:name=".controller.MainLaunchLogin"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity
-            android:name=".controller.TripList">
+        <activity android:name=".controller.TripList" >
         </activity>
-
-
         <activity
             android:name=".controller.NewTripForm"
             android:label="@string/title_activity_new_trip" >
@@ -64,12 +61,15 @@
             android:name=".controller.SiteMapsActivity"
             android:label="@string/title_activity_site_maps" >
         </activity>
-        <activity
-            android:name=".controller.SiteList">
+        <activity android:name=".controller.SiteList" >
         </activity>
         <activity
             android:name=".controller.NewSiteForm"
             android:label="new_site_form" >
+        </activity>
+        <activity
+            android:name=".controller.Friends"
+            android:label="@string/title_activity_friends" >
         </activity>
     </application>
 

@@ -21,18 +21,21 @@ import android.widget.TextView;
 import android.widget.ListAdapter;
 import android.database.Cursor;
 import android.widget.ListView;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 
 public class TripList extends ActionBarActivity {
+
     protected Cursor cursor;
 
     protected ListAdapter adapter;
 
-
     private static Intent intent = null;
 
+    /**
+     * Method onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +47,13 @@ public class TripList extends ActionBarActivity {
         }
         this.setSupportBar();
         this.initializeDrawerLayout();
-        this.initializeButtons();
+        //this.initializeButtons();
     }
 
-/////////////ELEMENTS DE LA INTERFÍCIE///////////////
-    public void initializeButtons()
-    {
+    /**
+     * Method initializeButtons. Elements de la interfície
+     */
+    public void initializeButtons(){
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
     }
@@ -67,11 +71,9 @@ public class TripList extends ActionBarActivity {
         }
     };
 
-
-
-    ////////////////////////////////////////////////////////
-    //DRAWER LAYOUT////////////////////////////
-    ////////////////////////////////////////////////////
+    /**
+     * Method initializeDrawerLayout. Drawer layout
+     */
     public void initializeDrawerLayout(){
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //no cal fer un adaptador a la mDrawer,
@@ -87,7 +89,11 @@ public class TripList extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-//////////////BARRA SUPERIOR///////////////////////////////
+    /**
+     * Method onCreateOptionsMenu. Barra superior
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -96,7 +102,11 @@ public class TripList extends ActionBarActivity {
         return true;
     }
 
-
+    /**
+     * Method onOptionsItemSelected
+     * @param item
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -119,12 +129,14 @@ public class TripList extends ActionBarActivity {
         }
     }
 
-    public void setSupportBar()
-    {
+    /**
+     * Method setSupportBar. Action Bar personalitzada
+     */
+    public void setSupportBar(){
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        //barra personalitzada
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_trip_list);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.ic_action);
+        getSupportActionBar().setTitle("      Mis Viajes");
     }
 
     /**
@@ -149,7 +161,6 @@ public class TripList extends ActionBarActivity {
 
                 TextView nombreViaje = (TextView) rootView.findViewById(R.id.nombreViaje);
                 nombreViaje.setText(nombre);
-
             }
 
             return rootView;
