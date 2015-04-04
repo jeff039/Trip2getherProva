@@ -79,6 +79,10 @@
             android:name=".controller.UserProfile"
             android:label="User" >
         </activity>
+        <activity
+            android:name=".controller.SiteView"
+            android:label="User" >
+        </activity>
     </application>
 
 </manifest>

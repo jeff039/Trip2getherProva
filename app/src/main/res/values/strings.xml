@@ -27,6 +27,9 @@
     <string name="send_register">Send register</string>
     <string name="tripHint">Trip title</string>
     <string name="saveTrip">GUARDAR</string>
+    <string name="description">DESCRIPCION</string>
+    <string name="editSite">editSite</string>
+    <string name="title_activity_site_view">siteView</string>
 
     <string-array name="arrayPaises">
         <item>Spain</item>

@@ -1,6 +1,6 @@
-
 package group.lis.uab.trip2gether.controller;
 
+        import android.content.Context;
         import android.content.Intent;
         import android.graphics.Color;
         import android.graphics.drawable.ColorDrawable;
@@ -13,6 +13,7 @@ package group.lis.uab.trip2gether.controller;
         import android.view.Menu;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
         import android.widget.ImageButton;
@@ -36,6 +37,7 @@ package group.lis.uab.trip2gether.controller;
 
         import group.lis.uab.trip2gether.R;
         import group.lis.uab.trip2gether.model.DrawerItemClickListener;
+        import group.lis.uab.trip2gether.model.User;
 //Implementar bé els métodes de la classe DrawerItemClickListener;
         //import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 
@@ -46,6 +48,11 @@ public class SiteList  extends ActionBarActivity {
 
     private static Intent intent = null;
 
+    String[]sitesList = new String[] {};
+    protected  ListView lista;
+    private static Context context = null;
+    private User myUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +62,13 @@ public class SiteList  extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+        context = this;
+        intent = this.getIntent();
         this.setSupportBar();
         this.initializeDrawerLayout();
         this.initializeButtons();
+        Intent intent = getIntent();
+        myUser = (User) intent.getSerializableExtra("myUser");
     }
 
     /**
@@ -126,7 +137,10 @@ public class SiteList  extends ActionBarActivity {
             //PROVISIONAL (TESTBARCELONA)
             String tripId = "36IJhdT4rp";
 
-            try {
+            Intent newSite = new Intent(this, NewSiteForm.class);
+            startActivity(newSite);
+
+            /*try {
                 ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");
                 tripCoordQuery.whereEqualTo("objectId", tripId);
                 String cityId = tripCoordQuery.getFirst().getString("Id_Ciudad");
@@ -152,7 +166,7 @@ public class SiteList  extends ActionBarActivity {
 
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
 
         if(id == R.id.mapRoute)
@@ -224,7 +238,7 @@ public class SiteList  extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
         }
@@ -233,20 +247,36 @@ public class SiteList  extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_site_list, container, false);
-
+            setContentView(R.layout.fragment_site_list);
             if(intent!=null){
                 String nombre = intent.getStringExtra("nombre");
+                nombreSitio = nombre;
                 String descripcion = intent.getStringExtra("descripcion");
                 String duracion = intent.getStringExtra("duracion");
                 String puntuacion_Total= intent.getStringExtra("puntuacion_Total");
 
 
-                TextView nombreSitio = (TextView) rootView.findViewById(R.id.nombreSitio);
-                nombreSitio.setText(nombre);
+                //TextView nombreSitio = (TextView) rootView.findViewById(R.id.nombreSitio);
+                //nombreSitio.setText(nombre);
+
+                sitesList = new String[] {nombre};
+                lista = (ListView)findViewById(R.id.nombreSitio);
+                ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, sitesList);
+                lista.setAdapter(adaptador);
+
+                lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position,
+                                            long id) {
+                        Intent intent = new Intent (SiteList.this, SiteView.class);
+                        intent.putExtra("nombreViaje", nombreSitio);
+                        startActivity(intent);
+                    }
+                });
             }
 
             return rootView;
         }
     }
-
+    private String nombreSitio = null;
 }
