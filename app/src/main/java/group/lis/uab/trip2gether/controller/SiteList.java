@@ -58,9 +58,10 @@ public class SiteList  extends ActionBarActivity {
         this.initializeButtons();
     }
 
-    /////////////ELEMENTS DE LA INTERFÍCIE///////////////
-    public void initializeButtons()
-    {
+    /**
+     * Elements de la interfície
+     */
+    public void initializeButtons() {
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
     }
@@ -71,16 +72,15 @@ public class SiteList  extends ActionBarActivity {
             if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
                 mDrawerLayout.openDrawer(Gravity.LEFT);
             }
-            else
-            {
+            else {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
         }
     };
 
-    ////////////////////////////////////////////////////////
-    //DRAWER LAYOUT////////////////////////////
-    ////////////////////////////////////////////////////
+    /**
+     * Drawer layout
+     */
     public void initializeDrawerLayout(){
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //no cal fer un adaptador a la mDrawer,
@@ -96,8 +96,11 @@ public class SiteList  extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-
-//////////////////BARRA SUPERIOR//////////////////////////////////////
+    /**
+     * Method onCreateOptionsMenu. Action Bar
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -164,7 +167,6 @@ public class SiteList  extends ActionBarActivity {
             ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");
             tripCoordQuery.whereEqualTo("objectId", tripId);
 
-
             try {
                 String cityId = tripCoordQuery.getFirst().getString("Id_Ciudad");
                 ParseQuery<ParseObject> cityCoordQuery = ParseQuery.getQuery("Ciudad");
@@ -211,20 +213,13 @@ public class SiteList  extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setSupportBar()
-    {
+    public void setSupportBar(){
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        //barra personalitzada
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_site_list);
     }
 
-
-
     /**
-     *
-     *
-     *
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {

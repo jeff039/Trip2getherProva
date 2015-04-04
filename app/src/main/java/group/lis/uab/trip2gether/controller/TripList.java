@@ -1,10 +1,10 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -14,13 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.ListAdapter;
 import android.database.Cursor;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 
@@ -30,7 +34,13 @@ public class TripList extends ActionBarActivity {
 
     protected ListAdapter adapter;
 
+    protected  ListView lista;
+
+    private static Context context = null;
+
     private static Intent intent = null;
+
+    String[] listaViajes = new String[] {};
 
     /**
      * Method onCreate
@@ -45,6 +55,8 @@ public class TripList extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+        context = this;
+        intent = this.getIntent();
         this.setSupportBar();
         this.initializeDrawerLayout();
         //this.initializeButtons();
@@ -142,7 +154,7 @@ public class TripList extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment{
+    public class PlaceholderFragment extends Fragment{
 
         public PlaceholderFragment() {
         }
@@ -151,21 +163,35 @@ public class TripList extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_trip_list, container, false);
-
-            if(intent!=null){
+            setContentView(R.layout.fragment_trip_list);
+            if(intent.getStringExtra("nombre")!=null){
                 String nombre = intent.getStringExtra("nombre");
+                nombreSitio = nombre;
                 String pais = intent.getStringExtra("pais");
                 String ciudad = intent.getStringExtra("ciudad");
                 String fechaInicio = intent.getStringExtra("fechaInicio");
                 String fechaFinal = intent.getStringExtra("fechaFinal");
 
-                TextView nombreViaje = (TextView) rootView.findViewById(R.id.nombreViaje);
-                nombreViaje.setText(nombre);
+                listaViajes = new String[] {nombre};
+                lista = (ListView)findViewById(R.id.listaViajes);
+                ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, listaViajes);
+                lista.setAdapter(adaptador);
+
+                lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position,
+                                            long id) {
+                        Intent intent = new Intent (TripList.this, SiteList.class);
+                        intent.putExtra("nombreViaje", nombreSitio);
+                        startActivity(intent);
+                    }
+                });
+
             }
 
             return rootView;
         }
-
      };
 
+    private String nombreSitio = null;
 }
