@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,13 +13,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.model.Encrypt;
+import group.lis.uab.trip2gether.model.User;
 
 public class MainLaunchLogin extends ActionBarActivity {
 
@@ -43,11 +52,12 @@ public class MainLaunchLogin extends ActionBarActivity {
         public void onClick(View v) {
             boolean login = false; //CRIDEM EL MÈTODE LOGIN
             try {
-                login = MainLaunchLogin.this.login(MainLaunchLogin.this.getUser(),
+                User myUser = MainLaunchLogin.this.login(MainLaunchLogin.this.getUser(),
                         MainLaunchLogin.this.getPassw());
-                if(login)
+                if(myUser != null)
                 {
                     Intent tripList = new Intent(MainLaunchLogin.this, TripList.class);
+                    tripList.putExtra("myUser", myUser);
                     startActivity(tripList);
                 }else{
                     MainLaunchLogin.this.showInfoAlert(getResources().getString(R.string.loginErr));
@@ -73,18 +83,23 @@ public class MainLaunchLogin extends ActionBarActivity {
      * @return success
      * @throws ParseException
      */
-    public boolean login(String user, String passw) throws ParseException {
-
-        boolean success = false;
-        passw = MainLaunchLogin.encryptPassword(passw);
+    public User login(String user, String passw) throws ParseException {
+        Encrypt encrypt = new Encrypt(getApplicationContext());
+        User myUser = null;
+        passw = encrypt.encryptPassword(passw);
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("user", user);
         params.put("passw", passw);
 
-        ArrayList loginResponse = ParseCloud.callFunction("login", params); //crida al BE
-        if(loginResponse.size() == 1) //tenim un usuari
-            success = true;
-        return success;
+        List<ParseObject> loginResponse = ParseCloud.callFunction("login", params); //crida al BE
+        if(loginResponse.isEmpty() == false) { //tenim un usuari
+            ParseObject userParse = loginResponse.iterator().next();
+            myUser = new User(userParse.getString("Mail"), userParse.getString("Password"),
+                    userParse.getString("Nombre"), userParse.getString("Apellidos"),
+                    userParse.getString("Pais"), userParse.getString("Ciudad"),
+                    userParse.getDate("Fecha_Nacimiento"), userParse.getObjectId());
+        }
+        return myUser;
     }
 
     public String getUser() {
@@ -98,38 +113,6 @@ public class MainLaunchLogin extends ActionBarActivity {
         String passwText = passw.getText().toString();
         return passwText;
     }
-
-    private static String encryptPassword(String password) {
-        String sha1 = "";
-        try
-        {
-            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-            crypt.reset();
-            crypt.update(password.getBytes("UTF-8"));
-            sha1 = byteToHex(crypt.digest());
-        }
-        catch(NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
-        }
-        catch(UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
-        return sha1;
-    }
-
-    private static String byteToHex(final byte[] hash) {
-        Formatter formatter = new Formatter();
-        for (byte b : hash)
-        {
-            formatter.format("%02x", b);
-        }
-        String result = formatter.toString();
-        formatter.close();
-        return result;
-    }
-
 
     /**
      * Action Bar

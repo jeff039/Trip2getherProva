@@ -12,74 +12,95 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Formatter;
 import java.util.HashMap;
-import java.util.Locale;
+import java.util.List;
 
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Encrypt;
+import group.lis.uab.trip2gether.model.User;
 
 /**
- * Created by Jofré on 18/03/2015.
+ * Created by Jofré on 02/04/2015.
  */
-public class RegisterForm extends ActionBarActivity {
-
+public class EditUserForm extends ActionBarActivity {
     //UI References
     private EditText pickDate;
     private DatePickerDialog pickDateDialog;
     private SimpleDateFormat dateFormatter;
 
+    User myUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_form);
+        setContentView(R.layout.activity_edit_user_form);
         this.initializeButtons();
         this.setDateTimeField();
+        Intent intent = getIntent();
+        myUser = (User) intent.getSerializableExtra("myUser");
+        this.initializeUserData();
     }
 
     /////////////////INTERFÍCIE////////////////////////////////////
     public void initializeButtons() {
-        Button sendRegister = (Button)findViewById(R.id.sendRegister);
-        sendRegister.setOnClickListener(clickSendRegister);
+        Button sendUpdateUserProfile = (Button) findViewById(R.id.sendUpdateUserProfile);
+        sendUpdateUserProfile.setOnClickListener(clickSendUpdateUserProfile);
         pickDate = (EditText) findViewById(R.id.date_of_birth);
         pickDate.setOnClickListener(clickPickDate);
         pickDate.setInputType(InputType.TYPE_NULL);
         pickDate.setOnFocusChangeListener(focusPickDate);
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
     }
 
-    public Button.OnClickListener clickSendRegister = new Button.OnClickListener() {
+    public void initializeUserData() {
+        EditText name = (EditText)findViewById(R.id.name);
+        name.setText(myUser.getName());
+        EditText surname = (EditText)findViewById(R.id.surname);
+        surname.setText(myUser.getSurname());
+        EditText city = (EditText)findViewById(R.id.city);
+        city.setText(myUser.getCity());
+        EditText country = (EditText)findViewById(R.id.country);
+        country.setText(myUser.getCountry());
+        EditText mail = (EditText)findViewById(R.id.mail);
+        mail.setText(myUser.getMail());
+        EditText dateOfBirth = (EditText)findViewById(R.id.date_of_birth);
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        dateOfBirth.setText(dateFormatter.format(myUser.getDateOfBirth()));
+
+
+    }
+
+    public Button.OnClickListener clickSendUpdateUserProfile = new Button.OnClickListener() {
         public void onClick(View v) {
             try {
-                boolean register = RegisterForm.this.register(RegisterForm.this.getName(),
-                        RegisterForm.this.getSurname(),RegisterForm.this.getCity(),
-                        RegisterForm.this.getMail(),RegisterForm.this.getPassword(),
-                        RegisterForm.this.getCountry(), RegisterForm.this.getDateOfBirth());
+                User myUpdatedUser = EditUserForm.this.updateUserData(EditUserForm.this.getName(),
+                        EditUserForm.this.getSurname(), EditUserForm.this.getCity(),
+                        EditUserForm.this.getMail(), EditUserForm.this.getPassword(),
+                        EditUserForm.this.getCountry(), EditUserForm.this.getDateOfBirth(),
+                        myUser.getObjectId());
 
-            if(register) {
-                Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
-                Intent mainLaunchLogin = new Intent(RegisterForm.this, MainLaunchLogin.class);
-                startActivity(mainLaunchLogin);
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "Error registering the user", Toast.LENGTH_SHORT).show();
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (java.text.ParseException e) {
+                if (myUpdatedUser != null) {
+                    Toast.makeText(getApplicationContext(), "Updated user profile", Toast.LENGTH_SHORT).show();
+                    Intent userProfile = new Intent(EditUserForm.this, UserProfile.class);
+                    userProfile.putExtra("myUser", myUser);
+                    startActivity(userProfile);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error updating the user profile", Toast.LENGTH_SHORT).show();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
         }
@@ -111,15 +132,14 @@ public class RegisterForm extends ActionBarActivity {
                 pickDate.setText(dateFormatter.format(newDate.getTime()));
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
     }
 
 
-
-    ////////////////REGISTER////////////////////////////////////////
-    public boolean register(String name, String surname, String city, String mail, String password,
-                            String country, Date date_of_birth) throws ParseException {
+    ////////////////UPDATE USER PROFILE////////////////////////////////////////
+    public User updateUserData(String name, String surname, String city, String mail, String password,
+                                  String country, Date date_of_birth, String objectId) throws ParseException {
         Encrypt encrypt = new Encrypt(getApplicationContext());
         boolean success = false;
         password = encrypt.encryptPassword(password);
@@ -131,20 +151,26 @@ public class RegisterForm extends ActionBarActivity {
         params.put("password", password);
         params.put("country", country);
         params.put("date_of_birth", date_of_birth);
+        params.put("objectId", objectId);
 
         //Comprovem si el mail existeix a la BD
-        ArrayList checkRegistro = ParseCloud.callFunction("checkUserSignIn", params);
-        if (checkRegistro.size() == 1){//mail existente
-            return success;
+        if (!mail.equals(myUser.getMail())) {
+            ArrayList checkRegistro = ParseCloud.callFunction("checkUserSignIn", params);
+            if (checkRegistro.size() == 1) {//mail existente
+                Log.e("Jofré", "alerta");
+                return null;
+            }
         }
-        else {
-            //Creem el nou usuari a la BD
-            String registerResponse = ParseCloud.callFunction("register", params); //crida al BE
-            if(registerResponse.isEmpty() == false) //S'ha creat l'usuari
-                success = true;
-            Log.i("Registration objectId:", registerResponse);
-            return success;
+        //Creem el nou usuari a la BD
+        Log.e("Jofré", mail);
+        ParseObject userParse = ParseCloud.callFunction("updateUserData", params); //crida al BE
+        if(userParse.getObjectId() != null) { //S'ha creat l'usuari
+            myUser = new User(userParse.getString("Mail"), userParse.getString("Password"),
+                    userParse.getString("Nombre"), userParse.getString("Apellidos"),
+                    userParse.getString("Pais"), userParse.getString("Ciudad"),
+                    userParse.getDate("Fecha_Nacimiento"), userParse.getObjectId());
         }
+        return myUser;
     }
 
     public String getName() {
@@ -175,13 +201,13 @@ public class RegisterForm extends ActionBarActivity {
     }
 
     public String getMail() {
-        EditText mail = (EditText)findViewById(R.id.mail);
+        EditText mail = (EditText) findViewById(R.id.mail);
         String mailText = mail.getText().toString();
         return mailText;
     }
 
     public String getPassword() {
-        EditText password = (EditText)findViewById(R.id.password);
+        EditText password = (EditText) findViewById(R.id.password);
         String passwordText = password.getText().toString();
         return passwordText;
     }
@@ -207,10 +233,7 @@ public class RegisterForm extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
-
         return super.onOptionsItemSelected(item);
     }
 
 }
-

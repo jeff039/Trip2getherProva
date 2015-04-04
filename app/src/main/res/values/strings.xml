@@ -7,6 +7,7 @@
     <string name="title_activity_trip_list">TripList</string>
     <string name="title_activity_site_list">SiteList</string>
     <string name="title_activity_register_form">Register</string>
+    <string name="title_activity_user_profile">User Profile</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_new_trip">NewTrip</string>
     <string name="userHint">Username</string>
@@ -14,6 +15,8 @@
     <string name="loginButton">Login</string>
     <string name="registerButton">New to Trip2Gether? Register here</string>
     <string name="addTitle">Add new trip</string>
+    <string name="editUserProfile">Edit User Profile</string>
+    <string name="updateUserProfileButton">UPDATE PROFILE</string>
     <string name="loginErr">User not found</string>
     <string name="nombre">Name</string>
     <string name="apellidos">Surname</string>
