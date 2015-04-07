@@ -1,14 +1,17 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,18 +19,22 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.parse.ParseFile;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Trip;
 
@@ -37,6 +44,21 @@ public class NewTripForm extends ActionBarActivity {
      * int LOAD_IMAGE. Static final -> no canviarà (s'ha d'inicializar)
      */
     private static final int LOAD_IMAGE = 1;
+    private EditText pickDateIni;
+    private DatePickerDialog pickDateDialogIni;
+    private EditText pickDateFin;
+    private DatePickerDialog pickDateDialogFin;
+    private SimpleDateFormat dateFormatter;
+    private ParseFile file;
+
+    public ParseFile getFile() {
+        return file;
+    }
+
+    public void setFile(ParseFile file) {
+        this.file = file;
+    }
+
 
     private static String[] paises = { "Ninguno", "España", "Alemania", "Francia"};
 
@@ -50,20 +72,8 @@ public class NewTripForm extends ActionBarActivity {
         setContentView(R.layout.activity_new_trip_form);
         this.setSupportBar();
         this.initializeButtons();
-
-        ImageButton imageButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NewTripForm.this, Friends.class);
-                startActivity(intent);
-            }
-        });
-
-        Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
-        ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, paises);
-        spinnerPaises.setAdapter(arrayAdapterPaises);
-        spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
+        this.setDateTimeFieldIni();
+        this.setDateTimeFieldFin();
     }
 
     public class SpinnerListener implements AdapterView.OnItemSelectedListener {
@@ -132,20 +142,24 @@ public class NewTripForm extends ActionBarActivity {
             cursor.close();
 
             // String picturePath contains the path of selected Image
-            ImageView imageView = (ImageView) findViewById(R.id.image);
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
-            ///////////////////PROVA UPDATE///////////////////
-            //commit2
-            /*
+            //file it's a ParseFile that contains the image selected
             Bitmap image = BitmapFactory.decodeFile(picturePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] dataImage = stream.toByteArray();
-            ParseFile file = new ParseFile("viaje.png", dataImage);
+
+            //TODO
+            //Problem with ParseFile
+                //file = new ParseFile("imagenViaje.png", dataImage);
+            setFile(new ParseFile("imagenViaje.png", dataImage));
 
 
-            ParseQuery query = new ParseQuery("Viaje");
+
+            /*ParseQuery query = new ParseQuery("Viaje");
             try {
                 ParseObject o = query.get("ATDImGclly");
                 o.put("Imagen",file);
@@ -166,6 +180,33 @@ public class NewTripForm extends ActionBarActivity {
         google.setOnClickListener(clickGoogle);
         Button maps = (Button)findViewById(R.id.maps);
         maps.setOnClickListener(clickMaps);
+
+        ImageButton imageButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewTripForm.this, Friends.class);
+                startActivity(intent);
+            }
+        });
+
+        Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
+        ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, paises);
+        spinnerPaises.setAdapter(arrayAdapterPaises);
+        spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
+
+
+        pickDateIni = (EditText) findViewById(R.id.EditTextFechaInicio);
+        pickDateIni.setOnClickListener(clickPickDateIni);
+        pickDateIni.setInputType(InputType.TYPE_NULL);
+        pickDateIni.setOnFocusChangeListener(focusPickDateIni);
+
+        pickDateFin = (EditText) findViewById(R.id.EditTextFechaFinal);
+        pickDateFin.setOnClickListener(clickPickDateFin);
+        pickDateFin.setInputType(InputType.TYPE_NULL);
+        pickDateFin.setOnFocusChangeListener(focusPickDateFin);
+
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
     }
 
     /**
@@ -195,7 +236,9 @@ public class NewTripForm extends ActionBarActivity {
      */
     public Button.OnClickListener clickGoogle = new Button.OnClickListener() {
         public void onClick(View v) {
-            String search = "fish";
+
+            EditText TextNombre =(EditText)findViewById(R.id.EditTextNombre);
+            String search = TextNombre.getText().toString();
             Uri uri = Uri.parse("https://www.google.com/search?hl=en&site=imghp&tbm=isch&source=hp&q="+search);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
@@ -233,6 +276,7 @@ public class NewTripForm extends ActionBarActivity {
                 intent.putExtra("ciudad", nuevoViaje.getCiudad());
                 intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
                 intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
+                intent.putExtra("imagen", (android.os.Parcelable) nuevoViaje.getImagen());
 
                 try {
                     String idCiudad = getIdCiudad(nuevoViaje);
@@ -245,6 +289,7 @@ public class NewTripForm extends ActionBarActivity {
                 startActivity(intent);
 
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -272,7 +317,11 @@ public class NewTripForm extends ActionBarActivity {
         Date dataInicial = ConvertStringToDate(fechaInicio);
         Date dataFinal = ConvertStringToDate(fechaFinal);
 
-        return new Trip(nombre, pais, ciudad, dataInicial, dataFinal);
+        ParseFile imagen = getFile();
+
+        //TODO
+        //change the 'null' with 'imagen' when 'file' run well.
+        return new Trip(nombre, pais, ciudad, dataInicial, dataFinal, null);
     }
 
     /**
@@ -288,6 +337,7 @@ public class NewTripForm extends ActionBarActivity {
         params.put("idCiudad", nuevoViaje.getCiudad());
         params.put("fechaInicial", nuevoViaje.getFechaInicio());
         params.put("fechaFinal", nuevoViaje.getFechaFinal());
+        params.put("imagen", nuevoViaje.getImagen());
 
         String addTripResponse = ParseCloud.callFunction("addTrip", params);
         if(!addTripResponse.isEmpty())
@@ -326,4 +376,65 @@ public class NewTripForm extends ActionBarActivity {
         }
         return data;
     }
+
+    private void setDateTimeFieldIni() {
+        Calendar newCalendar = Calendar.getInstance();
+        pickDateDialogIni = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                pickDateIni.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+    }
+
+    public EditText.OnClickListener clickPickDateIni = new EditText.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            pickDateDialogIni.show();
+        }
+    };
+
+    public EditText.OnFocusChangeListener focusPickDateIni = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus)
+                pickDateDialogIni.show();
+            v.clearFocus();
+        }
+    };
+
+
+    private void setDateTimeFieldFin() {
+        Calendar newCalendar = Calendar.getInstance();
+        pickDateDialogFin = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                pickDateFin.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+    }
+
+    public EditText.OnClickListener clickPickDateFin = new EditText.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            pickDateDialogFin.show();
+        }
+    };
+
+    public EditText.OnFocusChangeListener focusPickDateFin = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus)
+                pickDateDialogFin.show();
+            v.clearFocus();
+        }
+    };
 }

@@ -1,5 +1,7 @@
 package group.lis.uab.trip2gether.model;
 
+import com.parse.ParseFile;
+
 import java.util.Date;
 
 public class Trip {
@@ -13,6 +15,8 @@ public class Trip {
     private Date fechaInicio;
 
     private Date fechaFinal;
+
+    private ParseFile imagen;
 
     public void setNombre(String nombre){
         this.nombre = nombre;
@@ -54,12 +58,17 @@ public class Trip {
         return  this.fechaFinal;
     }
 
-    public Trip(String nombre, String pais, String ciudad, Date fechaInicio, Date fechaFinal) {
+    public ParseFile getImagen() { return imagen; }
+
+    public void setImagen(ParseFile imagen) { this.imagen = imagen; }
+
+    public Trip(String nombre, String pais, String ciudad, Date fechaInicio, Date fechaFinal, ParseFile imagen) {
         this.setNombre(nombre);
         this.setPais(pais);
         this.setCiudad(ciudad);
         this.setFechaInicio(fechaInicio);
         this.setFechaFinal(fechaFinal);
+        this.setImagen(imagen);
     }
 
 }

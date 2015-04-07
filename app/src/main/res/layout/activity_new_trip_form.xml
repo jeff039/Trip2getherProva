@@ -163,20 +163,38 @@
             android:onClick=""
             android:src="@drawable/ic_action_add_group"
             android:background="@color/background_floating_material_light"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayoutImagenTrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/linearLayoutAddPerson"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/imageTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="700px">
+        android:layout_below="@+id/linearLayoutImagenTrip"
+        android:layout_marginTop="10px">
+
         <LinearLayout
             android:id="@+id/linearLayoutExtraFuncions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/linearLayoutAddPerson"
+            android:layout_below="@+id/linearLayoutImagenTrip"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
@@ -191,8 +209,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/google"/>
-
-
         </LinearLayout>
 
         <Button
