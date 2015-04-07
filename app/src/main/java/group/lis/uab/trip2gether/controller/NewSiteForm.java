@@ -131,10 +131,13 @@ public class NewSiteForm extends ActionBarActivity {
                 Intent intent = new Intent (NewSiteForm.this, SiteList.class);
                 intent.putExtra("nombre", nuevoSitio.getNombre());
                 intent.putExtra("descripcion", nuevoSitio.getDescripcion());
-
+                //intent.putExtra("Id_Viaje", nuevoSitio.getIdViaje());
 
                 try {
+                    String idViaje = getIdViaje(nuevoSitio);
+                    nuevoSitio.setIdViaje(idViaje);
                     GuardarSitioBDD(nuevoSitio);
+
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -165,7 +168,7 @@ public class NewSiteForm extends ActionBarActivity {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("name", nuevoSitio.getNombre());
         params.put("description", nuevoSitio.getDescripcion());
-
+        params.put("idViaje", nuevoSitio.getIdViaje());
 
         String addTripResponse = ParseCloud.callFunction("addSite", params);
         if(!addTripResponse.isEmpty())
@@ -173,6 +176,20 @@ public class NewSiteForm extends ActionBarActivity {
         Log.i("Add newSite:", addTripResponse);
 
         return success;
+    }
+
+    /**
+     * Method getIdViaje
+     * @param nuevoSitio
+     * @return idViaje
+     * @throws ParseException
+     */
+    public String getIdViaje(Site nuevoSitio) throws ParseException{
+        boolean success = false;
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("viaje", nuevoSitio.getIdViaje());
+        String idViaje = ParseCloud.callFunction("getIdViaje", params);
+       return idViaje;
     }
 
 }
