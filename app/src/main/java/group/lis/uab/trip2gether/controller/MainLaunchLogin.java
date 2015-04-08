@@ -36,6 +36,7 @@ public class MainLaunchLogin extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_launch_login);
         this.initializeButtons();
+        this.getSupportActionBar().hide();
     }
 
     /**
