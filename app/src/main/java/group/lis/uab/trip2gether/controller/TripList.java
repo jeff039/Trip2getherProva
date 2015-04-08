@@ -7,15 +7,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,9 +19,6 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.database.Cursor;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import group.lis.uab.trip2gether.R;
 //Implementar bé els métodes de la classe DrawerItemClickListener;
@@ -34,6 +27,8 @@ import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.User;
 
 public class TripList extends ActionBarActivity {
+
+    private String nombreSitio = null;
 
     protected Cursor cursor;
 
@@ -96,21 +91,20 @@ public class TripList extends ActionBarActivity {
     /**
      * Method initializeButtons. Elements de la interfície
      */
-    public void initializeButtons(){
+    public void initializeButtons() {
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
     }
 
     public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
         public void onClick(View v) {
-            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-            else
-            {
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
-            }
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+        }
+        else {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        }
         }
     };
 
@@ -118,17 +112,9 @@ public class TripList extends ActionBarActivity {
      * Method initializeDrawerLayout. Drawer layout
      */
     public void initializeDrawerLayout(){
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //no cal fer un adaptador a la mDrawer,
-        //ja est� configurat en la situaci� dels elements al xml
         ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        //per� s� en la ListView:
-        //agafem les opcions de "strings"
         String [] options = getResources().getStringArray(R.array.options_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, options));
-        //simple_list_itm_1, �s un layout "prefabricat" que ve amb la API,
-        //consistent en un  layout amb un text simple que requereix el ArrayAdapter
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
@@ -202,25 +188,4 @@ public class TripList extends ActionBarActivity {
         getSupportActionBar().setCustomView(R.layout.action_bar_trip_list);
         getSupportActionBar().setTitle("      Mis Viajes");
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public class PlaceholderFragment extends Fragment{
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_trip_list, container, false);
-
-
-
-            return rootView;
-        }
-     };
-
-    private String nombreSitio = null;
 }
