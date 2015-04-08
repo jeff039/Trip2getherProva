@@ -156,6 +156,11 @@ public class NewTripForm extends ActionBarActivity {
             //Problem with ParseFile
                 //file = new ParseFile("imagenViaje.png", dataImage);
             setFile(new ParseFile("imagenViaje.png", dataImage));
+            try {
+                file.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
 
 
@@ -276,7 +281,7 @@ public class NewTripForm extends ActionBarActivity {
                 intent.putExtra("ciudad", nuevoViaje.getCiudad());
                 intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
                 intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
-                intent.putExtra("imagen", (android.os.Parcelable) nuevoViaje.getImagen());
+                intent.putExtra("imagen", String.valueOf(nuevoViaje.getImagen()));
 
                 try {
                     String idCiudad = getIdCiudad(nuevoViaje);
@@ -321,7 +326,7 @@ public class NewTripForm extends ActionBarActivity {
 
         //TODO
         //change the 'null' with 'imagen' when 'file' run well.
-        return new Trip(nombre, pais, ciudad, dataInicial, dataFinal, null);
+        return new Trip(nombre, pais, ciudad, dataInicial, dataFinal, imagen);
     }
 
     /**
