@@ -57,18 +57,40 @@ public class TripList extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_list);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
         context = this;
         intent = this.getIntent();
+
         this.setSupportBar();
         this.initializeDrawerLayout();
         this.initializeButtons();
-        Intent intent = getIntent();
+        this.MostrarViajes();
         myUser = (User) intent.getSerializableExtra("myUser");
+    }
+
+    public void MostrarViajes(){
+        if(intent.getStringExtra("nombre")!=null){
+            String nombre = intent.getStringExtra("nombre");
+            nombreSitio = nombre;
+            String pais = intent.getStringExtra("pais");
+            String ciudad = intent.getStringExtra("ciudad");
+            String fechaInicio = intent.getStringExtra("fechaInicio");
+            String fechaFinal = intent.getStringExtra("fechaFinal");
+
+            listaViajes = new String[] {nombre};
+            lista = (ListView)findViewById(R.id.listaViajes);
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, listaViajes);
+            lista.setAdapter(adaptador);
+
+            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,
+                                        long id) {
+                    Intent intent = new Intent (TripList.this, SiteList.class);
+                    intent.putExtra("nombreViaje", nombreSitio);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     /**
@@ -193,31 +215,8 @@ public class TripList extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_trip_list, container, false);
-            setContentView(R.layout.fragment_trip_list);
-            if(intent.getStringExtra("nombre")!=null){
-                String nombre = intent.getStringExtra("nombre");
-                nombreSitio = nombre;
-                String pais = intent.getStringExtra("pais");
-                String ciudad = intent.getStringExtra("ciudad");
-                String fechaInicio = intent.getStringExtra("fechaInicio");
-                String fechaFinal = intent.getStringExtra("fechaFinal");
 
-                listaViajes = new String[] {nombre};
-                lista = (ListView)findViewById(R.id.listaViajes);
-                ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, listaViajes);
-                lista.setAdapter(adaptador);
 
-                lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position,
-                                            long id) {
-                        Intent intent = new Intent (TripList.this, SiteList.class);
-                        intent.putExtra("nombreViaje", nombreSitio);
-                        startActivity(intent);
-                    }
-                });
-
-            }
 
             return rootView;
         }
