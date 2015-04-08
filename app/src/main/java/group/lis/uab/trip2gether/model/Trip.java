@@ -6,6 +6,8 @@ import java.util.Date;
 
 public class Trip {
 
+    private String id;
+
     private String nombre;
 
     private String país;
@@ -17,6 +19,10 @@ public class Trip {
     private Date fechaFinal;
 
     private ParseFile imagen;
+
+    public void setId(String id){ this.id = id; }
+
+    public String getId(){ return this.id; }
 
     public void setNombre(String nombre){
         this.nombre = nombre;

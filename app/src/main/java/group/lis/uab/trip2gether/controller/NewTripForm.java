@@ -37,6 +37,7 @@ import java.util.HashMap;
 
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Trip;
+import group.lis.uab.trip2gether.model.User;
 
 public class NewTripForm extends ActionBarActivity {
 
@@ -49,6 +50,8 @@ public class NewTripForm extends ActionBarActivity {
     private EditText pickDateFin;
     private DatePickerDialog pickDateDialogFin;
     private SimpleDateFormat dateFormatter;
+    private static Intent intentR = null;
+    private User myUser;
     private ParseFile file;
 
     public ParseFile getFile() {
@@ -74,6 +77,8 @@ public class NewTripForm extends ActionBarActivity {
         this.initializeButtons();
         this.setDateTimeFieldIni();
         this.setDateTimeFieldFin();
+        intentR = this.getIntent();
+        myUser = (User) intentR.getSerializableExtra("myUser");
     }
 
     public class SpinnerListener implements AdapterView.OnItemSelectedListener {
@@ -151,10 +156,6 @@ public class NewTripForm extends ActionBarActivity {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] dataImage = stream.toByteArray();
-
-            //TODO
-            //Problem with ParseFile
-                //file = new ParseFile("imagenViaje.png", dataImage);
             setFile(new ParseFile("imagenViaje.png", dataImage));
             try {
                 file.save();
@@ -282,6 +283,7 @@ public class NewTripForm extends ActionBarActivity {
                 intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
                 intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
                 intent.putExtra("imagen", String.valueOf(nuevoViaje.getImagen()));
+                intent.putExtra("myUser", myUser);
 
                 try {
                     String idCiudad = getIdCiudad(nuevoViaje);
@@ -324,8 +326,6 @@ public class NewTripForm extends ActionBarActivity {
 
         ParseFile imagen = getFile();
 
-        //TODO
-        //change the 'null' with 'imagen' when 'file' run well.
         return new Trip(nombre, pais, ciudad, dataInicial, dataFinal, imagen);
     }
 
@@ -346,11 +346,35 @@ public class NewTripForm extends ActionBarActivity {
 
         String addTripResponse = ParseCloud.callFunction("addTrip", params);
         if(!addTripResponse.isEmpty())
+            nuevoViaje.setId(addTripResponse);
+            CrearGrupoBDD(nuevoViaje);
             success = true;
         Log.i("Add newTrip:", addTripResponse);
 
         return success;
     }
+
+
+    /**
+     * Method CrearGrupoBDD
+     * @param nuevoViaje
+     * @return success
+     * @throws ParseException
+     */
+    public boolean CrearGrupoBDD(Trip nuevoViaje) throws ParseException{
+        boolean success = false;
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("Id_Viaje", nuevoViaje.getId());
+        params.put("Id_Usuario", myUser.getObjectId());
+
+        String addGroupResponse = ParseCloud.callFunction("addGroup", params);
+        if(!addGroupResponse.isEmpty())
+            success = true;
+        Log.i("Add newTrip:", addGroupResponse);
+
+        return success;
+    }
+
 
     /**
      * Method getIdCiudad

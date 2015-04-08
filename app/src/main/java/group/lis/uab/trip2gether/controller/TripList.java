@@ -3,11 +3,12 @@ package group.lis.uab.trip2gether.controller;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,13 +18,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
-import android.database.Cursor;
 import android.widget.ListView;
+
 import com.parse.ParseCloud;
 import com.parse.ParseObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Trip;
 import group.lis.uab.trip2gether.model.User;
@@ -207,6 +210,7 @@ public class TripList extends ActionBarActivity {
         switch(id) {
             case (R.id.addTrip):
                 Intent newTrip = new Intent(this, NewTripForm.class);
+                newTrip.putExtra("myUser", myUser);
                 startActivity(newTrip);
                 return true;
             case (R.id.goToSites):
