@@ -1,45 +1,32 @@
 package group.lis.uab.trip2gether.controller;
 
-        import android.content.Context;
-        import android.content.Intent;
-        import android.graphics.Color;
-        import android.graphics.drawable.ColorDrawable;
-        import android.support.v4.widget.DrawerLayout;
-        import android.support.v7.app.ActionBar;
-        import android.support.v7.app.ActionBarActivity;
-        import android.os.Bundle;
-        import android.view.Gravity;
-        import android.view.LayoutInflater;
-        import android.view.Menu;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.ImageButton;
-        import android.widget.ListView;
-        import android.widget.TextView;
-        import android.support.v4.app.Fragment;
-        import android.view.MenuItem;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.view.MenuItem;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import java.util.ArrayList;
+import java.util.List;
+import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.model.DrawerItemClickListener;
+import group.lis.uab.trip2gether.model.User;
 
-        import com.google.android.gms.maps.model.LatLng;
-        import com.parse.ParseCloud;
-        import com.parse.ParseException;
-        import com.parse.ParseObject;
-        import com.parse.ParseQuery;
-
-        import org.json.JSONObject;
-
-        import java.lang.reflect.Array;
-        import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.List;
-
-        import group.lis.uab.trip2gether.R;
-        import group.lis.uab.trip2gether.model.DrawerItemClickListener;
-        import group.lis.uab.trip2gether.model.User;
 //Implementar bé els métodes de la classe DrawerItemClickListener;
-        //import group.lis.uab.trip2gether.model.DrawerItemClickListener;
+//import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 
 /**
  * Created by Mireia on 25/03/2015.
@@ -49,63 +36,60 @@ public class SiteList  extends ActionBarActivity {
     private static Intent intent = null;
 
     String[]sitesList = new String[] {};
+
     protected  ListView lista;
+
     private static Context context = null;
+
     private User myUser;
 
+    /**
+     * Method onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_list);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
         context = this;
         intent = this.getIntent();
+
         this.setSupportBar();
         this.initializeDrawerLayout();
         this.initializeButtons();
-        Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
     }
 
     /**
-     * Elements de la interfície
+     * Method initializeButtons. Elements de la interfície
      */
     public void initializeButtons() {
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
     }
 
+    /**
+     * Method Button.OnClickListener clickDrawer
+     */
     public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
         public void onClick(View v) {
-            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-            else {
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
-            }
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+        }
+        else {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        }
         }
     };
 
     /**
-     * Drawer layout
+     * Method initializeDrawerLayout. Drawer layout
      */
     public void initializeDrawerLayout(){
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //no cal fer un adaptador a la mDrawer,
-        //ja est� configurat en la situaci� dels elements al xml
         ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        //per� s� en la ListView:
-        //agafem les opcions de "strings"
         String [] options = getResources().getStringArray(R.array.options_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, options));
-        //simple_list_itm_1, �s un layout "prefabricat" que ve amb la API,
-        //consistent en un  layout amb un text simple que requereix el ArrayAdapter
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
@@ -120,6 +104,12 @@ public class SiteList  extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_site_list, menu);
         return true;
     }
+
+    /**
+     * Method onOptionsItemSelected
+     * @param item
+     * @return super.onOptionsItemSelected(item)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -127,8 +117,7 @@ public class SiteList  extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == R.id.addSite)
-        {
+        if(id == R.id.addSite)  {
             //rebem el viatge en que estem
             //Bundle trip = getIntent().getExtras();
             //String tripId = trip.getString("tripId");
@@ -169,8 +158,7 @@ public class SiteList  extends ActionBarActivity {
             }*/
         }
 
-        if(id == R.id.mapRoute)
-        {
+        if(id == R.id.mapRoute) {
             //rebem el viatge en que estem
             //Bundle trip = getIntent().getExtras();
             //String tripId = trip.getString("tripId");
@@ -196,8 +184,7 @@ public class SiteList  extends ActionBarActivity {
 
                 List<ParseObject> sites = siteCoordQuery.find();
 
-                for(int i = 0; i < sites.size(); i++) //tots els llocs
-                {
+                for(int i = 0; i < sites.size(); i++) { //tots els llocs
                     Double siteLatitude = sites.get(i).getDouble("Latitud");
                     Double siteLongitude = sites.get(i).getDouble("Longitud");
                     String siteName = sites.get(i).getString("Nombre");
@@ -225,58 +212,17 @@ public class SiteList  extends ActionBarActivity {
                 e.printStackTrace();
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Method setSupportBar. Action Bar personalitzada
+     */
     public void setSupportBar(){
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.ic_action);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_site_list);
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_site_list, container, false);
-            setContentView(R.layout.fragment_site_list);
-            if(intent!=null){
-                String nombre = intent.getStringExtra("nombre");
-                nombreSitio = nombre;
-                String descripcion = intent.getStringExtra("descripcion");
-                String duracion = intent.getStringExtra("duracion");
-                String puntuacion_Total= intent.getStringExtra("puntuacion_Total");
-
-
-                //TextView nombreSitio = (TextView) rootView.findViewById(R.id.nombreSitio);
-                //nombreSitio.setText(nombre);
-
-                sitesList = new String[] {nombre};
-                lista = (ListView)findViewById(R.id.nombreSitio);
-                ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, sitesList);
-                lista.setAdapter(adaptador);
-
-                lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position,
-                                            long id) {
-                        Intent intent = new Intent (SiteList.this, SiteView.class);
-                        intent.putExtra("nombreViaje", nombreSitio);
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            return rootView;
-        }
-    }
-    private String nombreSitio = null;
 }

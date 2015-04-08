@@ -19,30 +19,32 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.database.Cursor;
 import android.widget.ListView;
-
+import com.parse.ParseCloud;
+import com.parse.ParseObject;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import group.lis.uab.trip2gether.R;
-//Implementar bé els métodes de la classe DrawerItemClickListener;
-//import group.lis.uab.trip2gether.model.DrawerItemClickListener;
-import group.lis.uab.trip2gether.model.DrawerItemClickListener;
+import group.lis.uab.trip2gether.model.Trip;
 import group.lis.uab.trip2gether.model.User;
 
 public class TripList extends ActionBarActivity {
-
-    private String nombreSitio = null;
 
     protected Cursor cursor;
 
     protected ListAdapter adapter;
 
-    protected  ListView lista;
+    protected ListView lista;
 
     private static Context context = null;
 
     private static Intent intent = null;
 
-    String[] listaViajes = new String[] {};
-
     private User myUser;
+
+    private ArrayList<Trip> trips = new ArrayList<Trip>();
+
+    private ArrayList<String> tripsNoms = new ArrayList<String>();
 
     /**
      * Method onCreate
@@ -58,34 +60,63 @@ public class TripList extends ActionBarActivity {
         this.setSupportBar();
         this.initializeDrawerLayout();
         this.initializeButtons();
-        this.MostrarViajes();
         myUser = (User) intent.getSerializableExtra("myUser");
+        try {
+            this.ViewTripFromBBDD();
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void MostrarViajes(){
-        if(intent.getStringExtra("nombre")!=null){
-            String nombre = intent.getStringExtra("nombre");
-            nombreSitio = nombre;
-            String pais = intent.getStringExtra("pais");
-            String ciudad = intent.getStringExtra("ciudad");
-            String fechaInicio = intent.getStringExtra("fechaInicio");
-            String fechaFinal = intent.getStringExtra("fechaFinal");
+    /**
+     * Method getIdsBBDD. Métode genéric per obtenir una llista de valors d'un camp que pertany a una entitat de la BBDD
+     * @param valueFieldTable Valor del <field> de la <table>
+     * @param table Taula de la BBDD
+     * @param field Camp de la <table>
+     * @return List<ParseObject>
+     * @throws com.parse.ParseException
+     */
+    public List<ParseObject> getValueBBDD(String valueFieldTable, String table, String field) throws com.parse.ParseException {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("valueFieldTable", valueFieldTable);
+        params.put("table", table);
+        params.put("field", field);
+        return ParseCloud.callFunction("getId", params);
+    }
 
-            listaViajes = new String[] {nombre};
-            lista = (ListView)findViewById(R.id.listaViajes);
-            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, listaViajes);
-            lista.setAdapter(adaptador);
+    /**
+     * Method ViewTripFromBBDD. Métode per visualitzar els viatjes associats a un usuari en la llista TripList
+     * @throws com.parse.ParseException
+     */
+    public void ViewTripFromBBDD() throws com.parse.ParseException {
+        List<ParseObject> idsViatje = getValueBBDD(myUser.getObjectId(), "Grupo", "Id_Usuario");
 
-            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position,
-                                        long id) {
-                    Intent intent = new Intent (TripList.this, SiteList.class);
-                    intent.putExtra("nombreViaje", nombreSitio);
-                    startActivity(intent);
-                }
-            });
+        if(!idsViatje.isEmpty()) {
+            for(int i=0;i<idsViatje.size();i++){
+                ParseObject viatjeId = idsViatje.get(i);
+                String idViaje = viatjeId.getString("Id_Viaje");
+
+                List<ParseObject> getId = getValueBBDD(idViaje, "Viaje", "objectId");
+                ParseObject camposViaje = getId.iterator().next();
+
+                Trip trip = new Trip(camposViaje.getString("Nombre"), "pais",
+                        "ciudad", camposViaje.getDate("Fecha_Inicial"),
+                        camposViaje.getDate("Fecha_Final"), camposViaje.getParseFile("Imagen"));
+                trips.add(trip);
+                tripsNoms.add(trip.getNombre());
+            }
         }
+
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, tripsNoms);
+        lista = (ListView)findViewById(R.id.listaViajes);
+        lista.setAdapter(adaptador);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent (TripList.this, SiteList.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -96,6 +127,9 @@ public class TripList extends ActionBarActivity {
         openDrawer.setOnClickListener(clickDrawer);
     }
 
+    /**
+     * Method Button.OnClickListener clickDrawer
+     */
     public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
         public void onClick(View v) {
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -118,11 +152,19 @@ public class TripList extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-    private class DrawerItemClickListener implements
-            ListView.OnItemClickListener {
+    /**
+     * Method DrawerItemClickListener
+     */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        /**
+         * Method onItemClick
+         * @param parent
+         * @param view
+         * @param position
+         * @param id
+         */
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (position){
                 case 0:	openMyProfile();
                     break;
@@ -130,11 +172,13 @@ public class TripList extends ActionBarActivity {
         }
     }
 
+    /**
+     * Method openMyProfile
+     */
     public void openMyProfile() {
         Intent userProfile = new Intent(this, UserProfile.class);
         userProfile.putExtra("myUser", myUser);
         startActivity(userProfile);
-
     }
 
     /**
@@ -146,7 +190,6 @@ public class TripList extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_trip_list, menu);
-
         return true;
     }
 
@@ -161,10 +204,8 @@ public class TripList extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         switch(id) {
             case (R.id.addTrip):
-
                 Intent newTrip = new Intent(this, NewTripForm.class);
                 startActivity(newTrip);
                 return true;
@@ -186,6 +227,5 @@ public class TripList extends ActionBarActivity {
         getSupportActionBar().setIcon(R.drawable.ic_action);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_trip_list);
-        getSupportActionBar().setTitle("      Mis Viajes");
     }
 }
