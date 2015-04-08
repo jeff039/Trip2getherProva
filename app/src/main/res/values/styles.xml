@@ -1,9 +1,15 @@
 <resources>
-
+    <color name="primary">#373658</color>
+    <color name="primary_dark">#2A2946</color>
+    <color name="accent">#ffc400</color>
+    <color name="text_primary">#D9FFFFFF</color>
+    <color name="text_secondary">#D9000000</color>
     <!-- Base application theme. -->
-    <style name="AppTheme"
-        parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- statusBar and actionBar color -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <!-- The rest of your attributes -->
     </style>
 
     <!-- Theme for Spinner -->
@@ -12,5 +18,4 @@
         <item name="android:background">@drawable/abc_spinner_mtrl_am_alpha</item>
         <item name="android:textColorSecondary">@color/ripple_material_dark</item>
     </style>
-
 </resources>

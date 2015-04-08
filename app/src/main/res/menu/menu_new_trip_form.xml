@@ -8,5 +8,4 @@
         android:title="@string/saveTrip"
         app:showAsAction="ifRoom"
         android:layout_height= "match_parent"/>
-
 </menu>
