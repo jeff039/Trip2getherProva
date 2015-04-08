@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:background="@drawable/background">
 
-    <!--USERNAME LABEL-->
+    <!--USERNAME LABEL lklklk-->
     <EditText
         android:id="@+id/user"
         android:layout_width="fill_parent"
