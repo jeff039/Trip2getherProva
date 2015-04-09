@@ -105,6 +105,7 @@ public class TripList extends ActionBarActivity {
                 Trip trip = new Trip(camposViaje.getString("Nombre"), "pais",
                         "ciudad", camposViaje.getDate("Fecha_Inicial"),
                         camposViaje.getDate("Fecha_Final"), camposViaje.getParseFile("Imagen"));
+                trip.setId(idViaje);
                 trips.add(trip);
                 tripsNoms.add(trip.getNombre());
             }
@@ -117,6 +118,8 @@ public class TripList extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent (TripList.this, SiteList.class);
+                Trip a = trips.get(position);
+                intent.putExtra("id_viaje", a.getId());
                 startActivity(intent);
             }
         });

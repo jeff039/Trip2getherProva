@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
+import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.User;
 
 //Implementar bé els métodes de la classe DrawerItemClickListener;
@@ -37,11 +38,17 @@ public class SiteList  extends ActionBarActivity {
 
     String[]sitesList = new String[] {};
 
+    private ArrayList<Site> sites = new ArrayList<Site>();
+
     protected  ListView lista;
 
     private static Context context = null;
 
     private User myUser;
+
+    private String idViaje="";
+    public void setIdViaje(String idViaje) { this.idViaje = idViaje; }
+    public String getIdViaje() { return idViaje; }
 
     /**
      * Method onCreate
@@ -58,6 +65,8 @@ public class SiteList  extends ActionBarActivity {
         this.initializeDrawerLayout();
         this.initializeButtons();
         myUser = (User) intent.getSerializableExtra("myUser");
+
+        setIdViaje(intent.getStringExtra("id_viaje"));
     }
 
     /**
@@ -127,6 +136,7 @@ public class SiteList  extends ActionBarActivity {
             String tripId = "36IJhdT4rp";
 
             Intent newSite = new Intent(this, NewSiteForm.class);
+            newSite.putExtra("id_viaje", getIdViaje());
             startActivity(newSite);
 
             /*try {
@@ -225,4 +235,7 @@ public class SiteList  extends ActionBarActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_site_list);
     }
+
+
+
 }

@@ -36,25 +36,31 @@ public class NewSiteForm extends ActionBarActivity {
 
     private static Intent intentR = null;
     private User myUser;
-    private ParseFile file;
 
+    private ParseFile file;
     public ParseFile getFile() {
         return file;
     }
-
     public void setFile(ParseFile file) {
         this.file = file;
     }
+
+    private String idViaje="";
+    public void setIdViaje(String idViaje) { this.idViaje = idViaje; }
+    public String getIdViaje() { return idViaje; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_site_form);
+        intentR = this.getIntent();
 
         this.setSupportBar();
         this.initializeButtons();
         intentR = this.getIntent();
         myUser = (User) intentR.getSerializableExtra("myUser");
+
+        setIdViaje(intentR.getStringExtra("id_viaje"));
     }
 
     /**
@@ -171,8 +177,6 @@ public class NewSiteForm extends ActionBarActivity {
                 intent.putExtra("Id_Viaje", nuevoSitio.getIdViaje());
 
                 try {
-                    String idViaje = getIdViaje(nuevoSitio);
-                    nuevoSitio.setIdViaje(idViaje);
                     GuardarSitioBDD(nuevoSitio);
 
                 } catch (ParseException e) {
@@ -199,7 +203,7 @@ public class NewSiteForm extends ActionBarActivity {
 
         ParseFile imagen = getFile();
 
-        return new Site(nombre, descripcion, imagen);
+        return new Site(nombre, descripcion, imagen, getIdViaje());
     }
 
     public boolean GuardarSitioBDD(Site nuevoSitio) throws ParseException{
@@ -218,19 +222,4 @@ public class NewSiteForm extends ActionBarActivity {
 
         return success;
     }
-
-    /**
-     * Method getIdViaje
-     * @param nuevoSitio
-     * @return idViaje
-     * @throws ParseException
-     */
-    public String getIdViaje(Site nuevoSitio) throws ParseException{
-        boolean success = false;
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("viaje", nuevoSitio.getIdViaje());
-        String idViaje = ParseCloud.callFunction("getIdViaje", params);
-        return idViaje;
-    }
-
 }

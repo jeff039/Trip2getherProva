@@ -52,7 +52,7 @@ public class Site implements Serializable {
 
     public void setImagen(ParseFile imagen) { this.imagen = imagen; }
 
-    public Site(String nombre, String descripcion, ParseFile imagen) {
+    public Site(String nombre, String descripcion, ParseFile imagen, String idViaje) {
         this.setNombre(nombre);
         this.setDescripcion(descripcion);
         this.setIdViaje(idViaje);
