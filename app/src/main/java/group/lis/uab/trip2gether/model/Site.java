@@ -1,6 +1,8 @@
 package group.lis.uab.trip2gether.model;
 
 
+import com.parse.ParseFile;
+
 import java.io.Serializable;
 
 /**
@@ -8,11 +10,19 @@ import java.io.Serializable;
  */
 public class Site implements Serializable {
 
+    private String id;
+
     private String nombre;
 
     private String descripcion;
 
     private String idViaje;
+
+    private ParseFile imagen;
+
+    public void setId(String id){ this.id = id; }
+
+    public String getId(){ return this.id; }
 
     public void setNombre(String nombre){
         this.nombre = nombre;
@@ -38,11 +48,15 @@ public class Site implements Serializable {
         return this.idViaje;
     }
 
+    public ParseFile getImagen() { return imagen; }
 
-    public Site(String nombre, String descripcion) {
+    public void setImagen(ParseFile imagen) { this.imagen = imagen; }
+
+    public Site(String nombre, String descripcion, ParseFile imagen) {
         this.setNombre(nombre);
         this.setDescripcion(descripcion);
         this.setIdViaje(idViaje);
+        this.setImagen(imagen);
 
     }
 
