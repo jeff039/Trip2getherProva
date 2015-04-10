@@ -217,7 +217,7 @@ public class NewSiteForm extends ActionBarActivity {
         String addSiteResponse = ParseCloud.callFunction("addSite", params);
         if(!addSiteResponse.isEmpty())
             nuevoSitio.setId(addSiteResponse);
-            success = true;
+        success = true;
         Log.i("Add newSite:", addSiteResponse);
 
         return success;

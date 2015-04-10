@@ -138,13 +138,13 @@ public class TripList extends ActionBarActivity {
      */
     public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
         public void onClick(View v) {
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            mDrawerLayout.openDrawer(Gravity.LEFT);
-        }
-        else {
-            mDrawerLayout.closeDrawer(Gravity.LEFT);
-        }
+            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+            else {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+            }
         }
     };
 

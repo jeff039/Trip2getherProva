@@ -82,13 +82,13 @@ public class SiteList  extends ActionBarActivity {
      */
     public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
         public void onClick(View v) {
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            mDrawerLayout.openDrawer(Gravity.LEFT);
-        }
-        else {
-            mDrawerLayout.closeDrawer(Gravity.LEFT);
-        }
+            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+            else {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+            }
         }
     };
 
@@ -143,26 +143,19 @@ public class SiteList  extends ActionBarActivity {
                 ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");
                 tripCoordQuery.whereEqualTo("objectId", tripId);
                 String cityId = tripCoordQuery.getFirst().getString("Id_Ciudad");
-
                 ParseQuery<ParseObject> cityCoordQuery = ParseQuery.getQuery("Ciudad");
                 cityCoordQuery.whereEqualTo("objectId", cityId);
-
                 Double latitude = cityCoordQuery.getFirst().getDouble("Latitud");
                 Double longitude = cityCoordQuery.getFirst().getDouble("Longitud");
-
-
                 //enviem el viatge i la ubicació per fer focus
                 Bundle paramsMaps = new Bundle();
                 paramsMaps.putDouble("latitude", latitude);
                 paramsMaps.putDouble("longitude", longitude);
                 paramsMaps.putString("tripId", tripId);
                 paramsMaps.putString("route", "false"); //estarem editant, no mirant la ruta
-
                 Intent siteMaps = new Intent(this, SiteMapsActivity.class);
                 siteMaps.putExtras(paramsMaps);
                 startActivity(siteMaps);
-
-
             } catch (ParseException e) {
                 e.printStackTrace();
             }*/
