@@ -162,17 +162,6 @@ public class NewTripForm extends ActionBarActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-
-
-            /*ParseQuery query = new ParseQuery("Viaje");
-            try {
-                ParseObject o = query.get("ATDImGclly");
-                o.put("Imagen",file);
-                o.save();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }*/
         }
     }
 
@@ -370,7 +359,7 @@ public class NewTripForm extends ActionBarActivity {
         String addGroupResponse = ParseCloud.callFunction("addGroup", params);
         if(!addGroupResponse.isEmpty())
             success = true;
-        Log.i("Add newTrip:", addGroupResponse);
+        Log.i("Add newGroup:", addGroupResponse);
 
         return success;
     }

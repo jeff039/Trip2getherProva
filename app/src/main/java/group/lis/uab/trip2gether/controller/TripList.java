@@ -24,6 +24,7 @@ import com.parse.ParseCloud;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -216,9 +217,16 @@ public class TripList extends ActionBarActivity {
                 newTrip.putExtra("myUser", myUser);
                 startActivity(newTrip);
                 return true;
-            case (R.id.goToSites):
-                Intent goToSites = new Intent(this, SiteList.class);
-                startActivity(goToSites);
+            case (R.id.goToEditTrip):
+                Intent goToEditTrip = new Intent(this, EditTripForm.class);
+                //TODO change myTrip with the Trip to edit selected by the user
+                //like Trip myTrip = trips.get(position);
+                Trip myTrip = new Trip("nombre viaje", "nombre pais","nombre ciudad", new Date(),new Date(), null);
+                myTrip.setId("y1AFKyMERY");
+
+                goToEditTrip.putExtra("myUser", myUser);
+                goToEditTrip.putExtra("myTrip", myTrip);
+                startActivity(goToEditTrip);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -46,6 +46,10 @@
             android:label="@string/title_activity_new_trip" >
         </activity>
         <activity
+            android:name=".controller.EditTripForm"
+            android:label="@string/title_activity_edit_trip" >
+        </activity>
+        <activity
             android:name=".controller.RegisterForm"
             android:label="@string/title_activity_register_form" >
         </activity>

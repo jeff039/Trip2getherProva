@@ -2,9 +2,10 @@ package group.lis.uab.trip2gether.model;
 
 import com.parse.ParseFile;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Trip {
+public class Trip implements Serializable{
 
     private String id;
 

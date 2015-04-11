@@ -4,7 +4,7 @@
     tools:context="group.lis.uab.trip2gether.controller.TripList">
 
     <item android:id="@+id/edit_user_profile"
-        android:icon="@drawable/ic_action_new"
+        android:icon="@drawable/ic_action_edit_white"
         android:title="@string/editUserProfile"
         app:showAsAction="ifRoom"
         android:layout_height= "match_parent"/>

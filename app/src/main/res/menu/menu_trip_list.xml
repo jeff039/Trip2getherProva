@@ -9,9 +9,9 @@
         app:showAsAction="ifRoom"
         android:layout_height= "match_parent"/>
 
-    <item android:id="@+id/goToSites"
-        android:icon="@drawable/ic_action"
-        android:title="goToSites"
+    <item android:id="@+id/goToEditTrip"
+        android:icon="@drawable/ic_action_edit_white"
+        android:title="goToEditTrip"
         app:showAsAction="ifRoom"
         android:layout_height= "match_parent"/>
 </menu>
