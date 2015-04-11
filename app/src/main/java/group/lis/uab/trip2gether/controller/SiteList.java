@@ -11,20 +11,22 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.view.MenuItem;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.Site;
-import group.lis.uab.trip2gether.model.User;
 
 //Implementar bé els métodes de la classe DrawerItemClickListener;
 //import group.lis.uab.trip2gether.model.DrawerItemClickListener;
@@ -44,11 +46,13 @@ public class SiteList  extends ActionBarActivity {
 
     private static Context context = null;
 
-    private User myUser;
+    String idViaje = "";
 
-    private String idViaje="";
-    public void setIdViaje(String idViaje) { this.idViaje = idViaje; }
-    public String getIdViaje() { return idViaje; }
+    String nombreViaje = "";
+
+    private ArrayList<Site> sitios = new ArrayList<Site>();
+
+    private ArrayList<String> sitiosNombres = new ArrayList<String>();
 
     /**
      * Method onCreate
@@ -60,13 +64,62 @@ public class SiteList  extends ActionBarActivity {
         setContentView(R.layout.activity_site_list);
         context = this;
         intent = this.getIntent();
+        this.nombreViaje = intent.getStringExtra("nombre_viaje");
+        this.idViaje = intent.getStringExtra("id_viaje");
+        this.nombreViaje = intent.getStringExtra("nombre_viaje");
 
         this.setSupportBar();
         this.initializeDrawerLayout();
         this.initializeButtons();
-        myUser = (User) intent.getSerializableExtra("myUser");
 
-        setIdViaje(intent.getStringExtra("id_viaje"));
+        try {
+            this.ViewTripFromBBDD();
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Method getIdsBBDD. Métode genéric per obtenir una llista de valors d'un camp que pertany a una entitat de la BBDD
+     * @param valueFieldTable Valor del <field> de la <table>
+     * @param table Taula de la BBDD
+     * @param field Camp de la <table>
+     * @return List<ParseObject>
+     * @throws com.parse.ParseException
+     */
+    public List<ParseObject> getValueBBDD(String valueFieldTable, String table, String field) throws com.parse.ParseException {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("valueFieldTable", valueFieldTable);
+        params.put("table", table);
+        params.put("field", field);
+        return ParseCloud.callFunction("getId", params);
+    }
+
+    /**
+     * Method ViewTripFromBBDD. Métode per visualitzar els viatjes associats a un usuari en la llista TripList
+     * @throws com.parse.ParseException
+     */
+    public void ViewTripFromBBDD() throws com.parse.ParseException {
+        List<ParseObject> idsSitio = getValueBBDD(this.idViaje, "Sitio", "Id_Viaje");
+
+        for(int i=0;i<idsSitio.size();i++){
+            ParseObject idSitio = idsSitio.get(i);
+            Site sitio = new Site(idSitio.getString("Nombre"), idSitio.getString("Descripcion"),
+                    idSitio.getParseFile("Imagen"), idSitio.getString("objectId"));
+            this.sitios.add(sitio);
+            this.sitiosNombres.add(sitio.getNombre());
+        }
+
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, sitiosNombres);
+        lista = (ListView)findViewById(R.id.listaSitios);
+        lista.setAdapter(adaptador);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent (SiteList.this, SiteList.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -136,7 +189,7 @@ public class SiteList  extends ActionBarActivity {
             String tripId = "36IJhdT4rp";
 
             Intent newSite = new Intent(this, NewSiteForm.class);
-            newSite.putExtra("id_viaje", getIdViaje());
+            newSite.putExtra("id_viaje", this.idViaje);
             startActivity(newSite);
 
             /*try {
@@ -228,7 +281,4 @@ public class SiteList  extends ActionBarActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_site_list);
     }
-
-
-
 }
