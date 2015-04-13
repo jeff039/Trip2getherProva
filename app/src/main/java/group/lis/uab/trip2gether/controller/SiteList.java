@@ -116,7 +116,7 @@ public class SiteList  extends ActionBarActivity {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent (SiteList.this, SiteList.class);
+                Intent intent = new Intent (SiteList.this, SiteView.class);
                 startActivity(intent);
             }
         });
