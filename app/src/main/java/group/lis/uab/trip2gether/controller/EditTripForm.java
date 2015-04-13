@@ -8,9 +8,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -33,13 +33,12 @@ import com.parse.ParseObject;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import group.lis.uab.trip2gether.R;
-import group.lis.uab.trip2gether.model.Encrypt;
 import group.lis.uab.trip2gether.model.Trip;
 import group.lis.uab.trip2gether.model.User;
 
@@ -464,18 +463,119 @@ public class EditTripForm extends ActionBarActivity {
 
     public Button.OnClickListener clickSendDeleteThisTrip = new Button.OnClickListener() {
         public void onClick(View v) {
-
+            String msn="";
+            List<ParseObject> sitiosAEliminar;
+            List<ParseObject> puntuacionesAEliminar = null;
+            List<ParseObject> componentesDelViaje;
+            Boolean cambiarAdministrador = false;
             //TODO delete wend the Trip sending by putExtra it's the Trip selected by user
             //provisional implementation
-            myTrip.setId("3k0XShwHnV");
+            myTrip.setId("y1AFKyMERY");
             //
-            ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
 
-            Toast.makeText(getApplicationContext(), "Deleted trip " + myTrip.getNombre() , Toast.LENGTH_SHORT).show();
-            Intent userProfile = new Intent(EditTripForm.this, TripList.class);
-            userProfile.putExtra("myUser", myUser);
-            startActivity(userProfile);
+            try {
+                componentesDelViaje = getValueBBDD(myTrip.getId(), "Grupo", "Id_Viaje");
+                if (!componentesDelViaje.isEmpty()) {
+                    switch (componentesDelViaje.size()) {
+                        case 0:
+                            //se elimina viaje, sitios y puntuaciones, con datos consistentes
+                            // no deberia de entrar nunca aqui
+                            sitiosAEliminar = getValueBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
+                            puntuacionesAEliminar = getValueBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
+
+                            ParseObject.deleteAll(sitiosAEliminar);
+                            ParseObject.deleteAll(puntuacionesAEliminar);
+                            ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
+
+                            msn = "Deleted Trip " + myTrip.getNombre();
+                            break;
+                        case 1:
+                            //se elimina el grupo, el viaje, los sitios y las puntuaciones
+                            sitiosAEliminar = getValueBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
+                            for(int i=0;i<sitiosAEliminar.size();i++){
+                                puntuacionesAEliminar = getValueBBDD(sitiosAEliminar.get(i).getObjectId(), "Puntuacion", "Id_Sitio");
+                                ParseObject.deleteAll(puntuacionesAEliminar);
+                            }
+                            ParseObject.deleteAll(sitiosAEliminar);
+                            ParseObject.deleteAll(componentesDelViaje);
+                            ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
+
+                            msn = "Deleted Trip " + myTrip.getNombre();
+                            break;
+                        default:
+                            //Se elimina el usuario del grupo y se asigna un nuevo administrador.
+                            for(int i=0;i<componentesDelViaje.size();i++) {
+                                ParseObject componente = componentesDelViaje.get(i);
+                                if (componente.getString("Id_Usuario").equals(myUser.getObjectId())){
+                                    if(componente.getBoolean("Administrador")){
+                                        cambiarAdministrador = true;
+                                    }
+                                    //ParseObject.createWithoutData("Grupo", componente.getObjectId()).deleteEventually();
+                                    ParseObject.createWithoutData("Grupo", componente.getObjectId()).delete();
+                                }
+                            }
+                            if(cambiarAdministrador) {
+                                componentesDelViaje = getValueBBDD(myTrip.getId(), "Grupo", "Id_Viaje");
+                                setValueBBDD(true,"Grupo", "Administrador", componentesDelViaje.get(0).getObjectId());
+                            }
+
+                            msn = "Deleted Trip " + myTrip.getNombre();
+                            break;
+                    }
+                }else {
+                    //se elimina el viaje, ¿los sitios y las puntuaciones?
+                    ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
+                    /*
+                    sitiosAEliminar = getValueBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
+                    puntuacionesAEliminar = getValueBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
+
+                    ParseObject.deleteAll(sitiosAEliminar);
+                    ParseObject.deleteAll(puntuacionesAEliminar);
+                    */
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Toast.makeText(getApplicationContext(), msn , Toast.LENGTH_SHORT).show();
+            Intent tripList = new Intent(EditTripForm.this, TripList.class);
+            tripList.putExtra("myUser", myUser);
+            startActivity(tripList);
 
         }
     };
+
+    /**
+     * Method getIdsBBDD. Métode genéric per obtenir una llista de valors d'un camp que pertany a una entitat de la BBDD
+     * @param valueFieldTable Valor del <field> de la <table>
+     * @param table Taula de la BBDD
+     * @param field Camp de la <table>
+     * @return List<ParseObject>
+     * @throws com.parse.ParseException
+     */
+    public List<ParseObject> getValueBBDD(String valueFieldTable, String table, String field) throws com.parse.ParseException {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("valueFieldTable", valueFieldTable);
+        params.put("table", table);
+        params.put("field", field);
+        return ParseCloud.callFunction("getId", params);
+    }
+
+    /**
+     * Method setValueBBDD. Métode genéric per actualitzar un camp amb un objectId donat.
+     * @param newValueBoolean Valor a posar al <field> de la <table>
+     * @param table Taula de la BBDD
+     * @param field Camp de la <table> a actualizar.
+     * @param objectId del registre a actualitzar.
+     * @throws com.parse.ParseException
+     */
+    public void setValueBBDD(Boolean newValueBoolean, String table, String field, String objectId) throws com.parse.ParseException {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("newValue", newValueBoolean);
+        params.put("table", table);
+        params.put("field", field);
+        params.put("objectId", objectId);
+        ParseCloud.callFunction("setValueOfTableId", params);
+    }
 }
