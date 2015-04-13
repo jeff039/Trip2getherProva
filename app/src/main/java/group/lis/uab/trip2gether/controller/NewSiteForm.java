@@ -174,7 +174,7 @@ public class NewSiteForm extends ActionBarActivity {
                 Intent intent = new Intent (NewSiteForm.this, SiteList.class);
                 intent.putExtra("nombre", nuevoSitio.getNombre());
                 intent.putExtra("descripcion", nuevoSitio.getDescripcion());
-                intent.putExtra("Id_Viaje", nuevoSitio.getIdViaje());
+                intent.putExtra("id_viaje", nuevoSitio.getIdViaje());
 
                 try {
                     GuardarSitioBDD(nuevoSitio);

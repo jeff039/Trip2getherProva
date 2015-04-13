@@ -100,6 +100,9 @@ public class SiteList  extends ActionBarActivity {
      * @throws com.parse.ParseException
      */
     public void ViewTripFromBBDD() throws com.parse.ParseException {
+        if(this.idViaje==null){
+            this.idViaje="";
+        }
         List<ParseObject> idsSitio = getValueBBDD(this.idViaje, "Sitio", "Id_Viaje");
 
         for(int i=0;i<idsSitio.size();i++){
@@ -117,6 +120,7 @@ public class SiteList  extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent (SiteList.this, SiteView.class);
+                intent.putExtra("currentSite", sitios.get(position));
                 startActivity(intent);
             }
         });
@@ -186,7 +190,9 @@ public class SiteList  extends ActionBarActivity {
 
             //HARDCODED
             //PROVISIONAL (TESTBARCELONA)
-            String tripId = "36IJhdT4rp";
+            //TODO change tipId with this line.
+            String tripId = this.idViaje;
+            //String tripId = "36IJhdT4rp";
 
             Intent newSite = new Intent(this, NewSiteForm.class);
             newSite.putExtra("id_viaje", this.idViaje);
@@ -221,7 +227,10 @@ public class SiteList  extends ActionBarActivity {
 
             //HARDCODED
             //PROVISIONAL (TESTBARCELONA)
-            String tripId = "36IJhdT4rp";
+            //TODO change tipId with this line.
+            String tripId = this.idViaje;
+            //String tripId = "36IJhdT4rp";
+
             ParseQuery<ParseObject> siteCoordQuery = ParseQuery.getQuery("Sitio");
             siteCoordQuery.whereEqualTo("Id_Viaje", tripId);
             ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");

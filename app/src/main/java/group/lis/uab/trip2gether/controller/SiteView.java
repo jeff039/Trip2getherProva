@@ -38,7 +38,7 @@ public class SiteView  extends ActionBarActivity {
         this.setSupportBar();
         //this.initializeDrawerLayout();
         this.initializeButtons();
-        //this.initializeUserData();
+        this.initializeSiteData();
 
     }
 
