@@ -11,7 +11,7 @@
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:src="@drawable/ic_menu_white_18dp"
-        android:gravity="left"
+        android:layout_gravity="center_vertical"
         android:background="@android:color/transparent"/>
 
     <TextView

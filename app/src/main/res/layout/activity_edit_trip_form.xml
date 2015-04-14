@@ -71,18 +71,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:id="@+id/TextViewCiudad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Ciudad:"/>
-
         <Spinner
             android:id="@+id/SpinnerCiudades"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/arrayDefault"
+            android:entries="@array/ciudadDefault"
             android:layout_marginLeft="110dp"
             style="@style/styleSpinner"/>
 

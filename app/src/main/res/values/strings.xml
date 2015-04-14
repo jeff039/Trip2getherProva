@@ -31,6 +31,11 @@
     <string name="description">DESCRIPCION</string>
     <string name="editSite">editSite</string>
     <string name="title_activity_site_view">siteView</string>
+    <string name="dateStart">Fecha de Inicio</string>
+    <string name="dateEnd">Fecha Final</string>
+    <string name="tripName">Nombre del Viaje</string>
+    <string name="addFriendToTrip">Agregar Amigo</string>
+    <string name="addImageToTrip">AGREGAR IMAGEN</string>
 
     <string-array name="arrayPaises">
         <item>Spain</item>
@@ -43,8 +48,29 @@
         <item>India</item>
     </string-array>
 
+    <string name="country_prompt">Choose a country</string>
+
+    <string-array name="country_arrays">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
+
     <string-array name="arrayDefault">
         <item>Ninguna</item>
+    </string-array>
+
+    <string-array name="ciudadDefault">
+        <item>Escoge una Ciudad</item>
+    </string-array>
+
+    <string-array name="paisDefault">
+        <item>Escoge un País</item>
     </string-array>
 
     <string-array name="CiudadesEspaña">

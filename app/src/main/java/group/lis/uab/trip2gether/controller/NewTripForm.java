@@ -63,7 +63,7 @@ public class NewTripForm extends ActionBarActivity {
     }
 
 
-    private static String[] paises = { "Ninguno", "España", "Alemania", "Francia"};
+    private static String[] paises = { "Escoge un País", "España", "Alemania", "Francia"};
 
     /**
      * Method onCreate
@@ -80,6 +80,7 @@ public class NewTripForm extends ActionBarActivity {
         intentR = this.getIntent();
         myUser = (User) intentR.getSerializableExtra("myUser");
     }
+
 
     public class SpinnerListener implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

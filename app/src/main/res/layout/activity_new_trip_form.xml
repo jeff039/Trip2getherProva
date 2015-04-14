@@ -1,221 +1,223 @@
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".NewTrip">
-
-    <LinearLayout
-        android:id="@+id/linearLayoutNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/TextViewNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Nombre:"/>
-
-        <EditText
-            android:id="@+id/EditTextNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:inputType="text"
-            android:ems="10"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutPais"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/linearLayoutNombre"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:id="@+id/TextViewPais"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="País:"/>
-
-        <Spinner
-            android:id="@+id/SpinnerPaises"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/arrayPaises"
-            android:layout_marginLeft="125dp"
-            style="@style/styleSpinner"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutCiudad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/linearLayoutPais"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:id="@+id/TextViewCiudad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Ciudad:"/>
-
-        <Spinner
-            android:id="@+id/SpinnerCiudades"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/arrayDefault"
-            android:layout_marginLeft="110dp"
-            style="@style/styleSpinner"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutFechaInici"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/linearLayoutCiudad"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:id="@+id/TextViewFechaInicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Fecha inicio:"/>
-
-        <EditText
-            android:id="@+id/EditTextFechaInicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:inputType="date"
-            android:ems="9"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutFechaFinal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/linearLayoutFechaInici"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:id="@+id/TextViewFechaFinal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Fecha final:"/>
-
-        <EditText
-            android:id="@+id/EditTextFechaFinal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:inputType="date"
-            android:ems="9"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutAddPerson"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/linearLayoutFechaFinal"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <ImageButton
-            android:id="@+id/ImageButtonAddFirends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:onClick=""
-            android:src="@drawable/ic_action_add_group"
-            android:background="@color/background_floating_material_light"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutImagenTrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/linearLayoutAddPerson"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <ImageView
-            android:id="@+id/imageTrip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:background="#eee">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
-        android:layout_below="@+id/linearLayoutImagenTrip"
-        android:layout_marginTop="10px">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        tools:context=".NewTrip">
 
         <LinearLayout
-            android:id="@+id/linearLayoutExtraFuncions"
-            android:layout_width="wrap_content"
+            android:id="@+id/linearLayoutNombre"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!--NAME LABEL-->
+            <EditText
+                android:id="@+id/EditTextNombre"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/nombre"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:inputType="textCapWords"
+                android:textColor="#cccccc"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_place_grey600_18dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutPais"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/linearLayoutImagenTrip"
+
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/linearLayoutNombre"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
-            <Button
-                android:id="@+id/gallery"
+            <!--COUNTRY LABEL-->
+            <Spinner
+                android:id="@+id/SpinnerPaises"
+                android:hint="@string/tripName"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/gallery"/>
+                android:prompt="@array/arrayPaises"
+                android:spinnerMode="dropdown"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_place_grey600_18dp"/>
 
-            <Button
-                android:id="@+id/google"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/google"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/maps"
-            android:layout_width="wrap_content"
+        <!--CITY LABEL-->
+        <LinearLayout
+            android:id="@+id/linearLayoutCiudad"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="prova maps"/>
-    </LinearLayout>
+            android:orientation="horizontal"
 
-</RelativeLayout>
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/linearLayoutPais"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <Spinner
+                android:id="@+id/SpinnerCiudades"
+                android:hint="@string/nombre"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:prompt="@array/ciudadDefault"
+                android:spinnerMode="dropdown"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_place_grey600_18dp"/>
+
+        </LinearLayout>
+
+        <!--DATE START LABEL-->
+        <LinearLayout
+            android:id="@+id/linearLayoutFechaInici"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/linearLayoutCiudad"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:id="@+id/EditTextFechaInicio"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:inputType="date"
+                android:hint="@string/dateStart"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#cccccc"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_today_grey600_18dp"/>
+
+        </LinearLayout>
+
+        <!--DATE END LABEL-->
+        <LinearLayout
+            android:id="@+id/linearLayoutFechaFinal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/linearLayoutFechaInici"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:id="@+id/EditTextFechaFinal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:inputType="date"
+                android:hint="@string/dateEnd"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#cccccc"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_today_grey600_18dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutAddPerson"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/linearLayoutFechaFinal">
+
+            <ImageButton
+                android:id="@+id/ImageButtonAddFirends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick=""
+                android:layout_gravity="center"
+                android:src="@drawable/ic_action_add_group"
+                android:background="@color/background_floating_material_light"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/linearLayoutAddPerson">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/addImageToTrip"
+                android:layout_margin="10dp"
+                android:textSize="18sp"/>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutExtraFuncions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gallery"
+                    android:textColor="#ffffff"
+                    android:padding="10dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button_custom"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/google"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/google"
+                    android:textColor="#ffffff"
+                    android:padding="10dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button_custom"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/maps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="prova maps"
+                android:textColor="#ffffff"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_custom"
+                android:gravity="center"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
