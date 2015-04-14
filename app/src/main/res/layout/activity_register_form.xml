@@ -4,22 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true"
-    android:padding="10dp"
-    android:background="#212121">
-
-
-<RelativeLayout
-
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="#212121">
-
+    android:background="#eee">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dip"
+        android:padding="30dp"
         android:id="@+id/linearLayout"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -31,13 +22,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="#3b4148"
             android:hint="@string/nombre"
             android:padding="10dp"
             android:singleLine="true"
             android:inputType="textCapWords"
-            android:textColor="#888888"
-            android:textColorHint="#5e6266" />
+            android:textColor="#cccccc"
+            android:textColorHint="#bbbbbb"
+            android:background="@drawable/rounded_corner"
+            android:drawableRight="@drawable/ic_person_grey600_18dp"/>
 
         <!--SURNAME LABEL-->
         <EditText
@@ -45,13 +37,44 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="#3b4148"
             android:hint="@string/apellidos"
             android:padding="10dp"
             android:singleLine="true"
             android:inputType="textCapWords"
-            android:textColor="#888888"
-            android:textColorHint="#5e6266" />
+            android:textColor="#cccccc"
+            android:textColorHint="#bbbbbb"
+            android:background="@drawable/rounded_corner"/>
+
+        <!--EMAIL LABEL-->
+        <EditText
+            android:id="@+id/mail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/mail"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="#cccccc"
+            android:textColorHint="#bbbbbb"
+            android:background="@drawable/rounded_corner"
+            android:drawableRight="@drawable/ic_local_post_office_grey600_18dp"/>
+
+        <!--PASSWORD LABEL-->
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/passwHint"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:textColor="#cccccc"
+            android:textColorHint="#bbbbbb"
+            android:background="@drawable/rounded_corner"
+            android:drawableRight="@drawable/ic_vpn_key_grey600_18dp"/>
+        <!--android:inputType="textCapWords"-->
+
 
         <!--COUNTRY LABEL-->
         <EditText
@@ -59,13 +82,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="#3b4148"
             android:hint="@string/pais"
             android:padding="10dp"
             android:singleLine="true"
             android:inputType="textCapWords"
-            android:textColor="#888888"
-            android:textColorHint="#5e6266" />
+            android:textColor="#cccccc"
+            android:textColorHint="#bbbbbb"
+            android:background="@drawable/rounded_corner"
+            android:drawableRight="@drawable/ic_place_grey600_18dp"/>
 
         <!--CITY LABEL-->
         <EditText
@@ -73,13 +97,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="#3b4148"
             android:hint="@string/ciudad"
             android:padding="10dp"
             android:singleLine="true"
             android:inputType="textCapWords"
-            android:textColor="#888888"
-            android:textColorHint="#5e6266" />
+            android:textColor="#cccccc"
+            android:textColorHint="#bbbbbb"
+            android:background="@drawable/rounded_corner" />
 
         <!--DATE OF BIRTH LABEL-->
         <EditText
@@ -87,65 +111,26 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="#3b4148"
             android:hint="@string/fecha_nacimiento"
             android:padding="10dp"
             android:singleLine="true"
-            android:textColor="#888888"
-            android:textColorHint="#5e6266" />
+            android:textColor="#cccccc"
+            android:textColorHint="#bbbbbb"
+            android:background="@drawable/rounded_corner"
+            android:drawableRight="@drawable/ic_cake_grey600_18dp"/>
 
-       <!--EMAIL LABEL-->
-        <EditText
-            android:id="@+id/mail"
+
+
+        <Button
+            android:id="@+id/sendRegister"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#3b4148"
-            android:hint="@string/mail"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="#888888"
-            android:textColorHint="#5e6266" />
+            android:layout_marginTop="40dip"
+            android:text="REGISTER"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_custom"
+            android:gravity="center"
+            android:textSize="18dp" />
 
-        <!--PASSWORD LABEL-->
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#3b4148"
-            android:hint="@string/passwHint"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:inputType="textPassword"
-            android:textColor="#888888"
-            android:textColorHint="#5e6266" />
-        <!--android:inputType="textCapWords"-->
-
-
-
-    <Button
-        android:id="@+id/sendRegister"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dip"
-        android:background="#56ea36"
-        android:text="REGISTER"
-        android:textColor="#ffffff"
-        android:textSize="30dp"/>
-
-</LinearLayout>
-
-    <ImageView
-        android:id="@+id/logo"
-
-        android:layout_width="63dp"
-        android:layout_height="63dp"
-        android:src="@drawable/logo"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-</RelativeLayout>
+    </LinearLayout>
 </ScrollView>
