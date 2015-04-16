@@ -128,7 +128,7 @@ public class SiteMapsActivity extends FragmentActivity {
 
         Bundle params = getIntent().getExtras();
 
-        if(params.getString("route").equals("false")) { //afegint
+        if(params.getString("route").equals("false")) { //afegint site
             //SI ESTEM EDITANT UN PUNT
             double latitutde = params.getDouble("latitude");
             double longitude = params.getDouble("longitude");
@@ -157,7 +157,6 @@ public class SiteMapsActivity extends FragmentActivity {
         }
         else if (params.getString("route").equals("true")) //mirant la ruta
         {
-            //SI ESTEM EDITANT UN PUNT
             double latitutde = params.getDouble("latitude");
             double longitude = params.getDouble("longitude");
             ////////////////////////////////////

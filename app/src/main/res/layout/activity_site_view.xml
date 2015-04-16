@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <LinearLayout
         android:id="@+id/linear_layout_name"
@@ -48,5 +49,15 @@
             android:inputType="text"
             android:ems="10"/>
     </LinearLayout>
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="262dp"
+        android:layout_height="100dp" android:id="@+id/mapSite"
+        tools:context="group.lis.uab.trip2gether.controller.SiteView"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_weight="0.35"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="50dp"/>
+
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -18,6 +19,16 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.User;
@@ -28,29 +39,41 @@ import group.lis.uab.trip2gether.model.User;
 public class SiteView  extends ActionBarActivity {
     private Site currentSite;
     private User myUser;
+    private GoogleMap mMap;
+    MarkerOptions marker;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_view);
         Intent intent = getIntent();
-        currentSite = (Site) intent.getSerializableExtra("currentSite");
+        currentSite = (Site) intent.getSerializableExtra("currentSite"); //serialització de l'objecte
         this.setSupportBar();
         //this.initializeDrawerLayout();
         this.initializeButtons();
-        this.initializeSiteData();
+        try {
+            this.initializeSiteData();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        setUpMapIfNeeded();
 
     }
 
     ////////////INTERFÍCIE/////////////////
 
-    public void initializeSiteData() {
+    public void initializeSiteData() throws ParseException {
         TextView name = (TextView)findViewById(R.id.nombreSiteView);
         name.setText(currentSite.getNombre());
         TextView surname = (TextView)findViewById(R.id.descripcionSiteView);
         surname.setText(currentSite.getDescripcion());
-
-
+        String siteId = currentSite.getId();
+        ParseQuery<ParseObject> siteCoordQuery = ParseQuery.getQuery("Sitio");
+        siteCoordQuery.whereEqualTo("objectId", siteId);
+        latitude = siteCoordQuery.getFirst().getDouble("Latitud");
+        longitude = siteCoordQuery.getFirst().getDouble("Longitud");
     }
     /**
      * Method initializeButtons. Elements de la interfície
@@ -117,7 +140,7 @@ public class SiteView  extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_site_view, menu);
+        //getMenuInflater().inflate(R.menu.menu_site_view, menu);
 
         return true;
     }
@@ -149,8 +172,30 @@ public class SiteView  extends ActionBarActivity {
         getSupportActionBar().setCustomView(R.layout.action_bar_site_view);
     }
 
+    private void setUpMap() {
+        ////////////////////////////////////
+        CameraUpdate center =
+                CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(12);
+        mMap.moveCamera(center);
+        mMap.animateCamera(zoom);
+        mMap.addMarker(new MarkerOptions().position(
+                new LatLng(latitude, longitude))
+                .title(currentSite.getNombre()).draggable(true));
+    }
 
-
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapSite))
+                    .getMap();
+            // Check if we were successful in obtaining the map.
+            if (mMap != null) {
+                setUpMap();
+            }
+        }
+    }
 
 }
 

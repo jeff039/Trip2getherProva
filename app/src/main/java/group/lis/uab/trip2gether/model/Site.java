@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class Site implements Serializable {
 
-    private String id;
+    private String objectId;
 
     private String nombre;
 
@@ -20,9 +20,9 @@ public class Site implements Serializable {
 
     private ParseFile imagen;
 
-    public void setId(String id){ this.id = id; }
+    public void setId(String id){ this.objectId = id; }
 
-    public String getId(){ return this.id; }
+    public String getId(){ return this.objectId; }
 
     public void setNombre(String nombre){
         this.nombre = nombre;
@@ -52,12 +52,12 @@ public class Site implements Serializable {
 
     public void setImagen(ParseFile imagen) { this.imagen = imagen; }
 
-    public Site(String nombre, String descripcion, ParseFile imagen, String idViaje) {
+    public Site(String nombre, String descripcion, ParseFile imagen, String idViaje, String objectId) {
         this.setNombre(nombre);
         this.setDescripcion(descripcion);
         this.setIdViaje(idViaje);
         this.setImagen(imagen);
-
+        this.setId(objectId);
     }
 
 }

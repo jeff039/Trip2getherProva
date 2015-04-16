@@ -203,7 +203,7 @@ public class NewSiteForm extends ActionBarActivity {
 
         ParseFile imagen = getFile();
 
-        return new Site(nombre, descripcion, imagen, getIdViaje());
+        return new Site(nombre, descripcion, imagen, getIdViaje(), "");
     }
 
     public boolean GuardarSitioBDD(Site nuevoSitio) throws ParseException{

@@ -108,7 +108,7 @@ public class SiteList  extends ActionBarActivity {
         for(int i=0;i<idsSitio.size();i++){
             ParseObject idSitio = idsSitio.get(i);
             Site sitio = new Site(idSitio.getString("Nombre"), idSitio.getString("Descripcion"),
-                    idSitio.getParseFile("Imagen"), idSitio.getString("objectId"));
+                    idSitio.getParseFile("Imagen"), "", idSitio.getObjectId());
             this.sitios.add(sitio);
             this.sitiosNombres.add(sitio.getNombre());
         }
