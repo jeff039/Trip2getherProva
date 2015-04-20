@@ -2,11 +2,15 @@ package group.lis.uab.trip2gether.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import group.lis.uab.trip2gether.R;
@@ -33,8 +37,9 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
     }
 
     static class TripListHolder{
-        ImageView imgIcon;
         TextView txtTitle;
+        ImageView imageView;
+
     }
 
     /**
@@ -54,15 +59,15 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new TripListHolder();
-            holder.imgIcon = (ImageView)row.findViewById(R.id.imgIcon);
+            holder.imageView = (ImageView)row.findViewById(R.id.imgIcon);
             holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
             row.setTag(holder);
         }else {
             holder = (TripListHolder)row.getTag();
         }
 
+        holder.imageView.setBackgroundResource(R.drawable.background);
         holder.txtTitle.setText(trips.get(position).getNombre());
-        holder.imgIcon.setImageResource(R.drawable.background);
         return row;
     }
 }
