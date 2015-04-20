@@ -20,6 +20,14 @@ public class Site implements Serializable {
 
     private ParseFile imagen;
 
+    private int duracion;
+
+    private int precio;
+
+    private double latitud;
+
+    private double longitud;
+
     public void setId(String id){ this.objectId = id; }
 
     public String getId(){ return this.objectId; }
@@ -52,12 +60,49 @@ public class Site implements Serializable {
 
     public void setImagen(ParseFile imagen) { this.imagen = imagen; }
 
-    public Site(String nombre, String descripcion, ParseFile imagen, String idViaje, String objectId) {
+    public void setDuracion(int duracion){
+        this.duracion = duracion;
+    }
+
+    public int getDuracion(){
+        return this.duracion;
+    }
+
+    public void setPrecio(int precio){
+        this.precio = precio;
+    }
+
+    public int getPrecio(){
+        return this.precio;
+    }
+
+    public void setLatitud(double latitud){
+        this.latitud = latitud;
+    }
+
+    public double getLatitud(){
+        return this.latitud;
+    }
+
+    public void setLongitud(double longitud){
+        this.longitud = longitud;
+    }
+
+    public double getLongitud(){
+        return this.longitud;
+    }
+
+
+    public Site(String nombre, String descripcion, ParseFile imagen, String idViaje, String objectId, int duracion, int precio, double latitud, double longitud) {
         this.setNombre(nombre);
         this.setDescripcion(descripcion);
         this.setIdViaje(idViaje);
         this.setImagen(imagen);
         this.setId(objectId);
+        this.setDuracion(duracion);
+        this.setPrecio(precio);
+        this.setLatitud(latitud);
+        this.setLongitud(longitud);
     }
 
 }

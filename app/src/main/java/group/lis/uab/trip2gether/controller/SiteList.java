@@ -64,7 +64,6 @@ public class SiteList  extends ActionBarActivity {
         setContentView(R.layout.activity_site_list);
         context = this;
         intent = this.getIntent();
-        this.nombreViaje = intent.getStringExtra("nombre_viaje");
         this.idViaje = intent.getStringExtra("id_viaje");
         this.nombreViaje = intent.getStringExtra("nombre_viaje");
 
@@ -108,7 +107,7 @@ public class SiteList  extends ActionBarActivity {
         for(int i=0;i<idsSitio.size();i++){
             ParseObject idSitio = idsSitio.get(i);
             Site sitio = new Site(idSitio.getString("Nombre"), idSitio.getString("Descripcion"),
-                    idSitio.getParseFile("Imagen"), "", idSitio.getObjectId());
+                    idSitio.getParseFile("Imagen"), "", idSitio.getObjectId(), idSitio.getInt("Duracion"), idSitio.getInt("Precio"), 222, 222);
             this.sitios.add(sitio);
             this.sitiosNombres.add(sitio.getNombre());
         }
@@ -197,6 +196,7 @@ public class SiteList  extends ActionBarActivity {
             Intent newSite = new Intent(this, NewSiteForm.class);
             newSite.putExtra("id_viaje", this.idViaje);
             startActivity(newSite);
+
 
             /*try {
                 ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");

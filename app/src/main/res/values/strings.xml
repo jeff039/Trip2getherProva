@@ -36,6 +36,8 @@
     <string name="tripName">Nombre del Viaje</string>
     <string name="addFriendToTrip">Agregar Amigo</string>
     <string name="addImageToTrip">AGREGAR IMAGEN</string>
+    <string name="precio">PRECIO</string>
+    <string name="duracion">DURACION</string>
 
     <string-array name="arrayPaises">
         <item>Spain</item>

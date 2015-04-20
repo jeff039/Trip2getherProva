@@ -50,6 +50,59 @@
             android:ems="10"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linear_layout_duracion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/linear_layout_description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/duracion"/>
+
+        <TextView
+            android:id="@+id/duracionSiteView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:inputType="text"
+            android:ems="10"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linear_layout_precio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/linear_layout_duracion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/precio"/>
+
+        <TextView
+            android:id="@+id/precioSiteView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:inputType="text"
+            android:ems="10"/>
+    </LinearLayout>
+
+
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="262dp"
         android:layout_height="100dp" android:id="@+id/mapSite"

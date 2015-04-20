@@ -65,11 +65,20 @@ public class SiteView  extends ActionBarActivity {
     ////////////INTERFÍCIE/////////////////
 
     public void initializeSiteData() throws ParseException {
+        String siteId = currentSite.getId();
+
         TextView name = (TextView)findViewById(R.id.nombreSiteView);
         name.setText(currentSite.getNombre());
-        TextView surname = (TextView)findViewById(R.id.descripcionSiteView);
-        surname.setText(currentSite.getDescripcion());
-        String siteId = currentSite.getId();
+
+        TextView description = (TextView)findViewById(R.id.descripcionSiteView);
+        description.setText(currentSite.getDescripcion());
+
+        TextView duration = (TextView)findViewById(R.id.duracionSiteView);
+        duration.setText(Integer.toString(currentSite.getDuracion()));
+
+        TextView price = (TextView)findViewById(R.id.precioSiteView);
+        price.setText(Integer.toString(currentSite.getPrecio()));
+
         ParseQuery<ParseObject> siteCoordQuery = ParseQuery.getQuery("Sitio");
         siteCoordQuery.whereEqualTo("objectId", siteId);
         latitude = siteCoordQuery.getFirst().getDouble("Latitud");

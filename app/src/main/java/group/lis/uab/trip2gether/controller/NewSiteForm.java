@@ -9,6 +9,7 @@ import android.os.Bundle;
 import group.lis.uab.trip2gether.R;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Editable;
 import android.util.Log;
 import android.widget.Button;
 import android.view.View;
@@ -174,6 +175,8 @@ public class NewSiteForm extends ActionBarActivity {
                 Intent intent = new Intent (NewSiteForm.this, SiteList.class);
                 intent.putExtra("nombre", nuevoSitio.getNombre());
                 intent.putExtra("descripcion", nuevoSitio.getDescripcion());
+                intent.putExtra("duracion", nuevoSitio.getDuracion());
+                intent.putExtra("precio", nuevoSitio.getPrecio());
                 intent.putExtra("id_viaje", nuevoSitio.getIdViaje());
 
                 try {
@@ -201,9 +204,17 @@ public class NewSiteForm extends ActionBarActivity {
         EditText TextDescripcion =(EditText)findViewById(R.id.Descripcion);
         String descripcion = TextDescripcion.getText().toString();
 
+        EditText TextDuracion =(EditText)findViewById(R.id.Duracion);
+        String duracionString = TextDuracion.getText().toString();
+        int duracion = Integer.parseInt(duracionString);
+
+        EditText TextPrecio =(EditText)findViewById(R.id.Precio);
+        String precioString = TextPrecio.getText().toString();
+        int precio = Integer.parseInt(precioString);
+
         ParseFile imagen = getFile();
 
-        return new Site(nombre, descripcion, imagen, getIdViaje(), "");
+        return new Site(nombre, descripcion, imagen, getIdViaje(), "", duracion, precio, 333, 333);
     }
 
     public boolean GuardarSitioBDD(Site nuevoSitio) throws ParseException{
@@ -211,6 +222,8 @@ public class NewSiteForm extends ActionBarActivity {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("name", nuevoSitio.getNombre());
         params.put("description", nuevoSitio.getDescripcion());
+        params.put("duracion", nuevoSitio.getDuracion());
+        params.put("precio", nuevoSitio.getPrecio());
         params.put("idViaje", nuevoSitio.getIdViaje());
         params.put("imagen", nuevoSitio.getImagen());
 
