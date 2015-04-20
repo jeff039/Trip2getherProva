@@ -195,7 +195,7 @@ public class SiteList  extends ActionBarActivity {
             startActivity(newSite);
 
 
-            /*try {
+            try {
                 ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");
                 tripCoordQuery.whereEqualTo("objectId", tripId);
                 String cityId = tripCoordQuery.getFirst().getString("Id_Ciudad");
@@ -214,7 +214,7 @@ public class SiteList  extends ActionBarActivity {
                 startActivity(siteMaps);
             } catch (ParseException e) {
                 e.printStackTrace();
-            }*/
+            }
         }
 
         if(id == R.id.mapRoute) {
