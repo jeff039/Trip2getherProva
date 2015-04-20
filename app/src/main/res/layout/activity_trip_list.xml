@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/container"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:id="@+id/listaViajes"/>
 
-    </FrameLayout>
+    </LinearLayout >
 
     <ListView android:id="@+id/left_drawer"
         android:layout_width="240dp"

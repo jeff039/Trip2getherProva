@@ -19,17 +19,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
 import com.parse.ParseCloud;
 import com.parse.ParseObject;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Trip;
+import group.lis.uab.trip2gether.model.TripListAdapter;
 import group.lis.uab.trip2gether.model.User;
 
 public class TripList extends ActionBarActivity {
@@ -49,6 +47,8 @@ public class TripList extends ActionBarActivity {
     private ArrayList<Trip> trips = new ArrayList<Trip>();
 
     private ArrayList<String> tripsNoms = new ArrayList<String>();
+
+    private TripList data[] = null;
 
     /**
      * Method onCreate
@@ -112,9 +112,10 @@ public class TripList extends ActionBarActivity {
             }
         }
 
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, tripsNoms);
+        TripListAdapter adaptador = new TripListAdapter(context, R.layout.trip_list_item_row, trips);
         lista = (ListView)findViewById(R.id.listaViajes);
         lista.setAdapter(adaptador);
+
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
