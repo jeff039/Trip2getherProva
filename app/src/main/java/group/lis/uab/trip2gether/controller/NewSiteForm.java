@@ -61,7 +61,8 @@ public class NewSiteForm extends ActionBarActivity {
         intentR = this.getIntent();
         myUser = (User) intentR.getSerializableExtra("myUser");
 
-        setIdViaje(intentR.getStringExtra("id_viaje"));
+        setIdViaje(intentR.getStringExtra("tripId"));
+
     }
 
     /**
@@ -178,6 +179,8 @@ public class NewSiteForm extends ActionBarActivity {
                 intent.putExtra("duracion", nuevoSitio.getDuracion());
                 intent.putExtra("precio", nuevoSitio.getPrecio());
                 intent.putExtra("id_viaje", nuevoSitio.getIdViaje());
+                intent.putExtra("latitud", nuevoSitio.getLongitud());
+                intent.putExtra("longitud", nuevoSitio.getLatitud());
 
                 try {
                     GuardarSitioBDD(nuevoSitio);
@@ -214,6 +217,7 @@ public class NewSiteForm extends ActionBarActivity {
 
         ParseFile imagen = getFile();
 
+
         return new Site(nombre, descripcion, imagen, getIdViaje(), "", duracion, precio, 333, 333);
     }
 
@@ -226,6 +230,9 @@ public class NewSiteForm extends ActionBarActivity {
         params.put("precio", nuevoSitio.getPrecio());
         params.put("idViaje", nuevoSitio.getIdViaje());
         params.put("imagen", nuevoSitio.getImagen());
+        params.put("latitud", nuevoSitio.getLatitud());
+        params.put("longitud", nuevoSitio.getLongitud());
+
 
         String addSiteResponse = ParseCloud.callFunction("addSite", params);
         if(!addSiteResponse.isEmpty())
