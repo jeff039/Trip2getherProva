@@ -19,7 +19,7 @@
     <string name="editUserProfile">Edit User Profile</string>
     <string name="updateUserProfileButton">UPDATE PROFILE</string>
     <string name="loginErr">User not found</string>
-    <string name="nombre">Name</string>
+    <string name="nombre">Nombre</string>
     <string name="apellidos">Surname</string>
     <string name="pais">Country</string>
     <string name="ciudad">City</string>
@@ -28,7 +28,7 @@
     <string name="send_register">Send register</string>
     <string name="tripHint">Trip title</string>
     <string name="saveTrip">GUARDAR</string>
-    <string name="description">DESCRIPCION</string>
+    <string name="description">Descripcion</string>
     <string name="editSite">editSite</string>
     <string name="title_activity_site_view">siteView</string>
     <string name="dateStart">Fecha de Inicio</string>
@@ -36,8 +36,11 @@
     <string name="tripName">Nombre del Viaje</string>
     <string name="addFriendToTrip">Agregar Amigo</string>
     <string name="addImageToTrip">AGREGAR IMAGEN</string>
-    <string name="precio">PRECIO</string>
-    <string name="duracion">DURACION</string>
+    <string name="precio">Precio</string>
+    <string name="duracion">Duracion</string>
+    <string name="duracionMin">Duracion (minutos)</string>
+    <string name="moneda">€</string>
+    <string name="minutos">minutos</string>
 
     <string-array name="arrayPaises">
         <item>Spain</item>
