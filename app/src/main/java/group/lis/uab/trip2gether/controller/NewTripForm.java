@@ -1,5 +1,6 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -127,8 +128,8 @@ public class NewTripForm extends ActionBarActivity {
     public void setSupportBar(){
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action_cancel);
-        getSupportActionBar().setTitle("      Nuevo Viaje");
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar_new_trip);
     }
 
     @Override
@@ -177,6 +178,9 @@ public class NewTripForm extends ActionBarActivity {
         Button maps = (Button)findViewById(R.id.maps);
         maps.setOnClickListener(clickMaps);
 
+        ImageButton backActivity = (ImageButton)findViewById(R.id.backActvity);
+        backActivity.setOnClickListener(doBackActivity);
+
         ImageButton imageButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +215,17 @@ public class NewTripForm extends ActionBarActivity {
     public Button.OnClickListener clickMaps = new Button.OnClickListener() {
         public void onClick(View v) {
             Intent i = new Intent(NewTripForm.this, SiteMapsActivity.class);
+            startActivity(i);
+        }
+    };
+
+    /**
+     * Method ImageButton.OnClickListener doBackActivity
+     */
+    public ImageButton.OnClickListener doBackActivity = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(NewTripForm.this, TripList.class);
+            i.putExtra("myUser", myUser);
             startActivity(i);
         }
     };

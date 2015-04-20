@@ -107,7 +107,8 @@ public class SiteList  extends ActionBarActivity {
         for(int i=0;i<idsSitio.size();i++){
             ParseObject idSitio = idsSitio.get(i);
             Site sitio = new Site(idSitio.getString("Nombre"), idSitio.getString("Descripcion"),
-                    idSitio.getParseFile("Imagen"), "", idSitio.getObjectId(), idSitio.getInt("Duracion"), idSitio.getInt("Precio"), 222, 222);
+                    idSitio.getParseFile("Imagen"), "", idSitio.getObjectId(), idSitio.getDouble("Duracion"),
+                    idSitio.getDouble("Precio"), idSitio.getDouble("Latitud"), idSitio.getDouble("Longitud"));
             this.sitios.add(sitio);
             this.sitiosNombres.add(sitio.getNombre());
         }
@@ -187,11 +188,7 @@ public class SiteList  extends ActionBarActivity {
             //Bundle trip = getIntent().getExtras();
             //String tripId = trip.getString("tripId");
 
-            //HARDCODED
-            //PROVISIONAL (TESTBARCELONA)
-            //TODO change tipId with this line.
             String tripId = this.idViaje;
-            //String tripId = "36IJhdT4rp";
 
             Intent newSite = new Intent(this, NewSiteForm.class);
             newSite.putExtra("id_viaje", this.idViaje);
@@ -225,11 +222,7 @@ public class SiteList  extends ActionBarActivity {
             //Bundle trip = getIntent().getExtras();
             //String tripId = trip.getString("tripId");
 
-            //HARDCODED
-            //PROVISIONAL (TESTBARCELONA)
-            //TODO change tipId with this line.
             String tripId = this.idViaje;
-            //String tripId = "36IJhdT4rp";
 
             ParseQuery<ParseObject> siteCoordQuery = ParseQuery.getQuery("Sitio");
             siteCoordQuery.whereEqualTo("Id_Viaje", tripId);

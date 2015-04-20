@@ -1,5 +1,6 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -98,8 +99,9 @@ public class EditTripForm extends ActionBarActivity {
     public void setSupportBar(){
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action_cancel);
-        getSupportActionBar().setTitle("      Editar Viaje");
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar_edit_trip);
+
     }
 
     @Override
@@ -239,6 +241,9 @@ public class EditTripForm extends ActionBarActivity {
                 }
             });
 
+            ImageButton backActivity = (ImageButton)findViewById(R.id.backActvity);
+            backActivity.setOnClickListener(doBackActivity);
+
             Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
             ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, paises);
             spinnerPaises.setAdapter(arrayAdapterPaises);
@@ -261,13 +266,23 @@ public class EditTripForm extends ActionBarActivity {
             EditText nombre = (EditText)findViewById(R.id.EditTextNombre);
             nombre.setText(getMyTrip().getNombre());
             /**
-             * TODO put the correct data into the spinner
-             EditText pais = (EditText)findViewById(R.id.SpinnerPaises);
-             pais.setText(myTrip.getPais());
-
-             EditText ciudad = (EditText)findViewById(R.id.SpinnerCiudades);
-             ciudad.setText(myTrip.getCiudad());
+             * Put the correct data into the spinners
              */
+            Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
+            int valCountry=0;
+            for (int i=0;i<paises.length;i++){
+                if (paises[i].equals(myTrip.getPais())){
+                    valCountry=i;
+                }
+            }
+            spinnerPaises.setSelection(valCountry);
+            cargaSpinnerCiudad(valCountry);
+            Spinner Ciudades = (Spinner) findViewById(R.id.SpinnerCiudades);
+            for (int i=0;i<Ciudades.getCount();i++){
+                if (Ciudades.getItemAtPosition(i).equals(myTrip.getCiudad())){
+                    Ciudades.setSelection(i);
+                }
+            }
             EditText fechaInicio = (EditText)findViewById(R.id.EditTextFechaInicio);
             dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
             fechaInicio.setText(dateFormatter.format(getMyTrip().getFechaInicio()));
@@ -276,20 +291,38 @@ public class EditTripForm extends ActionBarActivity {
             dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
             fechaFinal.setText(dateFormatter.format(getMyTrip().getFechaFinal()));
 
-            /**
-             * TODO throws an error on run in the app
-            ParseFile file = getMyTrip().getImagen();
-            ImageView imageView = (ImageView)findViewById(R.id.imageTrip);
-            byte[] bitmapdata = new byte[0];
             try {
-                bitmapdata = file.getData();
+                List <ParseObject> trip;
+                trip = getValueBBDD(myTrip.getId(), "Viaje", "objectId");
+                getMyTrip().setImagen(trip.get(0).getParseFile("Imagen"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-            imageView.setImageBitmap(bitmap);
-            */
+
+            ParseFile file = getMyTrip().getImagen();
+            if (file != null) {
+                ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
+                byte[] bitmapdata = new byte[0];
+                try {
+                    bitmapdata = file.getData();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+                imageView.setImageBitmap(bitmap);
+            }
         }
+
+    /**
+     * Method ImageButton.OnClickListener doBackActivity
+     */
+    public ImageButton.OnClickListener doBackActivity = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(EditTripForm.this, TripList.class);
+            i.putExtra("myUser", myUser);
+            startActivity(i);
+        }
+    };
 
     /**
      * Method Button.OnClickListener clickGallery
@@ -468,10 +501,6 @@ public class EditTripForm extends ActionBarActivity {
             List<ParseObject> puntuacionesAEliminar = null;
             List<ParseObject> componentesDelViaje;
             Boolean cambiarAdministrador = false;
-            //TODO delete wend the Trip sending by putExtra it's the Trip selected by user
-            //provisional implementation
-            myTrip.setId("y1AFKyMERY");
-            //
 
             try {
                 componentesDelViaje = getValueBBDD(myTrip.getId(), "Grupo", "Id_Viaje");

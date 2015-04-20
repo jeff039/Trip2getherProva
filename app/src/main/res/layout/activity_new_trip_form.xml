@@ -177,6 +177,11 @@
                 android:layout_margin="10dp"
                 android:textSize="18sp"/>
 
+            <ImageView
+                android:id="@+id/imageTrip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
             <LinearLayout
                 android:id="@+id/linearLayoutExtraFuncions"
                 android:layout_width="wrap_content"

@@ -74,15 +74,20 @@ public class SiteView  extends ActionBarActivity {
         description.setText(currentSite.getDescripcion());
 
         TextView duration = (TextView)findViewById(R.id.duracionSiteView);
-        duration.setText(Integer.toString(currentSite.getDuracion()));
+        duration.setText(Double.toString(currentSite.getDuracion()));
 
         TextView price = (TextView)findViewById(R.id.precioSiteView);
-        price.setText(Integer.toString(currentSite.getPrecio()));
+        price.setText(Double.toString(currentSite.getPrecio()));
 
         ParseQuery<ParseObject> siteCoordQuery = ParseQuery.getQuery("Sitio");
         siteCoordQuery.whereEqualTo("objectId", siteId);
         latitude = siteCoordQuery.getFirst().getDouble("Latitud");
         longitude = siteCoordQuery.getFirst().getDouble("Longitud");
+        //TODO change last 4 lines with next
+        /*
+        latitude = currentSite.getLatitud();
+        longitude = currentSite.getLongitud();
+        */
     }
     /**
      * Method initializeButtons. Elements de la interfície

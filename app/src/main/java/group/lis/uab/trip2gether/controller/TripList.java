@@ -103,8 +103,22 @@ public class TripList extends ActionBarActivity {
                 List<ParseObject> getId = getValueBBDD(idViaje, "Viaje", "objectId");
                 ParseObject camposViaje = getId.iterator().next();
 
-                Trip trip = new Trip(camposViaje.getString("Nombre"), "pais",
-                        "ciudad", camposViaje.getDate("Fecha_Inicial"),
+                //TODO OJO que peta
+
+                String idCiudad = camposViaje.getString("Id_Ciudad");
+                List<ParseObject> datosIdCiudad = getValueBBDD(idCiudad, "Ciudad", "objectId");
+                String pais;
+                String ciudad;
+                if(datosIdCiudad.size()==0){
+                    pais="España";
+                    ciudad="Barcelona";
+                }else{
+                    pais = datosIdCiudad.get(0).getString("Pais");
+                    ciudad = datosIdCiudad.get(0).getString("Nombre");
+                }
+
+                Trip trip = new Trip(camposViaje.getString("Nombre"), pais,
+                        ciudad, camposViaje.getDate("Fecha_Inicial"),
                         camposViaje.getDate("Fecha_Final"), camposViaje.getParseFile("Imagen"));
                 trip.setId(idViaje);
                 trips.add(trip);
@@ -112,7 +126,7 @@ public class TripList extends ActionBarActivity {
             }
         }
 
-        TripListAdapter adaptador = new TripListAdapter(context, R.layout.trip_list_item_row, trips);
+        TripListAdapter adaptador = new TripListAdapter(context, R.layout.trip_list_item_row, trips, myUser);
         lista = (ListView)findViewById(R.id.listaViajes);
         lista.setAdapter(adaptador);
 
@@ -223,7 +237,7 @@ public class TripList extends ActionBarActivity {
                 Intent goToEditTrip = new Intent(this, EditTripForm.class);
                 //TODO change myTrip with the Trip to edit selected by the user
                 //like Trip myTrip = trips.get(position);
-                Trip myTrip = new Trip("nombre viaje", "nombre pais","nombre ciudad", new Date(),new Date(), null);
+                Trip myTrip = new Trip("nombre viaje", "España","Barcelona", new Date(),new Date(), null);
                 myTrip.setId("y1AFKyMERY");
 
                 goToEditTrip.putExtra("myUser", myUser);
