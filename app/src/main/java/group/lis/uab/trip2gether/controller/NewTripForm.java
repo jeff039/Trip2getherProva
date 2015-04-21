@@ -181,6 +181,7 @@ public class NewTripForm extends ActionBarActivity {
         Button maps = (Button)findViewById(R.id.maps);
         maps.setOnClickListener(clickMaps);
 
+
         final ImageButton addFriendButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,37 +202,45 @@ public class NewTripForm extends ActionBarActivity {
 
                 ///bucle CheckBox amb amistats////
                 String userId = myUser.getObjectId();
-
-                //TODO: acabar bucle amistats i fer que es crei el grup amb les seleccionades
-
-
-
-
                 HashMap<String, Object> params = new HashMap<String, Object>();
-                params.put("user", userId);
+                params.put("userId", userId);
 
                 List<ParseObject> friendsResponse = null; //crida al BE
                 try {
+                    //busquem la amistat
                     friendsResponse = ParseCloud.callFunction("getUserFriends", params);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 if(friendsResponse.isEmpty() == false) { //tenim un usuari
-                    ParseObject userFriendsParse = friendsResponse.iterator().next();
-                    String friendId = userFriendsParse.getString("Id_Usuario_2");
+
+                    for(int i = 0; i < friendsResponse.size(); i++) {
+                        ParseObject userFriendsParse = friendsResponse.iterator().next();
+                        String friendId = userFriendsParse.getString("Id_Usuario_2"); //id de l'amic
+
+                        //busquem els detalls de la amistat
+                        HashMap<String, Object> params2 = new HashMap<String, Object>();
+                        params2.put("userId", friendId);
+                    ////////////////////////////////
+                        List<ParseObject> userResponse = null; //crida al BE
+                        try {
+                            //busquem la amistat
+                            userResponse = ParseCloud.callFunction("getUserFromId", params2);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        ParseObject userParse = userResponse.get(0);
+                        String friendEmail = userParse.getString("Mail"); //email de l'amic
+                    ///////////////////////////////
+                        CheckBox cb = new CheckBox(getApplicationContext());
+                        cb.setText(friendEmail);
+                        ll.addView(cb); //AFEGIM A LA VISTA
+                    }
 
                 }else
                 {
                     Utils.showInfoAlert(getResources().getString(R.string.noFriendsAlert), NewTripForm.this);
                 }
-
-
-
-
-
-                CheckBox cb = new CheckBox(getApplicationContext());
-                cb.setText("I'm dynamic!");
-                ll.addView(cb); //AFEGIM A LA VISTA
                 ///////////////////////////
 
                 ////////BOTÓ OK/////////////
@@ -247,6 +256,7 @@ public class NewTripForm extends ActionBarActivity {
 
             }
         });
+        
 
         Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
         ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, paises);
