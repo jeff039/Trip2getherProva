@@ -9,6 +9,7 @@ import android.os.Bundle;
 import group.lis.uab.trip2gether.R;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.util.Log;
 import android.widget.Button;
@@ -19,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -50,28 +53,25 @@ public class NewSiteForm extends ActionBarActivity {
     public void setIdViaje(String idViaje) { this.idViaje = idViaje; }
     public String getIdViaje() { return idViaje; }
 
+    private Toolbar mToolbar;
+    private ListView leftDrawerList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_site_form);
         intentR = this.getIntent();
 
-        this.setSupportBar();
         this.initializeButtons();
         intentR = this.getIntent();
+
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_new_site);
+        setSupportActionBar(mToolbar);
+
         myUser = (User) intentR.getSerializableExtra("myUser");
 
-        setIdViaje(intentR.getStringExtra("id_viaje"));
-    }
+        setIdViaje(intentR.getExtras().getString("tripId"));
 
-    /**
-     * Method setSupportBar. Action Bar personalitzada
-     */
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action_cancel);
-        getSupportActionBar().setTitle("      Nuevo Sitio");
     }
 
     @Override
@@ -120,17 +120,9 @@ public class NewSiteForm extends ActionBarActivity {
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
 
-        Button maps = (Button)findViewById(R.id.maps);
-        maps.setOnClickListener(clickMaps);
 
     }
 
-    public Button.OnClickListener clickMaps = new Button.OnClickListener() {
-        public void onClick(View v) {
-            Intent i = new Intent(NewSiteForm.this, SiteMapsActivity.class);
-            startActivity(i);
-        }
-    };
 
     public Button.OnClickListener clickGallery = new Button.OnClickListener() {
         public void onClick(View v) {
@@ -178,6 +170,8 @@ public class NewSiteForm extends ActionBarActivity {
                 intent.putExtra("duracion", nuevoSitio.getDuracion());
                 intent.putExtra("precio", nuevoSitio.getPrecio());
                 intent.putExtra("id_viaje", nuevoSitio.getIdViaje());
+                intent.putExtra("latitud", nuevoSitio.getLatitud());
+                intent.putExtra("longitud", nuevoSitio.getLongitud());
 
                 try {
                     GuardarSitioBDD(nuevoSitio);
@@ -214,7 +208,11 @@ public class NewSiteForm extends ActionBarActivity {
 
         ParseFile imagen = getFile();
 
-        return new Site(nombre, descripcion, imagen, getIdViaje(), "", duracion, precio, 333, 333);
+        Double latitud = intentR.getExtras().getDouble("latitude");
+        Double longitud =intentR.getExtras().getDouble("longitude");
+
+
+        return new Site(nombre, descripcion, imagen, getIdViaje(), "", duracion, precio, latitud, longitud);
     }
 
     public boolean GuardarSitioBDD(Site nuevoSitio) throws ParseException{
@@ -226,6 +224,9 @@ public class NewSiteForm extends ActionBarActivity {
         params.put("precio", nuevoSitio.getPrecio());
         params.put("idViaje", nuevoSitio.getIdViaje());
         params.put("imagen", nuevoSitio.getImagen());
+        params.put("latitud", nuevoSitio.getLatitud());
+        params.put("longitud", nuevoSitio.getLongitud());
+
 
         String addSiteResponse = ParseCloud.callFunction("addSite", params);
         if(!addSiteResponse.isEmpty())

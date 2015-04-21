@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Relative layout ens permet de superposar elements -->
-<!-- MENÚ LATERAL -->
+<!-- DRAWER NAVIGATION -->
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -18,22 +17,25 @@
         tools:context="group.lis.uab.trip2gether.controller.SiteList"
         tools:ignore="MergeRootFrame">
 
+        <include android:id="@+id/action_bar_site_list"
+            layout="@layout/action_bar_site_list"></include>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="56dp"
             android:id="@+id/listaSitios"/>
 
      </FrameLayout>
-
-        <!-- CONTINGUT DE LA DRAWER LAYOUT -->
-        <ListView android:id="@+id/left_drawer"
-            android:layout_width="240dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:background="#ffffff"/>
+    <!-- CONTENT DRAWER -->
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:background="#ffffff"/>
 
 
 </android.support.v4.widget.DrawerLayout>

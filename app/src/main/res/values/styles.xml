@@ -1,15 +1,26 @@
 <resources>
-    <color name="primary">#373658</color>
-    <color name="primary_dark">#2A2946</color>
+    <color name="primary">#4B4A68</color>
+    <color name="primary_dark">#373658</color>
     <color name="accent">#ffc400</color>
-    <color name="text_primary">#D9FFFFFF</color>
-    <color name="text_secondary">#D9000000</color>
+    <color name="text_primary">#fff</color>
+    <color name="text_secondary">#fff</color>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- statusBar and actionBar color -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
         <!-- The rest of your attributes -->
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_dark</item>
     </style>
 
     <!-- Theme for Spinner -->

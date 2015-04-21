@@ -4,6 +4,9 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+    <include android:id="@+id/action_bar_site_view"
+        layout="@layout/action_bar_site_view"></include>
+
     <LinearLayout
         android:id="@+id/linear_layout_name"
         android:layout_width="wrap_content"

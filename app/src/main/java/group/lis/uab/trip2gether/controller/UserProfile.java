@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 
 import group.lis.uab.trip2gether.R;
@@ -32,14 +34,20 @@ import group.lis.uab.trip2gether.model.User;
 public class UserProfile extends ActionBarActivity {
 
     private User myUser;
-
+    //
+    private Toolbar mToolbar;
+    private ListView leftDrawerList;
+    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
-        this.setSupportBar();
+        //
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_user_profile);
+        setSupportActionBar(mToolbar);
+        //
         this.initializeDrawerLayout();
         this.initializeButtons();
         this.initializeUserData();
@@ -62,11 +70,19 @@ public class UserProfile extends ActionBarActivity {
 
     }
 
+    /**
+     * Method initializeButtons. Button Open Drawer
+     */
     public void initializeButtons(){
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
+        Button addFriend = (Button) findViewById(R.id.addFriend);
+        addFriend.setOnClickListener(clickAddFriend);
     }
 
+    /**
+     * Method Button.OnClickListener. clickDrawer
+     */
     public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
         public void onClick(View v) {
             DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -80,42 +96,55 @@ public class UserProfile extends ActionBarActivity {
         }
     };
 
+    public Button.OnClickListener clickAddFriend = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent addFriendIntent = new Intent(UserProfile.this, AddFriend.class);
+            addFriendIntent.putExtra("myUser", myUser);
+            startActivity(addFriendIntent);
+        }
+    };
+
     /**
      * Method initializeDrawerLayout. Drawer layout
      */
     public void initializeDrawerLayout(){
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //no cal fer un adaptador a la mDrawer,
-        //ja est� configurat en la situaci� dels elements al xml
+        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
+        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
+        leftDrawerList.addHeaderView(list_header);
+
         ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        //per� s� en la ListView:
-        //agafem les opcions de "strings"
         String [] options = getResources().getStringArray(R.array.options_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, options));
-        //simple_list_itm_1, �s un layout "prefabricat" que ve amb la API,
-        //consistent en un  layout amb un text simple que requereix el ArrayAdapter
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, options));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-    private class DrawerItemClickListener implements
-            ListView.OnItemClickListener {
+    /**
+     * Method DrawerItemClickListener
+     */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
             switch (position){
                 case 0:	openMyProfile();
                     break;
+                case 1:	openMyProfile();
+                    break;
             }
         }
     }
 
+    /**
+     * Method openMyProfile
+     */
     public void openMyProfile() {
         Intent userProfile = new Intent(this, UserProfile.class);
         userProfile.putExtra("myUser", myUser);
         startActivity(userProfile);
 
     }
+
+
 
     /**
      * Method onCreateOptionsMenu. Barra superior
@@ -151,18 +180,6 @@ public class UserProfile extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    /**
-     * Method setSupportBar. Action Bar personalitzada
-     */
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_user_profile);
-        getSupportActionBar().setTitle("      Edit User Profile");
     }
 
 }

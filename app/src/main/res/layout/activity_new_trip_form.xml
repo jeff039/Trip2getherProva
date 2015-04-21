@@ -1,7 +1,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:fillViewport="true"
     android:background="#eee">
     <RelativeLayout
@@ -10,9 +10,16 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp"
         tools:context=".NewTrip">
 
+        <include android:id="@+id/action_bar_new_trip"
+            layout="@layout/action_bar_new_trip"></include>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="30dp">
         <LinearLayout
             android:id="@+id/linearLayoutNombre"
             android:layout_width="fill_parent"
@@ -25,6 +32,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="56dp"
                 android:hint="@string/nombre"
                 android:padding="10dp"
                 android:singleLine="true"
@@ -177,6 +185,11 @@
                 android:layout_margin="10dp"
                 android:textSize="18sp"/>
 
+            <ImageView
+                android:id="@+id/imageTrip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
             <LinearLayout
                 android:id="@+id/linearLayoutExtraFuncions"
                 android:layout_width="wrap_content"
@@ -218,6 +231,6 @@
                 android:gravity="center"
                 android:textSize="16sp" />
         </LinearLayout>
-
+        </LinearLayout>
     </RelativeLayout>
 </ScrollView>

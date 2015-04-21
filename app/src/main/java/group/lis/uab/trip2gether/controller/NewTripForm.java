@@ -1,5 +1,6 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -29,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.support.v7.widget.Toolbar;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
@@ -61,6 +63,7 @@ public class NewTripForm extends ActionBarActivity {
     private static Intent intentR = null;
     private User myUser;
     private ParseFile file;
+    private Toolbar mToolbar;
 
     public ParseFile getFile() {
         return file;
@@ -81,7 +84,10 @@ public class NewTripForm extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip_form);
-        this.setSupportBar();
+
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_new_trip);
+        setSupportActionBar(mToolbar);
+
         this.initializeButtons();
         this.setDateTimeFieldIni();
         this.setDateTimeFieldFin();
@@ -127,16 +133,6 @@ public class NewTripForm extends ActionBarActivity {
             default: Ciudades.setAdapter(arrayAdapterDefault);
                 break;
         }
-    }
-
-    /**
-     * Method setSupportBar. Action Bar personalitzada
-     */
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action_cancel);
-        getSupportActionBar().setTitle("      Nuevo Viaje");
     }
 
     @Override
@@ -277,6 +273,17 @@ public class NewTripForm extends ActionBarActivity {
     public Button.OnClickListener clickMaps = new Button.OnClickListener() {
         public void onClick(View v) {
             Intent i = new Intent(NewTripForm.this, SiteMapsActivity.class);
+            startActivity(i);
+        }
+    };
+
+    /**
+     * Method ImageButton.OnClickListener doBackActivity
+     */
+    public ImageButton.OnClickListener doBackActivity = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(NewTripForm.this, TripList.class);
+            i.putExtra("myUser", myUser);
             startActivity(i);
         }
     };

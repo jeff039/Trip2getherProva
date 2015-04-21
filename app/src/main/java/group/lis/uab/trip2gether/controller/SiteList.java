@@ -28,6 +28,8 @@ import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.Site;
 
+import android.support.v7.widget.Toolbar;
+
 //Implementar bé els métodes de la classe DrawerItemClickListener;
 //import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 
@@ -37,22 +39,16 @@ import group.lis.uab.trip2gether.model.Site;
 public class SiteList  extends ActionBarActivity {
 
     private static Intent intent = null;
-
     String[]sitesList = new String[] {};
-
     private ArrayList<Site> sites = new ArrayList<Site>();
-
     protected  ListView lista;
-
     private static Context context = null;
-
     String idViaje = "";
-
     String nombreViaje = "";
-
     private ArrayList<Site> sitios = new ArrayList<Site>();
-
     private ArrayList<String> sitiosNombres = new ArrayList<String>();
+    private Toolbar mToolbar;
+    private ListView leftDrawerList;
 
     /**
      * Method onCreate
@@ -67,7 +63,9 @@ public class SiteList  extends ActionBarActivity {
         this.idViaje = intent.getStringExtra("id_viaje");
         this.nombreViaje = intent.getStringExtra("nombre_viaje");
 
-        this.setSupportBar();
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_site_list);
+        setSupportActionBar(mToolbar);
+
         this.initializeDrawerLayout();
         this.initializeButtons();
 
@@ -107,7 +105,8 @@ public class SiteList  extends ActionBarActivity {
         for(int i=0;i<idsSitio.size();i++){
             ParseObject idSitio = idsSitio.get(i);
             Site sitio = new Site(idSitio.getString("Nombre"), idSitio.getString("Descripcion"),
-                    idSitio.getParseFile("Imagen"), "", idSitio.getObjectId(), idSitio.getInt("Duracion"), idSitio.getInt("Precio"), 222, 222);
+                    idSitio.getParseFile("Imagen"), "", idSitio.getObjectId(), idSitio.getDouble("Duracion"),
+                    idSitio.getDouble("Precio"), idSitio.getDouble("Latitud"), idSitio.getDouble("Longitud"));
             this.sitios.add(sitio);
             this.sitiosNombres.add(sitio.getNombre());
         }
@@ -152,6 +151,10 @@ public class SiteList  extends ActionBarActivity {
      * Method initializeDrawerLayout. Drawer layout
      */
     public void initializeDrawerLayout(){
+        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
+        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
+        leftDrawerList.addHeaderView(list_header);
+
         ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
         String [] options = getResources().getStringArray(R.array.options_array);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
@@ -187,18 +190,14 @@ public class SiteList  extends ActionBarActivity {
             //Bundle trip = getIntent().getExtras();
             //String tripId = trip.getString("tripId");
 
-            //HARDCODED
-            //PROVISIONAL (TESTBARCELONA)
-            //TODO change tipId with this line.
             String tripId = this.idViaje;
-            //String tripId = "36IJhdT4rp";
 
             Intent newSite = new Intent(this, NewSiteForm.class);
             newSite.putExtra("id_viaje", this.idViaje);
             startActivity(newSite);
 
 
-            /*try {
+            try {
                 ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");
                 tripCoordQuery.whereEqualTo("objectId", tripId);
                 String cityId = tripCoordQuery.getFirst().getString("Id_Ciudad");
@@ -217,7 +216,7 @@ public class SiteList  extends ActionBarActivity {
                 startActivity(siteMaps);
             } catch (ParseException e) {
                 e.printStackTrace();
-            }*/
+            }
         }
 
         if(id == R.id.mapRoute) {
@@ -225,11 +224,7 @@ public class SiteList  extends ActionBarActivity {
             //Bundle trip = getIntent().getExtras();
             //String tripId = trip.getString("tripId");
 
-            //HARDCODED
-            //PROVISIONAL (TESTBARCELONA)
-            //TODO change tipId with this line.
             String tripId = this.idViaje;
-            //String tripId = "36IJhdT4rp";
 
             ParseQuery<ParseObject> siteCoordQuery = ParseQuery.getQuery("Sitio");
             siteCoordQuery.whereEqualTo("Id_Viaje", tripId);
@@ -278,16 +273,5 @@ public class SiteList  extends ActionBarActivity {
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Method setSupportBar. Action Bar personalitzada
-     */
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_site_list);
     }
 }

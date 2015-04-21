@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="4dp"
-    android:background="#4B4A68">
+    android:layout_gravity="center"
+    android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/openDrawer"
@@ -17,9 +16,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text= "@string/title_activity_site_list"
+        android:layout_gravity="center"
+        android:text= "@string/title_activity_add_friend"
         android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp" />
-
-</android.support.v7.widget.Toolbar>
+        android:layout_marginLeft="100px"
+        android:textSize="24sp" />
+</LinearLayout>
