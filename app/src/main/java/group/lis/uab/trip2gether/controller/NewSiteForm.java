@@ -120,17 +120,9 @@ public class NewSiteForm extends ActionBarActivity {
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
 
-        Button maps = (Button)findViewById(R.id.maps);
-        maps.setOnClickListener(clickMaps);
 
     }
 
-    public Button.OnClickListener clickMaps = new Button.OnClickListener() {
-        public void onClick(View v) {
-            Intent i = new Intent(NewSiteForm.this, SiteMapsActivity.class);
-            startActivity(i);
-        }
-    };
 
     public Button.OnClickListener clickGallery = new Button.OnClickListener() {
         public void onClick(View v) {
