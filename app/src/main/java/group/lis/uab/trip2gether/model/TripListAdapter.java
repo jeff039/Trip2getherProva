@@ -92,7 +92,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             holder.imageView.setBackgroundResource(R.drawable.background2);
 
         }
-        holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_black);
+        holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_white);
         holder.txtTitle.setText(trips.get(position).getNombre());
 
         holder.imgEditIcon.setOnClickListener(new View.OnClickListener() {

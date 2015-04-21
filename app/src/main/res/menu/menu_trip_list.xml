@@ -3,13 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="group.lis.uab.trip2gether.controller.TripList">
 
-    <item
-        android:id="@+id/goToEditTrip"
-        android:icon="@drawable/ic_mode_edit_white_18dp"
-        android:title="goToEditTrip"
-        app:showAsAction="ifRoom"
-        android:layout_height= "match_parent"/>
-
     <item android:id="@+id/addTrip"
         android:icon="@drawable/ic_add_white_24dp"
         android:title="@string/addTitle"
