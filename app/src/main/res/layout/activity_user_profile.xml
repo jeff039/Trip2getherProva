@@ -106,7 +106,7 @@
             android:layout_below="@+id/linear_layout_country">
 
             <Button
-                android:id="@+id/sendRegister"
+                android:id="@+id/addFriend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Agregar Amigo"

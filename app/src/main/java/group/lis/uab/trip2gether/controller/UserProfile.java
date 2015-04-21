@@ -76,6 +76,8 @@ public class UserProfile extends ActionBarActivity {
     public void initializeButtons(){
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
+        Button addFriend = (Button) findViewById(R.id.addFriend);
+        addFriend.setOnClickListener(clickAddFriend);
     }
 
     /**
@@ -91,6 +93,14 @@ public class UserProfile extends ActionBarActivity {
             {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
+        }
+    };
+
+    public Button.OnClickListener clickAddFriend = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent addFriendIntent = new Intent(UserProfile.this, AddFriend.class);
+            addFriendIntent.putExtra("myUser", myUser);
+            startActivity(addFriendIntent);
         }
     };
 

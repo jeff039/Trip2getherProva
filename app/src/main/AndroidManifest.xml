@@ -90,6 +90,11 @@
             android:name=".controller.SiteView"
             android:label="" >
         </activity>
+        <activity
+            android:name=".controller.AddFriend"
+            android:label="Add Friend">
+        </activity>
+
     </application>
 
 </manifest>
