@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import group.lis.uab.trip2gether.R;
-import group.lis.uab.trip2gether.model.Encrypt;
+import group.lis.uab.trip2gether.Resources.Encrypt;
 import group.lis.uab.trip2gether.model.User;
 
 /**
