@@ -39,23 +39,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.TripList" >
+        <activity
+            android:name=".controller.TripList"
+            android:label="">
         </activity>
         <activity
             android:name=".controller.NewTripForm"
-            android:label="@string/title_activity_new_trip" >
+            android:label="" >
         </activity>
         <activity
             android:name=".controller.EditTripForm"
-            android:label="@string/title_activity_edit_trip" >
+            android:label="" >
         </activity>
         <activity
             android:name=".controller.RegisterForm"
-            android:label="@string/title_activity_register_form" >
+            android:label="" >
         </activity>
         <activity
             android:name=".controller.EditUserForm"
-            android:label="@string/title_activity_register_form" >
+            android:label="" >
         </activity>
 
         <meta-data
@@ -69,11 +71,12 @@
             android:name=".controller.SiteMapsActivity"
             android:label="@string/title_activity_site_maps" >
         </activity>
-        <activity android:name=".controller.SiteList" >
+        <activity android:name=".controller.SiteList"
+            android:label="">
         </activity>
         <activity
             android:name=".controller.NewSiteForm"
-            android:label="new_site_form" >
+            android:label="" >
         </activity>
         <activity
             android:name=".controller.Friends"
@@ -81,11 +84,11 @@
         </activity>
         <activity
             android:name=".controller.UserProfile"
-            android:label="User" >
+            android:label="" >
         </activity>
         <activity
             android:name=".controller.SiteView"
-            android:label="User" >
+            android:label="" >
         </activity>
     </application>
 

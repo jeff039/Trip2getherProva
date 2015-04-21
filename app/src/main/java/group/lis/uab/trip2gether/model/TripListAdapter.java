@@ -89,7 +89,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             //holder.imgIcon.setBackgroundResource(R.drawable.background);
             holder.imageView.setImageBitmap(bitmap);
         }else{
-            holder.imageView.setBackgroundResource(R.drawable.background);
+            holder.imageView.setBackgroundResource(R.drawable.background2);
 
         }
         holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_black);

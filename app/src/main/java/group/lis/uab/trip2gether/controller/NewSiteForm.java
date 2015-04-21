@@ -9,6 +9,7 @@ import android.os.Bundle;
 import group.lis.uab.trip2gether.R;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.util.Log;
 import android.widget.Button;
@@ -19,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -50,31 +53,25 @@ public class NewSiteForm extends ActionBarActivity {
     public void setIdViaje(String idViaje) { this.idViaje = idViaje; }
     public String getIdViaje() { return idViaje; }
 
+    private Toolbar mToolbar;
+    private ListView leftDrawerList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_site_form);
         intentR = this.getIntent();
 
-        this.setSupportBar();
         this.initializeButtons();
         intentR = this.getIntent();
+
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_new_site);
+        setSupportActionBar(mToolbar);
+
         myUser = (User) intentR.getSerializableExtra("myUser");
 
         setIdViaje(intentR.getExtras().getString("tripId"));
 
-    }
-
-
-
-    /**
-     * Method setSupportBar. Action Bar personalitzada
-     */
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action_cancel);
-        getSupportActionBar().setTitle("      Nuevo Sitio");
     }
 
     @Override

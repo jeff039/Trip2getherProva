@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,20 +34,15 @@ import group.lis.uab.trip2gether.model.User;
 public class TripList extends ActionBarActivity {
 
     protected Cursor cursor;
-
     protected ListAdapter adapter;
-
     protected ListView lista;
-
     private static Context context = null;
-
     private static Intent intent = null;
-
     private User myUser;
-
     private ArrayList<Trip> trips = new ArrayList<Trip>();
-
     private ArrayList<String> tripsNoms = new ArrayList<String>();
+    private Toolbar mToolbar;
+    private ListView leftDrawerList;
 
     private TripList data[] = null;
 
@@ -61,7 +57,9 @@ public class TripList extends ActionBarActivity {
         context = this;
         intent = this.getIntent();
 
-        this.setSupportBar();
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_trip_list);
+        setSupportActionBar(mToolbar);
+
         this.initializeDrawerLayout();
         this.initializeButtons();
         myUser = (User) intent.getSerializableExtra("myUser");
@@ -169,10 +167,12 @@ public class TripList extends ActionBarActivity {
      * Method initializeDrawerLayout. Drawer layout
      */
     public void initializeDrawerLayout(){
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
+        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
+        leftDrawerList.addHeaderView(list_header);
         String [] options = getResources().getStringArray(R.array.options_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        leftDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
+        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     /**
@@ -190,6 +190,8 @@ public class TripList extends ActionBarActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (position){
                 case 0:	openMyProfile();
+                    break;
+                case 1: openMyProfile();
                     break;
             }
         }
@@ -247,16 +249,5 @@ public class TripList extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    /**
-     * Method setSupportBar. Action Bar personalitzada
-     */
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_trip_list);
     }
 }

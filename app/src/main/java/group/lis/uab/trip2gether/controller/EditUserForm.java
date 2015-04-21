@@ -2,7 +2,11 @@ package group.lis.uab.trip2gether.controller;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -29,6 +33,7 @@ import java.util.List;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Encrypt;
 import group.lis.uab.trip2gether.model.User;
+import android.support.v7.widget.Toolbar;
 
 /**
  * Created by Jofré on 02/04/2015.
@@ -38,6 +43,7 @@ public class EditUserForm extends ActionBarActivity {
     private EditText pickDate;
     private DatePickerDialog pickDateDialog;
     private SimpleDateFormat dateFormatter;
+    private Toolbar mToolbar;
 
     User myUser;
 
@@ -48,6 +54,10 @@ public class EditUserForm extends ActionBarActivity {
         setContentView(R.layout.activity_edit_user_form);
         this.initializeButtons();
         this.setDateTimeField();
+
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_edit_user);
+        setSupportActionBar(mToolbar);
+
         Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
         this.initializeUserData();

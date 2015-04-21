@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +44,8 @@ public class SiteView  extends ActionBarActivity {
     MarkerOptions marker;
     private double latitude;
     private double longitude;
+    private Toolbar mToolbar;
+    private ListView leftDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,10 @@ public class SiteView  extends ActionBarActivity {
         setContentView(R.layout.activity_site_view);
         Intent intent = getIntent();
         currentSite = (Site) intent.getSerializableExtra("currentSite"); //serialització de l'objecte
-        this.setSupportBar();
+
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_site_view);
+        setSupportActionBar(mToolbar);
+
         //this.initializeDrawerLayout();
         this.initializeButtons();
         try {
@@ -113,18 +119,10 @@ public class SiteView  extends ActionBarActivity {
      * Method initializeDrawerLayout. Drawer layout
      */
     public void initializeDrawerLayout(){
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //no cal fer un adaptador a la mDrawer,
-        //ja est� configurat en la situaci� dels elements al xml
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        //per� s� en la ListView:
-        //agafem les opcions de "strings"
+        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
+        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
+        leftDrawerList.addHeaderView(list_header);
         String [] options = getResources().getStringArray(R.array.options_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, options));
-        //simple_list_itm_1, �s un layout "prefabricat" que ve amb la API,
-        //consistent en un  layout amb un text simple que requereix el ArrayAdapter
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     private class DrawerItemClickListener implements

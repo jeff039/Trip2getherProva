@@ -31,6 +31,7 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import android.support.v7.widget.Toolbar;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -78,11 +79,15 @@ public class EditTripForm extends ActionBarActivity {
         this.file = file;
     }
 
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_trip_form);
-        setSupportBar();
+
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_edit_trip);
+        setSupportActionBar(mToolbar);
 
         Intent intent = getIntent();
         setMyUser((User) intent.getSerializableExtra("myUser"));
@@ -91,17 +96,6 @@ public class EditTripForm extends ActionBarActivity {
         this.setDateTimeFieldIni();
         this.setDateTimeFieldFin();
         this.initializeTripData();
-    }
-
-    /**
-     * Method setSupportBar. Action Bar personalitzada
-     */
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_edit_trip);
-
     }
 
     @Override

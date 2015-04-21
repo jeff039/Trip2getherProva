@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.support.v7.widget.Toolbar;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
@@ -54,6 +55,7 @@ public class NewTripForm extends ActionBarActivity {
     private static Intent intentR = null;
     private User myUser;
     private ParseFile file;
+    private Toolbar mToolbar;
 
     public ParseFile getFile() {
         return file;
@@ -74,7 +76,10 @@ public class NewTripForm extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip_form);
-        this.setSupportBar();
+
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_new_trip);
+        setSupportActionBar(mToolbar);
+
         this.initializeButtons();
         this.setDateTimeFieldIni();
         this.setDateTimeFieldFin();
@@ -120,16 +125,6 @@ public class NewTripForm extends ActionBarActivity {
             default: Ciudades.setAdapter(arrayAdapterDefault);
                 break;
         }
-    }
-
-    /**
-     * Method setSupportBar. Action Bar personalitzada
-     */
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_new_trip);
     }
 
     @Override

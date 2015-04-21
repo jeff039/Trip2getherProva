@@ -5,11 +5,18 @@
     android:layout_height="fill_parent"
     android:fillViewport="true"
     android:background="#eee">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/action_bar_register_form"
+            layout="@layout/action_bar_register_form"></include>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
         android:padding="30dp"
         android:id="@+id/linearLayout">
 
@@ -130,4 +137,5 @@
             android:textSize="18sp" />
 
     </LinearLayout>
+    </FrameLayout>
 </ScrollView>

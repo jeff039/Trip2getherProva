@@ -4,20 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="4dp"
-    android:background="#4B4A68">
+    android:background="#4B4A68"
+    android:gravity="top"
+    android:orientation="horizontal">
 
     <ImageButton
-        android:id="@+id/openDrawer"
+        android:id="@+id/backActvity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_menu_white_18dp"
+        android:src="@drawable/ic_clear_white_18dp"
         android:layout_gravity="center_vertical"
         android:background="@android:color/transparent"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text= "@string/title_activity_site_list"
+        android:text="@string/title_activity_register_form"
         android:textColor="#ffffff"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp" />
