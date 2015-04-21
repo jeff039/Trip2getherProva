@@ -9,6 +9,7 @@
     <string name="title_activity_site_list">Sitios</string>
     <string name="title_activity_register_form">Registro</string>
     <string name="title_activity_user_profile">Perfil</string>
+    <string name="title_activity_add_friend">Add Friend</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_new_trip">Nuevo Viaje</string>
     <string name="userHint">Username</string>
@@ -41,6 +42,7 @@
     <string name="duracionMin">Duracion (minutos)</string>
     <string name="moneda">€</string>
     <string name="minutos">minutos</string>
+    <string name="mailFriend">Mail amistad</string>
 
     <string-array name="arrayPaises">
         <item>Spain</item>
@@ -110,7 +112,8 @@
     <string name="anyLocation">You have not selected any location!</string>
     <string name="title_activity_friends">Amigos</string>
     <string name="action_settings">Settings</string>
-    <string name="addFriend">AddFriend</string>
+    <string name="addFriend">Add Friend</string>
     <string name="title_activity_test">test</string>
+    <string name="noFriendsAlert">You have no friends to invite!</string>
 
 </resources>

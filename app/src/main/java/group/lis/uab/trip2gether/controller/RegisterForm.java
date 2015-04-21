@@ -18,19 +18,14 @@ import android.app.ActionBar;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Formatter;
 import java.util.HashMap;
-import java.util.Locale;
 
 import group.lis.uab.trip2gether.R;
-import group.lis.uab.trip2gether.model.Encrypt;
+import group.lis.uab.trip2gether.Resources.Encrypt;
 
 /**
  * Created by Jofré on 18/03/2015.

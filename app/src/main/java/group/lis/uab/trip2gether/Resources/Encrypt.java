@@ -1,4 +1,4 @@
-package group.lis.uab.trip2gether.model;
+package group.lis.uab.trip2gether.Resources;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -14,30 +14,38 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.support.v7.widget.Toolbar;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.Trip;
 import group.lis.uab.trip2gether.model.User;
 
@@ -173,15 +181,70 @@ public class NewTripForm extends ActionBarActivity {
         Button maps = (Button)findViewById(R.id.maps);
         maps.setOnClickListener(clickMaps);
 
-        ImageButton backActivity = (ImageButton)findViewById(R.id.backActvity);
-        backActivity.setOnClickListener(doBackActivity);
-
-        ImageButton imageButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        final ImageButton addFriendButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
+        addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewTripForm.this, Friends.class);
-                startActivity(intent);
+                //POPUP add friend
+                LayoutInflater layoutInflater
+                        = (LayoutInflater)getBaseContext()
+                        .getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = layoutInflater.inflate(R.layout.add_friends_popup, null);
+                final PopupWindow popupWindow = new PopupWindow(
+                        popupView,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                ////Contingut de la vista DINÀMIC segons els amics///////
+                //agafem de la popup view perquè encara no ha estat carregada
+                final LinearLayout ll = (LinearLayout) popupView.findViewById(R.id.linearPopUp);
+
+                ///bucle CheckBox amb amistats////
+                String userId = myUser.getObjectId();
+
+                //TODO: acabar bucle amistats i fer que es crei el grup amb les seleccionades
+
+
+
+
+                HashMap<String, Object> params = new HashMap<String, Object>();
+                params.put("user", userId);
+
+                List<ParseObject> friendsResponse = null; //crida al BE
+                try {
+                    friendsResponse = ParseCloud.callFunction("getUserFriends", params);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if(friendsResponse.isEmpty() == false) { //tenim un usuari
+                    ParseObject userFriendsParse = friendsResponse.iterator().next();
+                    String friendId = userFriendsParse.getString("Id_Usuario_2");
+
+                }else
+                {
+                    Utils.showInfoAlert(getResources().getString(R.string.noFriendsAlert), NewTripForm.this);
+                }
+
+
+
+
+
+                CheckBox cb = new CheckBox(getApplicationContext());
+                cb.setText("I'm dynamic!");
+                ll.addView(cb); //AFEGIM A LA VISTA
+                ///////////////////////////
+
+                ////////BOTÓ OK/////////////
+                Button btnOK = (Button)popupView.findViewById(R.id.okFriends);
+                btnOK.setOnClickListener(new Button.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        popupWindow.dismiss(); //tanquem el popup
+                    }});
+                ////////////////////////////////
+                popupWindow.showAsDropDown(addFriendButton, 50, -30);
+
             }
         });
 

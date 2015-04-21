@@ -33,31 +33,33 @@
             android:name=".controller.MainLaunchLogin"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
-            <intent-filter>
+
+
+           <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".controller.TripList"
-            android:label="">
-        </activity>
+        <activity android:name=".controller.TripList" >
+       </activity>
         <activity
             android:name=".controller.NewTripForm"
-            android:label="" >
+            android:windowSoftInputMode="stateHidden"
+            android:label="@string/title_activity_new_trip" >
         </activity>
         <activity
             android:name=".controller.EditTripForm"
-            android:label="" >
+            android:windowSoftInputMode="stateHidden"
+            android:label="@string/title_activity_edit_trip" >
         </activity>
         <activity
             android:name=".controller.RegisterForm"
-            android:label="" >
+            android:label="@string/title_activity_register_form" >
         </activity>
         <activity
             android:name=".controller.EditUserForm"
-            android:label="" >
+            android:label="@string/title_activity_register_form" >
         </activity>
 
         <meta-data
@@ -71,24 +73,27 @@
             android:name=".controller.SiteMapsActivity"
             android:label="@string/title_activity_site_maps" >
         </activity>
-        <activity android:name=".controller.SiteList"
-            android:label="">
+        <activity android:name=".controller.SiteList" >
         </activity>
         <activity
             android:name=".controller.NewSiteForm"
+<<<<<<< HEAD
             android:label="" >
         </activity>
         <activity
             android:name=".controller.Friends"
             android:label="" >
+=======
+            android:label="new_site_form" >
+>>>>>>> origin/master
         </activity>
         <activity
             android:name=".controller.UserProfile"
-            android:label="" >
+            android:label="User" >
         </activity>
         <activity
             android:name=".controller.SiteView"
-            android:label="" >
+            android:label="User" >
         </activity>
     </application>
 

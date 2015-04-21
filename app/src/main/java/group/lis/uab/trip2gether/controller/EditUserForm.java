@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseCloud;
@@ -28,10 +27,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import group.lis.uab.trip2gether.R;
-import group.lis.uab.trip2gether.model.Encrypt;
+import group.lis.uab.trip2gether.Resources.Encrypt;
 import group.lis.uab.trip2gether.model.User;
 import android.support.v7.widget.Toolbar;
 
