@@ -1,11 +1,8 @@
 package group.lis.uab.trip2gether.controller;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,19 +11,13 @@ import android.widget.EditText;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import group.lis.uab.trip2gether.R;
-import group.lis.uab.trip2gether.model.Encrypt;
+import group.lis.uab.trip2gether.Resources.Utils;
+import group.lis.uab.trip2gether.Resources.Encrypt;
 import group.lis.uab.trip2gether.model.User;
 
 public class MainLaunchLogin extends ActionBarActivity {
@@ -61,7 +52,7 @@ public class MainLaunchLogin extends ActionBarActivity {
                     tripList.putExtra("myUser", myUser);
                     startActivity(tripList);
                 }else{
-                    MainLaunchLogin.this.showInfoAlert(getResources().getString(R.string.loginErr));
+                    Utils.showInfoAlert(getResources().getString(R.string.loginErr), MainLaunchLogin.this);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -133,27 +124,8 @@ public class MainLaunchLogin extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Auxiliars
-     * @param string
-     */
-    public void showInfoAlert(String string)
-    {
-        String alertString = string; //missatge de alerta
-        //Enviem el missatge dient que 's'ha inserit correctament
-        new AlertDialog.Builder(MainLaunchLogin.this) //ens trobem en una funció de un botó, especifiquem la classe (no this)
-                //.setTitle("DB")
-                .setMessage(alertString)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //no fem res
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .show();
-    }
+
 }

@@ -33,20 +33,24 @@
             android:name=".controller.MainLaunchLogin"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
-            <intent-filter>
+
+
+           <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".controller.TripList" >
-        </activity>
+       </activity>
         <activity
             android:name=".controller.NewTripForm"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_new_trip" >
         </activity>
         <activity
             android:name=".controller.EditTripForm"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_edit_trip" >
         </activity>
         <activity
@@ -74,10 +78,6 @@
         <activity
             android:name=".controller.NewSiteForm"
             android:label="new_site_form" >
-        </activity>
-        <activity
-            android:name=".controller.Friends"
-            android:label="@string/title_activity_friends" >
         </activity>
         <activity
             android:name=".controller.UserProfile"

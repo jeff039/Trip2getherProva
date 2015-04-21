@@ -234,8 +234,9 @@ public class EditTripForm extends ActionBarActivity {
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(EditTripForm.this, Friends.class);
-                    startActivity(intent);
+                   // Intent intent = new Intent(EditTripForm.this, Friends.class);
+                    //startActivity(intent);
+
                 }
             });
 
