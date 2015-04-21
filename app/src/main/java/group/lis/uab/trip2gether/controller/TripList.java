@@ -1,11 +1,8 @@
 package group.lis.uab.trip2gether.controller;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -23,7 +20,6 @@ import android.widget.ListView;
 import com.parse.ParseCloud;
 import com.parse.ParseObject;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
@@ -36,14 +32,15 @@ public class TripList extends ActionBarActivity {
     protected Cursor cursor;
     protected ListAdapter adapter;
     protected ListView lista;
-    private static Context context = null;
-    private static Intent intent = null;
+
+    private static Context context;
+    private static Intent intent;
+
     private User myUser;
     private ArrayList<Trip> trips = new ArrayList<Trip>();
     private ArrayList<String> tripsNoms = new ArrayList<String>();
     private Toolbar mToolbar;
     private ListView leftDrawerList;
-
     private TripList data[] = null;
 
     /**
@@ -153,13 +150,13 @@ public class TripList extends ActionBarActivity {
      */
     public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
         public void onClick(View v) {
-            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-            else {
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
-            }
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+        }
+        else {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        }
         }
     };
 

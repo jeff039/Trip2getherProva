@@ -1,10 +1,10 @@
 package group.lis.uab.trip2gether.controller;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBar;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,21 +12,20 @@ import group.lis.uab.trip2gether.R;
 
 public class Friends extends ActionBarActivity {
 
+    private static Context context;
+    private static Intent intent;
+
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-        this.setSupportBar();
-    }
+        context = this;
+        intent = this.getIntent();
 
-    /**
-     * Method setSupportBar. Action Bar personalitzada
-     */
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_action);
-        getSupportActionBar().setTitle("      Amigos");
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_friends);
+        setSupportActionBar(mToolbar);
     }
 
     @Override

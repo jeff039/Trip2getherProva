@@ -80,7 +80,7 @@
         </activity>
         <activity
             android:name=".controller.Friends"
-            android:label="@string/title_activity_friends" >
+            android:label="" >
         </activity>
         <activity
             android:name=".controller.UserProfile"

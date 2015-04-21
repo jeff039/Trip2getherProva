@@ -17,16 +17,24 @@
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:gravity="center"
         android:layout_gravity="center_vertical"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:textColor="#FFFFFF"/>
 
     <ImageView
         android:id="@+id/imgEditIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="250dp"/>
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="260dp"/>
+
+    <ImageView
+        android:id="@+id/imgFriendsIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"/>
 
 </RelativeLayout >

@@ -5,27 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import com.parse.ParseFile;
-
 import java.util.ArrayList;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.controller.EditTripForm;
+import group.lis.uab.trip2gether.controller.Friends;
 
 public class TripListAdapter extends ArrayAdapter<Trip> {
 
     private Context context;
-
     private int layoutResourceId;
     private User myUser;
     private ArrayList<Trip> trips = null;
@@ -48,7 +42,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         TextView txtTitle;
         ImageView imageView;
         ImageView imgEditIcon;
-
+        ImageView imgFriendsIcon;
     }
 
     /**
@@ -71,11 +65,11 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             holder.imageView = (ImageView)row.findViewById(R.id.imgIcon);
             holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
             holder.imgEditIcon = (ImageView)row.findViewById(R.id.imgEditIcon);
+            holder.imgFriendsIcon = (ImageView)row.findViewById(R.id.imgFriendsIcon);
             row.setTag(holder);
         }else {
             holder = (TripListHolder)row.getTag();
         }
-
 
         ParseFile file = trips.get(position).getImagen();
         if (file != null) {
@@ -92,16 +86,26 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             holder.imageView.setBackgroundResource(R.drawable.background2);
 
         }
-        holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_white);
+
         holder.txtTitle.setText(trips.get(position).getNombre());
+        holder.imgFriendsIcon.setImageResource(R.drawable.ic_managment_friends);
+        holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_white);
 
         holder.imgEditIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToEditTrip = new Intent(context, EditTripForm.class);
-                goToEditTrip.putExtra("myUser", myUser);
-                goToEditTrip.putExtra("myTrip", trips.get(position));
-                ((Activity)context).startActivity(goToEditTrip);
+                Intent intent = new Intent(context, EditTripForm.class);
+                intent.putExtra("myUser", myUser);
+                intent.putExtra("myTrip", trips.get(position));
+                ((Activity)context).startActivity(intent);
+            }
+        });
+
+        holder.imgFriendsIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Friends.class);
+                ((Activity)context).startActivity(intent);
             }
         });
         return row;

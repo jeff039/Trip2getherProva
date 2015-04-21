@@ -69,9 +69,7 @@ public class NewSiteForm extends ActionBarActivity {
         setSupportActionBar(mToolbar);
 
         myUser = (User) intentR.getSerializableExtra("myUser");
-
         setIdViaje(intentR.getExtras().getString("tripId"));
-
     }
 
     @Override
@@ -95,7 +93,6 @@ public class NewSiteForm extends ActionBarActivity {
             ImageView imageView = (ImageView) findViewById(R.id.imageSite);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
-
             //file it's a ParseFile that contains the image selected
             Bitmap image = BitmapFactory.decodeFile(picturePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -110,19 +107,15 @@ public class NewSiteForm extends ActionBarActivity {
         }
     }
     /**
-     * Interficie
+     * Method initializeButtons
      */
-    private void initializeButtons()
-    {
+    private void initializeButtons() {
         Button gallery = (Button)findViewById(R.id.gallery);
         gallery.setOnClickListener(clickGallery);
 
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
-
-
     }
-
 
     public Button.OnClickListener clickGallery = new Button.OnClickListener() {
         public void onClick(View v) {
@@ -143,11 +136,10 @@ public class NewSiteForm extends ActionBarActivity {
         }
     };
 
-
     /**
-     * Action Bar
+     * Method onCreateOptionsMenu
      * @param menu
-     * @return
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -187,7 +179,6 @@ public class NewSiteForm extends ActionBarActivity {
         }
     }
 
-
     /**
      * CargarSitio. Recuperamos la información de los datos del sitio especificado por el usuario.
      */
@@ -211,10 +202,15 @@ public class NewSiteForm extends ActionBarActivity {
         Double latitud = intentR.getExtras().getDouble("latitude");
         Double longitud =intentR.getExtras().getDouble("longitude");
 
-
         return new Site(nombre, descripcion, imagen, getIdViaje(), "", duracion, precio, latitud, longitud);
     }
 
+    /**
+     * Method GuardarSitioBDD
+     * @param nuevoSitio
+     * @return success
+     * @throws ParseException
+     */
     public boolean GuardarSitioBDD(Site nuevoSitio) throws ParseException{
         boolean success = false;
         HashMap<String, Object> params = new HashMap<String, Object>();
@@ -226,7 +222,6 @@ public class NewSiteForm extends ActionBarActivity {
         params.put("imagen", nuevoSitio.getImagen());
         params.put("latitud", nuevoSitio.getLatitud());
         params.put("longitud", nuevoSitio.getLongitud());
-
 
         String addSiteResponse = ParseCloud.callFunction("addSite", params);
         if(!addSiteResponse.isEmpty())
