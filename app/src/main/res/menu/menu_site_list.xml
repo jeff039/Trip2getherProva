@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="group.lis.uab.trip2gether.controller.TripSite">
 
-    <item android:id="@+id/mapRoute"
-        android:icon="@drawable/ic_map_white_18dp"
+    <item
+        android:id="@+id/mapRoute"
         android:title="@string/mapRoute"
         app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_map_white_18dp"
         android:layout_height= "wrap_content"/>
 
     <item android:id="@+id/addSite"

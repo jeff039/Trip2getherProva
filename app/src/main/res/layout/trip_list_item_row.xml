@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -28,7 +28,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="260dp"/>
+        android:layout_marginRight="20dp"
+        android:layout_gravity="end|top"/>
 
     <ImageView
         android:id="@+id/imgFriendsIcon"
@@ -37,4 +38,4 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"/>
 
-</RelativeLayout >
+</FrameLayout >

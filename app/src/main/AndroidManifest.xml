@@ -74,7 +74,8 @@
             android:name=".controller.SiteMapsActivity"
             android:label="@string/title_activity_site_maps" >
         </activity>
-        <activity android:name=".controller.SiteList" >
+        <activity android:name=".controller.SiteList"
+            android:label="">
         </activity>
         <activity
             android:name=".controller.NewSiteForm"

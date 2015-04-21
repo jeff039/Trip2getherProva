@@ -5,8 +5,8 @@
 
     <item
         android:id="@+id/saveSite"
-        android:title="SAVE"
+        android:title="@string/saveTrip"
         app:showAsAction="ifRoom"
-        android:layout_height= "match_parent"/>
+        android:layout_height= "wrap_content"/>
 
 </menu>

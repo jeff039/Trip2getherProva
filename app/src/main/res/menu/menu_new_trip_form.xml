@@ -7,6 +7,7 @@
         android:id="@+id/saveTrip"
         android:title="@string/saveTrip"
         app:showAsAction="ifRoom"
-        android:textColor="#ffffff"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"
         android:layout_height= "match_parent"/>
 </menu>

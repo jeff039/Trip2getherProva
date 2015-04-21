@@ -12,6 +12,7 @@
     <string name="title_activity_add_friend">Add Friend</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_new_trip">Nuevo Viaje</string>
+    <string name="title_activity_new_site">Nuevo Sitio</string>
     <string name="userHint">Username</string>
     <string name="passwHint">Password</string>
     <string name="loginButton">Login</string>
@@ -37,12 +38,13 @@
     <string name="tripName">Nombre del Viaje</string>
     <string name="addFriendToTrip">Agregar Amigo</string>
     <string name="addImageToTrip">AGREGAR IMAGEN</string>
-    <string name="precio">Precio</string>
-    <string name="duracion">Duracion</string>
+    <string name="precio">Precio:</string>
+    <string name="duracion">Duracion:</string>
     <string name="duracionMin">Duracion (minutos)</string>
     <string name="moneda">€</string>
     <string name="minutos">minutos</string>
     <string name="mailFriend">Mail amistad</string>
+    <string name="save">GUARDAR</string>
 
     <string-array name="arrayPaises">
         <item>Spain</item>

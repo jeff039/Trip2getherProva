@@ -57,7 +57,7 @@ public class SiteView  extends ActionBarActivity {
         mToolbar = (Toolbar) findViewById(R.id.action_bar_site_view);
         setSupportActionBar(mToolbar);
 
-        //this.initializeDrawerLayout();
+        this.initializeDrawerLayout();
         this.initializeButtons();
         try {
             this.initializeSiteData();
@@ -123,6 +123,8 @@ public class SiteView  extends ActionBarActivity {
         View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
         leftDrawerList.addHeaderView(list_header);
         String [] options = getResources().getStringArray(R.array.options_array);
+        leftDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
+        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     private class DrawerItemClickListener implements
@@ -176,12 +178,6 @@ public class SiteView  extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void setSupportBar(){
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(75, 74, 104)));
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_site_view);
     }
 
     private void setUpMap() {
