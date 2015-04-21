@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="group.lis.uab.trip2gether.controller.SiteView">
 
-    <item android:id="@+id/edit_site_view"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/editSite"
+    <item android:id="@+id/view_site"
+        android:icon="@drawable/ic_mode_edit_white_18dp"
+        android:title="@string/editUserProfile"
         app:showAsAction="ifRoom"
         android:layout_height= "match_parent"/>
 </menu>

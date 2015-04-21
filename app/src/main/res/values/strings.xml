@@ -30,9 +30,10 @@
     <string name="send_register">Send register</string>
     <string name="tripHint">Trip title</string>
     <string name="saveTrip">GUARDAR</string>
-    <string name="description">Descripcion</string>
+    <string name="description">Descripcion:</string>
+    <string name="stars">Tu Puntuación:</string>
     <string name="editSite">editSite</string>
-    <string name="title_activity_site_view">siteView</string>
+    <string name="title_activity_site_view">Sitio</string>
     <string name="dateStart">Fecha de Inicio</string>
     <string name="dateEnd">Fecha Final</string>
     <string name="tripName">Nombre del Viaje</string>

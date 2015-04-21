@@ -4,7 +4,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="4dp"
-    android:background="#4B4A68">
+    android:background="@android:color/transparent">
 
     <ImageButton
         android:id="@+id/openDrawer"
@@ -13,12 +13,4 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:src="@drawable/ic_menu_white_18dp"
         android:layout_gravity="center_vertical"
         android:background="@android:color/transparent"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_activity_site_view"
-        android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp" />
 </android.support.v7.widget.Toolbar>
