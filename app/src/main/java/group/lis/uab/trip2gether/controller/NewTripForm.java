@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
@@ -39,6 +40,7 @@ import com.parse.ParseObject;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,6 +66,19 @@ public class NewTripForm extends ActionBarActivity {
     private User myUser;
     private ParseFile file;
     private Toolbar mToolbar;
+
+    //LLISTES PER GESTIONAR ELS AMICS
+    private ArrayList<String> friendsIdList = new ArrayList<String>(); //llista de ids de amics TOTS (en ordre amb checks)
+    private ArrayList<Integer> checkIdList = new ArrayList<Integer>(); //llista de ids dels checks (TOTS)
+    private ArrayList<String> friendsMailList = new ArrayList<String>(); //llista dels mails dels amics TOTS
+    private ArrayList<Integer> textViewIdList = new ArrayList<Integer>(); //lista de ids dels text view
+    // TOT ESTÀ EN ORDRE
+    private ArrayList<String> includedFriends = new ArrayList<String>(); //llista de ids dels amics SI INCLOSOS
+    // en tot moment
+    private ArrayList<Integer> checkedBoxes = new ArrayList<Integer>(); //llista amb els boxes checked
+    // abans de tancar el popup
+    ///////////////////////////////////////////
+
 
     public ParseFile getFile() {
         return file;
@@ -186,78 +201,106 @@ public class NewTripForm extends ActionBarActivity {
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //POPUP add friend
+ ////////////////////////////POPUP add friend/////////////////////////////////////////////////
                 LayoutInflater layoutInflater
                         = (LayoutInflater)getBaseContext()
                         .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = layoutInflater.inflate(R.layout.add_friends_popup, null);
+
+                final View popupView = layoutInflater.inflate(R.layout.add_friends_popup, null);
+
                 final PopupWindow popupWindow = new PopupWindow(
                         popupView,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                ////Contingut de la vista DINÀMIC segons els amics///////
-                //agafem de la popup view perquè encara no ha estat carregada
-                final LinearLayout ll = (LinearLayout) popupView.findViewById(R.id.linearPopUp);
-
-                ///bucle CheckBox amb amistats////
-                String userId = myUser.getObjectId();
-                HashMap<String, Object> params = new HashMap<String, Object>();
-                params.put("userId", userId);
-
-                List<ParseObject> friendsResponse = null; //crida al BE
-                try {
-                    //busquem la amistat
-                    friendsResponse = ParseCloud.callFunction("getUserFriends", params);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if(friendsResponse.isEmpty() == false) { //tenim un usuari
-
-                    for(int i = 0; i < friendsResponse.size(); i++) {
-                        ParseObject userFriendsParse = friendsResponse.iterator().next();
-                        String friendId = userFriendsParse.getString("Id_Usuario_2"); //id de l'amic
-
-                        //busquem els detalls de la amistat
-                        HashMap<String, Object> params2 = new HashMap<String, Object>();
-                        params2.put("userId", friendId);
-                    ////////////////////////////////
-                        List<ParseObject> userResponse = null; //crida al BE
-                        try {
-                            //busquem la amistat
-                            userResponse = ParseCloud.callFunction("getUserFromId", params2);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        ParseObject userParse = userResponse.get(0);
-                        String friendEmail = userParse.getString("Mail"); //email de l'amic
-                    ///////////////////////////////
-                        CheckBox cb = new CheckBox(getApplicationContext());
-                        cb.setText(friendEmail);
-                        ll.addView(cb); //AFEGIM A LA VISTA
-                    }
-
-                }else
+                //PRIMER COP?
+                if(!checkIdList.isEmpty()) //al eliminar el popup, es reseteja la vista
                 {
-                    Utils.showInfoAlert(getResources().getString(R.string.noFriendsAlert), NewTripForm.this);
+                    //RECORDEM ELS AMICS ANTERIORS JA CLICATS SI HAVIA
+                    setPopUpContent(popupView, false);
+                    for (int i = 0; i < checkedBoxes.size(); i++)
+                    {
+                        CheckBox cb = (CheckBox) popupView.findViewById(checkedBoxes.get(i));
+                        cb.setChecked(true);
+                    }
                 }
-                ///////////////////////////
+                else
+                {
+                   setPopUpContent(popupView, true); //posem el content del primer cop
+                }
+   ///////////////////////////////////////////////
 
-                ////////BOTÓ OK/////////////
+   //////////////////////////////BOTÓ OK DEL POPUP////////////////////////////////////////////////////////////////////
+                //afegim els amics marcats al grup
                 Button btnOK = (Button)popupView.findViewById(R.id.okFriends);
+
+                //conversió temporal de llistes
+                final List<String> friendsIdListFinal = friendsIdList;
+                final List<Integer> checkIdListFinal = checkIdList;
+                final List<Integer> textViewIdListFinal = textViewIdList;
+                final List<String> checkMailListFinal = friendsMailList;
                 btnOK.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        // TODO Auto-generated method stub
+           ///////////////PER TOT ELS CHECKS MIREM QUIN ESTÀ CHECKED///////////////
+                        for(int i = 0; i < checkIdListFinal.size(); i++)
+                        {
+                            //  AGAFEM ELS ELEMENTS
+                            CheckBox cb = (CheckBox) popupView.findViewById(checkIdListFinal.get(i));
+                            String idFriend = friendsIdListFinal.get(i);
+                            String mailFriend = checkMailListFinal.get(i);
+
+                            //////////////////////////////
+                            if(cb.isChecked())
+                            {
+                                if(!includedFriends.contains(idFriend)) { //NO AMIC REPETIT
+
+                                    //GUARDEM ELS AMICS I BOXES SELECCIONATS LÒGICAMENT
+                                    includedFriends.add(idFriend);
+                                    checkedBoxes.add(cb.getId());
+
+                                    //MOSTREM EN PANTALLA
+                                    LinearLayout addedFriends = (LinearLayout) //linear dels texts views
+                                            NewTripForm.this.findViewById(R.id.addedFriendsList);
+                                    TextView newTv = new TextView(getApplicationContext());
+                                    newTv.setTextColor(Color.BLACK);
+                                    int textViewId = popupView.generateViewId();
+                                    newTv.setId(textViewId);
+                                    textViewIdList.add(textViewId);
+                                    newTv.setText(mailFriend);
+                                    addedFriends.addView(newTv);
+                                    ////////////////////////
+                                }
+                            }
+                            else //SI NO ESTÀN CHECKED
+                            {
+                                if(includedFriends.contains(idFriend)) //SI ESTAVA INCLÒS
+                                // I EL "DESCHECKEGEM" --> ELIMINEM
+                                {
+                                    //VISTA
+                                    LinearLayout addedFriends = (LinearLayout) //linear dels texts views
+                                            NewTripForm.this.findViewById(R.id.addedFriendsList);
+                                    //si l'amic estava inclòs ja tenim el text view
+                                    TextView tv = (TextView) NewTripForm.this.findViewById(textViewIdListFinal.get(i));
+                                    addedFriends.removeView(tv);
+
+                                    //LÒGICA
+                                    includedFriends.remove(idFriend);
+                                    textViewIdList.remove(textViewIdListFinal.get(i));
+                                    checkedBoxes.remove(checkIdListFinal.get(i));
+                                }
+                            }
+                        }
+
                         popupWindow.dismiss(); //tanquem el popup
                     }});
                 ////////////////////////////////
-                popupWindow.showAsDropDown(addFriendButton, 50, -30);
+                popupWindow.showAsDropDown(addFriendButton, 50, -30); //mostrem el popup
 
             }
         });
         
-
+/////////////////////////////////////////////////////////////////////////////////////////////////
         Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
         ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, paises);
         spinnerPaises.setAdapter(arrayAdapterPaises);
@@ -277,6 +320,71 @@ public class NewTripForm extends ActionBarActivity {
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
     }
 
+
+    public void setPopUpContent(View popupView, boolean first)
+    {
+        ////Contingut de la vista DINÀMIC segons els amics///////
+        //agafem de la popup view perquè encara no ha estat carregada
+        final LinearLayout ll = (LinearLayout) popupView.findViewById(R.id.linearFriends);
+        String userId = myUser.getObjectId();
+        ///////QUERY AMICS/////////////////////
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", userId);
+
+        List<ParseObject> friendsResponse = null; //crida al BE
+        try {
+            //busquem la amistat
+            friendsResponse = ParseCloud.callFunction("getUserFriends", params);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(friendsResponse.isEmpty() == false) { //tenim un amic
+            // AFEGIM ELS ELEMENTS DE LA VISTA I ACTUALITZEM LES LLISTES AMB ELS AMICS (TOTS)/////////////
+
+            for(int i = 0; i < friendsResponse.size(); i++) { //per tots els amics
+                ParseObject userFriendsParse = friendsResponse.iterator().next();
+                String friendId = userFriendsParse.getString("Id_Usuario_2"); //id de l'amic
+                //busquem els detalls de la amistat
+                HashMap<String, Object> params2 = new HashMap<String, Object>();
+                params2.put("userId", friendId);
+                ////////////////////////////////QUERY MAIL///////////////
+                List<ParseObject> userResponse = null; //crida al BE
+                try {
+                    //busquem la amistat
+                    userResponse = ParseCloud.callFunction("getUserFromId", params2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                ParseObject userParse = userResponse.get(0);
+                String friendEmail = userParse.getString("Mail"); //email de l'amic
+
+                ///////////////////////////////CHECKBOXES///////////
+                CheckBox cb = new CheckBox(getApplicationContext());
+                cb.setText(friendEmail);
+                //SI ÉS EL PRIMER COP S'HA DE CREAR ID NOVA, PERÒ SINÓ HEM DE TORNAR A AFEGIR LA ID ANTIGA (ES MANTÉ)
+                int checkId = 0;
+                if(first) {
+                    checkId = popupView.generateViewId();
+                    //////////////////////////
+                    //INICIALITZEM LLISTES AMB TOTS ELS AMICS I CHECKBOXES
+                    checkIdList.add(checkId);
+                    friendsMailList.add(friendEmail);
+                    friendsIdList.add(friendId);
+                }
+                else
+                {
+                    checkId = checkIdList.get(i);
+                }
+                cb.setId(checkId); //li donem una id
+                ll.addView(cb); //AFEGIM A LA VISTA
+            }
+
+        }else //no tenim amics
+        {
+            Utils.showInfoAlert(getResources().getString(R.string.noFriendsAlert), NewTripForm.this);
+        }
+    }
     /**
      * Method Button.OnClickListener clickMaps
      */
@@ -366,6 +474,22 @@ public class NewTripForm extends ActionBarActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+
+
+                ///creeem el grup
+                //AFEGIM AL GRUP
+                for(int i = 0; i < includedFriends.size(); i++) {
+                    HashMap<String, Object> params = new HashMap<String, Object>();
+                    params.put("Id_Viaje", nuevoViaje.getId());
+                    params.put("Id_Usuario", includedFriends.get(i));
+                    try {
+                        ParseCloud.callFunction("addGroupFriend", params);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //////////////////////////////////////
+
                 startActivity(intent);
 
                 return true;

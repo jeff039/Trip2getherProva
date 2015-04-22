@@ -2,12 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/linearPopUp">
+    android:id="@+id/linearPopUp"
+    android:background="@color/accent_material_light">
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/linearFriends"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <Button
         android:id="@+id/okFriends"
-        android:text="OK"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/OK"
+        android:textColor="#ffffff"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/button_custom"
+        android:textSize="16sp" />
 
 </LinearLayout>
