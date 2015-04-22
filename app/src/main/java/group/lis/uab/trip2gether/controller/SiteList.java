@@ -2,10 +2,7 @@ package group.lis.uab.trip2gether.controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -25,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.Site;
 
@@ -77,22 +75,6 @@ public class SiteList  extends ActionBarActivity {
     }
 
     /**
-     * Method getIdsBBDD. Métode genéric per obtenir una llista de valors d'un camp que pertany a una entitat de la BBDD
-     * @param valueFieldTable Valor del <field> de la <table>
-     * @param table Taula de la BBDD
-     * @param field Camp de la <table>
-     * @return List<ParseObject>
-     * @throws com.parse.ParseException
-     */
-    public List<ParseObject> getValueBBDD(String valueFieldTable, String table, String field) throws com.parse.ParseException {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("valueFieldTable", valueFieldTable);
-        params.put("table", table);
-        params.put("field", field);
-        return ParseCloud.callFunction("getId", params);
-    }
-
-    /**
      * Method ViewTripFromBBDD. Métode per visualitzar els viatjes associats a un usuari en la llista TripList
      * @throws com.parse.ParseException
      */
@@ -100,7 +82,7 @@ public class SiteList  extends ActionBarActivity {
         if(this.idViaje==null){
             this.idViaje="";
         }
-        List<ParseObject> idsSitio = getValueBBDD(this.idViaje, "Sitio", "Id_Viaje");
+        List<ParseObject> idsSitio = Utils.getRegistersFromBBDD(this.idViaje, "Sitio", "Id_Viaje");
 
         for(int i=0;i<idsSitio.size();i++){
             ParseObject idSitio = idsSitio.get(i);

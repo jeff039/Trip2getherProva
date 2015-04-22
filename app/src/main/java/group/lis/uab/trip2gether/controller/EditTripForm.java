@@ -1,13 +1,10 @@
 package group.lis.uab.trip2gether.controller;
 
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -41,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.Trip;
 import group.lis.uab.trip2gether.model.User;
 
@@ -288,7 +286,7 @@ public class EditTripForm extends ActionBarActivity {
 
             try {
                 List <ParseObject> trip;
-                trip = getValueBBDD(myTrip.getId(), "Viaje", "objectId");
+                trip = Utils.getRegistersFromBBDD(myTrip.getId(), "Viaje", "objectId");
                 getMyTrip().setImagen(trip.get(0).getParseFile("Imagen"));
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -498,14 +496,14 @@ public class EditTripForm extends ActionBarActivity {
             Boolean cambiarAdministrador = false;
 
             try {
-                componentesDelViaje = getValueBBDD(myTrip.getId(), "Grupo", "Id_Viaje");
+                componentesDelViaje = Utils.getRegistersFromBBDD(myTrip.getId(), "Grupo", "Id_Viaje");
                 if (!componentesDelViaje.isEmpty()) {
                     switch (componentesDelViaje.size()) {
                         case 0:
                             //se elimina viaje, sitios y puntuaciones, con datos consistentes
                             // no deberia de entrar nunca aqui
-                            sitiosAEliminar = getValueBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
-                            puntuacionesAEliminar = getValueBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
+                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
+                            puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
 
                             ParseObject.deleteAll(sitiosAEliminar);
                             ParseObject.deleteAll(puntuacionesAEliminar);
@@ -515,9 +513,9 @@ public class EditTripForm extends ActionBarActivity {
                             break;
                         case 1:
                             //se elimina el grupo, el viaje, los sitios y las puntuaciones
-                            sitiosAEliminar = getValueBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
+                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
                             for(int i=0;i<sitiosAEliminar.size();i++){
-                                puntuacionesAEliminar = getValueBBDD(sitiosAEliminar.get(i).getObjectId(), "Puntuacion", "Id_Sitio");
+                                puntuacionesAEliminar = Utils.getRegistersFromBBDD(sitiosAEliminar.get(i).getObjectId(), "Puntuacion", "Id_Sitio");
                                 ParseObject.deleteAll(puntuacionesAEliminar);
                             }
                             ParseObject.deleteAll(sitiosAEliminar);
@@ -539,8 +537,8 @@ public class EditTripForm extends ActionBarActivity {
                                 }
                             }
                             if(cambiarAdministrador) {
-                                componentesDelViaje = getValueBBDD(myTrip.getId(), "Grupo", "Id_Viaje");
-                                setValueBBDD(true,"Grupo", "Administrador", componentesDelViaje.get(0).getObjectId());
+                                componentesDelViaje = Utils.getRegistersFromBBDD(myTrip.getId(), "Grupo", "Id_Viaje");
+                                Utils.setValueBBDD(true, "Grupo", "Administrador", componentesDelViaje.get(0).getObjectId());
                             }
 
                             msn = "Deleted Trip " + myTrip.getNombre();
@@ -550,8 +548,8 @@ public class EditTripForm extends ActionBarActivity {
                     //se elimina el viaje, ¿los sitios y las puntuaciones?
                     ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
                     /*
-                    sitiosAEliminar = getValueBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
-                    puntuacionesAEliminar = getValueBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
+                    sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
+                    puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
 
                     ParseObject.deleteAll(sitiosAEliminar);
                     ParseObject.deleteAll(puntuacionesAEliminar);
@@ -569,37 +567,4 @@ public class EditTripForm extends ActionBarActivity {
 
         }
     };
-
-    /**
-     * Method getIdsBBDD. Métode genéric per obtenir una llista de valors d'un camp que pertany a una entitat de la BBDD
-     * @param valueFieldTable Valor del <field> de la <table>
-     * @param table Taula de la BBDD
-     * @param field Camp de la <table>
-     * @return List<ParseObject>
-     * @throws com.parse.ParseException
-     */
-    public List<ParseObject> getValueBBDD(String valueFieldTable, String table, String field) throws com.parse.ParseException {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("valueFieldTable", valueFieldTable);
-        params.put("table", table);
-        params.put("field", field);
-        return ParseCloud.callFunction("getId", params);
-    }
-
-    /**
-     * Method setValueBBDD. Métode genéric per actualitzar un camp amb un objectId donat.
-     * @param newValueBoolean Valor a posar al <field> de la <table>
-     * @param table Taula de la BBDD
-     * @param field Camp de la <table> a actualizar.
-     * @param objectId del registre a actualitzar.
-     * @throws com.parse.ParseException
-     */
-    public void setValueBBDD(Boolean newValueBoolean, String table, String field, String objectId) throws com.parse.ParseException {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("newValue", newValueBoolean);
-        params.put("table", table);
-        params.put("field", field);
-        params.put("objectId", objectId);
-        ParseCloud.callFunction("setValueOfTableId", params);
-    }
 }

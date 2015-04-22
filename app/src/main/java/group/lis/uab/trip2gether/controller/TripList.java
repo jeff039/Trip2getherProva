@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.Trip;
 import group.lis.uab.trip2gether.model.TripListAdapter;
 import group.lis.uab.trip2gether.model.User;
@@ -68,40 +69,22 @@ public class TripList extends ActionBarActivity {
     }
 
     /**
-     * Method getIdsBBDD. Métode genéric per obtenir una llista de valors d'un camp que pertany a una entitat de la BBDD
-     * @param valueFieldTable Valor del <field> de la <table>
-     * @param table Taula de la BBDD
-     * @param field Camp de la <table>
-     * @return List<ParseObject>
-     * @throws com.parse.ParseException
-     */
-    public List<ParseObject> getValueBBDD(String valueFieldTable, String table, String field) throws com.parse.ParseException {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("valueFieldTable", valueFieldTable);
-        params.put("table", table);
-        params.put("field", field);
-        return ParseCloud.callFunction("getId", params);
-    }
-
-    /**
      * Method ViewTripFromBBDD. Métode per visualitzar els viatjes associats a un usuari en la llista TripList
      * @throws com.parse.ParseException
      */
     public void ViewTripFromBBDD() throws com.parse.ParseException {
-        List<ParseObject> idsViatje = getValueBBDD(myUser.getObjectId(), "Grupo", "Id_Usuario");
+        List<ParseObject> idsViatje = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Grupo", "Id_Usuario");
 
         if(!idsViatje.isEmpty()) {
             for(int i=0;i<idsViatje.size();i++){
                 ParseObject viatjeId = idsViatje.get(i);
                 String idViaje = viatjeId.getString("Id_Viaje");
 
-                List<ParseObject> getId = getValueBBDD(idViaje, "Viaje", "objectId");
+                List<ParseObject> getId = Utils.getRegistersFromBBDD(idViaje, "Viaje", "objectId");
                 ParseObject camposViaje = getId.iterator().next();
 
-                //TODO OJO que peta
-
                 String idCiudad = camposViaje.getString("Id_Ciudad");
-                List<ParseObject> datosIdCiudad = getValueBBDD(idCiudad, "Ciudad", "objectId");
+                List<ParseObject> datosIdCiudad = Utils.getRegistersFromBBDD(idCiudad, "Ciudad", "objectId");
                 String pais;
                 String ciudad;
                 if(datosIdCiudad.size()==0){
