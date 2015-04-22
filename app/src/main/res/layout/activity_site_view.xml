@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/back_user"/>
+            android:src="@drawable/back_site"/>
         <!-- SITE NAME -->
         <LinearLayout
             android:id="@+id/linear_layout_name"
@@ -135,15 +135,21 @@
             </LinearLayout>
 
             <!-- SITE MAP -->
-            <fragment
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginTop="20dp"
-                android:id="@+id/mapSite"
-                tools:context="group.lis.uab.trip2gether.controller.SiteView"
-                android:name="com.google.android.gms.maps.SupportMapFragment"/>
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_shadow"
+                android:layout_marginTop="10dp">
+                <fragment
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+
+                    android:id="@+id/mapSite"
+                    tools:context="group.lis.uab.trip2gether.controller.SiteView"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"/>
+            </LinearLayout>
         </LinearLayout>
 
     </FrameLayout>
