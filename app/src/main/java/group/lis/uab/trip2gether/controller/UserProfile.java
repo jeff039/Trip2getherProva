@@ -25,7 +25,15 @@ import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
 
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+
+import java.util.HashMap;
+import java.util.List;
+
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.User;
 
 /**
@@ -67,7 +75,22 @@ public class UserProfile extends ActionBarActivity {
         country.setText(myUser.getCountry());
         TextView mail = (TextView)findViewById(R.id.user_mail);
         mail.setText(myUser.getMail());
-
+        TextView user_friends = (TextView)findViewById(R.id.number_friends_user);
+        TextView user_trips = (TextView)findViewById(R.id.number_trips_user);
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", myUser.getObjectId());
+        try {
+            List<ParseObject> numberFriendsResponse = ParseCloud.callFunction("getUserFriends", params);
+            int number_user_friends = numberFriendsResponse.size();
+            String text_user_friends = String.valueOf(number_user_friends);
+            user_friends.setText(text_user_friends);
+            List<ParseObject> numberTripsResponse = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Grupo", "Id_Usuario");
+            int number_user_trips = numberTripsResponse.size();
+            String text_user_trips = String.valueOf(number_user_trips);
+            user_trips.setText(text_user_trips);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
