@@ -43,6 +43,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         ImageView imageView;
         ImageView imgEditIcon;
         ImageView imgFriendsIcon;
+        ImageView imgCalendar;
     }
 
     /**
@@ -66,6 +67,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
             holder.imgEditIcon = (ImageView)row.findViewById(R.id.imgEditIcon);
             holder.imgFriendsIcon = (ImageView)row.findViewById(R.id.imgFriendsIcon);
+            holder.imgCalendar = (ImageView)row.findViewById(R.id.imgCalendarIcon);
             row.setTag(holder);
         }else {
             holder = (TripListHolder)row.getTag();
@@ -90,6 +92,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         holder.txtTitle.setText(trips.get(position).getNombre());
         holder.imgFriendsIcon.setImageResource(R.drawable.ic_managment_friends);
         holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_white);
+        holder.imgCalendar.setImageResource(R.drawable.ic_calendar);
 
         holder.imgEditIcon.setOnClickListener(new View.OnClickListener() {
             @Override
