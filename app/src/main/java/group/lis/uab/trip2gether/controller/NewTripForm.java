@@ -343,7 +343,7 @@ public class NewTripForm extends ActionBarActivity {
             // AFEGIM ELS ELEMENTS DE LA VISTA I ACTUALITZEM LES LLISTES AMB ELS AMICS (TOTS)/////////////
 
             for(int i = 0; i < friendsResponse.size(); i++) { //per tots els amics
-                ParseObject userFriendsParse = friendsResponse.iterator().next();
+                ParseObject userFriendsParse = friendsResponse.get(i);
                 String friendId = userFriendsParse.getString("Id_Usuario_2"); //id de l'amic
                 //busquem els detalls de la amistat
                 HashMap<String, Object> params2 = new HashMap<String, Object>();
