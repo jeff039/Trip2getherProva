@@ -3,10 +3,8 @@ package group.lis.uab.trip2gether.Resources;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-
 import com.parse.ParseCloud;
 import com.parse.ParseObject;
-
 import java.util.HashMap;
 import java.util.List;
 

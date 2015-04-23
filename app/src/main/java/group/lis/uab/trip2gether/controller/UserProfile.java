@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -23,15 +22,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
-
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.User;
@@ -42,28 +37,23 @@ import group.lis.uab.trip2gether.model.User;
 public class UserProfile extends ActionBarActivity {
 
     private User myUser;
-    //
     private Toolbar mToolbar;
     private ListView leftDrawerList;
-    //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
-        //
         mToolbar = (Toolbar) findViewById(R.id.action_bar_user_profile);
         setSupportActionBar(mToolbar);
-        //
         this.initializeDrawerLayout();
         this.initializeButtons();
         this.initializeUserData();
-
     }
 
     ////////////INTERFÍCIE/////////////////
-
     public void initializeUserData() {
         TextView name = (TextView)findViewById(R.id.user_name);
         name.setText(myUser.getName());
@@ -167,8 +157,6 @@ public class UserProfile extends ActionBarActivity {
 
     }
 
-
-
     /**
      * Method onCreateOptionsMenu. Barra superior
      * @param menu
@@ -204,5 +192,4 @@ public class UserProfile extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

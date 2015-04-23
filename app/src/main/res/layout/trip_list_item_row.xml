@@ -44,7 +44,6 @@
 
     <TextView
         android:id="@+id/txtNumberFriends"
-        android:text="9"
         android:layout_width="15dp"
         android:layout_height="35dp"
         android:layout_marginTop="15dp"
@@ -64,7 +63,6 @@
 
     <TextView
         android:id="@+id/txtDateTrip"
-        android:text="Mon, Mar 9 - Mon, Mar 16"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginTop="125dp"
