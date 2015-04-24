@@ -1,12 +1,8 @@
 package group.lis.uab.trip2gether.controller;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -19,7 +15,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,7 +24,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.User;
@@ -38,10 +32,10 @@ import group.lis.uab.trip2gether.model.User;
  * Created by Mireia on 04/04/2015.
  */
 public class SiteView  extends ActionBarActivity {
+
     private Site currentSite;
     private User myUser;
     private GoogleMap mMap;
-    MarkerOptions marker;
     private double latitude;
     private double longitude;
     private Toolbar mToolbar;
@@ -65,11 +59,12 @@ public class SiteView  extends ActionBarActivity {
             e.printStackTrace();
         }
         setUpMapIfNeeded();
-
     }
 
-    ////////////INTERFÍCIE/////////////////
-
+    /**
+     * Method initializeSiteData. Interfície
+     * @throws ParseException
+     */
     public void initializeSiteData() throws ParseException {
         String siteId = currentSite.getId();
 
@@ -109,8 +104,7 @@ public class SiteView  extends ActionBarActivity {
             if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
                 mDrawerLayout.openDrawer(Gravity.LEFT);
             }
-            else
-            {
+            else {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
         }
@@ -127,8 +121,7 @@ public class SiteView  extends ActionBarActivity {
         leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-    private class DrawerItemClickListener implements
-            ListView.OnItemClickListener {
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
@@ -139,11 +132,13 @@ public class SiteView  extends ActionBarActivity {
         }
     }
 
+    /**
+     * Method openMyProfile.
+     */
     public void openMyProfile() {
         Intent userProfile = new Intent(this, UserProfile.class);
-        userProfile.putExtra("myUser", myUser);
+        userProfile.putExtra("myUser", this.myUser);
         startActivity(userProfile);
-
     }
 
     /**
@@ -155,7 +150,6 @@ public class SiteView  extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_site_view, menu);
-
         return true;
     }
 
@@ -170,7 +164,6 @@ public class SiteView  extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         switch(id) {
             /*case (R.id.edit_site):
                 //FALTA IMPLEMENTAR
@@ -180,10 +173,11 @@ public class SiteView  extends ActionBarActivity {
         }
     }
 
+    /**
+     * Method setUpMap.
+     */
     private void setUpMap() {
-        ////////////////////////////////////
-        CameraUpdate center =
-                CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
+        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
         CameraUpdate zoom = CameraUpdateFactory.zoomTo(12);
         mMap.moveCamera(center);
         mMap.animateCamera(zoom);
@@ -192,6 +186,9 @@ public class SiteView  extends ActionBarActivity {
                 .title(currentSite.getNombre()).draggable(true));
     }
 
+    /**
+     * Medthod setUpMapIfNeeded
+     */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
@@ -204,6 +201,4 @@ public class SiteView  extends ActionBarActivity {
             }
         }
     }
-
 }
-

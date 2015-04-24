@@ -2,7 +2,6 @@ package group.lis.uab.trip2gether.controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -17,10 +16,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import com.parse.ParseCloud;
 import com.parse.ParseObject;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
@@ -30,19 +27,14 @@ import group.lis.uab.trip2gether.model.User;
 
 public class TripList extends ActionBarActivity {
 
-    protected Cursor cursor;
     protected ListAdapter adapter;
     protected ListView lista;
-
     private static Context context;
     private static Intent intent;
-
     private User myUser;
     private ArrayList<Trip> trips = new ArrayList<Trip>();
-    private ArrayList<String> tripsNoms = new ArrayList<String>();
     private Toolbar mToolbar;
     private ListView leftDrawerList;
-    private TripList data[] = null;
 
     /**
      * Method onCreate
@@ -100,7 +92,6 @@ public class TripList extends ActionBarActivity {
                         camposViaje.getDate("Fecha_Final"), camposViaje.getParseFile("Imagen"));
                 trip.setId(idViaje);
                 trips.add(trip);
-                tripsNoms.add(trip.getNombre());
             }
         }
 
@@ -112,9 +103,8 @@ public class TripList extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent (TripList.this, SiteList.class);
-                Trip a = trips.get(position);
-                intent.putExtra("id_viaje", a.getId());
-                intent.putExtra("nombre_viaje", a.getNombre());
+                intent.putExtra("id_viaje", trips.get(position).getId());
+                intent.putExtra("nombre_viaje", trips.get(position).getNombre());
                 startActivity(intent);
             }
         });

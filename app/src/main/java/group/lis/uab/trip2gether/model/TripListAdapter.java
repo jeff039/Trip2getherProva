@@ -101,7 +101,6 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             holder.imageView.setImageBitmap(bitmap);
         }else{
             holder.imageView.setBackgroundResource(R.drawable.background2);
-
         }
 
         holder.txtTitle.setText(trips.get(position).getNombre());

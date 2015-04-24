@@ -14,37 +14,28 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.view.MenuItem;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.Site;
-
+import group.lis.uab.trip2gether.model.SiteListAdapter;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 //Implementar bé els métodes de la classe DrawerItemClickListener;
 //import group.lis.uab.trip2gether.model.DrawerItemClickListener;
-
-/**
- * Created by Mireia on 25/03/2015.
- */
 public class SiteList  extends ActionBarActivity {
 
     private static Intent intent = null;
-    String[]sitesList = new String[] {};
     private ArrayList<Site> sites = new ArrayList<Site>();
     protected  ListView lista;
     private static Context context = null;
-    String idViaje = "";
-    String nombreViaje = "";
-    private ArrayList<Site> sitios = new ArrayList<Site>();
-    private ArrayList<String> sitiosNombres = new ArrayList<String>();
+    private String idViaje = "";
     private Toolbar mToolbar;
     private ListView leftDrawerList;
 
@@ -57,12 +48,15 @@ public class SiteList  extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_list);
         context = this;
-        intent = this.getIntent();
-        this.idViaje = intent.getStringExtra("id_viaje");
-        this.nombreViaje = intent.getStringExtra("nombre_viaje");
+        intent = getIntent();
+        idViaje = intent.getStringExtra("id_viaje");
+        String nombreViaje = intent.getStringExtra("nombre_viaje");
 
         mToolbar = (Toolbar) findViewById(R.id.action_bar_site_list);
         setSupportActionBar(mToolbar);
+
+        TextView name = (TextView)findViewById(R.id.txtSiteName);
+        name.setText(nombreViaje);
 
         this.initializeDrawerLayout();
         this.initializeButtons();
@@ -89,18 +83,18 @@ public class SiteList  extends ActionBarActivity {
             Site sitio = new Site(idSitio.getString("Nombre"), idSitio.getString("Descripcion"),
                     idSitio.getParseFile("Imagen"), "", idSitio.getObjectId(), idSitio.getDouble("Duracion"),
                     idSitio.getDouble("Precio"), idSitio.getDouble("Latitud"), idSitio.getDouble("Longitud"));
-            this.sitios.add(sitio);
-            this.sitiosNombres.add(sitio.getNombre());
+            this.sites.add(sitio);
         }
 
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, sitiosNombres);
+        SiteListAdapter adaptador = new SiteListAdapter(context,R.layout.site_list_item_row, sites);
         lista = (ListView)findViewById(R.id.listaSitios);
         lista.setAdapter(adaptador);
+
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent (SiteList.this, SiteView.class);
-                intent.putExtra("currentSite", sitios.get(position));
+                intent.putExtra("currentSite", sites.get(position));
                 startActivity(intent);
             }
         });
