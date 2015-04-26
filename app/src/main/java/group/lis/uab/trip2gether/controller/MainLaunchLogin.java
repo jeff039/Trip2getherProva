@@ -3,11 +3,15 @@ package group.lis.uab.trip2gether.controller;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
+
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -41,6 +45,23 @@ public class MainLaunchLogin extends ActionBarActivity {
 
     public Button.OnClickListener clickLogin = new Button.OnClickListener() {
         public void onClick(View v) {
+            //POPUP DE LOGIN
+            LayoutInflater layoutInflater
+                    = (LayoutInflater)getBaseContext()
+                    .getSystemService(LAYOUT_INFLATER_SERVICE);
+
+            final View popupView = layoutInflater.inflate(R.layout.login_popup, null);
+
+            final PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setFocusable(true); //per evitar back
+
+            Button loginButton = (Button)findViewById(R.id.loginButton);
+            popupWindow.showAsDropDown(loginButton, 50, -30); //mostrem el popup
+            ///////////////
+
             boolean login = false; //CRIDEM EL MÈTODE LOGIN
             try {
                 User myUser = MainLaunchLogin.this.login(MainLaunchLogin.this.getUser(),
@@ -52,6 +73,7 @@ public class MainLaunchLogin extends ActionBarActivity {
                     startActivity(tripList);
                 }else{
                     Utils.showInfoAlert(getResources().getString(R.string.loginErr), MainLaunchLogin.this);
+                    popupWindow.dismiss(); //tanquem el popup
                 }
             } catch (ParseException e) {
                 e.printStackTrace();

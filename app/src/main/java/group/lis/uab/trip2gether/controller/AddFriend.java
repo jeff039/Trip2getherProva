@@ -65,9 +65,7 @@ public class AddFriend extends ActionBarActivity{
                 if(sendNotification) {
                     String toastText = "Enviada solicitud de amistad a "+AddFriend.this.getFriendMail();
                     Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
-                    Intent userProfile = new Intent(AddFriend.this, UserProfile.class);
-                    userProfile.putExtra("myUser", myUser);
-                    startActivity(userProfile);
+                    finish();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "El usuario no existe", Toast.LENGTH_SHORT).show();

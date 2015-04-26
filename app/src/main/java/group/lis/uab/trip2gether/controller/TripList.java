@@ -158,10 +158,15 @@ public class TripList extends ActionBarActivity {
          */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             switch (position){
-                case 0:	openMyProfile();
+                case 1:
+                    openMyProfile();
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                     break;
-                case 1: openMyProfile();
+                case 4:
+                    openNotificationList();
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                     break;
             }
         }
@@ -174,6 +179,12 @@ public class TripList extends ActionBarActivity {
         Intent userProfile = new Intent(this, UserProfile.class);
         userProfile.putExtra("myUser", myUser);
         startActivity(userProfile);
+    }
+
+    public void openNotificationList() {
+        Intent notificationList = new Intent(this, NotificationList.class);
+        notificationList.putExtra("myUser", myUser);
+        startActivity(notificationList);
     }
 
     /**

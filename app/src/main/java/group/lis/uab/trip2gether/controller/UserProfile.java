@@ -1,5 +1,6 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
@@ -51,6 +52,20 @@ public class UserProfile extends ActionBarActivity {
         this.initializeDrawerLayout();
         this.initializeButtons();
         this.initializeUserData();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (0) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    myUser = (User) data.getSerializableExtra("myUser");
+                    this.initializeUserData();
+                }
+                break;
+            }
+        }
     }
 
     ////////////INTERFÍCIE/////////////////
@@ -138,23 +153,13 @@ public class UserProfile extends ActionBarActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
+            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             switch (position){
-                case 0:	openMyProfile();
-                    break;
-                case 1:	openMyProfile();
+                case 1:
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
                     break;
             }
         }
-    }
-
-    /**
-     * Method openMyProfile
-     */
-    public void openMyProfile() {
-        Intent userProfile = new Intent(this, UserProfile.class);
-        userProfile.putExtra("myUser", myUser);
-        startActivity(userProfile);
-
     }
 
     /**
@@ -186,7 +191,7 @@ public class UserProfile extends ActionBarActivity {
             case (R.id.edit_user_profile):
                 Intent editUserForm = new Intent(this, EditUserForm.class);
                 editUserForm.putExtra("myUser", myUser);
-                startActivity(editUserForm);
+                startActivityForResult(editUserForm, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

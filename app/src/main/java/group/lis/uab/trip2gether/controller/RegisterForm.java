@@ -67,8 +67,8 @@ public class RegisterForm extends ActionBarActivity {
 
             if(register) {
                 Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
-                Intent mainLaunchLogin = new Intent(RegisterForm.this, MainLaunchLogin.class);
-                startActivity(mainLaunchLogin);
+                //Intent mainLaunchLogin = new Intent(RegisterForm.this, MainLaunchLogin.class);
+                finish();
             }
             else {
                 Toast.makeText(getApplicationContext(), "Error registering the user", Toast.LENGTH_SHORT).show();

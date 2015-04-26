@@ -94,7 +94,15 @@
             android:label="" >
         </activity>
         <activity
+            android:name=".controller.AddFriend"
+            android:label="" >
+        </activity>
+        <activity
             android:name=".controller.EditSiteForm"
+            android:label="" >
+        </activity>
+        <activity
+            android:name=".controller.NotificationList"
             android:label="" >
         </activity>
     </application>

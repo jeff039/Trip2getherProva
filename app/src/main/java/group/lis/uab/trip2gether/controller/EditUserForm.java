@@ -1,5 +1,6 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -100,9 +101,10 @@ public class EditUserForm extends ActionBarActivity {
 
                 if (myUpdatedUser != null) {
                     Toast.makeText(getApplicationContext(), "Updated user profile", Toast.LENGTH_SHORT).show();
-                    Intent userProfile = new Intent(EditUserForm.this, UserProfile.class);
+                    Intent userProfile = new Intent();
                     userProfile.putExtra("myUser", myUser);
-                    startActivity(userProfile);
+                    setResult(Activity.RESULT_OK, userProfile);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Error updating the user profile", Toast.LENGTH_SHORT).show();
                 }
