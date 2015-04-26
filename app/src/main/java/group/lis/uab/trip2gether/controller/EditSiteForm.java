@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseCloud;
@@ -31,6 +30,7 @@ import java.util.List;
 
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Site;
+import group.lis.uab.trip2gether.Resources.Utils;
 
 /**
  * Created by Mireia on 21/04/2015.
@@ -55,6 +55,10 @@ public class EditSiteForm extends ActionBarActivity {
         this.file = file;
     }
 
+    private String idViaje="";
+    public void setIdViaje(String idViaje) { this.idViaje = idViaje; }
+    public String getIdViaje() { return idViaje; }
+
     private Toolbar mToolbar;
 
     @Override
@@ -62,12 +66,12 @@ public class EditSiteForm extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_site_form);
 
-        //mToolbar = (Toolbar) findViewById(R.id.action_bar_edit_site);
-        //setSupportActionBar(mToolbar);
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_edit_site);
+        setSupportActionBar(mToolbar);
 
         Intent intent = this.getIntent();
         setMySite((Site) intent.getSerializableExtra("mySite")); //serialització de l'objecte
-        mySite.getId();
+        setIdViaje(intent.getExtras().getString("id_viaje"));
 
         this.initializeButtons();
         this.initializeSiteData();
@@ -91,12 +95,12 @@ public class EditSiteForm extends ActionBarActivity {
         if (id == R.id.saveEditSite) {
             Site nuevoSitio = CargarSitio();
             nuevoSitio.setId(mySite.getId());
-            Intent intent = new Intent (EditSiteForm.this, SiteList.class);
-            intent.putExtra("mySite", mySite);
+            nuevoSitio.setIdViaje(mySite.getIdViaje());
+            Intent intent = new Intent (EditSiteForm.this, SiteView.class);
+            intent.putExtra("currentSite", nuevoSitio);
+            startActivity(intent);
 
             try {
-                String idViaje = getIdViaje(nuevoSitio);
-                nuevoSitio.setIdViaje(idViaje);
                 EditarSitioBDD(nuevoSitio);
 
 
@@ -128,7 +132,6 @@ public class EditSiteForm extends ActionBarActivity {
             cursor.close();
 
             // String picturePath contains the path of selected Image
-
             ImageView imageView = (ImageView) findViewById(R.id.imageSite);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
@@ -149,8 +152,8 @@ public class EditSiteForm extends ActionBarActivity {
     /////////////////INTERFÍCIE////////////////////////////////////
     public void initializeButtons() {
 
-        //Button sendDeleteThisSite = (Button) findViewById(R.id.sendDeleteThisSite);
-        //sendDeleteThisSite.setOnClickListener(clickSendDeleteThisSite);
+        Button sendDeleteThisSite = (Button) findViewById(R.id.sendDeleteThisSite);
+        sendDeleteThisSite.setOnClickListener(clickSendDeleteThisSite);
 
         Button gallery = (Button)findViewById(R.id.gallery);
         gallery.setOnClickListener(clickGallery);
@@ -180,7 +183,7 @@ public class EditSiteForm extends ActionBarActivity {
 
         try {
             List<ParseObject> site;
-            site = getValueBBDD(mySite.getId(), "Sitio", "objectId");
+            site = Utils.getRegistersFromBBDD(mySite.getId(), "Sitio", "objectId");
             getMySite().setImagen(site.get(0).getParseFile("Imagen"));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -250,19 +253,23 @@ public class EditSiteForm extends ActionBarActivity {
 
         EditText TextDuracion =(EditText)findViewById(R.id.EditTextSiteDuracion);
         String duracionString = TextDuracion.getText().toString();
-        int duracion = Integer.parseInt(duracionString);
+        double duracion = Double.parseDouble(duracionString);
 
         EditText TextPrecio =(EditText)findViewById(R.id.EditTextSitePrecio);
         String precioString = TextPrecio.getText().toString();
-        int precio = Integer.parseInt(precioString);
+        double precio = Double.parseDouble(precioString);
 
-        //String idViaje = mySite.getIdViaje();
+        String idViaje = getIdViaje();
+
+        String objectId = mySite.getId();
 
         ParseFile imagen = getFile();
+
         double latitud = mySite.getLatitud();
+
         double longitud = mySite.getLongitud();
 
-        return new Site(nombre, descripcion,imagen, mySite.getIdViaje(),"", duracion, precio, latitud, longitud);
+        return new Site(nombre, descripcion, imagen, idViaje, objectId, duracion, precio, latitud, longitud);
     }
 
     /**
@@ -272,19 +279,19 @@ public class EditSiteForm extends ActionBarActivity {
      * @throws ParseException
      */
     public boolean EditarSitioBDD(Site nuevoSitio) throws ParseException{
+        nuevoSitio.getIdViaje();
         boolean success = false;
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("name", nuevoSitio.getNombre());
-        params.put("descripcion", nuevoSitio.getDescripcion());
+        params.put("nombre", nuevoSitio.getNombre());
         params.put("idViaje", nuevoSitio.getIdViaje());
-        params.put("precio", nuevoSitio.getPrecio());
+        params.put("descripcion", nuevoSitio.getDescripcion());
         params.put("duracion", nuevoSitio.getDuracion());
+        params.put("precio", nuevoSitio.getPrecio());
         params.put("imagen", nuevoSitio.getImagen());
         params.put("objectId", nuevoSitio.getId());
 
         String editSiteResponse = ParseCloud.callFunction("updateSiteData", params);
         if(!editSiteResponse.isEmpty())
-            //CrearGrupoBDD(nuevoSitio);
             success = true;
         Log.i("Add editSite:", editSiteResponse);
 
@@ -297,12 +304,26 @@ public class EditSiteForm extends ActionBarActivity {
      * @return idViaje
      * @throws ParseException
      */
-    public String getIdViaje(Site nuevoSitio) throws ParseException{
+    /*public String getIdViatje(Site nuevoSitio) throws ParseException{
         boolean success = false;
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("idViaje", nuevoSitio.getIdViaje());
         String idViaje = ParseCloud.callFunction("getIdViaje", params);
         return idViaje;
+    }*/
+
+    /**
+     * Method getNombreViaje
+     * @param nuevoSitio
+     * @return idViaje
+     * @throws ParseException
+     */
+    public String getNombreViaje(Site nuevoSitio) throws ParseException{
+        boolean success = false;
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("idViaje", getIdViaje());
+        String nombreViaje = ParseCloud.callFunction("getNombreViaje", params);
+        return nombreViaje;
     }
 
     public Button.OnClickListener clickSendDeleteThisSite = new Button.OnClickListener() {
@@ -312,7 +333,7 @@ public class EditSiteForm extends ActionBarActivity {
             mySite.getId();
 
             try {
-                sitioAEliminar = (ParseObject) getValueBBDD(mySite.getId(), "Sitio", "objectId");
+                sitioAEliminar = (ParseObject) Utils.getRegistersFromBBDD(mySite.getId(), "Sitio", "objectId"); //  FALLLAAA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 sitioAEliminar.deleteInBackground();
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -322,43 +343,10 @@ public class EditSiteForm extends ActionBarActivity {
 
             Toast.makeText(getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
             Intent siteList = new Intent(EditSiteForm.this, SiteList.class);
-            siteList.putExtra("mySite", mySite); //NUSE
+            siteList.putExtra("mySite", mySite);
             startActivity(siteList);
 
         }
     };
-
-    /**
-     * Method getIdsBBDD. Métode genéric per obtenir una llista de valors d'un camp que pertany a una entitat de la BBDD
-     * @param valueFieldTable Valor del <field> de la <table>
-     * @param table Taula de la BBDD
-     * @param field Camp de la <table>
-     * @return List<ParseObject>
-     * @throws com.parse.ParseException
-     */
-    public List<ParseObject> getValueBBDD(String valueFieldTable, String table, String field) throws com.parse.ParseException {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("valueFieldTable", valueFieldTable);
-        params.put("table", table);
-        params.put("field", field);
-        return ParseCloud.callFunction("getId", params);
-    }
-
-    /**
-     * Method setValueBBDD. Métode genéric per actualitzar un camp amb un objectId donat.
-     * @param newValueBoolean Valor a posar al <field> de la <table>
-     * @param table Taula de la BBDD
-     * @param field Camp de la <table> a actualizar.
-     * @param objectId del registre a actualitzar.
-     * @throws com.parse.ParseException
-     */
-    public void setValueBBDD(Boolean newValueBoolean, String table, String field, String objectId) throws com.parse.ParseException {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("newValue", newValueBoolean);
-        params.put("table", table);
-        params.put("field", field);
-        params.put("objectId", objectId);
-        ParseCloud.callFunction("setValueOfTableId", params);
-    }
 
 }
