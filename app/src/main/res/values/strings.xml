@@ -46,6 +46,7 @@
     <string name="minutos">minutos</string>
     <string name="mailFriend">Mail amistad</string>
     <string name="save">GUARDAR</string>
+    <string name="notifications">Notificaciones</string>
 
     <string-array name="arrayPaises">
         <item>Spain</item>
@@ -105,9 +106,10 @@
     <string name="title_activity_site_maps">Map</string>
     <!-- OPCIONS DE LA DRAWER LIST -->
     <string-array name="options_array">
-        <item>Profile</item>
-        <item>My trips</item>
-        <item>Friends</item>
+        <item>Perfil</item>
+        <item>Mis viajes</item>
+        <item>Amigos</item>
+        <item>Notificaciones</item>
     </string-array>
     <string name="OK">OK</string>
     <string name="mapRoute">View route in map</string>
