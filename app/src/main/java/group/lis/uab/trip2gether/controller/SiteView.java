@@ -96,6 +96,9 @@ public class SiteView  extends ActionBarActivity {
     public void initializeButtons(){
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
+
+        ImageButton openEditThisSite = (ImageButton) findViewById(R.id.EditThisSite);
+        openEditThisSite.setOnClickListener(clickEditThisSite);
     }
 
     public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
@@ -107,6 +110,13 @@ public class SiteView  extends ActionBarActivity {
             else {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
+        }
+    };
+    public Button.OnClickListener clickEditThisSite = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent intent = new Intent(SiteView.this, EditSiteForm.class);
+            intent.putExtra("mySite", currentSite);
+            startActivity(intent);
         }
     };
     /**

@@ -93,6 +93,10 @@
             android:name=".controller.SiteView"
             android:label="" >
         </activity>
+        <activity
+            android:name=".controller.EditSiteForm"
+            android:label="" >
+        </activity>
     </application>
 
 </manifest>
