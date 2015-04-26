@@ -215,8 +215,6 @@ public class NewTripForm extends ActionBarActivity {
                         popupView,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                //popupWindow.setOutsideTouchable(false);
                 popupWindow.setFocusable(true); //per evitar back
 
                 //PRIMER COP?
