@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -75,7 +76,7 @@ public class NewTripForm extends ActionBarActivity {
     // TOT ESTÀ EN ORDRE
     private ArrayList<String> includedFriends = new ArrayList<String>(); //llista de ids dels amics SI INCLOSOS
     // en tot moment
-    private ArrayList<Integer> checkedBoxes = new ArrayList<Integer>(); //llista amb els boxes checked
+    private ArrayList<Integer> checkedBoxes = new ArrayList<Integer>(); //llista amb els id dels boxes checked
     // abans de tancar el popup
     ///////////////////////////////////////////
 
@@ -201,6 +202,8 @@ public class NewTripForm extends ActionBarActivity {
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //quan clickem canviem el color
+                addFriendButton.setImageResource(R.drawable.ic_action_add_group_pulsado);
  ////////////////////////////POPUP add friend/////////////////////////////////////////////////
                 LayoutInflater layoutInflater
                         = (LayoutInflater)getBaseContext()
@@ -212,6 +215,9 @@ public class NewTripForm extends ActionBarActivity {
                         popupView,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                //popupWindow.setOutsideTouchable(false);
+                popupWindow.setFocusable(true); //per evitar back
 
                 //PRIMER COP?
                 if(!checkIdList.isEmpty()) //al eliminar el popup, es reseteja la vista
@@ -233,22 +239,17 @@ public class NewTripForm extends ActionBarActivity {
    //////////////////////////////BOTÓ OK DEL POPUP////////////////////////////////////////////////////////////////////
                 //afegim els amics marcats al grup
                 Button btnOK = (Button)popupView.findViewById(R.id.okFriends);
-
-                //conversió temporal de llistes
-                final List<String> friendsIdListFinal = friendsIdList;
-                final List<Integer> checkIdListFinal = checkIdList;
-                final List<Integer> textViewIdListFinal = textViewIdList;
-                final List<String> checkMailListFinal = friendsMailList;
                 btnOK.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
+                        addFriendButton.setImageResource(R.drawable.ic_action_add_group);
            ///////////////PER TOT ELS CHECKS MIREM QUIN ESTÀ CHECKED///////////////
-                        for(int i = 0; i < checkIdListFinal.size(); i++)
+                        for(int i = 0; i < checkIdList.size(); i++)
                         {
                             //  AGAFEM ELS ELEMENTS
-                            CheckBox cb = (CheckBox) popupView.findViewById(checkIdListFinal.get(i));
-                            String idFriend = friendsIdListFinal.get(i);
-                            String mailFriend = checkMailListFinal.get(i);
+                            CheckBox cb = (CheckBox) popupView.findViewById(checkIdList.get(i));
+                            String idFriend = friendsIdList.get(i);
+                            String mailFriend = friendsMailList.get(i);
 
                             //////////////////////////////
                             if(cb.isChecked())
@@ -281,13 +282,27 @@ public class NewTripForm extends ActionBarActivity {
                                     LinearLayout addedFriends = (LinearLayout) //linear dels texts views
                                             NewTripForm.this.findViewById(R.id.addedFriendsList);
                                     //si l'amic estava inclòs ja tenim el text view
-                                    TextView tv = (TextView) NewTripForm.this.findViewById(textViewIdListFinal.get(i));
-                                    addedFriends.removeView(tv);
 
+                                    //busquem i eliminem PER EMAIL (la llista de text view no correspon amb la llista de amics
+                                    //NOMÉS TEXT VIEW DELS SELECCIONATS!!
+                                    boolean found = false;
+                                    int iter = 0;
+                                    int idRemoveText = 0;
+                                    while(!found) {
+                                        TextView tv = (TextView) NewTripForm.this.findViewById(textViewIdList.get(iter));
+
+                                        if(tv.getText().equals(friendsMailList.get(i)))
+                                        {
+                                            addedFriends.removeView(tv);
+                                            int idTv = tv.getId();
+                                            textViewIdList.remove(new Integer(idTv)); //per elminar per value i no per key
+                                            found = true;
+                                        }
+                                        iter++;
+                                    }
                                     //LÒGICA
                                     includedFriends.remove(idFriend);
-                                    textViewIdList.remove(textViewIdListFinal.get(i));
-                                    checkedBoxes.remove(checkIdListFinal.get(i));
+                                    checkedBoxes.remove(checkIdList.get(i));
                                 }
                             }
                         }
