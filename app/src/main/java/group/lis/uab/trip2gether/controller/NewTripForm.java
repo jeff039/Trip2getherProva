@@ -358,6 +358,7 @@ public class NewTripForm extends ActionBarActivity {
             for(int i = 0; i < friendsResponse.size(); i++) { //per tots els amics
                 ParseObject userFriendsParse = friendsResponse.get(i);
                 String friendId = userFriendsParse.getString("Id_Usuario_2"); //id de l'amic
+                //QUERY DETALLS AMIC
                 //busquem els detalls de la amistat
                 HashMap<String, Object> params2 = new HashMap<String, Object>();
                 params2.put("userId", friendId);

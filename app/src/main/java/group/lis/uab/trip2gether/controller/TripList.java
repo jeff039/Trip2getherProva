@@ -16,8 +16,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.parse.ParseCloud;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
@@ -53,10 +57,35 @@ public class TripList extends ActionBarActivity {
         this.initializeDrawerLayout();
         this.initializeButtons();
         myUser = (User) intent.getSerializableExtra("myUser");
+        this.checkNotifications(); //per canviar el botó
+
         try {
             this.ViewTripFromBBDD();
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public void checkNotifications()
+    {
+        ///////QUERY AMICS/////////////////////
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", myUser.getObjectId());
+
+        List<ParseObject> notiResponse = null; //crida al BE
+        try {
+            //busquem la amistat
+            notiResponse = ParseCloud.callFunction("getActiveNotifications", params);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int notifications = notiResponse.size(); //quantes notificacions actives
+
+        if(notifications > 0)
+        {
+            ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
+            openDrawer.setImageResource(R.drawable.ic_action_noti);
         }
     }
 
@@ -165,6 +194,7 @@ public class TripList extends ActionBarActivity {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case 4:
+                    //el botó  de notificacions es canviara si a la bd canvia
                     openNotificationList();
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
                     break;
