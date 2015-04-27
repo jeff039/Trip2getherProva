@@ -54,7 +54,7 @@ public class SiteMapsActivity extends FragmentActivity {
                 Bundle paramsSiteForm = new Bundle();
                 paramsSiteForm.putString("tripId", tripId);
                 paramsSiteForm.putDouble("latitude", marker.getPosition().latitude);
-                paramsSiteForm.putDouble("logitude", marker.getPosition().longitude);
+                paramsSiteForm.putDouble("longitude", marker.getPosition().longitude);
                 //cridem el formulari
                 Intent newSite = new Intent(SiteMapsActivity.this, NewSiteForm.class);
                 newSite.putExtras(paramsSiteForm);
