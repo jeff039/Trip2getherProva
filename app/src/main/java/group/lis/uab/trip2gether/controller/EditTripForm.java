@@ -23,20 +23,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import android.support.v7.widget.Toolbar;
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.Trip;
@@ -109,7 +106,6 @@ public class EditTripForm extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.saveEditTrip) {
             Trip nuevoViaje = CargarViaje();
@@ -130,12 +126,8 @@ public class EditTripForm extends ActionBarActivity {
 
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
     public class SpinnerListener implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -145,166 +137,163 @@ public class EditTripForm extends ActionBarActivity {
         }
     }
 
-        /**
-         * Method cargaSpinnerCiudad. Carga de manera dinámica las ciudades en función del páis elegido
-         * @param pais
-         */
-        private void cargaSpinnerCiudad(int pais){
-            Spinner Ciudades = (Spinner) findViewById(R.id.SpinnerCiudades);
+    /**
+     * Method cargaSpinnerCiudad. Carga de manera dinámica las ciudades en función del páis elegido
+     * @param pais
+     */
+    private void cargaSpinnerCiudad(int pais){
+        Spinner Ciudades = (Spinner) findViewById(R.id.SpinnerCiudades);
 
-            ArrayAdapter arrayAdapterEspaña = ArrayAdapter.createFromResource
-                    (this, R.array.CiudadesEspaña, android.R.layout.simple_spinner_item);
+        ArrayAdapter arrayAdapterEspaña = ArrayAdapter.createFromResource
+                (this, R.array.CiudadesEspaña, android.R.layout.simple_spinner_item);
 
-            ArrayAdapter arrayAdapterAlemania= ArrayAdapter.createFromResource
-                    (this, R.array.CiudadesAlemania, android.R.layout.simple_spinner_item);
+        ArrayAdapter arrayAdapterAlemania= ArrayAdapter.createFromResource
+                (this, R.array.CiudadesAlemania, android.R.layout.simple_spinner_item);
 
-            ArrayAdapter arrayAdapterFrancia= ArrayAdapter.createFromResource
-                    (this, R.array.CiudadesFrancia, android.R.layout.simple_spinner_item);
+        ArrayAdapter arrayAdapterFrancia= ArrayAdapter.createFromResource
+                (this, R.array.CiudadesFrancia, android.R.layout.simple_spinner_item);
 
-            ArrayAdapter arrayAdapterDefault = ArrayAdapter.createFromResource
-                    (this, R.array.arrayDefault, android.R.layout.simple_spinner_item);
+        ArrayAdapter arrayAdapterDefault = ArrayAdapter.createFromResource
+                (this, R.array.arrayDefault, android.R.layout.simple_spinner_item);
 
-            switch (pais) {
-                case 1: Ciudades.setAdapter(arrayAdapterEspaña);
-                    break;
-                case 2: Ciudades.setAdapter(arrayAdapterAlemania);
-                    break;
-                case 3: Ciudades.setAdapter(arrayAdapterFrancia);
-                    break;
-                default: Ciudades.setAdapter(arrayAdapterDefault);
-                    break;
-            }
+        switch (pais) {
+            case 1: Ciudades.setAdapter(arrayAdapterEspaña);
+                break;
+            case 2: Ciudades.setAdapter(arrayAdapterAlemania);
+                break;
+            case 3: Ciudades.setAdapter(arrayAdapterFrancia);
+                break;
+            default: Ciudades.setAdapter(arrayAdapterDefault);
+                break;
         }
+    }
 
 
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-                Cursor cursor = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                cursor.moveToFirst();
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
 
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                cursor.close();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
 
-                // String picturePath contains the path of selected Image
+            // String picturePath contains the path of selected Image
 
-                ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
-                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
+            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
-                //file it's a ParseFile that contains the image selected
-                Bitmap image = BitmapFactory.decodeFile(picturePath);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] dataImage = stream.toByteArray();
-                setFile(new ParseFile("imagenViaje.png", dataImage));
-                try {
-                    file.save();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        /////////////////INTERFÍCIE////////////////////////////////////
-        public void initializeButtons() {
-
-            Button sendDeleteThisTrip = (Button) findViewById(R.id.sendDeleteThisTrip);
-            sendDeleteThisTrip.setOnClickListener(clickSendDeleteThisTrip);
-
-
-            Button gallery = (Button)findViewById(R.id.gallery);
-            gallery.setOnClickListener(clickGallery);
-            Button google = (Button)findViewById(R.id.google);
-            google.setOnClickListener(clickGoogle);
-
-            ImageButton imageButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
-            imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                   // Intent intent = new Intent(EditTripForm.this, Friends.class);
-                    //startActivity(intent);
-
-                }
-            });
-
-            ImageButton backActivity = (ImageButton)findViewById(R.id.backActvity);
-            backActivity.setOnClickListener(doBackActivity);
-
-            Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
-            ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, paises);
-            spinnerPaises.setAdapter(arrayAdapterPaises);
-            spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
-
-            pickDateIni = (EditText) findViewById(R.id.EditTextFechaInicio);
-            pickDateIni.setOnClickListener(clickPickDateIni);
-            pickDateIni.setInputType(InputType.TYPE_NULL);
-            pickDateIni.setOnFocusChangeListener(focusPickDateIni);
-
-            pickDateFin = (EditText) findViewById(R.id.EditTextFechaFinal);
-            pickDateFin.setOnClickListener(clickPickDateFin);
-            pickDateFin.setInputType(InputType.TYPE_NULL);
-            pickDateFin.setOnFocusChangeListener(focusPickDateFin);
-
-            dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-        }
-
-        public void initializeTripData() {
-            EditText nombre = (EditText)findViewById(R.id.EditTextNombre);
-            nombre.setText(getMyTrip().getNombre());
-            /**
-             * Put the correct data into the spinners
-             */
-            Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
-            int valCountry=0;
-            for (int i=0;i<paises.length;i++){
-                if (paises[i].equals(myTrip.getPais())){
-                    valCountry=i;
-                }
-            }
-            spinnerPaises.setSelection(valCountry);
-            cargaSpinnerCiudad(valCountry);
-            Spinner Ciudades = (Spinner) findViewById(R.id.SpinnerCiudades);
-            for (int i=0;i<Ciudades.getCount();i++){
-                if (Ciudades.getItemAtPosition(i).equals(myTrip.getCiudad())){
-                    Ciudades.setSelection(i);
-                }
-            }
-            EditText fechaInicio = (EditText)findViewById(R.id.EditTextFechaInicio);
-            dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-            fechaInicio.setText(dateFormatter.format(getMyTrip().getFechaInicio()));
-
-            EditText fechaFinal = (EditText)findViewById(R.id.EditTextFechaFinal);
-            dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-            fechaFinal.setText(dateFormatter.format(getMyTrip().getFechaFinal()));
-
+            //file it's a ParseFile that contains the image selected
+            Bitmap image = BitmapFactory.decodeFile(picturePath);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] dataImage = stream.toByteArray();
+            setFile(new ParseFile("imagenViaje.png", dataImage));
             try {
-                List <ParseObject> trip;
-                trip = Utils.getRegistersFromBBDD(myTrip.getId(), "Viaje", "objectId");
-                getMyTrip().setImagen(trip.get(0).getParseFile("Imagen"));
+                file.save();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }
+    }
 
-            ParseFile file = getMyTrip().getImagen();
-            if (file != null) {
-                ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
-                byte[] bitmapdata = new byte[0];
-                try {
-                    bitmapdata = file.getData();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-                imageView.setImageBitmap(bitmap);
+    /////////////////INTERFÍCIE////////////////////////////////////
+    public void initializeButtons() {
+        Button sendDeleteThisTrip = (Button) findViewById(R.id.sendDeleteThisTrip);
+        sendDeleteThisTrip.setOnClickListener(clickSendDeleteThisTrip);
+
+        Button gallery = (Button)findViewById(R.id.gallery);
+        gallery.setOnClickListener(clickGallery);
+        Button google = (Button)findViewById(R.id.google);
+        google.setOnClickListener(clickGoogle);
+
+        ImageButton imageButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Intent intent = new Intent(EditTripForm.this, Friends.class);
+                //startActivity(intent);
+            }
+        });
+
+        ImageButton backActivity = (ImageButton)findViewById(R.id.backActvity);
+        backActivity.setOnClickListener(doBackActivity);
+
+        Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
+        ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, paises);
+        spinnerPaises.setAdapter(arrayAdapterPaises);
+        spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
+
+        pickDateIni = (EditText) findViewById(R.id.EditTextFechaInicio);
+        pickDateIni.setOnClickListener(clickPickDateIni);
+        pickDateIni.setInputType(InputType.TYPE_NULL);
+        pickDateIni.setOnFocusChangeListener(focusPickDateIni);
+
+        pickDateFin = (EditText) findViewById(R.id.EditTextFechaFinal);
+        pickDateFin.setOnClickListener(clickPickDateFin);
+        pickDateFin.setInputType(InputType.TYPE_NULL);
+        pickDateFin.setOnFocusChangeListener(focusPickDateFin);
+
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+    }
+
+    public void initializeTripData() {
+        EditText nombre = (EditText)findViewById(R.id.EditTextNombre);
+        nombre.setText(getMyTrip().getNombre());
+        /**
+         * Put the correct data into the spinners
+         */
+        Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
+        int valCountry=0;
+        for (int i=0;i<paises.length;i++){
+            if (paises[i].equals(myTrip.getPais())){
+                valCountry=i;
             }
         }
+        spinnerPaises.setSelection(valCountry);
+        cargaSpinnerCiudad(valCountry);
+        Spinner Ciudades = (Spinner) findViewById(R.id.SpinnerCiudades);
+        for (int i=0;i<Ciudades.getCount();i++){
+            if (Ciudades.getItemAtPosition(i).equals(myTrip.getCiudad())){
+                Ciudades.setSelection(i);
+            }
+        }
+        EditText fechaInicio = (EditText)findViewById(R.id.EditTextFechaInicio);
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        fechaInicio.setText(dateFormatter.format(getMyTrip().getFechaInicio()));
+
+        EditText fechaFinal = (EditText)findViewById(R.id.EditTextFechaFinal);
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        fechaFinal.setText(dateFormatter.format(getMyTrip().getFechaFinal()));
+
+        try {
+            List <ParseObject> trip;
+            trip = Utils.getRegistersFromBBDD(myTrip.getId(), "Viaje", "objectId");
+            getMyTrip().setImagen(trip.get(0).getParseFile("Imagen"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        ParseFile file = getMyTrip().getImagen();
+        if (file != null) {
+            ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
+            byte[] bitmapdata = new byte[0];
+            try {
+                bitmapdata = file.getData();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+            imageView.setImageBitmap(bitmap);
+        }
+    }
 
     /**
      * Method ImageButton.OnClickListener doBackActivity
@@ -343,101 +332,102 @@ public class EditTripForm extends ActionBarActivity {
         }
     };
 
-        /**
-         * CargarViaje. Recuperamos la información de los datos del viaje especificado por el usuario
-         */
-        public Trip CargarViaje(){
-            EditText TextNombre =(EditText)findViewById(R.id.EditTextNombre);
-            String nombre = TextNombre.getText().toString();
+    /**
+     * CargarViaje. Recuperamos la información de los datos del viaje especificado por el usuario
+     */
+    public Trip CargarViaje(){
+        EditText TextNombre =(EditText)findViewById(R.id.EditTextNombre);
+        String nombre = TextNombre.getText().toString();
 
-            Spinner TextPais =(Spinner)findViewById(R.id.SpinnerPaises);
-            String pais = (String)TextPais.getSelectedItem();
+        Spinner TextPais =(Spinner)findViewById(R.id.SpinnerPaises);
+        String pais = (String)TextPais.getSelectedItem();
 
-            Spinner TextCiudad =(Spinner)findViewById(R.id.SpinnerCiudades);
-            String ciudad = (String)TextCiudad.getSelectedItem();
+        Spinner TextCiudad =(Spinner)findViewById(R.id.SpinnerCiudades);
+        String ciudad = (String)TextCiudad.getSelectedItem();
 
-            EditText TextFechaInicio =(EditText)findViewById(R.id.EditTextFechaInicio);
-            String fechaInicio = TextFechaInicio.getText().toString();
+        EditText TextFechaInicio =(EditText)findViewById(R.id.EditTextFechaInicio);
+        String fechaInicio = TextFechaInicio.getText().toString();
 
-            EditText TextFechaFinal =(EditText)findViewById(R.id.EditTextFechaFinal);
-            String fechaFinal = TextFechaFinal.getText().toString();
+        EditText TextFechaFinal =(EditText)findViewById(R.id.EditTextFechaFinal);
+        String fechaFinal = TextFechaFinal.getText().toString();
 
-            Date dataInicial = ConvertStringToDate(fechaInicio);
-            Date dataFinal = ConvertStringToDate(fechaFinal);
+        Date dataInicial = ConvertStringToDate(fechaInicio);
+        Date dataFinal = ConvertStringToDate(fechaFinal);
 
-            ParseFile imagen = getFile();
-            return new Trip(nombre, pais, ciudad, dataInicial, dataFinal, imagen);
+        ParseFile imagen = getFile();
+        return new Trip(nombre, pais, ciudad, dataInicial, dataFinal, imagen);
+    }
+
+    /**
+     * Method EditarViajeBDD
+     * @param nuevoViaje
+     * @return success
+     * @throws ParseException
+     */
+    public boolean EditarViajeBDD(Trip nuevoViaje) throws ParseException{
+        boolean success = false;
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("name", nuevoViaje.getNombre());
+        params.put("idCiudad", nuevoViaje.getCiudad());
+        params.put("fechaInicial", nuevoViaje.getFechaInicio());
+        params.put("fechaFinal", nuevoViaje.getFechaFinal());
+        params.put("imagen", nuevoViaje.getImagen());
+        params.put("objectId", nuevoViaje.getId());
+
+        String editTripResponse = ParseCloud.callFunction("updateTripData", params);
+        if(!editTripResponse.isEmpty())
+            //CrearGrupoBDD(nuevoViaje);
+            success = true;
+        Log.i("Add editTrip:", editTripResponse);
+
+        return success;
+    }
+
+
+    /**
+     * Method getIdCiudad
+     * @param nuevoViaje
+     * @return idCiudad
+     * @throws ParseException
+     */
+    public String getIdCiudad(Trip nuevoViaje) throws ParseException{
+        boolean success = false;
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("ciudad", nuevoViaje.getCiudad());
+        String idCiudad = ParseCloud.callFunction("getIdCity", params);
+        return idCiudad;
+    }
+
+    /**
+     * ConvertStringToDate
+     * @param fecha
+     * @return data
+     */
+    public Date ConvertStringToDate(String fecha){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date data = null;
+        try {
+            data = formatter.parse(fecha);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
         }
+        return data;
+    }
 
-        /**
-         * Method EditarViajeBDD
-         * @param nuevoViaje
-         * @return success
-         * @throws ParseException
-         */
-        public boolean EditarViajeBDD(Trip nuevoViaje) throws ParseException{
-            boolean success = false;
-            HashMap<String, Object> params = new HashMap<String, Object>();
-            params.put("name", nuevoViaje.getNombre());
-            params.put("idCiudad", nuevoViaje.getCiudad());
-            params.put("fechaInicial", nuevoViaje.getFechaInicio());
-            params.put("fechaFinal", nuevoViaje.getFechaFinal());
-            params.put("imagen", nuevoViaje.getImagen());
-            params.put("objectId", nuevoViaje.getId());
-
-            String editTripResponse = ParseCloud.callFunction("updateTripData", params);
-            if(!editTripResponse.isEmpty())
-                //CrearGrupoBDD(nuevoViaje);
-                success = true;
-            Log.i("Add editTrip:", editTripResponse);
-
-            return success;
-        }
-
-
-        /**
-         * Method getIdCiudad
-         * @param nuevoViaje
-         * @return idCiudad
-         * @throws ParseException
-         */
-        public String getIdCiudad(Trip nuevoViaje) throws ParseException{
-            boolean success = false;
-            HashMap<String, Object> params = new HashMap<String, Object>();
-            params.put("ciudad", nuevoViaje.getCiudad());
-            String idCiudad = ParseCloud.callFunction("getIdCity", params);
-            return idCiudad;
-        }
-
-        /**
-         * ConvertStringToDate
-         * @param fecha
-         * @return data
-         */
-        public Date ConvertStringToDate(String fecha){
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-            Date data = null;
-            try {
-                data = formatter.parse(fecha);
-            } catch (java.text.ParseException e) {
-                e.printStackTrace();
+    /**
+     * Method setDateTimeFieldIni.
+     */
+    private void setDateTimeFieldIni() {
+        Calendar newCalendar = Calendar.getInstance();
+        pickDateDialogIni = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                pickDateIni.setText(dateFormatter.format(newDate.getTime()));
             }
-            return data;
-        }
 
-        private void setDateTimeFieldIni() {
-            Calendar newCalendar = Calendar.getInstance();
-            pickDateDialogIni = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    Calendar newDate = Calendar.getInstance();
-                    newDate.set(year, monthOfYear, dayOfMonth);
-                    pickDateIni.setText(dateFormatter.format(newDate.getTime()));
-                }
-
-            },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-        }
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+    }
 
     public EditText.OnClickListener clickPickDateIni = new EditText.OnClickListener() {
         @Override
@@ -455,20 +445,19 @@ public class EditTripForm extends ActionBarActivity {
         }
     };
 
+    private void setDateTimeFieldFin() {
+        Calendar newCalendar = Calendar.getInstance();
+        pickDateDialogFin = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
-        private void setDateTimeFieldFin() {
-            Calendar newCalendar = Calendar.getInstance();
-            pickDateDialogFin = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                pickDateFin.setText(dateFormatter.format(newDate.getTime()));
+            }
 
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    Calendar newDate = Calendar.getInstance();
-                    newDate.set(year, monthOfYear, dayOfMonth);
-                    pickDateFin.setText(dateFormatter.format(newDate.getTime()));
-                }
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-            },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-        }
+    }
 
     public EditText.OnClickListener clickPickDateFin = new EditText.OnClickListener() {
         @Override
@@ -485,7 +474,6 @@ public class EditTripForm extends ActionBarActivity {
             v.clearFocus();
         }
     };
-
 
     public Button.OnClickListener clickSendDeleteThisTrip = new Button.OnClickListener() {
         public void onClick(View v) {

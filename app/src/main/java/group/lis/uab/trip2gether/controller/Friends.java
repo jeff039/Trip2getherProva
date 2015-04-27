@@ -7,14 +7,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import group.lis.uab.trip2gether.R;
 
 public class Friends extends ActionBarActivity {
 
     private static Context context;
     private static Intent intent;
-
     private Toolbar mToolbar;
 
     @Override
@@ -40,7 +38,6 @@ public class Friends extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -18,23 +18,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.Resources.Utils;
 
-/**
- * Created by Mireia on 21/04/2015.
- */
 public class EditSiteForm extends ActionBarActivity {
 
     private static final int LOAD_IMAGE = 1;
@@ -102,8 +96,6 @@ public class EditSiteForm extends ActionBarActivity {
 
             try {
                 EditarSitioBDD(nuevoSitio);
-
-
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -151,7 +143,6 @@ public class EditSiteForm extends ActionBarActivity {
 
     /////////////////INTERFÍCIE////////////////////////////////////
     public void initializeButtons() {
-
         Button sendDeleteThisSite = (Button) findViewById(R.id.sendDeleteThisSite);
         sendDeleteThisSite.setOnClickListener(clickSendDeleteThisSite);
 
@@ -163,6 +154,8 @@ public class EditSiteForm extends ActionBarActivity {
         ImageButton backActivity = (ImageButton)findViewById(R.id.backActvity);
         backActivity.setOnClickListener(doBackActivity);
     }
+
+
     public void initializeSiteData() {
         EditText name = (EditText)findViewById(R.id.EditTextSiteNombre);
         name.setText(getMySite().getNombre());
@@ -242,7 +235,8 @@ public class EditSiteForm extends ActionBarActivity {
     };
 
     /**
-     * CargarViaje. Recuperamos la información de los datos del viaje especificado por el usuario
+     * Method CargarViaje. Recuperamos la información de los datos del viaje especificado por el usuario
+     * @return Site
      */
     public Site CargarSitio(){
         EditText TextNombre =(EditText)findViewById(R.id.EditTextSiteNombre);
@@ -260,13 +254,10 @@ public class EditSiteForm extends ActionBarActivity {
         double precio = Double.parseDouble(precioString);
 
         String idViaje = getIdViaje();
-
         String objectId = mySite.getId();
-
         ParseFile imagen = getFile();
 
         double latitud = mySite.getLatitud();
-
         double longitud = mySite.getLongitud();
 
         return new Site(nombre, descripcion, imagen, idViaje, objectId, duracion, precio, latitud, longitud);
@@ -345,8 +336,6 @@ public class EditSiteForm extends ActionBarActivity {
             Intent siteList = new Intent(EditSiteForm.this, SiteList.class);
             siteList.putExtra("mySite", mySite);
             startActivity(siteList);
-
         }
     };
-
 }

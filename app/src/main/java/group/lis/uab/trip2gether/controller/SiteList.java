@@ -27,8 +27,6 @@ import group.lis.uab.trip2gether.model.SiteListAdapter;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-//Implementar bé els métodes de la classe DrawerItemClickListener;
-//import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 public class SiteList  extends ActionBarActivity {
 
     private static Intent intent = null;

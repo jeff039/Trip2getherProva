@@ -51,7 +51,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="230dp"
+        android:layout_marginLeft="220dp"
+        android:layout_marginRight="15dp"
         android:background="#80212121"/>
 
     <TextView
@@ -61,7 +62,8 @@
         android:layout_height="30dp"
         android:gravity="center"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="260dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginRight="15dp"
         android:textSize="20dp"
         android:textColor="#FFFFFF"/>
 
@@ -69,40 +71,40 @@
         android:id="@+id/imgStar1"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="180dp"
+        android:layout_marginTop="145dp"
+        android:layout_marginLeft="185dp"
         android:background="#80212121"/>
 
     <ImageView
         android:id="@+id/imgStar2"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="200dp"
+        android:layout_marginTop="145dp"
+        android:layout_marginLeft="205dp"
         android:background="#80212121"/>
 
     <ImageView
         android:id="@+id/imgStar3"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="220dp"
+        android:layout_marginTop="145dp"
+        android:layout_marginLeft="225dp"
         android:background="#80212121"/>
 
     <ImageView
         android:id="@+id/imgStar4"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="240dp"
+        android:layout_marginTop="145dp"
+        android:layout_marginLeft="245dp"
         android:background="#80212121"/>
 
     <ImageView
         android:id="@+id/imgStar5"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="260dp"
+        android:layout_marginTop="145dp"
+        android:layout_marginLeft="265dp"
         android:background="#80212121"/>
 
 </FrameLayout >

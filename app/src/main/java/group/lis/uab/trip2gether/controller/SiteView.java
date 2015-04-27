@@ -119,6 +119,7 @@ public class SiteView  extends ActionBarActivity {
             startActivity(intent);
         }
     };
+
     /**
      * Method initializeDrawerLayout. Drawer layout
      */

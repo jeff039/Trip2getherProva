@@ -11,14 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.Resources.Encrypt;
@@ -114,12 +111,20 @@ public class MainLaunchLogin extends ActionBarActivity {
         return myUser;
     }
 
+    /**
+     * Method getUser
+     * @return userText
+     */
     public String getUser() {
         EditText user = (EditText) findViewById(R.id.user);
         String userText = user.getText().toString();
         return userText;
     }
 
+    /**
+     * Method getPassw
+     * @return passwText
+     */
     public String getPassw() {
         EditText passw = (EditText) findViewById(R.id.passw);
         String passwText = passw.getText().toString();
@@ -146,6 +151,4 @@ public class MainLaunchLogin extends ActionBarActivity {
         int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
-
-
 }

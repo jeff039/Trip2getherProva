@@ -11,17 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
-
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.controller.EditTripForm;
@@ -52,6 +44,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         TextView txtTitle;
         TextView txtNumberFriends;
         TextView txtDateCalendar;
+        TextView txtSites;
         ImageView imageView;
         ImageView imgEditIcon;
         ImageView imgFriendsIcon;
@@ -77,9 +70,9 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             holder = new TripListHolder();
 
             holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
+            holder.txtSites = (TextView)row.findViewById(R.id.txtSites);
             holder.txtNumberFriends = (TextView)row.findViewById(R.id.txtNumberFriends);
             holder.txtDateCalendar = (TextView)row.findViewById(R.id.txtDateTrip);
-
             holder.imageView = (ImageView)row.findViewById(R.id.imgIcon);
             holder.imgEditIcon = (ImageView)row.findViewById(R.id.imgEditIcon);
             holder.imgFriendsIcon = (ImageView)row.findViewById(R.id.imgFriendsIcon);
@@ -106,17 +99,24 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
 
         holder.txtTitle.setText(trips.get(position).getNombre());
 
-        String numberFriends = String.valueOf(0);
+        String numberSites = String.valueOf(0);
         try {
-            numberFriends = String.valueOf(getFriendsOfTrip(trips.get(position)));
+            numberSites = String.valueOf(Utils.getSiteOfTrip(trips.get(position)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        holder.txtSites.setText(numberSites+" Sitios");
 
+        String numberFriends = String.valueOf(0);
+        try {
+            numberFriends = String.valueOf(Utils.getFriendsOfTrip(trips.get(position)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.txtNumberFriends.setText(numberFriends);
 
-        String sdateInici = convertFormatDate(trips.get(position).getFechaInicio());
-        String sdateFinal = convertFormatDate(trips.get(position).getFechaFinal());
+        String sdateInici = Utils.convertFormatDate(trips.get(position).getFechaInicio());
+        String sdateFinal = Utils.convertFormatDate(trips.get(position).getFechaFinal());
         holder.txtDateCalendar.setText(sdateInici+"- "+sdateFinal);
 
         holder.imgFriendsIcon.setImageResource(R.drawable.ic_managment_friends);
@@ -141,41 +141,5 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             }
         });
         return row;
-    }
-
-    /**
-     * Mtehod convertFormatDate. Transforma el tipus data en un String operable per mostrar-ho per pantalla
-     * @param date
-     * @return resultat
-     */
-    public String convertFormatDate(Date date){
-        int espacios = 0;
-        int i = 0;
-        String result = "";
-        String sdate = date.toString();
-        while(espacios<3 && i<=sdate.length()){
-            char c = sdate.charAt(i);
-            if(c == ' '){
-                espacios++;
-            }
-            result += c;
-            i++;
-        }
-        return result;
-    }
-
-    /**
-     * Method getFriendsOfTrip.
-     * @param trip
-     * @return getFriends
-     * @throws ParseException
-     */
-    public int getFriendsOfTrip(Trip trip) throws ParseException {
-        int getFriends = 0;
-        List<ParseObject> idsViaje = Utils.getRegistersFromBBDD(trip.getId(), "Grupo", "Id_Viaje");
-        if(!idsViaje.isEmpty()){
-            getFriends = idsViaje.size();
-        }
-        return getFriends;
     }
 }

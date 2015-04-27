@@ -7,10 +7,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import group.lis.uab.trip2gether.R;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.util.Log;
 import android.widget.Button;
 import android.view.View;
@@ -21,20 +18,14 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
-
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.User;
 
-/**
- * Created by Mireia on 27/03/2015.
- */
 public class NewSiteForm extends ActionBarActivity {
     private static final int LOAD_IMAGE = 1; //static final -> no canviarà (s'ha d'inicializar)
 
@@ -112,17 +103,15 @@ public class NewSiteForm extends ActionBarActivity {
     private void initializeButtons() {
         Button gallery = (Button)findViewById(R.id.gallery);
         gallery.setOnClickListener(clickGallery);
-
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
     }
 
     public Button.OnClickListener clickGallery = new Button.OnClickListener() {
         public void onClick(View v) {
-            Intent i = new Intent(
-                    Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-            startActivityForResult(i, LOAD_IMAGE);
+        Intent i = new Intent(
+            Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, LOAD_IMAGE);
         }
     };
 
