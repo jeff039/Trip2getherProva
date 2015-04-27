@@ -171,14 +171,11 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
      * @throws ParseException
      */
     public int getFriendsOfTrip(Trip trip) throws ParseException {
-
         int getFriends = 0;
         List<ParseObject> idsViaje = Utils.getRegistersFromBBDD(trip.getId(), "Grupo", "Id_Viaje");
-
         if(!idsViaje.isEmpty()){
             getFriends = idsViaje.size();
         }
-
         return getFriends;
     }
 }

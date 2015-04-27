@@ -47,7 +47,6 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
         ImageView imageView;
         ImageView imgPosSite;
         ImageView imgPhotoUser;
-        ImageView imgEditIcon;
         ImageView imgWatch;
         ImageView imgStar1;
         ImageView imgStar2;
@@ -78,7 +77,6 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
             holder.txtName = (TextView)row.findViewById(R.id.txtName);
             holder.imgPosSite = (ImageView)row.findViewById(R.id.imgPosSite);
             holder.imgPhotoUser = (ImageView)row.findViewById(R.id.imgPhotoUser);
-            holder.imgEditIcon = (ImageView)row.findViewById(R.id.imgEditIcon);
             holder.imgWatch = (ImageView)row.findViewById(R.id.imgTime);
             holder.txtTimeHours = (TextView)row.findViewById(R.id.txtTimeHours);
 
@@ -109,7 +107,6 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
 
         holder.txtName.setText(sitios.get(position).getNombre());
         holder.imgPosSite.setImageResource(R.drawable.ic_position_site);
-        holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_white);
         holder.imgWatch.setImageResource(R.drawable.ic_watch);
 
         String time = String.valueOf((int) sitios.get(position).getDuracion());

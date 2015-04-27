@@ -47,14 +47,6 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imgEditIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginLeft="15dp"
-        android:background="#80212121"/>
-
-    <ImageView
         android:id="@+id/imgTime"
         android:layout_width="30dp"
         android:layout_height="30dp"
