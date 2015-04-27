@@ -62,17 +62,17 @@ public class SiteList  extends ActionBarActivity {
         this.initializeButtons();
 
         try {
-            this.ViewTripFromBBDD();
+            this.ViewSiteFromBBDD();
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Method ViewTripFromBBDD. Métode per visualitzar els viatjes associats a un usuari en la llista TripList
+     * Method ViewSiteFromBBDD. Métode per visualitzar els Sites associats a un Vaitge en la llista SiteList
      * @throws com.parse.ParseException
      */
-    public void ViewTripFromBBDD() throws com.parse.ParseException {
+    public void ViewSiteFromBBDD() throws com.parse.ParseException {
         if(this.idViaje==null){
             this.idViaje="";
         }
@@ -162,16 +162,11 @@ public class SiteList  extends ActionBarActivity {
         int id = item.getItemId();
 
         if(id == R.id.addSite)  {
-            //rebem el viatge en que estem
-            //Bundle trip = getIntent().getExtras();
-            //String tripId = trip.getString("tripId");
-
             String tripId = this.idViaje;
 
             Intent newSite = new Intent(this, NewSiteForm.class);
             newSite.putExtra("id_viaje", this.idViaje);
             startActivity(newSite);
-
 
             try {
                 ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");
@@ -196,10 +191,6 @@ public class SiteList  extends ActionBarActivity {
         }
 
         if(id == R.id.mapRoute) {
-            //rebem el viatge en que estem
-            //Bundle trip = getIntent().getExtras();
-            //String tripId = trip.getString("tripId");
-
             String tripId = this.idViaje;
 
             ParseQuery<ParseObject> siteCoordQuery = ParseQuery.getQuery("Sitio");
