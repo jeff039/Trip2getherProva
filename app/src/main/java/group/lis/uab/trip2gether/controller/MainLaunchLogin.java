@@ -31,6 +31,12 @@ public class MainLaunchLogin extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_launch_login);
         this.initializeButtons();
+        this.checkNotifications(); //per canviar el botó
+    }
+
+    public void checkNotifications()
+    {
+
     }
 
     /**

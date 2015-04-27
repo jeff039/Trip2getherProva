@@ -35,8 +35,18 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
 
     static class SiteListHolder{
         TextView txtName;
+        TextView txtTimeHours;
+
         ImageView imageView;
         ImageView imgPosSite;
+        ImageView imgPhotoUser;
+        ImageView imgEditIcon;
+        ImageView imgWatch;
+        ImageView imgStar1;
+        ImageView imgStar2;
+        ImageView imgStar3;
+        ImageView imgStar4;
+        ImageView imgStar5;
     }
 
     /**
@@ -60,6 +70,16 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
             holder.imageView = (ImageView)row.findViewById(R.id.imgIcon);
             holder.txtName = (TextView)row.findViewById(R.id.txtName);
             holder.imgPosSite = (ImageView)row.findViewById(R.id.imgPosSite);
+            holder.imgPhotoUser = (ImageView)row.findViewById(R.id.imgPhotoUser);
+            holder.imgEditIcon = (ImageView)row.findViewById(R.id.imgEditIcon);
+            holder.imgWatch = (ImageView)row.findViewById(R.id.imgTime);
+            holder.txtTimeHours = (TextView)row.findViewById(R.id.txtTimeHours);
+
+            holder.imgStar1 = (ImageView)row.findViewById(R.id.imgStar1);
+            holder.imgStar2 = (ImageView)row.findViewById(R.id.imgStar2);
+            holder.imgStar3 = (ImageView)row.findViewById(R.id.imgStar3);
+            holder.imgStar4 = (ImageView)row.findViewById(R.id.imgStar4);
+            holder.imgStar5 = (ImageView)row.findViewById(R.id.imgStar5);
 
             row.setTag(holder);
         }else {
@@ -82,6 +102,17 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
 
         holder.txtName.setText(sitios.get(position).getNombre());
         holder.imgPosSite.setImageResource(R.drawable.ic_position_site);
+        holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_white);
+        holder.imgWatch.setImageResource(R.drawable.ic_watch);
+
+        String time = String.valueOf((int) sitios.get(position).getDuracion());
+        holder.txtTimeHours.setText(time+"h");
+
+        holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+        holder.imgStar2.setImageResource(R.drawable.ic_stars_white_48dp);
+        holder.imgStar3.setImageResource(R.drawable.ic_stars_white_48dp);
+        holder.imgStar4.setImageResource(R.drawable.ic_stars_grey600_48dp);
+        holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
 
         return row;
     }
