@@ -54,12 +54,11 @@ public class MainLaunchLogin extends ActionBarActivity {
 
             final PopupWindow popupWindow = new PopupWindow(
                     popupView,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.setFocusable(true); //per evitar back
 
-            Button loginButton = (Button)findViewById(R.id.loginButton);
-            popupWindow.showAsDropDown(loginButton, 50, -30); //mostrem el popup
+            popupWindow.showAsDropDown(v, 180, -300); //mostrem el popup
             ///////////////
 
             boolean login = false; //CRIDEM EL MÈTODE LOGIN
