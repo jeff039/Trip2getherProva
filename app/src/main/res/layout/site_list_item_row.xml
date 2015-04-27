@@ -14,14 +14,13 @@
 
     <TextView
         android:id="@+id/txtName"
-        android:text="aasdasd"
         android:background="#80212121"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:gravity="center"
         android:layout_marginTop="140dp"
         android:layout_marginLeft="40dp"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textColor="#FFFFFF"/>
 
     <ImageView
@@ -31,5 +30,87 @@
         android:layout_marginTop="140dp"
         android:layout_marginLeft="15dp"
         android:background="#80212121" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp">
+        <ImageView
+            android:id="@+id/imgPhotoUser"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="false"
+            android:src="@drawable/avatar" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgEditIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="15dp"
+        android:background="#80212121"/>
+
+    <ImageView
+        android:id="@+id/imgTime"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="230dp"
+        android:background="#80212121"/>
+
+    <TextView
+        android:id="@+id/txtTimeHours"
+        android:background="#80212121"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="260dp"
+        android:textSize="20dp"
+        android:textColor="#FFFFFF"/>
+
+    <ImageView
+        android:id="@+id/imgStar1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="180dp"
+        android:background="#80212121"/>
+
+    <ImageView
+        android:id="@+id/imgStar2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="200dp"
+        android:background="#80212121"/>
+
+    <ImageView
+        android:id="@+id/imgStar3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="220dp"
+        android:background="#80212121"/>
+
+    <ImageView
+        android:id="@+id/imgStar4"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="240dp"
+        android:background="#80212121"/>
+
+    <ImageView
+        android:id="@+id/imgStar5"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="260dp"
+        android:background="#80212121"/>
 
 </FrameLayout >
