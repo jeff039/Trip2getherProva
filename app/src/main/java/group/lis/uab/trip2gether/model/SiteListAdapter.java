@@ -10,9 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
+import java.util.List;
+
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 
 public class SiteListAdapter extends ArrayAdapter<Site> {
 

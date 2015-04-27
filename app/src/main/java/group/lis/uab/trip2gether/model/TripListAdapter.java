@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.controller.EditTripForm;
 import group.lis.uab.trip2gether.controller.Friends;
 
@@ -104,7 +105,15 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         }
 
         holder.txtTitle.setText(trips.get(position).getNombre());
-        holder.txtNumberFriends.setText("0");
+
+        String numberFriends = String.valueOf(0);
+        try {
+            numberFriends = String.valueOf(getFriendsOfTrip(trips.get(position)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        holder.txtNumberFriends.setText(numberFriends);
 
         String sdateInici = convertFormatDate(trips.get(position).getFechaInicio());
         String sdateFinal = convertFormatDate(trips.get(position).getFechaFinal());
@@ -153,5 +162,23 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             i++;
         }
         return result;
+    }
+
+    /**
+     * Method getFriendsOfTrip.
+     * @param trip
+     * @return getFriends
+     * @throws ParseException
+     */
+    public int getFriendsOfTrip(Trip trip) throws ParseException {
+
+        int getFriends = 0;
+        List<ParseObject> idsViaje = Utils.getRegistersFromBBDD(trip.getId(), "Grupo", "Id_Viaje");
+
+        if(!idsViaje.isEmpty()){
+            getFriends = idsViaje.size();
+        }
+
+        return getFriends;
     }
 }
