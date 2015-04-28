@@ -234,6 +234,7 @@ public class SiteList  extends ActionBarActivity {
                 paramsMaps.putString("tripId", tripId);
                 paramsMaps.putDouble("latitude", latitude);
                 paramsMaps.putDouble("longitude", longitude);
+                paramsMaps.putSerializable("userObject", myUser);
 
                 Intent siteMaps = new Intent(this, SiteMapsActivity.class);
                 siteMaps.putExtras(paramsMaps);

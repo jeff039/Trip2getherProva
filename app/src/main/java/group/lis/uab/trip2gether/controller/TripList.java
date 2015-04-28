@@ -66,6 +66,12 @@ public class TripList extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onResume() //quan recarreguem la vista també les notificacions
+    {
+        super.onResume();
+        this.checkNotifications();
+    }
 
     public void checkNotifications()
     {
@@ -75,7 +81,6 @@ public class TripList extends ActionBarActivity {
 
         List<ParseObject> notiResponse = null; //crida al BE
         try {
-            //busquem la amistat
             notiResponse = ParseCloud.callFunction("getActiveNotifications", params);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -253,5 +258,11 @@ public class TripList extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        moveTaskToBack(true);
     }
 }

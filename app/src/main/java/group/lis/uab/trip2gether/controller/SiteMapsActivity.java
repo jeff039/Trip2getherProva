@@ -13,13 +13,21 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.model.Site;
+import group.lis.uab.trip2gether.model.User;
 
-public class SiteMapsActivity extends FragmentActivity {
+public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     MarkerOptions marker;
@@ -125,7 +133,6 @@ public class SiteMapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-
         Bundle params = getIntent().getExtras();
 
         if(params.getString("route").equals("false")) { //afegint site
@@ -157,6 +164,9 @@ public class SiteMapsActivity extends FragmentActivity {
         }
         else if (params.getString("route").equals("true")) //mirant la ruta
         {
+            //què passarà quan pitjem en una marca
+            mMap.setOnMarkerClickListener(this);
+
             double latitutde = params.getDouble("latitude");
             double longitude = params.getDouble("longitude");
             ////////////////////////////////////
@@ -185,5 +195,40 @@ public class SiteMapsActivity extends FragmentActivity {
             this.initializeButtonsRoute();
 
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Bundle paramsIn = getIntent().getExtras();
+        //////////////////////////////////
+        LatLng position = marker.getPosition();
+        User user = (User) paramsIn.getSerializable("userObject");
+
+        ///////QUERY SITE/////////////////////
+        HashMap<String, Object> paramsQuery = new HashMap<String, Object>();
+        paramsQuery.put("latitude", position.latitude);
+        paramsQuery.put("longitude", position.longitude);
+
+        List<ParseObject> siteResponse = null; //crida al BE
+        try {
+            siteResponse = ParseCloud.callFunction("getSiteByCoordenates", paramsQuery);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        ParseObject siteParse = siteResponse.get(0);
+        Site site = new Site(siteParse.getString("Nombre"), siteParse.getString("Descripcion"),
+                siteParse.getParseFile("Imagen"), siteParse.getString("Id_Viaje"), siteParse.getObjectId(),
+                siteParse.getDouble("Duracion"),
+                siteParse.getDouble("Precio"), siteParse.getDouble("Latitud"), siteParse.getDouble("Longitud"));
+        //////////////////////////////////////////////////////////
+
+        Bundle paramsOut = new Bundle();
+        paramsOut.putSerializable("currentSite", site);
+        paramsOut.putSerializable("myUser", user);
+        Intent siteView = new Intent(SiteMapsActivity.this, SiteView.class);
+        siteView.putExtras(paramsOut);
+        startActivity(siteView);
+
+        return false;
     }
 }
