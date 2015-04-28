@@ -16,9 +16,12 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.ParseCloud;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import group.lis.uab.trip2gether.R;
@@ -55,11 +58,40 @@ public class NotificationList extends ActionBarActivity {
 
         this.initializeDrawerLayout();
         this.initializeButtons();
-
         try {
             this.ViewNotificationsFromBBDD();
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
+        }
+        this.setUserNotificationsViewed(); //al final les posem a vistes
+    }
+
+    public void setUserNotificationsViewed() //per posar les notificacions d'un usuari amb Estado "true" (vistes)
+    {
+        ///////QUERY NOTIS/////////////////////
+        List<ParseObject> notiResponse = null; //crida al BE
+        HashMap<String, Object> paramsQuery = new HashMap<String, Object>();
+        paramsQuery.put("userId", myUser.getObjectId()); //(receptor)
+
+        try {
+            notiResponse = ParseCloud.callFunction("getActiveNotifications", paramsQuery);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //////////////////////////////////////////////////////////
+        ///////UPDATE SITE/////////////////////
+        for(int i = 0; i < notiResponse.size(); i++)
+        {
+            ParseObject noti = notiResponse.get(i);
+            HashMap<String, Object> paramsQuery2 = new HashMap<String, Object>();
+            paramsQuery2.put("objectId", noti.getObjectId()); //(receptor)
+
+            try {
+                ParseCloud.callFunction("updateNotification", paramsQuery2);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            //////////////////////////////////////////////////////////
         }
     }
 
