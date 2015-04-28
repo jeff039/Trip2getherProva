@@ -25,8 +25,10 @@ import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.Notification;
+import group.lis.uab.trip2gether.model.NotificationListAdapter;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.SiteListAdapter;
+import group.lis.uab.trip2gether.model.TripListAdapter;
 import group.lis.uab.trip2gether.model.User;
 
 /**
@@ -69,11 +71,13 @@ public class NotificationList extends ActionBarActivity {
             Notification notificacion = new Notification(idNotificacion.getObjectId(), idNotificacion.getBoolean("Estado"),
                     idNotificacion.getString("Id_Emisor"), idNotificacion.getString("Id_Receptor"), idNotificacion.getString("Id_Tipo"),
                     idNotificacion.getString("Tipo"));
-            this.notifications.add(notificacion);
-            this.notificationsNames.add(notificacion.getIdEmisor());
+            if (!notificacion.getEstado()) {
+                this.notifications.add(notificacion);
+                this.notificationsNames.add(notificacion.getIdEmisor());
+            }
         }
 
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, notificationsNames);
+        NotificationListAdapter adaptador = new NotificationListAdapter(context, R.layout.notification_list_item_row, notifications, myUser);
         lista = (ListView)findViewById(R.id.listaNotificaciones);
         lista.setAdapter(adaptador);
 
@@ -132,7 +136,7 @@ public class NotificationList extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_site_list, menu);
+        getMenuInflater().inflate(R.menu.menu_main_launch_login, menu);
         return true;
     }
 }

@@ -47,6 +47,9 @@
     <string name="mailFriend">Mail amistad</string>
     <string name="save">GUARDAR</string>
     <string name="notifications">Notificaciones</string>
+    <string name="friendRequest">Te ha enviado una solicitud de amistad</string>
+    <string name="friendRequestConfirm">Solicitud aceptada</string>
+    <string name="friendRequestDecline">Solicitud rechazada</string>
 
     <string-array name="arrayPaises">
         <item>Spain</item>

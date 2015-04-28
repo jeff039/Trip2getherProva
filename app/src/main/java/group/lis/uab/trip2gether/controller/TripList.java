@@ -194,6 +194,9 @@ public class TripList extends ActionBarActivity {
                     openMyProfile();
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
                     break;
+                case 2:
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    break;
                 case 4:
                     //el botó  de notificacions es canviara si a la bd canvia
                     openNotificationList();
