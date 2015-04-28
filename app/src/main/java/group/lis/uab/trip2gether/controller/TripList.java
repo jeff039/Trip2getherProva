@@ -134,6 +134,7 @@ public class TripList extends ActionBarActivity {
                 Intent intent = new Intent (TripList.this, SiteList.class);
                 intent.putExtra("id_viaje", trips.get(position).getId());
                 intent.putExtra("nombre_viaje", trips.get(position).getNombre());
+                intent.putExtra("myUser", myUser);
                 startActivity(intent);
             }
         });

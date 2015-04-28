@@ -24,6 +24,8 @@ import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.SiteListAdapter;
+import group.lis.uab.trip2gether.model.User;
+
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ public class SiteList  extends ActionBarActivity {
     private String idViaje = "";
     private Toolbar mToolbar;
     private ListView leftDrawerList;
+    private User myUser;
 
     /**
      * Method onCreate
@@ -55,6 +58,8 @@ public class SiteList  extends ActionBarActivity {
 
         TextView name = (TextView)findViewById(R.id.txtSiteName);
         name.setText(nombreViaje);
+
+        myUser = (User) intent.getSerializableExtra("myUser");
 
         this.initializeDrawerLayout();
         this.initializeButtons();
@@ -93,6 +98,7 @@ public class SiteList  extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent (SiteList.this, SiteView.class);
                 intent.putExtra("currentSite", sites.get(position));
+                intent.putExtra("myUser", myUser);
                 startActivity(intent);
             }
         });
