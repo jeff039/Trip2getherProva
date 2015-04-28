@@ -95,11 +95,14 @@ public class SiteList  extends ActionBarActivity {
             e.printStackTrace();
         }
         int notifications = notiResponse.size(); //quantes notificacions actives
-
+        ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         if(notifications > 0)
         {
-            ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
             openDrawer.setImageResource(R.drawable.ic_action_noti);
+        }
+        else //si no tenim noves notificacions
+        {
+            openDrawer.setImageResource(R.drawable.ic_action);
         }
     }
 
