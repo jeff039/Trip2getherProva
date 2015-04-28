@@ -117,7 +117,7 @@ public class NewSiteForm extends ActionBarActivity {
 
     public Button.OnClickListener clickGoogle = new Button.OnClickListener() {
         public void onClick(View v) {
-            EditText TextNombre =(EditText)findViewById(R.id.EditTextNombre);
+            EditText TextNombre =(EditText)findViewById(R.id.Nombre);
             String search = TextNombre.getText().toString();
             Uri uri = Uri.parse("https://www.google.com/search?hl=en&site=imghp&tbm=isch&source=hp&q="+search);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
