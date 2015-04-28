@@ -14,10 +14,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.view.MenuItem;
+
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
@@ -63,11 +66,40 @@ public class SiteList  extends ActionBarActivity {
 
         this.initializeDrawerLayout();
         this.initializeButtons();
+        this.checkNotifications();
 
         try {
             this.ViewSiteFromBBDD();
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onResume() //quan recarreguem la vista també les notificacions
+    {
+        super.onResume();
+        this.checkNotifications();
+    }
+
+    public void checkNotifications()
+    {
+        ///////QUERY AMICS/////////////////////
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", myUser.getObjectId());
+
+        List<ParseObject> notiResponse = null; //crida al BE
+        try {
+            notiResponse = ParseCloud.callFunction("getActiveNotifications", params);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int notifications = notiResponse.size(); //quantes notificacions actives
+
+        if(notifications > 0)
+        {
+            ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
+            openDrawer.setImageResource(R.drawable.ic_action_noti);
         }
     }
 
