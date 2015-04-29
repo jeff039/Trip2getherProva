@@ -28,6 +28,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class SiteView  extends ActionBarActivity {
     private Intent intent;
     private RatingBar ratingBar;
     public static Boolean refreshActivity = false;
+    private List<ParseObject> idsSitio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,14 +150,35 @@ public class SiteView  extends ActionBarActivity {
 
     public Button.OnClickListener rateButton = new Button.OnClickListener() {
         public void onClick(View v) {
-            HashMap<String, Object> params = new HashMap<String, Object>();
-            params.put("estrellas", ratingBar.getRating());
-            params.put("id_sitio", currentSite.getId());
-            params.put("id_usuario", myUser.getObjectId());
-            try {
-                String ar = ParseCloud.callFunction("updateRate", params);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            Boolean rateExist = false;
+            for(int i=0;i<idsSitio.size(); i++){
+                ParseObject idSitio = idsSitio.get(i);
+                if(idSitio.getString("Id_Usuario").equals(myUser.getObjectId().toString())){
+                    rateExist = true;
+                }
+            }
+
+            if(rateExist) {
+                HashMap<String, Object> params = new HashMap<String, Object>();
+                params.put("estrellas", ratingBar.getRating());
+                params.put("id_sitio", currentSite.getId());
+                params.put("id_usuario", myUser.getObjectId());
+                try {
+                    String ar = ParseCloud.callFunction("updateRate", params);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                HashMap<String, Object> params = new HashMap<String, Object>();
+                params.put("estrellas", ratingBar.getRating());
+                params.put("id_sitio", currentSite.getId());
+                params.put("id_usuario", myUser.getObjectId());
+                try {
+                    List<ParseObject> ar = ParseCloud.callFunction("addRate", params);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             refreshActivity = true;
@@ -285,7 +308,7 @@ public class SiteView  extends ActionBarActivity {
     }
 
     public Boolean initRate() throws ParseException {
-        List<ParseObject> idsSitio = getValueBBDD(currentSite.getId(), "Puntuacion", "Id_Sitio");
+        idsSitio = getValueBBDD(currentSite.getId(), "Puntuacion", "Id_Sitio");
 
         Double sumatorio;
         int contador = 0;
@@ -316,8 +339,10 @@ public class SiteView  extends ActionBarActivity {
             contador++;
         }
 
-        rateValue.setText(sumatorio.toString());
         sumatorio = sumatorio / contador;
+        DecimalFormat df = new DecimalFormat("0.00");
+        String finalRate = df.format(sumatorio);
+        rateValue.setText(finalRate);
         ratingBar.setRating(sumatorio.longValue());
 
         return true;
