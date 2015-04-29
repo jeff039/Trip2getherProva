@@ -61,7 +61,7 @@
                 android:hint="@string/tripName"
                 android:padding="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:prompt="@array/arrayPaises"
                 android:spinnerMode="dropdown"
@@ -78,16 +78,14 @@
             android:orientation="horizontal"
 
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/linearLayoutPais"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_below="@+id/linearLayoutPais">
 
             <Spinner
                 android:id="@+id/SpinnerCiudades"
                 android:hint="@string/nombre"
                 android:padding="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:prompt="@array/ciudadDefault"
                 android:spinnerMode="dropdown"
@@ -194,12 +192,12 @@
 
             <ImageView
                 android:id="@+id/imageTrip"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:id="@+id/linearLayoutExtraFuncions"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -225,18 +223,6 @@
                     android:background="@drawable/button_custom"
                     android:textSize="16sp" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/maps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="prova maps"
-                android:textColor="#ffffff"
-                android:padding="10dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/button_custom"
-                android:gravity="center"
-                android:textSize="16sp" />
         </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

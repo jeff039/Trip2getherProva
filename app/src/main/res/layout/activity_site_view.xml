@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="group.lis.uab.trip2gether.controller.TripList"
+        android:background="#FFFFFF"
         tools:ignore="MergeRootFrame">
 
         <include android:id="@+id/action_bar_site_view"
@@ -20,7 +21,7 @@
         <ImageView
             android:id="@+id/backSite"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:src="@drawable/back_site"/>
         <!-- SITE NAME -->
@@ -40,19 +41,18 @@
         </LinearLayout>
         <ImageButton
             android:id="@+id/EditThisSite"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
             android:layout_marginRight="15dp"
             android:layout_gravity="end|top"
-            android:background="#80212121"
-            android:src="@drawable/ic_action_edit_white"/>
+            android:src="@drawable/ic_mode_edit_white_18dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="150dp"
             android:padding="20dp">
 
             <!-- SITE STARS -->
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_below="@+id/linear_layout_name">
 
                 <TextView
@@ -150,24 +150,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/moneda"/>
             </LinearLayout>
-
-            <!-- SITE MAP -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_shadow"
-                android:layout_marginTop="10dp">
-                <fragment
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-
-                    android:id="@+id/mapSite"
-                    tools:context="group.lis.uab.trip2gether.controller.SiteView"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"/>
-            </LinearLayout>
-
             <!--RATING BAR -->
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -186,6 +168,23 @@
                     android:layout_height="wrap_content"
                     android:text="Submit"
                     style="?android:attr/buttonStyleSmall"/>
+            </LinearLayout>
+
+            <!-- SITE MAP -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_shadow"
+                android:layout_marginTop="10dp">
+                <fragment
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+
+                    android:id="@+id/mapSite"
+                    tools:context="group.lis.uab.trip2gether.controller.SiteView"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"/>
             </LinearLayout>
         </LinearLayout>
 

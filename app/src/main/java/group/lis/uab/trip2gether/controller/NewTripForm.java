@@ -194,8 +194,6 @@ public class NewTripForm extends ActionBarActivity {
         gallery.setOnClickListener(clickGallery);
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
-        Button maps = (Button)findViewById(R.id.maps);
-        maps.setOnClickListener(clickMaps);
 
 
         final ImageButton addFriendButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
@@ -203,7 +201,7 @@ public class NewTripForm extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //quan clickem canviem el color
-                addFriendButton.setImageResource(R.drawable.ic_action_add_group_pulsado);
+                addFriendButton.setImageResource(R.drawable.ic_action_add_group);
  ////////////////////////////POPUP add friend/////////////////////////////////////////////////
                 LayoutInflater layoutInflater
                         = (LayoutInflater)getBaseContext()
@@ -240,7 +238,7 @@ public class NewTripForm extends ActionBarActivity {
                 btnOK.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        addFriendButton.setImageResource(R.drawable.ic_action_add_group);
+                        addFriendButton.setImageResource(R.drawable.ic_action_add_group_pulsado);
            ///////////////PER TOT ELS CHECKS MIREM QUIN ESTÀ CHECKED///////////////
                         for(int i = 0; i < checkIdList.size(); i++)
                         {

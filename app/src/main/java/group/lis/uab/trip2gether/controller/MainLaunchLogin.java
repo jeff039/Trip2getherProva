@@ -1,8 +1,10 @@
 package group.lis.uab.trip2gether.controller;
 
 import android.content.Intent;
+import android.animation.*;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +49,7 @@ public class MainLaunchLogin extends ActionBarActivity {
                     = (LayoutInflater)getBaseContext()
                     .getSystemService(LAYOUT_INFLATER_SERVICE);
 
+
             final View popupView = layoutInflater.inflate(R.layout.login_popup, null);
 
             final PopupWindow popupWindow = new PopupWindow(
@@ -54,8 +57,11 @@ public class MainLaunchLogin extends ActionBarActivity {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.setFocusable(true); //per evitar back
+            popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.showAsDropDown(popupView);
 
-            popupWindow.showAsDropDown(v, 180, -300); //mostrem el popup
+            //mostrem el popup
             ///////////////
 
             boolean login = false; //CRIDEM EL MÈTODE LOGIN

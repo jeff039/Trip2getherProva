@@ -102,7 +102,7 @@ public class SiteList  extends ActionBarActivity {
         }
         else //si no tenim noves notificacions
         {
-            openDrawer.setImageResource(R.drawable.ic_action);
+            openDrawer.setImageResource(R.drawable.ic_menu_white_18dp);
         }
     }
 

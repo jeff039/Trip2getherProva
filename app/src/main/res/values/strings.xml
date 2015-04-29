@@ -124,6 +124,6 @@
     <string name="title_activity_test">test</string>
     <string name="noFriendsAlert">You have no friends to invite!</string>
     <string name="trips">Trips</string>
-    <string name="login">Loading...</string>
+    <string name="login">Cargando...</string>
 
 </resources>
