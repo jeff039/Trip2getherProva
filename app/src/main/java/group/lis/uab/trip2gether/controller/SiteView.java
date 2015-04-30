@@ -343,6 +343,7 @@ public class SiteView  extends ActionBarActivity {
             params.put("estrellas", 0);
             params.put("id_sitio", currentSite.getId());
             params.put("id_usuario", myUser.getObjectId());
+
             String ar = ParseCloud.callFunction("addRate", params);
             if(ar.isEmpty()){
                 return false;
