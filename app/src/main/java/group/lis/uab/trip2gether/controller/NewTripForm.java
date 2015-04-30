@@ -175,7 +175,7 @@ public class NewTripForm extends ActionBarActivity {
             //file it's a ParseFile that contains the image selected
             Bitmap image = BitmapFactory.decodeFile(picturePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            image.compress(Bitmap.CompressFormat.PNG, 50, stream);
             byte[] dataImage = stream.toByteArray();
             setFile(new ParseFile("imagenViaje.png", dataImage));
             try {
@@ -194,7 +194,6 @@ public class NewTripForm extends ActionBarActivity {
         gallery.setOnClickListener(clickGallery);
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
-
 
         final ImageButton addFriendButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
@@ -238,7 +237,7 @@ public class NewTripForm extends ActionBarActivity {
                 btnOK.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        addFriendButton.setImageResource(R.drawable.ic_action_add_group_pulsado);
+                        addFriendButton.setImageResource(R.drawable.ic_action_add_group);
            ///////////////PER TOT ELS CHECKS MIREM QUIN ESTÀ CHECKED///////////////
                         for(int i = 0; i < checkIdList.size(); i++)
                         {

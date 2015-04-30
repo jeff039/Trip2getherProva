@@ -28,6 +28,7 @@ import java.util.List;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.Resources.Utils;
+import group.lis.uab.trip2gether.model.User;
 
 public class EditSiteForm extends ActionBarActivity {
 
@@ -40,6 +41,14 @@ public class EditSiteForm extends ActionBarActivity {
     }
     public void setMySite (Site mySite) {
         this.mySite = mySite;
+    }
+
+    private User myUser;
+    public User getMyUser() {
+        return myUser;
+    }
+    public void setMyUser (User myUser) {
+        this.myUser = myUser;
     }
 
     public ParseFile getFile() {
@@ -65,6 +74,7 @@ public class EditSiteForm extends ActionBarActivity {
 
         Intent intent = this.getIntent();
         setMySite((Site) intent.getSerializableExtra("mySite")); //serialització de l'objecte
+        setMyUser((User) intent.getSerializableExtra("myUser")); //serialització de l'objecte
         setIdViaje(intent.getExtras().getString("id_viaje"));
 
         this.initializeButtons();
@@ -92,6 +102,8 @@ public class EditSiteForm extends ActionBarActivity {
             nuevoSitio.setIdViaje(mySite.getIdViaje());
             Intent intent = new Intent (EditSiteForm.this, SiteView.class);
             intent.putExtra("currentSite", nuevoSitio);
+            intent.putExtra("myUser", myUser);
+            intent.putExtra("id_viaje", idViaje);
             startActivity(intent);
 
             try {
@@ -130,7 +142,7 @@ public class EditSiteForm extends ActionBarActivity {
             //file it's a ParseFile that contains the image selected
             Bitmap image = BitmapFactory.decodeFile(picturePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            image.compress(Bitmap.CompressFormat.PNG, 50, stream);
             byte[] dataImage = stream.toByteArray();
             setFile(new ParseFile("imagenViaje.png", dataImage));
             try {

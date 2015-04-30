@@ -9,6 +9,7 @@ import com.parse.ParseObject;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import group.lis.uab.trip2gether.model.Trip;
 
@@ -119,4 +120,74 @@ public class Utils {
         }
         return result;
     }
+
+    /**
+     * Method addNotification. Métode genéric per afegir una notificacio a la BBDD
+     * segons uns parametres donats.
+     * @param transmitterId camp Id_Emisor de Notificacion
+     * @param receiverId camp Id_Receptor de Notificacion
+     * @param clas camp Clas de Notificacion
+     * @param type camp Tipo de Notificacion
+     * @param idType camp Id_Tipo de Notificacion
+     * @throws com.parse.ParseException
+     */
+    public static void addNotification(String transmitterId, String receiverId, String clas,String type, String idType) throws com.parse.ParseException {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("transmitterId", transmitterId);
+        params.put("receiverId", receiverId);
+        params.put("clas", clas);
+        params.put("type", type);
+        params.put("idType", idType);
+        String a = ParseCloud.callFunction("addNotification", params);
+    }
+
+    /**
+     * Method addFriendNotification. Métode genéric per afegir una notificacio Friend a la BBDD
+     * segons uns parametres donats.
+     * @param idViaje camp Tipo de Notificacion
+     * @param idUsuario camp Id_Tipo de Notificacion
+     * @throws com.parse.ParseException
+     */
+    public static void addGroupFriend(String idViaje, String idUsuario) throws com.parse.ParseException {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("Id_Viaje", idViaje);
+        params.put("Id_Usuario", idUsuario);
+        ParseCloud.callFunction("addGroupFriend", params);;
+    }
+
+
+    /**
+     * Method getUserFromId. Métode que retorna el registre amb les dades del usuari demanat
+     * segons uns parametres donats.
+     * @param idUsuario camp objectId de la taula Usuario
+     * @return retorna el List<ParseObject> que coincideixin amb el parametre donat.
+     * @throws com.parse.ParseException
+     */
+    public static List<ParseObject> getUserFromId(String idUsuario) throws com.parse.ParseException {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", idUsuario);
+        return ParseCloud.callFunction("getUserFromId", params);
+    }
+
+    private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
+
+    /**
+     * Generate a value suitable for use in .
+     * This value will not collide with ID values generated at build time by aapt for R.id.
+     *
+     * @return a generated ID value
+     */
+    public static int generateViewId() {
+        for (;;) {
+            final int result = sNextGeneratedId.get();
+            // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
+            int newValue = result + 1;
+            if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
+            if (sNextGeneratedId.compareAndSet(result, newValue)) {
+                return result;
+            }
+        }
+    }
+
 }
+

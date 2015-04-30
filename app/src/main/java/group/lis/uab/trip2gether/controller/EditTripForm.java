@@ -5,24 +5,30 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -30,6 +36,7 @@ import com.parse.ParseObject;
 import android.support.v7.widget.Toolbar;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,6 +59,24 @@ public class EditTripForm extends ActionBarActivity {
     private Trip myTrip;
     private ParseFile file;
     private static String[] paises = { "Ninguno", "España", "Alemania", "Francia"};
+
+    //LLISTES PER GESTIONAR ELS AMICS
+    private ArrayList<String> friendsIdList = new ArrayList<String>(); //llista de ids de amics TOTS (en ordre amb checks)
+    private ArrayList<Integer> checkIdList = new ArrayList<Integer>(); //llista de ids dels checks (TOTS)
+    private ArrayList<String> friendsMailList = new ArrayList<String>(); //llista dels mails dels amics TOTS
+    private ArrayList<Integer> textViewIdList = new ArrayList<Integer>(); //lista de ids dels text view
+    // TOT ESTÀ EN ORDRE
+    private ArrayList<String> includedFriends = new ArrayList<String>(); //llista de ids dels amics SI INCLOSOS
+    // en tot moment
+    private ArrayList<Integer> checkedBoxes = new ArrayList<Integer>(); //llista amb els id dels boxes checked
+    // abans de tancar el popup
+    private List<ParseObject> participantesViaje; //llista amb els participants del viatje.
+    private ArrayList<ParseObject> datosUsuarioGrupo; //llista amb les dades d'usuari del grup del viaje.
+    private ArrayList<String> participantGroupToAdd = new ArrayList<String>(); //llista de ids dels amics que s'han d'afegir
+    private ArrayList<String> participantGroupToDelete = new ArrayList<String>(); //llista de ids dels amics que s'han d'eliminar
+    private ArrayList<String> participantGroupTrip = new ArrayList<String>(); //llista de ids dels participants actuals
+    // del grup d'un viaje
+    ///////////////////////////////////////////
 
     public User getMyUser() {
         return myUser;
@@ -90,7 +115,11 @@ public class EditTripForm extends ActionBarActivity {
         this.initializeButtons();
         this.setDateTimeFieldIni();
         this.setDateTimeFieldFin();
-        this.initializeTripData();
+        try {
+            this.initializeTripData();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -122,179 +151,392 @@ public class EditTripForm extends ActionBarActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            startActivity(intent);
+            //añadir los nuevos participantes al grupo de Viaje, quitar los que ya no estan
+            //y mandar notificacion
+            List<ParseObject> participantsObjectsToDelete = new ArrayList<>(); // los registros de los participantes a eliminar
 
+            String participanteActual="";
+            String participantePosterior="";
+
+            //recuperamos los registros a eliminar
+            //aquellos que estan en el Grupo en BBDD y no en la lista seleccionada en la App.
+            for (int i=0; i< participantesViaje.size();i++){
+                participanteActual=participantesViaje.get(i).getString("Id_Usuario");
+                participantGroupTrip.add(participanteActual);
+                if((!includedFriends.contains(participanteActual)) & (!participanteActual.equals(myUser.getObjectId()))){
+                    participantGroupToDelete.add(participanteActual);
+                    participantsObjectsToDelete.add(participantesViaje.get(i));
+                }
+            }
+
+            //recuperamos los objectId de usuario a añadir
+            //aquellos que estan en la lista seleccionada en la App y no en el Grupo en BBDD.
+            for (int i=0; i< includedFriends.size();i++){
+                participantePosterior=includedFriends.get(i);
+                if(!participantGroupTrip.contains(participantePosterior)){
+                    participantGroupToAdd.add(participantePosterior);
+                }
+            }
+
+            //añadir al grupo a los usuarios
+            for(int i = 0; i < participantGroupToAdd.size(); i++) {
+                try {
+                    Utils.addGroupFriend(nuevoViaje.getId(), participantGroupToAdd.get(i));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            //eliminar del grupo a los usuarios
+            try {
+                if(!participantsObjectsToDelete.isEmpty()) {
+                    ParseObject.deleteAll(participantsObjectsToDelete);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            //Notificacion a todos los participantes del viaje tras actualizar
+            try {
+                participantesViaje = Utils.getRegistersFromBBDD(myTrip.getId(),"Grupo", "Id_Viaje");
+                //notificacion a los componentes de todas las personas añadidas
+                for (int i=0;i<participantGroupToAdd.size();i++){
+                    for (int j=0;j<participantesViaje.size();j++) {
+                        try {
+                            Utils.addNotification(participantGroupToAdd.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "add", myTrip.getId());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                //notificacion a los componentes de todas las personas eliminadas
+                for (int i=0;i<participantGroupToDelete.size();i++){
+                    for (int j=0;j<participantesViaje.size();j++) {
+                        try {
+                            Utils.addNotification(participantGroupToDelete.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "delete", myTrip.getId());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                //notificacion a las personas eliminadas
+                for (int i=0;i<participantGroupToDelete.size();i++){
+                    try {
+                        Utils.addNotification(participantGroupToDelete.get(i), participantGroupToDelete.get(i), "Grupo", "drop", myTrip.getId());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
 
-    public class SpinnerListener implements AdapterView.OnItemSelectedListener {
-        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            cargaSpinnerCiudad(parent.getSelectedItemPosition());
-        }
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
-    }
+            if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-    /**
-     * Method cargaSpinnerCiudad. Carga de manera dinámica las ciudades en función del páis elegido
-     * @param pais
-     */
-    private void cargaSpinnerCiudad(int pais){
-        Spinner Ciudades = (Spinner) findViewById(R.id.SpinnerCiudades);
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
 
-        ArrayAdapter arrayAdapterEspaña = ArrayAdapter.createFromResource
-                (this, R.array.CiudadesEspaña, android.R.layout.simple_spinner_item);
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
 
-        ArrayAdapter arrayAdapterAlemania= ArrayAdapter.createFromResource
-                (this, R.array.CiudadesAlemania, android.R.layout.simple_spinner_item);
+                // String picturePath contains the path of selected Image
 
-        ArrayAdapter arrayAdapterFrancia= ArrayAdapter.createFromResource
-                (this, R.array.CiudadesFrancia, android.R.layout.simple_spinner_item);
+                ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
+                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
-        ArrayAdapter arrayAdapterDefault = ArrayAdapter.createFromResource
-                (this, R.array.arrayDefault, android.R.layout.simple_spinner_item);
-
-        switch (pais) {
-            case 1: Ciudades.setAdapter(arrayAdapterEspaña);
-                break;
-            case 2: Ciudades.setAdapter(arrayAdapterAlemania);
-                break;
-            case 3: Ciudades.setAdapter(arrayAdapterFrancia);
-                break;
-            default: Ciudades.setAdapter(arrayAdapterDefault);
-                break;
-        }
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-
-            // String picturePath contains the path of selected Image
-
-            ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
-            //file it's a ParseFile that contains the image selected
-            Bitmap image = BitmapFactory.decodeFile(picturePath);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] dataImage = stream.toByteArray();
-            setFile(new ParseFile("imagenViaje.png", dataImage));
-            try {
-                file.save();
-            } catch (ParseException e) {
-                e.printStackTrace();
+                //file it's a ParseFile that contains the image selected
+                Bitmap image = BitmapFactory.decodeFile(picturePath);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.PNG, 50, stream);
+                byte[] dataImage = stream.toByteArray();
+                setFile(new ParseFile("imagenViaje.png", dataImage));
+                try {
+                    file.save();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
-    }
+        /////////////////INTERFÍCIE////////////////////////////////////
+        public void initializeButtons() {
 
-    /////////////////INTERFÍCIE////////////////////////////////////
-    public void initializeButtons() {
-        Button sendDeleteThisTrip = (Button) findViewById(R.id.sendDeleteThisTrip);
-        sendDeleteThisTrip.setOnClickListener(clickSendDeleteThisTrip);
+            Button sendDeleteThisTrip = (Button) findViewById(R.id.sendDeleteThisTrip);
+            sendDeleteThisTrip.setOnClickListener(clickSendDeleteThisTrip);
 
-        Button gallery = (Button)findViewById(R.id.gallery);
-        gallery.setOnClickListener(clickGallery);
-        Button google = (Button)findViewById(R.id.google);
-        google.setOnClickListener(clickGoogle);
 
-        ImageButton imageButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // Intent intent = new Intent(EditTripForm.this, Friends.class);
-                //startActivity(intent);
-            }
-        });
+            Button gallery = (Button)findViewById(R.id.gallery);
+            gallery.setOnClickListener(clickGallery);
+            Button google = (Button)findViewById(R.id.google);
+            google.setOnClickListener(clickGoogle);
 
-        ImageButton backActivity = (ImageButton)findViewById(R.id.backActvity);
-        backActivity.setOnClickListener(doBackActivity);
+            final ImageButton addFriendButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
+            addFriendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //quan clickem canviem el color
+                    addFriendButton.setImageResource(R.drawable.ic_action_add_group_pulsado);
+                    ////////////////////////////POPUP add friend/////////////////////////////////////////////////
+                    LayoutInflater layoutInflater
+                            = (LayoutInflater)getBaseContext()
+                            .getSystemService(LAYOUT_INFLATER_SERVICE);
 
-        Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
-        ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, paises);
-        spinnerPaises.setAdapter(arrayAdapterPaises);
-        spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
+                    final View popupView = layoutInflater.inflate(R.layout.add_friends_popup, null);
 
-        pickDateIni = (EditText) findViewById(R.id.EditTextFechaInicio);
-        pickDateIni.setOnClickListener(clickPickDateIni);
-        pickDateIni.setInputType(InputType.TYPE_NULL);
-        pickDateIni.setOnFocusChangeListener(focusPickDateIni);
+                    final PopupWindow popupWindow = new PopupWindow(
+                            popupView,
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    popupWindow.setFocusable(true); //per evitar back
 
-        pickDateFin = (EditText) findViewById(R.id.EditTextFechaFinal);
-        pickDateFin.setOnClickListener(clickPickDateFin);
-        pickDateFin.setInputType(InputType.TYPE_NULL);
-        pickDateFin.setOnFocusChangeListener(focusPickDateFin);
+                    //PRIMER COP?
+                    if(!checkIdList.isEmpty()) //al eliminar el popup, es reseteja la vista
+                    {
+                        //RECORDEM ELS AMICS ANTERIORS JA CLICATS SI HAVIA
+                        setPopUpContent(popupView, false);
+                        for (int i = 0; i < checkedBoxes.size(); i++)
+                        {
+                            CheckBox cb = (CheckBox) popupView.findViewById(checkedBoxes.get(i));
+                            cb.setChecked(true);
+                        }
+                    }
+                    else
+                    {
+                        setPopUpContent(popupView, true); //posem el content del primer cop
+                    }
+                    ///////////////////////////////////////////////
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-    }
+                    //////////////////////////////BOTÓ OK DEL POPUP////////////////////////////////////////////////////////////////////
+                    //afegim els amics marcats al grup
+                    Button btnOK = (Button)popupView.findViewById(R.id.okFriends);
+                    btnOK.setOnClickListener(new Button.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            addFriendButton.setImageResource(R.drawable.ic_action_add_group);
+                            ///////////////PER TOT ELS CHECKS MIREM QUIN ESTÀ CHECKED///////////////
+                            for(int i = 0; i < checkIdList.size(); i++)
+                            {
+                                //  AGAFEM ELS ELEMENTS
+                                CheckBox cb = (CheckBox) popupView.findViewById(checkIdList.get(i));
+                                String idFriend = friendsIdList.get(i);
+                                String mailFriend = friendsMailList.get(i);
 
-    public void initializeTripData() {
-        EditText nombre = (EditText)findViewById(R.id.EditTextNombre);
-        nombre.setText(getMyTrip().getNombre());
-        /**
-         * Put the correct data into the spinners
-         */
-        Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
-        int valCountry=0;
-        for (int i=0;i<paises.length;i++){
-            if (paises[i].equals(myTrip.getPais())){
-                valCountry=i;
-            }
+                                //////////////////////////////
+                                if(cb.isChecked())
+                                {
+                                    if(!includedFriends.contains(idFriend)) { //NO AMIC REPETIT
+
+                                        //GUARDEM ELS AMICS I BOXES SELECCIONATS LÒGICAMENT
+                                        includedFriends.add(idFriend);
+                                        checkedBoxes.add(cb.getId());
+
+                                        //MOSTREM EN PANTALLA
+                                        LinearLayout addedFriends = (LinearLayout) //linear dels texts views
+                                                EditTripForm.this.findViewById(R.id.addedFriendsList);
+                                        //addedFriends.removeViewAt(Integer.MAX_VALUE);
+                                        TextView newTv = new TextView(getApplicationContext());
+                                        newTv.setTextColor(Color.BLACK);
+                                        int textViewId = Utils.generateViewId();
+                                        newTv.setId(textViewId);
+                                        textViewIdList.add(textViewId);
+                                        newTv.setText(mailFriend);
+                                        addedFriends.addView(newTv);
+                                        ////////////////////////
+                                    }
+                                }
+                                else //SI NO ESTÀN CHECKED
+                                {
+                                    if(includedFriends.contains(idFriend)) //SI ESTAVA INCLÒS
+                                    // I EL "DESCHECKEGEM" --> ELIMINEM
+                                    {
+                                        //VISTA
+                                        LinearLayout addedFriends = (LinearLayout) //linear dels texts views
+                                                EditTripForm.this.findViewById(R.id.addedFriendsList);
+                                        //si l'amic estava inclòs ja tenim el text view
+
+                                        //busquem i eliminem PER EMAIL (la llista de text view no correspon amb la llista de amics
+                                        //NOMÉS TEXT VIEW DELS SELECCIONATS!!
+                                        boolean found = false;
+                                        int iter = 0;
+                                        int idRemoveText = 0;
+                                        while(!found) {
+                                            TextView tv = (TextView) EditTripForm.this.findViewById(textViewIdList.get(iter));
+
+                                            if(tv.getText().equals(friendsMailList.get(i)))
+                                            {
+                                                addedFriends.removeView(tv);
+                                                int idTv = tv.getId();
+                                                textViewIdList.remove(new Integer(idTv)); //per elminar per value i no per key
+                                                found = true;
+                                            }
+                                            iter++;
+                                        }
+                                        //LÒGICA
+                                        includedFriends.remove(idFriend);
+                                        checkedBoxes.remove(checkIdList.get(i));
+                                    }
+                                }
+                            }
+
+                            popupWindow.dismiss(); //tanquem el popup
+                        }});
+                    ////////////////////////////////
+                    popupWindow.showAsDropDown(addFriendButton, 50, -30); //mostrem el popup
+
+                }
+            });
+
+            ImageButton backActivity = (ImageButton)findViewById(R.id.backActvity);
+            backActivity.setOnClickListener(doBackActivity);
+
+            pickDateIni = (EditText) findViewById(R.id.EditTextFechaInicio);
+            pickDateIni.setOnClickListener(clickPickDateIni);
+            pickDateIni.setInputType(InputType.TYPE_NULL);
+            pickDateIni.setOnFocusChangeListener(focusPickDateIni);
+
+            pickDateFin = (EditText) findViewById(R.id.EditTextFechaFinal);
+            pickDateFin.setOnClickListener(clickPickDateFin);
+            pickDateFin.setInputType(InputType.TYPE_NULL);
+            pickDateFin.setOnFocusChangeListener(focusPickDateFin);
+
+            dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
         }
-        spinnerPaises.setSelection(valCountry);
-        cargaSpinnerCiudad(valCountry);
-        Spinner Ciudades = (Spinner) findViewById(R.id.SpinnerCiudades);
-        for (int i=0;i<Ciudades.getCount();i++){
-            if (Ciudades.getItemAtPosition(i).equals(myTrip.getCiudad())){
-                Ciudades.setSelection(i);
+
+        public void initializeTripData() throws ParseException {
+            EditText nombre = (EditText)findViewById(R.id.EditTextNombre);
+            nombre.setText(getMyTrip().getNombre());
+
+            EditText fechaInicio = (EditText)findViewById(R.id.EditTextFechaInicio);
+            dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+            fechaInicio.setText(dateFormatter.format(getMyTrip().getFechaInicio()));
+
+            EditText fechaFinal = (EditText)findViewById(R.id.EditTextFechaFinal);
+            dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+            fechaFinal.setText(dateFormatter.format(getMyTrip().getFechaFinal()));
+
+
+            LinearLayout addedFriends = (LinearLayout) //linear dels texts views
+                    EditTripForm.this.findViewById(R.id.addedFriendsList);
+            //addedFriends.removeAllViews();
+            TextView newTv = new TextView(getApplicationContext());
+            newTv.setTextColor(Color.BLACK);
+            int textViewId = Integer.MAX_VALUE;
+            newTv.setId(textViewId);
+            //textViewIdList.add(textViewId);
+            participantesViaje = Utils.getRegistersFromBBDD(myTrip.getId(),"Grupo", "Id_Viaje");
+            List<ParseObject> datosUsuario;
+            String idUsario;
+            String textoAMostrar = "";
+            for (int i=0;i<participantesViaje.size();i++){
+                idUsario = participantesViaje.get(i).getString("Id_Usuario");
+                if(!idUsario.equals(myUser.getObjectId())) {
+                    datosUsuario = Utils.getUserFromId(idUsario);
+                    //registrosGrupo.add(datosUsuario.get(0));
+                    textoAMostrar = textoAMostrar + datosUsuario.get(0).getString("Mail");
+                    textoAMostrar = textoAMostrar + "\n";
+                }
             }
-        }
-        EditText fechaInicio = (EditText)findViewById(R.id.EditTextFechaInicio);
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-        fechaInicio.setText(dateFormatter.format(getMyTrip().getFechaInicio()));
+            newTv.setText(textoAMostrar);
+            addedFriends.addView(newTv);
 
-        EditText fechaFinal = (EditText)findViewById(R.id.EditTextFechaFinal);
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-        fechaFinal.setText(dateFormatter.format(getMyTrip().getFechaFinal()));
-
-        try {
             List <ParseObject> trip;
             trip = Utils.getRegistersFromBBDD(myTrip.getId(), "Viaje", "objectId");
             getMyTrip().setImagen(trip.get(0).getParseFile("Imagen"));
+
+            ParseFile file = getMyTrip().getImagen();
+            if (file != null) {
+                ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
+                byte[] bitmapdata = new byte[0];
+                try {
+                    bitmapdata = file.getData();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+                imageView.setImageBitmap(bitmap);
+            }
+        }
+
+    public void setPopUpContent(View popupView, boolean first)
+    {
+        ////Contingut de la vista DINÀMIC segons els amics///////
+        //agafem de la popup view perquè encara no ha estat carregada
+        final LinearLayout ll = (LinearLayout) popupView.findViewById(R.id.linearFriends);
+        String userId = myUser.getObjectId();
+        ///////QUERY AMICS/////////////////////
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", userId);
+
+        List<ParseObject> friendsResponse = null; //crida al BE
+        try {
+            //busquem la amistat
+            friendsResponse = ParseCloud.callFunction("getUserFriends", params);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        ParseFile file = getMyTrip().getImagen();
-        if (file != null) {
-            ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
-            byte[] bitmapdata = new byte[0];
-            try {
-                bitmapdata = file.getData();
-            } catch (ParseException e) {
-                e.printStackTrace();
+        if(friendsResponse.isEmpty() == false) { //tenim un amic
+            // AFEGIM ELS ELEMENTS DE LA VISTA I ACTUALITZEM LES LLISTES AMB ELS AMICS (TOTS)/////////////
+
+            for(int i = 0; i < friendsResponse.size(); i++) { //per tots els amics
+                ParseObject userFriendsParse = friendsResponse.get(i);
+                String friendId = userFriendsParse.getString("Id_Usuario_2"); //id de l'amic
+                //QUERY DETALLS AMIC
+                //busquem els detalls de la amistat
+                HashMap<String, Object> params2 = new HashMap<String, Object>();
+                params2.put("userId", friendId);
+                ////////////////////////////////QUERY MAIL///////////////
+                List<ParseObject> userResponse = null; //crida al BE
+                try {
+                    //busquem la amistat
+                    userResponse = ParseCloud.callFunction("getUserFromId", params2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                ParseObject userParse = userResponse.get(0);
+                String friendEmail = userParse.getString("Mail"); //email de l'amic
+
+                ///////////////////////////////CHECKBOXES///////////
+                CheckBox cb = new CheckBox(getApplicationContext());
+                cb.setText(friendEmail);
+                //SI ÉS EL PRIMER COP S'HA DE CREAR ID NOVA, PERÒ SINÓ HEM DE TORNAR A AFEGIR LA ID ANTIGA (ES MANTÉ)
+                int checkId = 0;
+                if(first) {
+                    checkId = Utils.generateViewId();
+                    //////////////////////////
+                    //INICIALITZEM LLISTES AMB TOTS ELS AMICS I CHECKBOXES
+
+
+                    LinearLayout addedFriends = (LinearLayout) EditTripForm.this.findViewById(R.id.addedFriendsList);
+                    addedFriends.removeAllViews();
+
+                    checkIdList.add(checkId);
+                    friendsMailList.add(friendEmail);
+                    friendsIdList.add(friendId);
+                }
+                else
+                {
+                    checkId = checkIdList.get(i);
+                }
+                cb.setId(checkId); //li donem una id
+                ll.addView(cb); //AFEGIM A LA VISTA
             }
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-            imageView.setImageBitmap(bitmap);
+
+        }else //no tenim amics
+        {
+            Utils.showInfoAlert(getResources().getString(R.string.noFriendsAlert), EditTripForm.this);
         }
     }
-
     /**
      * Method ImageButton.OnClickListener doBackActivity
      */
@@ -332,102 +574,95 @@ public class EditTripForm extends ActionBarActivity {
         }
     };
 
-    /**
-     * CargarViaje. Recuperamos la información de los datos del viaje especificado por el usuario
-     */
-    public Trip CargarViaje(){
-        EditText TextNombre =(EditText)findViewById(R.id.EditTextNombre);
-        String nombre = TextNombre.getText().toString();
+        /**
+         * CargarViaje. Recuperamos la información de los datos del viaje especificado por el usuario
+         */
+        public Trip CargarViaje(){
+            EditText TextNombre =(EditText)findViewById(R.id.EditTextNombre);
+            String nombre = TextNombre.getText().toString();
 
-        Spinner TextPais =(Spinner)findViewById(R.id.SpinnerPaises);
-        String pais = (String)TextPais.getSelectedItem();
+            EditText TextFechaInicio =(EditText)findViewById(R.id.EditTextFechaInicio);
+            String fechaInicio = TextFechaInicio.getText().toString();
 
-        Spinner TextCiudad =(Spinner)findViewById(R.id.SpinnerCiudades);
-        String ciudad = (String)TextCiudad.getSelectedItem();
+            EditText TextFechaFinal =(EditText)findViewById(R.id.EditTextFechaFinal);
+            String fechaFinal = TextFechaFinal.getText().toString();
 
-        EditText TextFechaInicio =(EditText)findViewById(R.id.EditTextFechaInicio);
-        String fechaInicio = TextFechaInicio.getText().toString();
+            Date dataInicial = ConvertStringToDate(fechaInicio);
+            Date dataFinal = ConvertStringToDate(fechaFinal);
 
-        EditText TextFechaFinal =(EditText)findViewById(R.id.EditTextFechaFinal);
-        String fechaFinal = TextFechaFinal.getText().toString();
-
-        Date dataInicial = ConvertStringToDate(fechaInicio);
-        Date dataFinal = ConvertStringToDate(fechaFinal);
-
-        ParseFile imagen = getFile();
-        return new Trip(nombre, pais, ciudad, dataInicial, dataFinal, imagen);
-    }
-
-    /**
-     * Method EditarViajeBDD
-     * @param nuevoViaje
-     * @return success
-     * @throws ParseException
-     */
-    public boolean EditarViajeBDD(Trip nuevoViaje) throws ParseException{
-        boolean success = false;
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("name", nuevoViaje.getNombre());
-        params.put("idCiudad", nuevoViaje.getCiudad());
-        params.put("fechaInicial", nuevoViaje.getFechaInicio());
-        params.put("fechaFinal", nuevoViaje.getFechaFinal());
-        params.put("imagen", nuevoViaje.getImagen());
-        params.put("objectId", nuevoViaje.getId());
-
-        String editTripResponse = ParseCloud.callFunction("updateTripData", params);
-        if(!editTripResponse.isEmpty())
-            //CrearGrupoBDD(nuevoViaje);
-            success = true;
-        Log.i("Add editTrip:", editTripResponse);
-
-        return success;
-    }
-
-
-    /**
-     * Method getIdCiudad
-     * @param nuevoViaje
-     * @return idCiudad
-     * @throws ParseException
-     */
-    public String getIdCiudad(Trip nuevoViaje) throws ParseException{
-        boolean success = false;
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("ciudad", nuevoViaje.getCiudad());
-        String idCiudad = ParseCloud.callFunction("getIdCity", params);
-        return idCiudad;
-    }
-
-    /**
-     * ConvertStringToDate
-     * @param fecha
-     * @return data
-     */
-    public Date ConvertStringToDate(String fecha){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date data = null;
-        try {
-            data = formatter.parse(fecha);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
+            ParseFile imagen = getFile();
+            return new Trip(nombre, myTrip.getPais(), myTrip.getCiudad(), dataInicial, dataFinal, imagen);
         }
-        return data;
-    }
 
-    /**
-     * Method setDateTimeFieldIni.
-     */
-    private void setDateTimeFieldIni() {
-        Calendar newCalendar = Calendar.getInstance();
-        pickDateDialogIni = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                pickDateIni.setText(dateFormatter.format(newDate.getTime()));
+        /**
+         * Method EditarViajeBDD
+         * @param nuevoViaje
+         * @return success
+         * @throws ParseException
+         */
+        public boolean EditarViajeBDD(Trip nuevoViaje) throws ParseException{
+            boolean success = false;
+            HashMap<String, Object> params = new HashMap<String, Object>();
+            params.put("name", nuevoViaje.getNombre());
+            params.put("idCiudad", nuevoViaje.getCiudad());
+            params.put("fechaInicial", nuevoViaje.getFechaInicio());
+            params.put("fechaFinal", nuevoViaje.getFechaFinal());
+            params.put("imagen", nuevoViaje.getImagen());
+            params.put("objectId", nuevoViaje.getId());
+
+            String editTripResponse = ParseCloud.callFunction("updateTripData", params);
+            if(!editTripResponse.isEmpty())
+                //CrearGrupoBDD(nuevoViaje);
+                success = true;
+            Log.i("Add editTrip:", editTripResponse);
+
+            return success;
+        }
+
+
+        /**
+         * Method getIdCiudad
+         * @param nuevoViaje
+         * @return idCiudad
+         * @throws ParseException
+         */
+        public String getIdCiudad(Trip nuevoViaje) throws ParseException{
+            boolean success = false;
+            HashMap<String, Object> params = new HashMap<String, Object>();
+            params.put("ciudad", nuevoViaje.getCiudad());
+            String idCiudad = ParseCloud.callFunction("getIdCity", params);
+            return idCiudad;
+        }
+
+        /**
+         * ConvertStringToDate
+         * @param fecha
+         * @return data
+         */
+        public Date ConvertStringToDate(String fecha){
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date data = null;
+            try {
+                data = formatter.parse(fecha);
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
             }
+            return data;
+        }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-    }
+        private void setDateTimeFieldIni() {
+            Calendar newCalendar = Calendar.getInstance();
+            pickDateDialogIni = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, monthOfYear, dayOfMonth);
+                    pickDateIni.setText(dateFormatter.format(newDate.getTime()));
+                }
+
+            },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        }
 
     public EditText.OnClickListener clickPickDateIni = new EditText.OnClickListener() {
         @Override
@@ -445,18 +680,18 @@ public class EditTripForm extends ActionBarActivity {
         }
     };
 
-    private void setDateTimeFieldFin() {
-        Calendar newCalendar = Calendar.getInstance();
-        pickDateDialogFin = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                pickDateFin.setText(dateFormatter.format(newDate.getTime()));
-            }
+        private void setDateTimeFieldFin() {
+            Calendar newCalendar = Calendar.getInstance();
+            pickDateDialogFin = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, monthOfYear, dayOfMonth);
+                    pickDateFin.setText(dateFormatter.format(newDate.getTime()));
+                }
 
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
     public EditText.OnClickListener clickPickDateFin = new EditText.OnClickListener() {
@@ -493,8 +728,12 @@ public class EditTripForm extends ActionBarActivity {
                             sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
                             puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
 
-                            ParseObject.deleteAll(sitiosAEliminar);
-                            ParseObject.deleteAll(puntuacionesAEliminar);
+                            if (!sitiosAEliminar.isEmpty()) {
+                                ParseObject.deleteAll(sitiosAEliminar);
+                            }
+                            if (!puntuacionesAEliminar.isEmpty()) {
+                                ParseObject.deleteAll(puntuacionesAEliminar);
+                            }
                             ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
 
                             msn = "Deleted Trip " + myTrip.getNombre();
@@ -502,12 +741,19 @@ public class EditTripForm extends ActionBarActivity {
                         case 1:
                             //se elimina el grupo, el viaje, los sitios y las puntuaciones
                             sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
-                            for(int i=0;i<sitiosAEliminar.size();i++){
+                            for (int i = 0; i < sitiosAEliminar.size(); i++) {
                                 puntuacionesAEliminar = Utils.getRegistersFromBBDD(sitiosAEliminar.get(i).getObjectId(), "Puntuacion", "Id_Sitio");
-                                ParseObject.deleteAll(puntuacionesAEliminar);
+                                if (!puntuacionesAEliminar.isEmpty()) {
+                                    ParseObject.deleteAll(puntuacionesAEliminar);
+                                }
                             }
-                            ParseObject.deleteAll(sitiosAEliminar);
-                            ParseObject.deleteAll(componentesDelViaje);
+                            if (!sitiosAEliminar.isEmpty()){
+                                ParseObject.deleteAll(sitiosAEliminar);
+                            }
+                            if(!componentesDelViaje.isEmpty()){
+                                ParseObject.deleteAll(componentesDelViaje);
+                            }
+
                             ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
 
                             msn = "Deleted Trip " + myTrip.getNombre();
@@ -539,8 +785,12 @@ public class EditTripForm extends ActionBarActivity {
                     sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
                     puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
 
-                    ParseObject.deleteAll(sitiosAEliminar);
-                    ParseObject.deleteAll(puntuacionesAEliminar);
+                    if(!sitiosAEliminar..isEmpty()){
+                        ParseObject.deleteAll(sitiosAEliminar);
+                    }
+                    id(!puntuacionesAEliminar.isEmpty()){
+                        ParseObject.deleteAll(puntuacionesAEliminar);
+                    }
                     */
                 }
 

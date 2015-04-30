@@ -45,6 +45,8 @@ public class SiteView  extends ActionBarActivity {
     public static Site currentSiteRefresh = null;
     private User myUser;
     public static User myUserRefresh = null;
+    private String idViaje;
+    private String idViajeRefresh;
     private GoogleMap mMap;
     private double latitude;
     private double longitude;
@@ -64,11 +66,14 @@ public class SiteView  extends ActionBarActivity {
         if(refreshActivity){
             currentSite = currentSiteRefresh;
             myUser = myUserRefresh;
+            idViajeRefresh = intent.getStringExtra("id_viaje");
             refreshActivity = false;
+
         }
         else {
             currentSite = (Site) intent.getSerializableExtra("currentSite"); //serialització de l'objecte
             myUser = (User) intent.getSerializableExtra("myUser");
+            idViaje = intent.getStringExtra("id_viaje");
         }
 
         mToolbar = (Toolbar) findViewById(R.id.action_bar_site_view);
@@ -187,6 +192,7 @@ public class SiteView  extends ActionBarActivity {
             Intent refresh = new Intent (SiteView.this, SiteView.class);
             refresh.putExtra("currentSite", currentSite.getId());
             refresh.putExtra("myUser", myUser);
+            refresh.putExtra("id_viaje", idViaje);
             startActivity(refresh);
             //PendingIntent pi = PendingIntent.getActivity(this, 0, intent, Intent.FLAG_ONE_SHOT);
             finish();
@@ -202,6 +208,8 @@ public class SiteView  extends ActionBarActivity {
         public void onClick(View v) {
             Intent intent = new Intent(SiteView.this, EditSiteForm.class);
             intent.putExtra("mySite", currentSite);
+            intent.putExtra("myUser", myUser);
+            intent.putExtra("id_viaje", idViaje);
             startActivity(intent);
         }
     };

@@ -58,11 +58,18 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
                 //cridem el formulari (pas2)
                 Bundle params = getIntent().getExtras();
                 String tripId = params.getString("tripId");
+                User myUser = (User) params.getSerializable("myUser");
+                String nombreViaje = params.getString("nombre_viaje");
+
                 //enviem el punt al formulari si l'hem marcat
                 Bundle paramsSiteForm = new Bundle();
                 paramsSiteForm.putString("tripId", tripId);
                 paramsSiteForm.putDouble("latitude", marker.getPosition().latitude);
                 paramsSiteForm.putDouble("longitude", marker.getPosition().longitude);
+
+                paramsSiteForm.putSerializable("myUser", myUser);
+                paramsSiteForm.putString("id_viaje", tripId);
+                paramsSiteForm.putString("nombre_viaje", nombreViaje);
                 //cridem el formulari
                 Intent newSite = new Intent(SiteMapsActivity.this, NewSiteForm.class);
                 newSite.putExtras(paramsSiteForm);

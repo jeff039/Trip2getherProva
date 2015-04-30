@@ -41,6 +41,7 @@ public class NewSiteForm extends ActionBarActivity {
     }
 
     private String idViaje="";
+    private String nombreViaje="";
     public void setIdViaje(String idViaje) { this.idViaje = idViaje; }
     public String getIdViaje() { return idViaje; }
 
@@ -54,12 +55,12 @@ public class NewSiteForm extends ActionBarActivity {
         intentR = this.getIntent();
 
         this.initializeButtons();
-        intentR = this.getIntent();
 
         mToolbar = (Toolbar) findViewById(R.id.action_bar_new_site);
         setSupportActionBar(mToolbar);
 
         myUser = (User) intentR.getSerializableExtra("myUser");
+        nombreViaje = intentR.getExtras().getString("nombre_viaje");
         setIdViaje(intentR.getExtras().getString("tripId"));
     }
 
@@ -87,7 +88,7 @@ public class NewSiteForm extends ActionBarActivity {
             //file it's a ParseFile that contains the image selected
             Bitmap image = BitmapFactory.decodeFile(picturePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            image.compress(Bitmap.CompressFormat.PNG, 75, stream);
             byte[] dataImage = stream.toByteArray();
             setFile(new ParseFile("imagenViaje.png", dataImage));
             try {
@@ -153,6 +154,10 @@ public class NewSiteForm extends ActionBarActivity {
                 intent.putExtra("id_viaje", nuevoSitio.getIdViaje());
                 intent.putExtra("latitud", nuevoSitio.getLatitud());
                 intent.putExtra("longitud", nuevoSitio.getLongitud());
+                intent.putExtra("myUser", myUser);
+
+                intent.putExtra("id_viaje", idViaje);
+                intent.putExtra("nombre_viaje", nombreViaje);
 
                 try {
                     GuardarSitioBDD(nuevoSitio);

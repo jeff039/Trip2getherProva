@@ -42,6 +42,7 @@ public class SiteList  extends ActionBarActivity {
     private Toolbar mToolbar;
     private ListView leftDrawerList;
     private User myUser;
+    private String nombreViaje = "";
 
     /**
      * Method onCreate
@@ -54,7 +55,7 @@ public class SiteList  extends ActionBarActivity {
         context = this;
         intent = getIntent();
         idViaje = intent.getStringExtra("id_viaje");
-        String nombreViaje = intent.getStringExtra("nombre_viaje");
+        this.nombreViaje = intent.getStringExtra("nombre_viaje");
 
         mToolbar = (Toolbar) findViewById(R.id.action_bar_site_list);
         setSupportActionBar(mToolbar);
@@ -134,6 +135,7 @@ public class SiteList  extends ActionBarActivity {
                 Intent intent = new Intent (SiteList.this, SiteView.class);
                 intent.putExtra("currentSite", sites.get(position));
                 intent.putExtra("myUser", myUser);
+                intent.putExtra("id_viaje", idViaje);
                 startActivity(intent);
             }
         });
@@ -204,7 +206,9 @@ public class SiteList  extends ActionBarActivity {
             String tripId = this.idViaje;
 
             Intent newSite = new Intent(this, NewSiteForm.class);
+            newSite.putExtra("myUser", this.myUser);
             newSite.putExtra("id_viaje", this.idViaje);
+            newSite.putExtra("nombre_viaje", this.nombreViaje);
             startActivity(newSite);
 
             try {
@@ -221,6 +225,17 @@ public class SiteList  extends ActionBarActivity {
                 paramsMaps.putDouble("longitude", longitude);
                 paramsMaps.putString("tripId", tripId);
                 paramsMaps.putString("route", "false"); //estarem editant, no mirant la ruta
+
+                /*
+                newSite.putExtra("myUser", this.myUser);
+                newSite.putExtra("id_viaje", this.idViaje);
+                newSite.putExtra("nombre_viaje", this.nombreViaje);
+                */
+
+                paramsMaps.putSerializable("myUser", myUser);
+                paramsMaps.putString("id_viaje", this.idViaje);
+                paramsMaps.putString("nombre_viaje", this.nombreViaje);
+
                 Intent siteMaps = new Intent(this, SiteMapsActivity.class);
                 siteMaps.putExtras(paramsMaps);
                 startActivity(siteMaps);
