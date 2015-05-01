@@ -31,7 +31,7 @@
 
     <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/ratingstars</item>
-        <item name="android:minHeight">25dp</item>
-        <item name="android:maxHeight">25dp</item>
+        <item name="android:minHeight">34dp</item>
+        <item name="android:maxHeight">34dp</item>
     </style>
 </resources>
