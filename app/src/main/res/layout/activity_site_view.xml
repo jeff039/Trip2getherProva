@@ -153,7 +153,9 @@
             <!--RATING BAR -->
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
                 <RatingBar
                     android:id="@+id/ratingBar"
                     android:layout_height="wrap_content"
@@ -167,11 +169,12 @@
                 <Button
                     android:id="@+id/btnSubmit"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
                     android:textSize="14sp"
                     android:text="Puntuar"
                     android:textColor="#ffffff"
-                    android:background="@drawable/button_custom"/>
+                    android:background="@drawable/button_update"/>
             </LinearLayout>
             <!-- SITE MAP -->
             <LinearLayout

@@ -13,14 +13,13 @@
         android:src="@drawable/ic_menu_white_18dp"
         android:layout_gravity="center_vertical"
         android:background="@android:color/transparent"/>
-
     <TextView
         android:id="@+id/txtSiteName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:textColor="#ffffff"
-        android:layout_gravity="left"
+        android:layout_gravity="center_horizontal"
         android:textSize="20sp" />
 
 </android.support.v7.widget.Toolbar>
