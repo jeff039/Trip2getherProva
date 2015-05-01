@@ -9,8 +9,6 @@
     android:orientation="vertical">
 
     <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,6 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"
+            android:divider="@null"
+            android:dividerHeight="0dp"
             android:id="@+id/listaSitios"/>
 
      </FrameLayout>
