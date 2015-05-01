@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="0dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/imgIcon"
@@ -47,45 +47,43 @@
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
-        android:layout_gravity="end|top"
-        android:background="#80212121"/>
+        android:layout_gravity="end|top"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="#80212121"
+        android:padding="5dp"
+        android:layout_gravity="bottom">
+        <ImageView
+            android:id="@+id/imgCalendarIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:id="@+id/txtDateTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
     <ImageView
         android:id="@+id/imgFriendsIcon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="20dp"
-        android:background="#80212121" />
-
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="end|bottom" />
     <TextView
         android:id="@+id/txtNumberFriends"
-        android:layout_width="15dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="55dp"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="#FFFFFF"
-        android:background="#80212121" />
-
-    <ImageView
-        android:id="@+id/imgCalendarIcon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginLeft="20dp"
-        android:background="#80212121" />
-
-    <TextView
-        android:id="@+id/txtDateTrip"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginLeft="55dp"
-        android:gravity="center"
-        android:textSize="15sp"
-        android:textColor="#FFFFFF"
-        android:background="#80212121" />
-
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"/>
 </FrameLayout >

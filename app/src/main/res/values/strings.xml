@@ -125,5 +125,6 @@
     <string name="noFriendsAlert">You have no friends to invite!</string>
     <string name="trips">Trips</string>
     <string name="login">Cargando...</string>
-
+    <string name="open">abrir</string>
+    <string name="close">cerrar</string>
 </resources>

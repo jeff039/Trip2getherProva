@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.animation.*;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.widget.FrameLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.graphics.Bitmap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -30,6 +31,7 @@ public class MainLaunchLogin extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_launch_login);
         this.initializeButtons();
+
     }
 
     /**
@@ -52,10 +54,7 @@ public class MainLaunchLogin extends ActionBarActivity {
 
             final View popupView = layoutInflater.inflate(R.layout.login_popup, null);
 
-            final PopupWindow popupWindow = new PopupWindow(
-                    popupView,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
+            final PopupWindow popupWindow = new PopupWindow(popupView);
             popupWindow.setFocusable(true); //per evitar back
             popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);

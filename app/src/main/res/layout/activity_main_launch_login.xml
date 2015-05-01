@@ -18,7 +18,8 @@
         android:singleLine="true"
         android:textColor="#333333"
         android:textColorHint="#5e6266"
-        android:background="@drawable/rounded_corner"/>
+        android:background="@drawable/rounded_corner"
+        android:drawableRight="@drawable/ic_person_grey600_18dp"/>
 
     <!--PASSWORD LABEL-->
     <EditText
@@ -34,7 +35,8 @@
         android:singleLine="true"
         android:textColor="#333333"
         android:textColorHint="#5e6266"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:drawableRight="@drawable/ic_vpn_key_grey600_18dp"/>
 
     <!--LOGIN BUTTON-->
     <Button

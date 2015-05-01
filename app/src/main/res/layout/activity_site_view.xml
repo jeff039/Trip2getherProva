@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="group.lis.uab.trip2gether.controller.TripList"
-        android:background="#FFFFFF"
-        tools:ignore="MergeRootFrame">
+        android:background="#FFFFFF">
 
         <include android:id="@+id/action_bar_site_view"
             layout="@layout/action_bar_site_view"></include>
@@ -43,10 +42,11 @@
             android:id="@+id/EditThisSite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="13dp"
             android:layout_gravity="end|top"
-            android:src="@drawable/ic_mode_edit_white_18dp"/>
+            android:src="@drawable/ic_mode_edit_white_18dp"
+            android:background="@android:color/transparent"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -156,20 +156,23 @@
                 android:layout_height="wrap_content">
                 <RatingBar
                     android:id="@+id/ratingBar"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:numStars="5"
-                    android:stepSize="0.5"
-                    android:rating="2.0" />
+                    android:rating="3.5"
+                    android:isIndicator="false"
+                    style="@style/foodRatingBar"/>
 
                 <Button
                     android:id="@+id/btnSubmit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Submit"
-                    style="?android:attr/buttonStyleSmall"/>
+                    android:textSize="14sp"
+                    android:text="Puntuar"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/button_custom"/>
             </LinearLayout>
-
             <!-- SITE MAP -->
             <LinearLayout
                 android:layout_width="match_parent"

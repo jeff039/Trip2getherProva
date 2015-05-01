@@ -122,7 +122,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         holder.txtDateCalendar.setText(sdateInici+"- "+sdateFinal);
         
         holder.imgFriendsIcon.setImageResource(R.drawable.ic_managment_friends);
-        holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_white);
+        holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_trip);
         holder.imgCalendar.setImageResource(R.drawable.ic_calendar);
 
         holder.imgEditIcon.setOnClickListener(new View.OnClickListener() {

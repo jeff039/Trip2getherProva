@@ -128,16 +128,16 @@ public class NewTripForm extends ActionBarActivity {
         Spinner Ciudades = (Spinner) findViewById(R.id.SpinnerCiudades);
 
         ArrayAdapter arrayAdapterEspaña = ArrayAdapter.createFromResource
-                (this, R.array.CiudadesEspaña, android.R.layout.simple_spinner_item);
+                (this, R.array.CiudadesEspaña, R.layout.spinner_row);
 
         ArrayAdapter arrayAdapterAlemania= ArrayAdapter.createFromResource
-                (this, R.array.CiudadesAlemania, android.R.layout.simple_spinner_item);
+                (this, R.array.CiudadesAlemania, R.layout.spinner_row);
 
         ArrayAdapter arrayAdapterFrancia= ArrayAdapter.createFromResource
-                (this, R.array.CiudadesFrancia, android.R.layout.simple_spinner_item);
+                (this, R.array.CiudadesFrancia, R.layout.spinner_row);
 
         ArrayAdapter arrayAdapterDefault = ArrayAdapter.createFromResource
-                (this, R.array.arrayDefault, android.R.layout.simple_spinner_item);
+                (this, R.array.arrayDefault, R.layout.spinner_row);
 
         switch (pais) {
             case 1: Ciudades.setAdapter(arrayAdapterEspaña);
@@ -312,7 +312,7 @@ public class NewTripForm extends ActionBarActivity {
         
 /////////////////////////////////////////////////////////////////////////////////////////////////
         Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
-        ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, paises);
+        ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, R.layout.spinner_row, paises);
         spinnerPaises.setAdapter(arrayAdapterPaises);
         spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
 

@@ -39,6 +39,7 @@ public class TripList extends ActionBarActivity {
     private ArrayList<Trip> trips = new ArrayList<Trip>();
     private Toolbar mToolbar;
     private ListView leftDrawerList;
+    int ICONS[] = {R.drawable.ic_place_grey600_18dp,R.drawable.ic_place_grey600_18dp,R.drawable.ic_place_grey600_18dp,R.drawable.ic_place_grey600_18dp};
 
     /**
      * Method onCreate
@@ -58,6 +59,7 @@ public class TripList extends ActionBarActivity {
         this.initializeButtons();
         myUser = (User) intent.getSerializableExtra("myUser");
         this.checkNotifications(); //per canviar el botó
+
 
         try {
             this.ViewTripFromBBDD();
@@ -179,7 +181,7 @@ public class TripList extends ActionBarActivity {
         View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
         leftDrawerList.addHeaderView(list_header);
         String [] options = getResources().getStringArray(R.array.options_array);
-        leftDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
+        leftDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, options));
         leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
@@ -203,12 +205,12 @@ public class TripList extends ActionBarActivity {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case 2:
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openMyTrips();
                     break;
                 case 4:
                     //el botó  de notificacions es canviara si a la bd canvia
                     openNotificationList();
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    mDrawerLayout.closeDrawer(leftDrawerList);
                     break;
             }
         }
@@ -223,11 +225,18 @@ public class TripList extends ActionBarActivity {
         startActivity(userProfile);
     }
 
+    public void openMyTrips() {
+        Intent myTrips = new Intent(this, TripList.class);
+        myTrips.putExtra("myUser", myUser);
+        startActivity(myTrips);
+    }
+
     public void openNotificationList() {
         Intent notificationList = new Intent(this, NotificationList.class);
         notificationList.putExtra("myUser", myUser);
         startActivity(notificationList);
     }
+
 
     /**
      * Method onCreateOptionsMenu. Barra superior

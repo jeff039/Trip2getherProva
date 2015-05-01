@@ -292,9 +292,11 @@ public class SiteView  extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch(id) {
-            /*case (R.id.edit_site):
-                //FALTA IMPLEMENTAR
-                return true;*/
+            case (R.id.EditThisSite):
+                Intent editThisSite = new Intent(this, EditSiteForm.class);
+                editThisSite.putExtra("mySite", currentSite);
+                startActivityForResult(editThisSite, 0);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -24,9 +24,14 @@
     </style>
 
     <!-- Theme for Spinner -->
-    <style name="styleSpinner"
-        parent="@android:style/Widget.Spinner">
+    <style name="styleSpinner" parent="@android:style/Widget.Spinner">
         <item name="android:background">@drawable/abc_spinner_mtrl_am_alpha</item>
         <item name="android:textColorSecondary">@color/ripple_material_dark</item>
+    </style>
+
+    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingstars</item>
+        <item name="android:minHeight">25dp</item>
+        <item name="android:maxHeight">25dp</item>
     </style>
 </resources>

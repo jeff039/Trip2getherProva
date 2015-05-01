@@ -49,24 +49,18 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/linearLayoutNombre"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_below="@+id/linearLayoutNombre">
 
             <!--COUNTRY LABEL-->
             <Spinner
                 android:id="@+id/SpinnerPaises"
                 android:hint="@string/tripName"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:prompt="@array/arrayPaises"
-                android:spinnerMode="dropdown"
-                android:background="@drawable/rounded_corner"
-                android:drawableRight="@drawable/ic_place_grey600_18dp"/>
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_corner"/>
 
         </LinearLayout>
 
@@ -76,14 +70,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-
             android:layout_marginTop="10dp"
             android:layout_below="@+id/linearLayoutPais">
 
             <Spinner
                 android:id="@+id/SpinnerCiudades"
                 android:hint="@string/nombre"
-                android:padding="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
