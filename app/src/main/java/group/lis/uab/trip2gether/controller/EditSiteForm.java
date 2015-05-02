@@ -339,7 +339,8 @@ public class EditSiteForm extends ActionBarActivity {
 
             Toast.makeText(getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
             Intent siteList = new Intent(EditSiteForm.this, SiteList.class);
-            siteList.putExtra("mySite", mySite);
+            siteList.putExtra("id_viaje", idViaje);
+            siteList.putExtra("myUser", myUser);
             startActivity(siteList);
         }
     };
