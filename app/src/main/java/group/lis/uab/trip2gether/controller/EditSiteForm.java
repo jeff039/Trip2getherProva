@@ -332,15 +332,8 @@ public class EditSiteForm extends ActionBarActivity {
     public Button.OnClickListener clickSendDeleteThisSite = new Button.OnClickListener() {
         public void onClick(View v) {
             String msn="";
-            ParseObject sitioAEliminar = null;
             mySite.getId();
-
-            try {
-                sitioAEliminar = (ParseObject) Utils.getRegistersFromBBDD(mySite.getId(), "Sitio", "objectId"); //  FALLLAAA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                sitioAEliminar.deleteInBackground();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            ParseObject.createWithoutData("Sitio", mySite.getId()).deleteEventually();
 
             msn = "Deleted Site " + mySite.getNombre();
 
