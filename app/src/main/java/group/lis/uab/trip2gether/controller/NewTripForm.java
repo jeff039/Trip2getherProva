@@ -498,6 +498,23 @@ public class NewTripForm extends ActionBarActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
+
+                    //ENVIEM NOTIFICACIONS ALS UDUARIS AFEGITS DE TIPUS add
+                    //(SEND GENERIC NOTIFICATION)
+                    HashMap<String, Object> params2 = new HashMap<String, Object>();
+                    params2.put("transmitterId", myUser.getObjectId());
+                    params2.put("receiverId", includedFriends.get(i));
+                    params2.put("type", "add"); //HARDCODED
+                    //estat a false per defecte ja al cloud
+
+                    try {
+                        ParseCloud.callFunction("addNotification", params2);
+                        int prova = 0;
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
                 //////////////////////////////////////
 

@@ -205,12 +205,6 @@ public class SiteList  extends ActionBarActivity {
         if(id == R.id.addSite)  {
             String tripId = this.idViaje;
 
-            Intent newSite = new Intent(this, NewSiteForm.class);
-            newSite.putExtra("myUser", this.myUser);
-            newSite.putExtra("id_viaje", this.idViaje);
-            newSite.putExtra("nombre_viaje", this.nombreViaje);
-            startActivity(newSite);
-
             try {
                 ParseQuery<ParseObject> tripCoordQuery = ParseQuery.getQuery("Viaje");
                 tripCoordQuery.whereEqualTo("objectId", tripId);
@@ -225,13 +219,6 @@ public class SiteList  extends ActionBarActivity {
                 paramsMaps.putDouble("longitude", longitude);
                 paramsMaps.putString("tripId", tripId);
                 paramsMaps.putString("route", "false"); //estarem editant, no mirant la ruta
-
-                /*
-                newSite.putExtra("myUser", this.myUser);
-                newSite.putExtra("id_viaje", this.idViaje);
-                newSite.putExtra("nombre_viaje", this.nombreViaje);
-                */
-
                 paramsMaps.putSerializable("myUser", myUser);
                 paramsMaps.putString("id_viaje", this.idViaje);
                 paramsMaps.putString("nombre_viaje", this.nombreViaje);
