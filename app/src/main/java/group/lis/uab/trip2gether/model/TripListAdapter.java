@@ -131,7 +131,6 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         String sdateInici = Utils.convertFormatDate(trips.get(position).getFechaInicio());
         String sdateFinal = Utils.convertFormatDate(trips.get(position).getFechaFinal());
         holder.txtDateCalendar.setText(sdateInici+"- "+sdateFinal);
-        holder.txtDateCalendar.setText(sdateInici+"- "+sdateFinal);
         
         holder.imgFriendsIcon.setImageResource(R.drawable.ic_managment_friends);
         holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_trip);

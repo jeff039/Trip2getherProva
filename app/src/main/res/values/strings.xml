@@ -52,32 +52,10 @@
     <string name="friendRequestDecline">Solicitud rechazada</string>
     <string name="register">Registrarse</string>
 
-    <string-array name="arrayPaises">
-        <item>Spain</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
-    </string-array>
-
     <string name="country_prompt">Choose a country</string>
 
-    <string-array name="country_arrays">
-        <item>Malaysia</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
-    </string-array>
-
     <string-array name="arrayDefault">
-        <item>Ninguna</item>
+        <item>País no seleccionado</item>
     </string-array>
 
     <string-array name="ciudadDefault">
@@ -105,7 +83,6 @@
         <item>Lyon</item>
         <item>Marsella</item>
     </string-array>
-
 
     <string name="title_activity_site_maps">Map</string>
     <!-- OPCIONS DE LA DRAWER LIST -->

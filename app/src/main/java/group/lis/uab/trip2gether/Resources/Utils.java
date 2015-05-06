@@ -6,18 +6,56 @@ import android.content.DialogInterface;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import group.lis.uab.trip2gether.model.Trip;
 
 public class Utils {
 
     /**
-     * Auxiliars
+     * Method getCitiesOfCountry
+     * @return ciudades
+     * @throws ParseException
+     */
+    public static ArrayList<String> getCitiesOfCountry(String pais) throws ParseException {
+        ArrayList<String> ciudades = new ArrayList<String>();
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("pais", pais);
+        List<ParseObject> listaCiudades = ParseCloud.callFunction("getCitiesFromCountry", params);
+        for(int i=0;i<listaCiudades.size();i++){
+            ParseObject ciudad = listaCiudades.get(i);
+            String nombreCiudad = ciudad.getString("Nombre");
+            ciudades.add(nombreCiudad);
+        }
+        return ciudades;
+    }
+
+    /**
+     * Method getCountriesOfBBDD
+     * @return paises
+     * @throws ParseException
+     */
+    public static ArrayList<String> getCountriesOfBBDD() throws ParseException {
+        ArrayList<String> paises = new ArrayList<String>();
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        List<ParseObject> listaPaises = ParseCloud.callFunction("getCountriesOfBBDD", params);
+        for(int i=0;i<listaPaises.size();i++){
+            ParseObject pais = listaPaises.get(i);
+            String nombreCiudad = pais.getString("Pais");
+            if(!paises.contains(nombreCiudad)) {
+                paises.add(nombreCiudad);
+            }
+        }
+        return paises;
+    }
+
+    /**
+     * Method showInfoAlert
      * @param string
+     * @param a
      */
     public static void showInfoAlert(String string, Activity a)
     {

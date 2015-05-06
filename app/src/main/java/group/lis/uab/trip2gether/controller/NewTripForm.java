@@ -1,6 +1,5 @@
 package group.lis.uab.trip2gether.controller;
 
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -31,12 +30,10 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +41,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.Trip;
@@ -66,7 +62,9 @@ public class NewTripForm extends ActionBarActivity {
     private ParseFile file;
     private Toolbar mToolbar;
 
-    //LLISTES PER GESTIONAR ELS AMICS
+    /**
+     * LLISTES PER GESTIONAR ELS AMICS
+     */
     private ArrayList<String> friendsIdList = new ArrayList<String>(); //llista de ids de amics TOTS (en ordre amb checks)
     private ArrayList<Integer> checkIdList = new ArrayList<Integer>(); //llista de ids dels checks (TOTS)
     private ArrayList<String> friendsMailList = new ArrayList<String>(); //llista dels mails dels amics TOTS
@@ -76,8 +74,6 @@ public class NewTripForm extends ActionBarActivity {
     // en tot moment
     private ArrayList<Integer> checkedBoxes = new ArrayList<Integer>(); //llista amb els id dels boxes checked
     // abans de tancar el popup
-    ///////////////////////////////////////////
-
 
     public ParseFile getFile() {
         return file;
@@ -87,8 +83,11 @@ public class NewTripForm extends ActionBarActivity {
         this.file = file;
     }
 
+    private ArrayList<String> paises = new ArrayList<String>();
 
-    private static String[] paises = { "Escoge un País", "España", "Alemania", "Francia"};
+    private ArrayList<String> ciudades = new ArrayList<String>();
+
+    private NewTripForm context = null;
 
     /**
      * Method onCreate
@@ -98,6 +97,7 @@ public class NewTripForm extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip_form);
+        context = this;
 
         mToolbar = (Toolbar) findViewById(R.id.action_bar_new_trip);
         setSupportActionBar(mToolbar);
@@ -109,10 +109,9 @@ public class NewTripForm extends ActionBarActivity {
         myUser = (User) intentR.getSerializableExtra("myUser");
     }
 
-
     public class SpinnerListener implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            cargaSpinnerCiudad(parent.getSelectedItemPosition());
+            cargaSpinnerCiudad(parent.getSelectedItem());
         }
         public void onNothingSelected(AdapterView<?> parent) {
         }
@@ -122,30 +121,12 @@ public class NewTripForm extends ActionBarActivity {
      * Method cargaSpinnerCiudad. Carga de manera dinámica las ciudades en función del páis elegido
      * @param pais
      */
-    private void cargaSpinnerCiudad(int pais){
-        Spinner Ciudades = (Spinner) findViewById(R.id.SpinnerCiudades);
-
-        ArrayAdapter arrayAdapterEspaña = ArrayAdapter.createFromResource
-                (this, R.array.CiudadesEspaña, R.layout.spinner_row);
-
-        ArrayAdapter arrayAdapterAlemania= ArrayAdapter.createFromResource
-                (this, R.array.CiudadesAlemania, R.layout.spinner_row);
-
-        ArrayAdapter arrayAdapterFrancia= ArrayAdapter.createFromResource
-                (this, R.array.CiudadesFrancia, R.layout.spinner_row);
-
-        ArrayAdapter arrayAdapterDefault = ArrayAdapter.createFromResource
-                (this, R.array.arrayDefault, R.layout.spinner_row);
-
-        switch (pais) {
-            case 1: Ciudades.setAdapter(arrayAdapterEspaña);
-                break;
-            case 2: Ciudades.setAdapter(arrayAdapterAlemania);
-                break;
-            case 3: Ciudades.setAdapter(arrayAdapterFrancia);
-                break;
-            default: Ciudades.setAdapter(arrayAdapterDefault);
-                break;
+    private void cargaSpinnerCiudad(Object pais){
+        Spinner spinnerCiudad = (Spinner) findViewById(R.id.SpinnerCiudades);
+        try {
+            spinnerCiudad.setAdapter(new ArrayAdapter<String> (this, R.layout.spinner_row, Utils.getCitiesOfCountry((String) pais)));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
@@ -170,7 +151,7 @@ public class NewTripForm extends ActionBarActivity {
             options.inPreferredConfig = Bitmap.Config.RGB_565;
             options.inSampleSize = 2;
 
-            // String picturePath contains the path of selected Image
+            //String picturePath contains the path of selected Image
             ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath, options));
 
@@ -203,7 +184,8 @@ public class NewTripForm extends ActionBarActivity {
             public void onClick(View v) {
                 //quan clickem canviem el color
                 addFriendButton.setImageResource(R.drawable.ic_action_add_group);
- ////////////////////////////POPUP add friend/////////////////////////////////////////////////
+
+                //POPUP add friend
                 LayoutInflater layoutInflater
                         = (LayoutInflater)getBaseContext()
                         .getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -217,42 +199,35 @@ public class NewTripForm extends ActionBarActivity {
                 popupWindow.setFocusable(true); //per evitar back
 
                 //PRIMER COP?
-                if(!checkIdList.isEmpty()) //al eliminar el popup, es reseteja la vista
-                {
+                if(!checkIdList.isEmpty()) { //al eliminar el popup, es reseteja la vista
+
                     //RECORDEM ELS AMICS ANTERIORS JA CLICATS SI HAVIA
                     setPopUpContent(popupView, false);
-                    for (int i = 0; i < checkedBoxes.size(); i++)
-                    {
+                    for (int i = 0; i < checkedBoxes.size(); i++) {
                         CheckBox cb = (CheckBox) popupView.findViewById(checkedBoxes.get(i));
                         cb.setChecked(true);
                     }
-                }
-                else
-                {
+                }else {
                    setPopUpContent(popupView, true); //posem el content del primer cop
                 }
-   ///////////////////////////////////////////////
 
-   //////////////////////////////BOTÓ OK DEL POPUP////////////////////////////////////////////////////////////////////
+                //BOTÓ OK DEL POPUP
                 //afegim els amics marcats al grup
                 Button btnOK = (Button)popupView.findViewById(R.id.okFriends);
                 btnOK.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
                         addFriendButton.setImageResource(R.drawable.ic_action_add_group);
-           ///////////////PER TOT ELS CHECKS MIREM QUIN ESTÀ CHECKED///////////////
-                        for(int i = 0; i < checkIdList.size(); i++)
-                        {
-                            //  AGAFEM ELS ELEMENTS
+
+                       //PER TOT ELS CHECKS MIREM QUIN ESTÀ CHECKED
+                        for(int i = 0; i < checkIdList.size(); i++) {
+                            //AGAFEM ELS ELEMENTS
                             CheckBox cb = (CheckBox) popupView.findViewById(checkIdList.get(i));
                             String idFriend = friendsIdList.get(i);
                             String mailFriend = friendsMailList.get(i);
 
-                            //////////////////////////////
-                            if(cb.isChecked())
-                            {
+                            if(cb.isChecked()) {
                                 if(!includedFriends.contains(idFriend)) { //NO AMIC REPETIT
-
                                     //GUARDEM ELS AMICS I BOXES SELECCIONATS LÒGICAMENT
                                     includedFriends.add(idFriend);
                                     checkedBoxes.add(cb.getId());
@@ -267,14 +242,10 @@ public class NewTripForm extends ActionBarActivity {
                                     textViewIdList.add(textViewId);
                                     newTv.setText(mailFriend);
                                     addedFriends.addView(newTv);
-                                    ////////////////////////
                                 }
-                            }
-                            else //SI NO ESTÀN CHECKED
-                            {
-                                if(includedFriends.contains(idFriend)) //SI ESTAVA INCLÒS
-                                // I EL "DESCHECKEGEM" --> ELIMINEM
-                                {
+                            }else { //SI NO ESTÀN CHECKED
+                                if(includedFriends.contains(idFriend)) { //SI ESTAVA INCLÒS
+                                    // I EL "DESCHECKEGEM" --> ELIMINEM
                                     //VISTA
                                     LinearLayout addedFriends = (LinearLayout) //linear dels texts views
                                             NewTripForm.this.findViewById(R.id.addedFriendsList);
@@ -287,9 +258,7 @@ public class NewTripForm extends ActionBarActivity {
                                     int idRemoveText = 0;
                                     while(!found) {
                                         TextView tv = (TextView) NewTripForm.this.findViewById(textViewIdList.get(iter));
-
-                                        if(tv.getText().equals(friendsMailList.get(i)))
-                                        {
+                                        if(tv.getText().equals(friendsMailList.get(i))) {
                                             addedFriends.removeView(tv);
                                             int idTv = tv.getId();
                                             textViewIdList.remove(new Integer(idTv)); //per elminar per value i no per key
@@ -303,46 +272,48 @@ public class NewTripForm extends ActionBarActivity {
                                 }
                             }
                         }
-
                         popupWindow.dismiss(); //tanquem el popup
                     }});
-                ////////////////////////////////
                 popupWindow.showAsDropDown(addFriendButton, 50, -30); //mostrem el popup
-
             }
         });
-        
-/////////////////////////////////////////////////////////////////////////////////////////////////
+
         Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
+        try {
+            paises = Utils.getCountriesOfBBDD();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, R.layout.spinner_row, paises);
         spinnerPaises.setAdapter(arrayAdapterPaises);
         spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
-
 
         pickDateIni = (EditText) findViewById(R.id.EditTextFechaInicio);
         pickDateIni.setOnClickListener(clickPickDateIni);
         pickDateIni.setInputType(InputType.TYPE_NULL);
         pickDateIni.setOnFocusChangeListener(focusPickDateIni);
-
         pickDateFin = (EditText) findViewById(R.id.EditTextFechaFinal);
         pickDateFin.setOnClickListener(clickPickDateFin);
         pickDateFin.setInputType(InputType.TYPE_NULL);
         pickDateFin.setOnFocusChangeListener(focusPickDateFin);
-
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
     }
 
-
+    /**
+     * Method setPopUpContent
+     * @param popupView
+     * @param first
+     */
     public void setPopUpContent(View popupView, boolean first)
     {
-        ////Contingut de la vista DINÀMIC segons els amics///////
+        //Contingut de la vista DINÀMIC segons els amics
         //agafem de la popup view perquè encara no ha estat carregada
         final LinearLayout ll = (LinearLayout) popupView.findViewById(R.id.linearFriends);
         String userId = myUser.getObjectId();
-        ///////QUERY AMICS/////////////////////
+
+        //QUERY AMICS
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("userId", userId);
-
         List<ParseObject> friendsResponse = null; //crida al BE
         try {
             //busquem la amistat
@@ -352,7 +323,7 @@ public class NewTripForm extends ActionBarActivity {
         }
 
         if(friendsResponse.isEmpty() == false) { //tenim un amic
-            // AFEGIM ELS ELEMENTS DE LA VISTA I ACTUALITZEM LES LLISTES AMB ELS AMICS (TOTS)/////////////
+            // AFEGIM ELS ELEMENTS DE LA VISTA I ACTUALITZEM LES LLISTES AMB ELS AMICS (TOTS)
 
             for(int i = 0; i < friendsResponse.size(); i++) { //per tots els amics
                 ParseObject userFriendsParse = friendsResponse.get(i);
@@ -372,32 +343,29 @@ public class NewTripForm extends ActionBarActivity {
                 ParseObject userParse = userResponse.get(0);
                 String friendEmail = userParse.getString("Mail"); //email de l'amic
 
-                ///////////////////////////////CHECKBOXES///////////
+                //CHECKBOXES
                 CheckBox cb = new CheckBox(getApplicationContext());
                 cb.setText(friendEmail);
                 //SI ÉS EL PRIMER COP S'HA DE CREAR ID NOVA, PERÒ SINÓ HEM DE TORNAR A AFEGIR LA ID ANTIGA (ES MANTÉ)
                 int checkId = 0;
                 if(first) {
                     checkId = Utils.generateViewId();
-                    //////////////////////////
                     //INICIALITZEM LLISTES AMB TOTS ELS AMICS I CHECKBOXES
                     checkIdList.add(checkId);
                     friendsMailList.add(friendEmail);
                     friendsIdList.add(friendId);
-                }
-                else
-                {
+                }else {
                     checkId = checkIdList.get(i);
                 }
                 cb.setId(checkId); //li donem una id
                 ll.addView(cb); //AFEGIM A LA VISTA
             }
 
-        }else //no tenim amics
-        {
+        }else {//no tenim amics
             Utils.showInfoAlert(getResources().getString(R.string.noFriendsAlert), NewTripForm.this);
         }
     }
+
     /**
      * Method Button.OnClickListener clickMaps
      */
@@ -413,9 +381,9 @@ public class NewTripForm extends ActionBarActivity {
      */
     public ImageButton.OnClickListener doBackActivity = new Button.OnClickListener() {
         public void onClick(View v) {
-            Intent i = new Intent(NewTripForm.this, TripList.class);
-            i.putExtra("myUser", myUser);
-            startActivity(i);
+        Intent i = new Intent(NewTripForm.this, TripList.class);
+        i.putExtra("myUser", myUser);
+        startActivity(i);
         }
     };
 
@@ -424,10 +392,8 @@ public class NewTripForm extends ActionBarActivity {
      */
     public Button.OnClickListener clickGallery = new Button.OnClickListener() {
         public void onClick(View v) {
-            Intent i = new Intent(
-                    Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-            startActivityForResult(i, LOAD_IMAGE);
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, LOAD_IMAGE);
         }
     };
 
@@ -436,7 +402,6 @@ public class NewTripForm extends ActionBarActivity {
      */
     public Button.OnClickListener clickGoogle = new Button.OnClickListener() {
         public void onClick(View v) {
-
             EditText TextNombre =(EditText)findViewById(R.id.EditTextNombre);
             String search = TextNombre.getText().toString();
             Uri uri = Uri.parse("https://www.google.com/search?hl=en&site=imghp&tbm=isch&source=hp&q="+search);
@@ -483,14 +448,11 @@ public class NewTripForm extends ActionBarActivity {
                     String idCiudad = getIdCiudad(nuevoViaje);
                     nuevoViaje.setCiudad(idCiudad);
                     GuardarViajeBDD(nuevoViaje);
-
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
 
-
-                ///creeem el grup
-                //AFEGIM AL GRUP
+                //Creem i afegim el grup
                 for(int i = 0; i < includedFriends.size(); i++) {
                     HashMap<String, Object> params = new HashMap<String, Object>();
                     params.put("Id_Viaje", nuevoViaje.getId());
@@ -515,15 +477,9 @@ public class NewTripForm extends ActionBarActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-
-
                 }
-                //////////////////////////////////////
-
                 startActivity(intent);
-
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -552,7 +508,6 @@ public class NewTripForm extends ActionBarActivity {
         Date dataFinal = ConvertStringToDate(fechaFinal);
 
         ParseFile imagen = getFile();
-
         return new Trip(nombre, pais, ciudad, dataInicial, dataFinal, imagen);
     }
 
@@ -577,10 +532,8 @@ public class NewTripForm extends ActionBarActivity {
             CrearGrupoBDD(nuevoViaje);
             success = true;
         Log.i("Add newTrip:", addTripResponse);
-
         return success;
     }
-
 
     /**
      * Method CrearGrupoBDD
@@ -602,7 +555,6 @@ public class NewTripForm extends ActionBarActivity {
         return success;
     }
 
-
     /**
      * Method getIdCiudad
      * @param nuevoViaje
@@ -622,7 +574,7 @@ public class NewTripForm extends ActionBarActivity {
      * @param fecha
      * @return data
      */
-    public Date ConvertStringToDate(String fecha){
+    public Date ConvertStringToDate(String fecha) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         Date data = null;
         try {
@@ -663,7 +615,6 @@ public class NewTripForm extends ActionBarActivity {
         }
     };
 
-
     private void setDateTimeFieldFin() {
         Calendar newCalendar = Calendar.getInstance();
         pickDateDialogFin = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -673,9 +624,7 @@ public class NewTripForm extends ActionBarActivity {
                 newDate.set(year, monthOfYear, dayOfMonth);
                 pickDateFin.setText(dateFormatter.format(newDate.getTime()));
             }
-
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
     }
 
     public EditText.OnClickListener clickPickDateFin = new EditText.OnClickListener() {
