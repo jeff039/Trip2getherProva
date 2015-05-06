@@ -112,15 +112,17 @@ public class SiteView  extends ActionBarActivity {
         longitude = site.getDouble("Longitud");
 
         TextView rateValue = (TextView)findViewById(R.id.rateValue);
-        Double a = null;
+        Double a = 0.0;
         List<ParseObject> puntuaciones = Utils.getRegistersFromBBDD(siteId, "Puntuacion", "Id_Sitio");
-        for (int i=0;i<puntuaciones.size();i++){
-            if(myUser.getObjectId().equals(puntuaciones.get(i).getString("Id_Usuario"))){
-                a = puntuaciones.get(i).getDouble("Estrellas");
+
+        if(!puntuaciones.isEmpty()) {
+            for (int i = 0; i < puntuaciones.size(); i++) {
+                if (myUser.getObjectId().equals(puntuaciones.get(i).getString("Id_Usuario"))) {
+                    a = puntuaciones.get(i).getDouble("Estrellas");
+                }
             }
         }
-
-        //rateValue.setText(a.toString()); //PETA
+        rateValue.setText(a.toString());
         a = site.getDouble("Estrellas");
         ratingBar.setRating(a.longValue());
     }
