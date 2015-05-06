@@ -10,8 +10,6 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.Date;
 
-import group.lis.uab.trip2gether.Resources.ParseProxyObject;
-
 public class Trip implements Serializable{
 
     private String id;

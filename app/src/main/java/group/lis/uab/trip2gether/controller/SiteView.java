@@ -120,7 +120,7 @@ public class SiteView  extends ActionBarActivity {
             }
         }
 
-        rateValue.setText(a.toString());
+        //rateValue.setText(a.toString()); //PETA
         a = site.getDouble("Estrellas");
         ratingBar.setRating(a.longValue());
     }
@@ -347,5 +347,15 @@ public class SiteView  extends ActionBarActivity {
                 setUpMap();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent (SiteView.this, SiteList.class);
+        intent.putExtra("id_viaje", idViaje);
+        intent.putExtra("nombre_viaje", nombreViaje);
+        intent.putExtra("myUser", myUser);
+        startActivity(intent);
     }
 }
