@@ -2,32 +2,32 @@
 <resources>
 
     <string name="app_name">Trip2gether</string>
-    <string name="gallery">Open Gallery</string>
-    <string name="google">Search Google</string>
+    <string name="gallery">Abrir Galería</string>
+    <string name="google">Buscar en Google</string>
     <string name="title_activity_trip_list">Mis Viajes</string>
     <string name="title_activity_edit_trip">Editar Viaje</string>
     <string name="title_activity_site_list">Sitios</string>
     <string name="title_activity_register_form">Registro</string>
     <string name="title_activity_user_profile">Perfil</string>
-    <string name="title_activity_add_friend">Add Friend</string>
+    <string name="title_activity_add_friend">Agregar Amigo</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_new_trip">Nuevo Viaje</string>
     <string name="title_activity_new_site">Nuevo Sitio</string>
-    <string name="userHint">Username</string>
-    <string name="passwHint">Password</string>
-    <string name="loginButton">Login</string>
-    <string name="registerButton">New to Trip2Gether? Register here</string>
-    <string name="addTitle">Add new trip</string>
+    <string name="userHint">Usuario</string>
+    <string name="passwHint">Contraseña</string>
+    <string name="loginButton">Iniciar Sesión</string>
+    <string name="registerButton">Regístrate en Trip2Gether</string>
+    <string name="addTitle">Agregar Nuevo Viaje</string>
     <string name="editUserProfile">Edit User Profile</string>
     <string name="updateUserProfileButton">ACTUALIZAR PERFIL</string>
-    <string name="loginErr">User not found</string>
+    <string name="loginErr">Usario no encontrado</string>
     <string name="nombre">Nombre</string>
-    <string name="apellidos">Surname</string>
-    <string name="pais">Country</string>
-    <string name="ciudad">City</string>
-    <string name="fecha_nacimiento">Date of birth</string>
-    <string name="mail">Mail</string>
-    <string name="send_register">Send register</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="pais">País</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="fecha_nacimiento">Fecha de Nacimiento</string>
+    <string name="mail">Correo electrónico</string>
+    <string name="send_register">Enviar Registro</string>
     <string name="tripHint">Trip title</string>
     <string name="saveTrip">GUARDAR</string>
     <string name="description">Descripcion:</string>
@@ -50,6 +50,7 @@
     <string name="friendRequest">Te ha enviado una solicitud de amistad</string>
     <string name="friendRequestConfirm">Solicitud aceptada</string>
     <string name="friendRequestDecline">Solicitud rechazada</string>
+    <string name="register">Registrarse</string>
 
     <string-array name="arrayPaises">
         <item>Spain</item>

@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dip"
                 android:textColor="#ffffff"
-                android:background="@drawable/button_custom"
+                android:background="@drawable/button"
                 android:gravity="center"
                 android:textSize="18dp"
                 android:text="@string/updateUserProfileButton"/>

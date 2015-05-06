@@ -175,7 +175,7 @@
                     android:textSize="14sp"
                     android:text="Puntuar"
                     android:textColor="#ffffff"
-                    android:background="@drawable/button_update"/>
+                    android:background="@drawable/button"/>
             </LinearLayout>
             <!-- SITE MAP -->
             <LinearLayout
