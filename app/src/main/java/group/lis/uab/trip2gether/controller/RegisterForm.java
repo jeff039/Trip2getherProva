@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Encrypt;
@@ -36,6 +38,8 @@ public class RegisterForm extends ActionBarActivity {
     private EditText pickDate;
     private DatePickerDialog pickDateDialog;
     private SimpleDateFormat dateFormatter;
+
+    private boolean emailcheck;
 
 
     @Override
@@ -60,19 +64,33 @@ public class RegisterForm extends ActionBarActivity {
     public Button.OnClickListener clickSendRegister = new Button.OnClickListener() {
         public void onClick(View v) {
             try {
-                boolean register = RegisterForm.this.register(RegisterForm.this.getName(),
-                        RegisterForm.this.getSurname(),RegisterForm.this.getCity(),
-                        RegisterForm.this.getMail(),RegisterForm.this.getPassword(),
-                        RegisterForm.this.getCountry(), RegisterForm.this.getDateOfBirth());
+                if (RegisterForm.this.getName().equalsIgnoreCase("")
+                        || RegisterForm.this.getSurname().equalsIgnoreCase("")
+                        || RegisterForm.this.getCity().equalsIgnoreCase("")
+                        || RegisterForm.this.getDateOfBirth()==null
+                        || RegisterForm.this.getMail().equalsIgnoreCase("")
+                        || RegisterForm.this.getPassword().equalsIgnoreCase("")
+                        || RegisterForm.this.getCountry().equalsIgnoreCase("")) {
+                    Toast.makeText(RegisterForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
+                }
+                checkemail(RegisterForm.this.getMail());
+                if (emailcheck == true) {
+                    boolean register = RegisterForm.this.register(RegisterForm.this.getName(),
+                            RegisterForm.this.getSurname(), RegisterForm.this.getCity(),
+                            RegisterForm.this.getMail(), RegisterForm.this.getPassword(),
+                            RegisterForm.this.getCountry(), RegisterForm.this.getDateOfBirth());
 
-            if(register) {
-                Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
-                //Intent mainLaunchLogin = new Intent(RegisterForm.this, MainLaunchLogin.class);
-                finish();
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "Error registering the user", Toast.LENGTH_SHORT).show();
-            }
+                    if (register) {
+                        Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
+                        //Intent mainLaunchLogin = new Intent(RegisterForm.this, MainLaunchLogin.class);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error registering the user", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(RegisterForm.this, "Invalid email adress.", Toast.LENGTH_SHORT).show();
+                }
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (java.text.ParseException e) {
@@ -143,6 +161,13 @@ public class RegisterForm extends ActionBarActivity {
         }
     }
 
+    public void checkemail(String mail)
+    {
+        Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
+        Matcher matcher = pattern.matcher(mail);
+        emailcheck = matcher.matches();
+    }
+
     public String getName() {
         EditText name = (EditText) findViewById(R.id.name);
         String nameText = name.getText().toString();
@@ -202,8 +227,6 @@ public class RegisterForm extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
 
         return super.onOptionsItemSelected(item);
     }

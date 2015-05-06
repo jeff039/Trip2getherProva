@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -150,28 +152,34 @@ public class NewSiteForm extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.saveSite:
                 Site nuevoSitio = CargarSitio();
-                Intent intent = new Intent (NewSiteForm.this, SiteList.class);
-                intent.putExtra("nombre", nuevoSitio.getNombre());
-                intent.putExtra("descripcion", nuevoSitio.getDescripcion());
-                intent.putExtra("duracion", nuevoSitio.getDuracion());
-                intent.putExtra("precio", nuevoSitio.getPrecio());
-                intent.putExtra("id_viaje", nuevoSitio.getIdViaje());
-                intent.putExtra("latitud", nuevoSitio.getLatitud());
-                intent.putExtra("longitud", nuevoSitio.getLongitud());
-                intent.putExtra("myUser", myUser);
-
-                intent.putExtra("id_viaje", idViaje);
-                intent.putExtra("nombre_viaje", nombreViaje);
-
-                try {
-                    GuardarSitioBDD(nuevoSitio);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                //double testDuracion = nuevoSitio.getDuracion();
+                if (nuevoSitio.getNombre().equalsIgnoreCase("")){
+                    Toast.makeText(NewSiteForm.this, "Nombre obligatorio", Toast.LENGTH_SHORT).show();
                 }
-                startActivity(intent);
+                else {
+                    Intent intent = new Intent(NewSiteForm.this, SiteList.class);
+                    intent.putExtra("nombre", nuevoSitio.getNombre());
+                    intent.putExtra("descripcion", nuevoSitio.getDescripcion());
+                    intent.putExtra("duracion", nuevoSitio.getDuracion());
+                    intent.putExtra("precio", nuevoSitio.getPrecio());
+                    intent.putExtra("id_viaje", nuevoSitio.getIdViaje());
+                    intent.putExtra("latitud", nuevoSitio.getLatitud());
+                    intent.putExtra("longitud", nuevoSitio.getLongitud());
+                    intent.putExtra("myUser", myUser);
 
-                return true;
+                    intent.putExtra("id_viaje", idViaje);
+                    intent.putExtra("nombre_viaje", nombreViaje);
+
+                    try {
+                        GuardarSitioBDD(nuevoSitio);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    startActivity(intent);
+
+                    return true;
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -187,13 +195,26 @@ public class NewSiteForm extends ActionBarActivity {
         EditText TextDescripcion =(EditText)findViewById(R.id.Descripcion);
         String descripcion = TextDescripcion.getText().toString();
 
+
+        double duracion;
         EditText TextDuracion =(EditText)findViewById(R.id.Duracion);
         String duracionString = TextDuracion.getText().toString();
-        int duracion = Integer.parseInt(duracionString);
+        if (duracionString.equals("")){
+            duracion = 0.0;
+        }
+        else{
+            duracion = Integer.parseInt(duracionString);
+        }
 
+        double precio;
         EditText TextPrecio =(EditText)findViewById(R.id.Precio);
         String precioString = TextPrecio.getText().toString();
-        int precio = Integer.parseInt(precioString);
+        if (precioString.equals("")){
+            precio = 0.0;
+        }
+        else {
+            precio = Integer.parseInt(precioString);
+        }
 
         ParseFile imagen = getFile();
 

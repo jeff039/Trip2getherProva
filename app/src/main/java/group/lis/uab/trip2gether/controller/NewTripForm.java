@@ -31,6 +31,7 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
@@ -470,59 +471,68 @@ public class NewTripForm extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.saveTrip:
                 Trip nuevoViaje = CargarViaje();
-                Intent intent = new Intent (NewTripForm.this, TripList.class);
-                intent.putExtra("nombre", nuevoViaje.getNombre());
-                intent.putExtra("pais", nuevoViaje.getPais());
-                intent.putExtra("ciudad", nuevoViaje.getCiudad());
-                intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
-                intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
-                intent.putExtra("imagen", String.valueOf(nuevoViaje.getImagen()));
-                intent.putExtra("myUser", myUser);
-
-                try {
-                    String idCiudad = getIdCiudad(nuevoViaje);
-                    nuevoViaje.setCiudad(idCiudad);
-                    GuardarViajeBDD(nuevoViaje);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                if (nuevoViaje.getNombre().equalsIgnoreCase("")
+                        || nuevoViaje.getPais().equalsIgnoreCase("")
+                        || nuevoViaje.getCiudad().equalsIgnoreCase("")
+                        || nuevoViaje.getFechaInicio() == null
+                        || nuevoViaje.getFechaFinal() == null ){
+                    Toast.makeText(NewTripForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
                 }
-
-
-                ///creeem el grup
-                //AFEGIM AL GRUP
-                for(int i = 0; i < includedFriends.size(); i++) {
-                    HashMap<String, Object> params = new HashMap<String, Object>();
-                    params.put("Id_Viaje", nuevoViaje.getId());
-                    params.put("Id_Usuario", includedFriends.get(i));
-                    try {
-                        ParseCloud.callFunction("addGroupFriend", params);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    //ENVIEM NOTIFICACIONS ALS UDUARIS AFEGITS DE TIPUS add
-                    //(SEND GENERIC NOTIFICATION)
-                    HashMap<String, Object> params2 = new HashMap<String, Object>();
-                    params2.put("transmitterId", myUser.getObjectId());
-                    params2.put("receiverId", includedFriends.get(i));
-                    params2.put("type", "add"); //HARDCODED
-                    //estat a false per defecte ja al cloud
+                else {
+                    Intent intent = new Intent(NewTripForm.this, TripList.class);
+                    intent.putExtra("nombre", nuevoViaje.getNombre());
+                    intent.putExtra("pais", nuevoViaje.getPais());
+                    intent.putExtra("ciudad", nuevoViaje.getCiudad());
+                    intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
+                    intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
+                    intent.putExtra("imagen", String.valueOf(nuevoViaje.getImagen()));
+                    intent.putExtra("myUser", myUser);
 
                     try {
-                        ParseCloud.callFunction("addNotification", params2);
-                        int prova = 0;
+                        String idCiudad = getIdCiudad(nuevoViaje);
+                        nuevoViaje.setCiudad(idCiudad);
+                        GuardarViajeBDD(nuevoViaje);
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
 
+                    ///creeem el grup
+                    //AFEGIM AL GRUP
+                    for (int i = 0; i < includedFriends.size(); i++) {
+                        HashMap<String, Object> params = new HashMap<String, Object>();
+                        params.put("Id_Viaje", nuevoViaje.getId());
+                        params.put("Id_Usuario", includedFriends.get(i));
+                        try {
+                            ParseCloud.callFunction("addGroupFriend", params);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        //ENVIEM NOTIFICACIONS ALS UDUARIS AFEGITS DE TIPUS add
+                        //(SEND GENERIC NOTIFICATION)
+                        HashMap<String, Object> params2 = new HashMap<String, Object>();
+                        params2.put("transmitterId", myUser.getObjectId());
+                        params2.put("receiverId", includedFriends.get(i));
+                        params2.put("type", "add"); //HARDCODED
+                        //estat a false per defecte ja al cloud
+
+                        try {
+                            ParseCloud.callFunction("addNotification", params2);
+                            int prova = 0;
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                    //////////////////////////////////////
+
+                    startActivity(intent);
+
+                    return true;
                 }
-                //////////////////////////////////////
-
-                startActivity(intent);
-
-                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

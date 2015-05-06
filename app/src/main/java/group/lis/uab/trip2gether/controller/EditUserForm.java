@@ -87,26 +87,36 @@ public class EditUserForm extends ActionBarActivity {
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
         dateOfBirth.setText(dateFormatter.format(myUser.getDateOfBirth()));
 
-
     }
 
     public Button.OnClickListener clickSendUpdateUserProfile = new Button.OnClickListener() {
         public void onClick(View v) {
             try {
-                User myUpdatedUser = EditUserForm.this.updateUserData(EditUserForm.this.getName(),
-                        EditUserForm.this.getSurname(), EditUserForm.this.getCity(),
-                        EditUserForm.this.getMail(), EditUserForm.this.getPassword(),
-                        EditUserForm.this.getCountry(), EditUserForm.this.getDateOfBirth(),
-                        myUser.getObjectId());
+                if (EditUserForm.this.getName().equalsIgnoreCase("")
+                        || EditUserForm.this.getSurname().equalsIgnoreCase("")
+                        || EditUserForm.this.getCity().equalsIgnoreCase("")
+                        || EditUserForm.this.getDateOfBirth()==null
+                        || EditUserForm.this.getMail().equalsIgnoreCase("")
+                        || EditUserForm.this.getPassword().equalsIgnoreCase("")
+                        || EditUserForm.this.getCountry().equalsIgnoreCase("")) {
+                    Toast.makeText(EditUserForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    User myUpdatedUser = EditUserForm.this.updateUserData(EditUserForm.this.getName(),
+                            EditUserForm.this.getSurname(), EditUserForm.this.getCity(),
+                            EditUserForm.this.getMail(), EditUserForm.this.getPassword(),
+                            EditUserForm.this.getCountry(), EditUserForm.this.getDateOfBirth(),
+                            myUser.getObjectId());
 
-                if (myUpdatedUser != null) {
-                    Toast.makeText(getApplicationContext(), "Updated user profile", Toast.LENGTH_SHORT).show();
-                    Intent userProfile = new Intent();
-                    userProfile.putExtra("myUser", myUser);
-                    setResult(Activity.RESULT_OK, userProfile);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Error updating the user profile", Toast.LENGTH_SHORT).show();
+                    if (myUpdatedUser != null) {
+                        Toast.makeText(getApplicationContext(), "Updated user profile", Toast.LENGTH_SHORT).show();
+                        Intent userProfile = new Intent();
+                        userProfile.putExtra("myUser", myUser);
+                        setResult(Activity.RESULT_OK, userProfile);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error updating the user profile", Toast.LENGTH_SHORT).show();
+                    }
                 }
             } catch (ParseException e) {
                 e.printStackTrace();

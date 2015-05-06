@@ -95,20 +95,25 @@ public class EditSiteForm extends ActionBarActivity {
             Site nuevoSitio = CargarSitio();
             nuevoSitio.setId(mySiteId);
             nuevoSitio.setIdViaje(idViaje);
-            Intent intent = new Intent (EditSiteForm.this, SiteView.class);
-            intent.putExtra("currentSiteId", nuevoSitio.getId());
-            intent.putExtra("myUser", myUser);
-            intent.putExtra("id_viaje", idViaje);
-            intent.putExtra("nombre_viaje", nombreViaje);
-
-            try {
-                EditarSitioBDD(nuevoSitio);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (nuevoSitio.getNombre().equalsIgnoreCase("")){
+                Toast.makeText(EditSiteForm.this, "Nombren obligatorio", Toast.LENGTH_SHORT).show();
             }
-            startActivity(intent);
+            else {
+                Intent intent = new Intent(EditSiteForm.this, SiteView.class);
+                intent.putExtra("currentSiteId", nuevoSitio.getId());
+                intent.putExtra("myUser", myUser);
+                intent.putExtra("id_viaje", idViaje);
+                intent.putExtra("nombre_viaje", nombreViaje);
 
-            return true;
+                try {
+                    EditarSitioBDD(nuevoSitio);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                startActivity(intent);
+
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -263,13 +268,25 @@ public class EditSiteForm extends ActionBarActivity {
         EditText TextDescripcion =(EditText)findViewById(R.id.EditTextSiteDescripcion);
         String descripcion = TextDescripcion.getText().toString();
 
+        double duracion;
         EditText TextDuracion =(EditText)findViewById(R.id.EditTextSiteDuracion);
         String duracionString = TextDuracion.getText().toString();
-        double duracion = Double.parseDouble(duracionString);
+        if (duracionString.equals("")){
+            duracion = 0.0;
+        }
+        else{
+            duracion = Double.parseDouble(duracionString);
+        }
 
+        double precio;
         EditText TextPrecio =(EditText)findViewById(R.id.EditTextSitePrecio);
         String precioString = TextPrecio.getText().toString();
-        double precio = Double.parseDouble(precioString);
+        if (precioString.equals("")){
+            precio = 0.0;
+        }
+        else {
+            precio = Double.parseDouble(precioString);
+        }
 
         String idViaje = getIdViaje();
         String objectId = mySiteId;
