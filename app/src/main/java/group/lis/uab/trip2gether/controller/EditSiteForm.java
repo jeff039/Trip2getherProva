@@ -199,6 +199,7 @@ public class EditSiteForm extends ActionBarActivity {
         precio.setText(precioString);
 
         ParseFile file = site.getParseFile("Imagen");
+        setFile(file);
         if (file != null) {
             ImageView imageView = (ImageView) findViewById(R.id.imageSite);
             byte[] bitmapdata = new byte[0];

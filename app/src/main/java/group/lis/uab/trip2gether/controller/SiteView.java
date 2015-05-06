@@ -1,6 +1,8 @@
 package group.lis.uab.trip2gether.controller;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -13,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -25,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.HashMap;
@@ -55,6 +59,7 @@ public class SiteView  extends ActionBarActivity {
     private Intent intent;
     private RatingBar ratingBar;
     public static Boolean refreshActivity = false;
+    public ImageView backSite;
     private List<ParseObject> idsSitio;
 
     @Override
@@ -96,6 +101,25 @@ public class SiteView  extends ActionBarActivity {
         site = Utils.getRegistersFromBBDD(siteId, "Sitio", "objectId").get(0);
         this.currentSiteNombre= site.getString("Nombre");
 
+        backSite = (ImageView) findViewById(R.id.backSite);
+        ParseFile imagen = site.getParseFile("Imagen");
+
+        if(imagen != null){
+            byte[] bitmapdata = new byte[0];
+            try {
+                bitmapdata = imagen.getData();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            //Try to reduce the necessary memory
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            options.inSampleSize = 2;
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length, options);
+            backSite.setImageBitmap(bitmap);
+        }
+
         TextView name = (TextView)findViewById(R.id.nombreSiteView);
         name.setText(site.getString("Nombre"));
 
@@ -133,15 +157,12 @@ public class SiteView  extends ActionBarActivity {
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
 
-
         ImageButton openEditThisSite = (ImageButton) findViewById(R.id.EditThisSite);
         openEditThisSite.setOnClickListener(clickEditThisSite);
-
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         Button btnSubmit = (Button) findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(rateButton);
-
     }
 
     public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
@@ -193,7 +214,7 @@ public class SiteView  extends ActionBarActivity {
                 params.put("id_sitio", currentSiteId);
                 params.put("id_usuario", myUser.getObjectId());
                 try {
-                    List<ParseObject> ar = ParseCloud.callFunction("addRate", params);
+                    String ar = ParseCloud.callFunction("addRate", params);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -355,9 +376,9 @@ public class SiteView  extends ActionBarActivity {
     public void onBackPressed()
     {
         Intent intent = new Intent (SiteView.this, SiteList.class);
+        intent.putExtra("myUser", myUser);
         intent.putExtra("id_viaje", idViaje);
         intent.putExtra("nombre_viaje", nombreViaje);
-        intent.putExtra("myUser", myUser);
         startActivity(intent);
     }
 }

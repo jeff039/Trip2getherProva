@@ -286,6 +286,16 @@ public class SiteList  extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent (SiteList.this, TripList.class);
+        intent.putExtra("id_viaje", idViaje);
+        intent.putExtra("nombre_viaje", nombreViaje);
+        intent.putExtra("myUser", myUser);
+        startActivity(intent);
+    }
+
     /**
      * Method DrawerItemClickListener
      */
