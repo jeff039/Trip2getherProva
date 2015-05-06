@@ -6,20 +6,21 @@
     android:elevation="4dp"
     android:background="#4B4A68">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text= "@string/title_activity_friends"
-        android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp" />
-
     <ImageButton
-        android:id="@+id/addFriend"
+        android:id="@+id/openDrawer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_menu_white_18dp"
         android:layout_gravity="center_vertical"
         android:background="@android:color/transparent"/>
+
+    <TextView
+        android:id="@+id/txtNotificationList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:text="@string/title_activity_friends"/>
 
 </android.support.v7.widget.Toolbar>

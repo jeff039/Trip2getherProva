@@ -216,6 +216,10 @@ public class TripList extends ActionBarActivity {
                 case 2:
                     openMyTrips();
                     break;
+                case 3:
+                    openFriends();
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    break;
                 case 4:
                     //el botó  de notificacions es canviara si a la bd canvia
                     openNotificationList();
@@ -262,6 +266,12 @@ public class TripList extends ActionBarActivity {
         Intent notificationList = new Intent(this, NotificationList.class);
         notificationList.putExtra("myUser", myUser);
         startActivity(notificationList);
+    }
+
+    public void openFriends() {
+        Intent friendsList = new Intent(this, Friends.class);
+        friendsList.putExtra("myUser", myUser);
+        startActivity(friendsList);
     }
 
 

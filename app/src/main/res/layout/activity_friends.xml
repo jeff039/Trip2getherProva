@@ -9,14 +9,22 @@
     android:orientation="vertical">
 
     <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="group.lis.uab.trip2gether.controller.Friends"
+        tools:context="group.lis.uab.trip2gether.controller.SiteList"
         tools:ignore="MergeRootFrame">
 
         <include android:id="@+id/action_bar_friends"
             layout="@layout/action_bar_friends"></include>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="56dp"
+            android:id="@+id/listaAmigos"/>
 
     </FrameLayout>
     <!-- CONTENT DRAWER -->
@@ -28,5 +36,6 @@
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:background="#ffffff"/>
+
 
 </android.support.v4.widget.DrawerLayout>
