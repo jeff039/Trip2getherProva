@@ -55,11 +55,13 @@
         </activity>
         <activity
             android:name=".controller.RegisterForm"
-            android:label="" >
+            android:label=""
+            android:windowSoftInputMode="stateHidden" >>
         </activity>
         <activity
             android:name=".controller.EditUserForm"
-            android:label="" >
+            android:label=""
+            android:windowSoftInputMode="stateHidden" >
         </activity>
 
         <meta-data
@@ -79,7 +81,8 @@
         </activity>
         <activity
             android:name=".controller.NewSiteForm"
-            android:label="" >
+            android:label=""
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".controller.Friends"
@@ -99,7 +102,8 @@
         </activity>
         <activity
             android:name=".controller.EditSiteForm"
-            android:label="" >
+            android:label=""
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".controller.NotificationList"
