@@ -91,6 +91,8 @@
         <item>Mis viajes</item>
         <item>Amigos</item>
         <item>Notificaciones</item>
+        <item>Ajustes</item>
+        <item>Cerrar Sesión</item>
     </string-array>
     <string name="OK">OK</string>
     <string name="mapRoute">View route in map</string>
@@ -105,4 +107,5 @@
     <string name="login">Cargando...</string>
     <string name="open">abrir</string>
     <string name="close">cerrar</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>
