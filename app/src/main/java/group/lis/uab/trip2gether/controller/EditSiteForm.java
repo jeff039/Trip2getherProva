@@ -96,7 +96,7 @@ public class EditSiteForm extends ActionBarActivity {
             nuevoSitio.setId(mySiteId);
             nuevoSitio.setIdViaje(idViaje);
             if (nuevoSitio.getNombre().equalsIgnoreCase("")){
-                Toast.makeText(EditSiteForm.this, "Nombren obligatorio", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditSiteForm.this, "Nombre obligatorio", Toast.LENGTH_SHORT).show();
             }
             else {
                 Intent intent = new Intent(EditSiteForm.this, SiteView.class);
