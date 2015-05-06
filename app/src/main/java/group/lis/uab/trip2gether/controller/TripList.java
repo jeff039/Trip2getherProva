@@ -221,8 +221,26 @@ public class TripList extends ActionBarActivity {
                     openNotificationList();
                     mDrawerLayout.closeDrawer(leftDrawerList);
                     break;
+                case 5: //ajustes
+                    openSettings();
+                    break;
+                case 6: //cerrar sesión
+                    logout();
+                    break;
             }
         }
+    }
+
+    public void logout()
+    {
+        Intent i = new Intent(this, MainLaunchLogin.class);
+        startActivity(i);
+    }
+
+    public void openSettings()
+    {
+        Intent i = new Intent(this, Settings.class);
+        startActivity(i);
     }
 
     /**
