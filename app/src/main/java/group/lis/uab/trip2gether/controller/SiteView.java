@@ -1,8 +1,7 @@
 package group.lis.uab.trip2gether.controller;
 
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.Bundle;;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,16 +22,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.User;
 
@@ -41,10 +40,11 @@ import group.lis.uab.trip2gether.model.User;
  */
 public class SiteView  extends ActionBarActivity {
 
-    private Site currentSite;
+    private String currentSiteId;
+    private String currentSiteNombre;
+    private String nombreViaje;
     public static Site currentSiteRefresh = null;
     private User myUser;
-    public static User myUserRefresh = null;
     private String idViaje;
     private String idViajeRefresh;
     private GoogleMap mMap;
@@ -52,7 +52,6 @@ public class SiteView  extends ActionBarActivity {
     private double longitude;
     private Toolbar mToolbar;
     private ListView leftDrawerList;
-    private String siteId;
     private Intent intent;
     private RatingBar ratingBar;
     public static Boolean refreshActivity = false;
@@ -63,21 +62,18 @@ public class SiteView  extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_view);
         Intent intent = getIntent();
-        if(refreshActivity){
-            currentSite = currentSiteRefresh;
-            myUser = myUserRefresh;
-            idViajeRefresh = intent.getStringExtra("id_viaje");
-            refreshActivity = false;
-
-        }
-        else {
-            currentSite = (Site) intent.getSerializableExtra("currentSite"); //serialització de l'objecte
-            myUser = (User) intent.getSerializableExtra("myUser");
-            idViaje = intent.getStringExtra("id_viaje");
-        }
+        currentSiteId = intent.getStringExtra("currentSiteId");
+        nombreViaje = intent.getStringExtra("nombre_viaje");
+        myUser = (User)intent.getSerializableExtra("myUser");
+        idViaje= intent.getStringExtra("id_viaje");
 
         mToolbar = (Toolbar) findViewById(R.id.action_bar_site_view);
         setSupportActionBar(mToolbar);
+        try {
+            idsSitio = Utils.getRegistersFromBBDD(currentSiteId, "Puntuacion", "Id_Sitio");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         this.initializeDrawerLayout();
         this.initializeButtons();
@@ -94,30 +90,39 @@ public class SiteView  extends ActionBarActivity {
      * @throws ParseException
      */
     public void initializeSiteData() throws ParseException {
-        String siteId = currentSite.getId();
+        String siteId = currentSiteId;
+
+        ParseObject site= null;
+        site = Utils.getRegistersFromBBDD(siteId, "Sitio", "objectId").get(0);
+        this.currentSiteNombre= site.getString("Nombre");
 
         TextView name = (TextView)findViewById(R.id.nombreSiteView);
-        name.setText(currentSite.getNombre());
+        name.setText(site.getString("Nombre"));
 
         TextView description = (TextView)findViewById(R.id.descripcionSiteView);
-        description.setText(currentSite.getDescripcion());
+        description.setText(site.getString("Descripcion"));
 
         TextView duration = (TextView)findViewById(R.id.duracionSiteView);
-        duration.setText(Double.toString(currentSite.getDuracion()));
+        duration.setText(Double.toString(site.getDouble("Duracion")));
 
         TextView price = (TextView)findViewById(R.id.precioSiteView);
-        price.setText(Double.toString(currentSite.getPrecio()));
+        price.setText(Double.toString(site.getDouble("Precio")));
 
-        ParseQuery<ParseObject> siteCoordQuery = ParseQuery.getQuery("Sitio");
-        siteCoordQuery.whereEqualTo("objectId", siteId);
-        latitude = siteCoordQuery.getFirst().getDouble("Latitud");
-        longitude = siteCoordQuery.getFirst().getDouble("Longitud");
+        latitude = site.getDouble("Latitud");
+        longitude = site.getDouble("Longitud");
 
-        //TODO change last 4 lines with next
-        /*
-        latitude = currentSite.getLatitud();
-        longitude = currentSite.getLongitud();
-        */
+        TextView rateValue = (TextView)findViewById(R.id.rateValue);
+        Double a = null;
+        List<ParseObject> puntuaciones = Utils.getRegistersFromBBDD(siteId, "Puntuacion", "Id_Sitio");
+        for (int i=0;i<puntuaciones.size();i++){
+            if(myUser.getObjectId().equals(puntuaciones.get(i).getString("Id_Usuario"))){
+                a = puntuaciones.get(i).getDouble("Estrellas");
+            }
+        }
+
+        rateValue.setText(a.toString());
+        a = site.getDouble("Estrellas");
+        ratingBar.setRating(a.longValue());
     }
     /**
      * Method initializeButtons. Elements de la interfície
@@ -126,18 +131,14 @@ public class SiteView  extends ActionBarActivity {
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         openDrawer.setOnClickListener(clickDrawer);
 
+
         ImageButton openEditThisSite = (ImageButton) findViewById(R.id.EditThisSite);
         openEditThisSite.setOnClickListener(clickEditThisSite);
+
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         Button btnSubmit = (Button) findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(rateButton);
-
-        try {
-            initRate();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -156,17 +157,26 @@ public class SiteView  extends ActionBarActivity {
     public Button.OnClickListener rateButton = new Button.OnClickListener() {
         public void onClick(View v) {
             Boolean rateExist = false;
+            Double promedio;
+            Double sumatorio;
+            int contador = 0;
+            sumatorio = 0.0;
             for(int i=0;i<idsSitio.size(); i++){
                 ParseObject idSitio = idsSitio.get(i);
-                if(idSitio.getString("Id_Usuario").equals(myUser.getObjectId().toString())){
+                if(idSitio.getString("Id_Usuario").equals(myUser.getObjectId())){
                     rateExist = true;
+                }else{
+                    //sumamos todos los votos que no son el nuestro.
+                    sumatorio = sumatorio + idSitio.getDouble("Estrellas");
+                    contador++;
                 }
             }
 
+            //actualizamos nuestro voto
             if(rateExist) {
                 HashMap<String, Object> params = new HashMap<String, Object>();
                 params.put("estrellas", ratingBar.getRating());
-                params.put("id_sitio", currentSite.getId());
+                params.put("id_sitio", currentSiteId);
                 params.put("id_usuario", myUser.getObjectId());
                 try {
                     String ar = ParseCloud.callFunction("updateRate", params);
@@ -174,10 +184,11 @@ public class SiteView  extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
+            //o añadimos nuestro voto
             else{
                 HashMap<String, Object> params = new HashMap<String, Object>();
                 params.put("estrellas", ratingBar.getRating());
-                params.put("id_sitio", currentSite.getId());
+                params.put("id_sitio", currentSiteId);
                 params.put("id_usuario", myUser.getObjectId());
                 try {
                     List<ParseObject> ar = ParseCloud.callFunction("addRate", params);
@@ -186,30 +197,34 @@ public class SiteView  extends ActionBarActivity {
                 }
             }
 
-            refreshActivity = true;
-            myUserRefresh = myUser;
-            currentSiteRefresh = currentSite;
+            //Actualizar campo Estrellas de tabla Sitio.
+            //primero le sumamos nuestro voto y despues hacemos el promedio.
+            sumatorio= sumatorio + ratingBar.getRating();
+            contador = contador + 1;
+            promedio = sumatorio / contador;
+            try {
+                Utils.setValueBBDD(promedio, "Sitio", "Estrellas", currentSiteId);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             Intent refresh = new Intent (SiteView.this, SiteView.class);
-            refresh.putExtra("currentSite", currentSite.getId());
+            refresh.putExtra("currentSiteId", currentSiteId);
             refresh.putExtra("myUser", myUser);
             refresh.putExtra("id_viaje", idViaje);
+            refresh.putExtra("nombre_viaje", nombreViaje);
             startActivity(refresh);
-            //PendingIntent pi = PendingIntent.getActivity(this, 0, intent, Intent.FLAG_ONE_SHOT);
-            finish();
-            /**
-             intent.putExtra("currentSite", currentSite.getId());
-             intent.putExtra("myUser", myUser.getObjectId());
-             finish();
-             startActivity(intent);**/
         }
     };
+
 
     public Button.OnClickListener clickEditThisSite = new Button.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(SiteView.this, EditSiteForm.class);
-            intent.putExtra("mySite", currentSite);
+            intent.putExtra("mySiteId", currentSiteId);
             intent.putExtra("myUser", myUser);
             intent.putExtra("id_viaje", idViaje);
+            intent.putExtra("nombre_viaje", nombreViaje);
             startActivity(intent);
         }
     };
@@ -294,8 +309,11 @@ public class SiteView  extends ActionBarActivity {
         switch(id) {
             case (R.id.EditThisSite):
                 Intent editThisSite = new Intent(this, EditSiteForm.class);
-                editThisSite.putExtra("mySite", currentSite);
-                startActivityForResult(editThisSite, 0);
+                editThisSite.putExtra("mySiteId", currentSiteId);
+                editThisSite.putExtra("myUser", myUser);
+                editThisSite.putExtra("id_viaje", idViaje);
+                editThisSite.putExtra("nombre_viaje", nombreViaje);
+                startActivity(editThisSite);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -312,7 +330,7 @@ public class SiteView  extends ActionBarActivity {
         mMap.animateCamera(zoom);
         mMap.addMarker(new MarkerOptions().position(
                 new LatLng(latitude, longitude))
-                .title(currentSite.getNombre()).draggable(true));
+                .title(this.currentSiteNombre).draggable(true));
     }
 
     /**
@@ -329,55 +347,5 @@ public class SiteView  extends ActionBarActivity {
                 setUpMap();
             }
         }
-    }
-
-    public List<ParseObject> getValueBBDD(String valueFieldTable, String table, String field) throws com.parse.ParseException {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("valueFieldTable", valueFieldTable);
-        params.put("table", table);
-        params.put("field", field);
-        return ParseCloud.callFunction("getId", params);
-    }
-
-    public Boolean initRate() throws ParseException {
-        idsSitio = getValueBBDD(currentSite.getId(), "Puntuacion", "Id_Sitio");
-
-        Double sumatorio;
-        int contador = 0;
-        sumatorio = 0.0;
-
-        TextView rateValue = (TextView)findViewById(R.id.rateValue);
-
-        if(idsSitio.size()== 0){
-            HashMap<String, Object> params = new HashMap<String, Object>();
-            params.put("estrellas", 0);
-            params.put("id_sitio", currentSite.getId());
-            params.put("id_usuario", myUser.getObjectId());
-
-            String ar = ParseCloud.callFunction("addRate", params);
-            if(ar.isEmpty()){
-                return false;
-            }
-
-
-            rateValue.setText(0);
-
-            ratingBar.setRating(0);
-            return true;
-        }
-
-        for(int i=0;i<idsSitio.size(); i++){
-            ParseObject idSitio = idsSitio.get(i);
-            sumatorio = sumatorio + idSitio.getDouble("Estrellas");
-            contador++;
-        }
-
-        sumatorio = sumatorio / contador;
-        DecimalFormat df = new DecimalFormat("0.00");
-        String finalRate = df.format(sumatorio);
-        rateValue.setText(finalRate);
-        ratingBar.setRating(sumatorio.longValue());
-
-        return true;
     }
 }

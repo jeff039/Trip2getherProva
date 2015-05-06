@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -167,17 +165,21 @@ public class NewTripForm extends ActionBarActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            // String picturePath contains the path of selected Image
+            //Try to reduce the necessary memory
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            options.inSampleSize = 2;
 
+            // String picturePath contains the path of selected Image
             ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath, options));
 
             //file it's a ParseFile that contains the image selected
-            Bitmap image = BitmapFactory.decodeFile(picturePath);
+            Bitmap image = BitmapFactory.decodeFile(picturePath, options);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 50, stream);
+            image.compress(Bitmap.CompressFormat.JPEG, 50, stream);
             byte[] dataImage = stream.toByteArray();
-            setFile(new ParseFile("imagenViaje.png", dataImage));
+            setFile(new ParseFile("imagenViaje.jpeg", dataImage));
             try {
                 file.save();
             } catch (ParseException e) {
@@ -260,7 +262,7 @@ public class NewTripForm extends ActionBarActivity {
                                             NewTripForm.this.findViewById(R.id.addedFriendsList);
                                     TextView newTv = new TextView(getApplicationContext());
                                     newTv.setTextColor(Color.BLACK);
-                                    int textViewId = popupView.generateViewId();
+                                    int textViewId = Utils.generateViewId();
                                     newTv.setId(textViewId);
                                     textViewIdList.add(textViewId);
                                     newTv.setText(mailFriend);
@@ -376,7 +378,7 @@ public class NewTripForm extends ActionBarActivity {
                 //SI ÉS EL PRIMER COP S'HA DE CREAR ID NOVA, PERÒ SINÓ HEM DE TORNAR A AFEGIR LA ID ANTIGA (ES MANTÉ)
                 int checkId = 0;
                 if(first) {
-                    checkId = popupView.generateViewId();
+                    checkId = Utils.generateViewId();
                     //////////////////////////
                     //INICIALITZEM LLISTES AMB TOTS ELS AMICS I CHECKBOXES
                     checkIdList.add(checkId);

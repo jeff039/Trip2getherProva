@@ -133,8 +133,9 @@ public class SiteList  extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent (SiteList.this, SiteView.class);
-                intent.putExtra("currentSite", sites.get(position));
+                intent.putExtra("currentSiteId", sites.get(position).getId().toString());
                 intent.putExtra("myUser", myUser);
+                intent.putExtra("nombre_viaje", nombreViaje);
                 intent.putExtra("id_viaje", idViaje);
                 startActivity(intent);
             }
@@ -272,6 +273,7 @@ public class SiteList  extends ActionBarActivity {
                 paramsMaps.putDouble("latitude", latitude);
                 paramsMaps.putDouble("longitude", longitude);
                 paramsMaps.putSerializable("userObject", myUser);
+                paramsMaps.putString("nombre_viaje", nombreViaje);
 
                 Intent siteMaps = new Intent(this, SiteMapsActivity.class);
                 siteMaps.putExtras(paramsMaps);

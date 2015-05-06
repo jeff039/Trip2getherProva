@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,8 +109,8 @@ public class TripList extends ActionBarActivity {
 
         if(!idsViatje.isEmpty()) {
             for(int i=0;i<idsViatje.size();i++){
-                ParseObject viatjeId = idsViatje.get(i);
-                String idViaje = viatjeId.getString("Id_Viaje");
+                //ParseObject viatjeId = idsViatje.get(i);
+                String idViaje = idsViatje.get(i).getString("Id_Viaje");
 
                 List<ParseObject> getId = Utils.getRegistersFromBBDD(idViaje, "Viaje", "objectId");
                 ParseObject camposViaje = getId.iterator().next();
@@ -118,9 +119,12 @@ public class TripList extends ActionBarActivity {
                 List<ParseObject> datosIdCiudad = Utils.getRegistersFromBBDD(idCiudad, "Ciudad", "objectId");
                 String pais;
                 String ciudad;
+
                 if(datosIdCiudad.size()==0){
+
                     pais="España";
                     ciudad="Barcelona";
+
                 }else{
                     pais = datosIdCiudad.get(0).getString("Pais");
                     ciudad = datosIdCiudad.get(0).getString("Nombre");
@@ -129,6 +133,11 @@ public class TripList extends ActionBarActivity {
                 Trip trip = new Trip(camposViaje.getString("Nombre"), pais,
                         ciudad, camposViaje.getDate("Fecha_Inicial"),
                         camposViaje.getDate("Fecha_Final"), camposViaje.getParseFile("Imagen"));
+                /*
+                Trip trip = new Trip(camposViaje.getString("Nombre"), pais,
+                        ciudad, camposViaje.getDate("Fecha_Inicial"),
+                        camposViaje.getDate("Fecha_Final"), camposViaje.getParseFile("Imagen").getUrl());
+                */
                 trip.setId(idViaje);
                 trips.add(trip);
             }

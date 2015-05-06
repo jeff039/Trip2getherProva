@@ -53,7 +53,7 @@ public class Utils {
     }
 
     /**
-     * Method setValueBBDD. Métode genéric per actualitzar un camp amb un objectId donat.
+     * Method setValueBBDD. Métode genéric per actualitzar un camp de tipus Boolean amb un objectId donat.
      * @param newValueBoolean Valor a posar al <field> de la <table>
      * @param table Taula de la BBDD
      * @param field Camp de la <table> a actualizar.
@@ -63,6 +63,40 @@ public class Utils {
     public static void setValueBBDD(Boolean newValueBoolean, String table, String field, String objectId) throws com.parse.ParseException {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("newValue", newValueBoolean);
+        params.put("table", table);
+        params.put("field", field);
+        params.put("objectId", objectId);
+        ParseCloud.callFunction("setValueOfTableId", params);
+    }
+
+    /**
+     * Method setValueBBDD. Métode genéric per actualitzar un camp de tipus String amb un objectId donat.
+     * @param newValueString Valor a posar al <field> de la <table>
+     * @param table Taula de la BBDD
+     * @param field Camp de la <table> a actualizar.
+     * @param objectId del registre a actualitzar.
+     * @throws com.parse.ParseException
+     */
+    public static void setValueBBDD(String newValueString, String table, String field, String objectId) throws com.parse.ParseException {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("newValue", newValueString);
+        params.put("table", table);
+        params.put("field", field);
+        params.put("objectId", objectId);
+        ParseCloud.callFunction("setValueOfTableId", params);
+    }
+
+    /**
+     * Method setValueBBDD. Métode genéric per actualitzar un camp de tipus Double amb un objectId donat.
+     * @param newValueDouble Valor a posar al <field> de la <table>
+     * @param table Taula de la BBDD
+     * @param field Camp de la <table> a actualizar.
+     * @param objectId del registre a actualitzar.
+     * @throws com.parse.ParseException
+     */
+    public static void setValueBBDD(Double newValueDouble, String table, String field, String objectId) throws com.parse.ParseException {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("newValue", newValueDouble);
         params.put("table", table);
         params.put("field", field);
         params.put("objectId", objectId);

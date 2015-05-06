@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +86,11 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             holder = (TripListHolder)row.getTag();
         }
 
+
         ParseFile file = trips.get(position).getImagen();
+        /*
+        Uri file = trips.get(position).getImagen();
+        */
         if (file != null) {
             byte[] bitmapdata = new byte[0];
             try {
@@ -93,8 +98,14 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             } catch (com.parse.ParseException e) {
                 e.printStackTrace();
             }
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+            //Try to reduce the necessary memory
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            options.inSampleSize = 2;
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length, options);
             holder.imageView.setImageBitmap(bitmap);
+            //holder.imageView.setImageURI(file);
         }else{
             holder.imageView.setBackgroundResource(R.drawable.background2);
         }
@@ -118,7 +129,8 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         holder.txtNumberFriends.setText(numberFriends);
 
         String sdateInici = Utils.convertFormatDate(trips.get(position).getFechaInicio());
-        String sdateFinal = Utils.convertFormatDate(trips.get(position).getFechaFinal());        holder.txtDateCalendar.setText(sdateInici+"- "+sdateFinal);
+        String sdateFinal = Utils.convertFormatDate(trips.get(position).getFechaFinal());
+        holder.txtDateCalendar.setText(sdateInici+"- "+sdateFinal);
         holder.txtDateCalendar.setText(sdateInici+"- "+sdateFinal);
         
         holder.imgFriendsIcon.setImageResource(R.drawable.ic_managment_friends);
@@ -130,7 +142,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditTripForm.class);
                 intent.putExtra("myUser", myUser);
-                intent.putExtra("myTrip", trips.get(position));
+                intent.putExtra("myTripId", trips.get(position).getId());
                 ((Activity)context).startActivity(intent);
             }
         });

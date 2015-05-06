@@ -28,7 +28,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -56,7 +55,7 @@ public class EditTripForm extends ActionBarActivity {
     private SimpleDateFormat dateFormatter;
     private static Intent intentR = null;
     private User myUser;
-    private Trip myTrip;
+    private String myTrip;
     private ParseFile file;
     private static String[] paises = { "Ninguno", "España", "Alemania", "Francia"};
 
@@ -85,10 +84,7 @@ public class EditTripForm extends ActionBarActivity {
         this.myUser = user;
     }
 
-    public Trip getMyTrip() {
-        return myTrip;
-    }
-    public void setMyTrip (Trip myTrip) {
+    public void setMyTrip (String myTrip) {
         this.myTrip = myTrip;
     }
 
@@ -111,7 +107,7 @@ public class EditTripForm extends ActionBarActivity {
 
         Intent intent = getIntent();
         setMyUser((User) intent.getSerializableExtra("myUser"));
-        setMyTrip((Trip) intent.getSerializableExtra("myTrip"));
+        setMyTrip((String) intent.getStringExtra("myTripId"));
         this.initializeButtons();
         this.setDateTimeFieldIni();
         this.setDateTimeFieldFin();
@@ -138,10 +134,7 @@ public class EditTripForm extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.saveEditTrip) {
             Trip nuevoViaje = CargarViaje();
-            nuevoViaje.setId(myTrip.getId());
-            //Trip nuevoViaje = getMyTrip();
-            Intent intent = new Intent (EditTripForm.this, TripList.class);
-            intent.putExtra("myUser", myUser);
+            nuevoViaje.setId(myTrip);
 
             try {
                 String idCiudad = getIdCiudad(nuevoViaje);
@@ -197,12 +190,12 @@ public class EditTripForm extends ActionBarActivity {
 
             //Notificacion a todos los participantes del viaje tras actualizar
             try {
-                participantesViaje = Utils.getRegistersFromBBDD(myTrip.getId(),"Grupo", "Id_Viaje");
+                participantesViaje = Utils.getRegistersFromBBDD(myTrip,"Grupo", "Id_Viaje");
                 //notificacion a los componentes de todas las personas añadidas
                 for (int i=0;i<participantGroupToAdd.size();i++){
                     for (int j=0;j<participantesViaje.size();j++) {
                         try {
-                            Utils.addNotification(participantGroupToAdd.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "add", myTrip.getId());
+                            Utils.addNotification(participantGroupToAdd.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "add", myTrip);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -212,7 +205,7 @@ public class EditTripForm extends ActionBarActivity {
                 for (int i=0;i<participantGroupToDelete.size();i++){
                     for (int j=0;j<participantesViaje.size();j++) {
                         try {
-                            Utils.addNotification(participantGroupToDelete.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "delete", myTrip.getId());
+                            Utils.addNotification(participantGroupToDelete.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "delete", myTrip);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -221,7 +214,7 @@ public class EditTripForm extends ActionBarActivity {
                 //notificacion a las personas eliminadas
                 for (int i=0;i<participantGroupToDelete.size();i++){
                     try {
-                        Utils.addNotification(participantGroupToDelete.get(i), participantGroupToDelete.get(i), "Grupo", "drop", myTrip.getId());
+                        Utils.addNotification(participantGroupToDelete.get(i), participantGroupToDelete.get(i), "Grupo", "drop", myTrip);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -229,6 +222,9 @@ public class EditTripForm extends ActionBarActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
+            Intent intent = new Intent (EditTripForm.this, TripList.class);
+            intent.putExtra("myUser", myUser);
             startActivity(intent);
             return true;
         }
@@ -250,17 +246,21 @@ public class EditTripForm extends ActionBarActivity {
                 String picturePath = cursor.getString(columnIndex);
                 cursor.close();
 
-                // String picturePath contains the path of selected Image
+                //Try to reduce the necessary memory
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.RGB_565;
+                options.inSampleSize = 2;
 
+                // String picturePath contains the path of selected Image
                 ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
-                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath,options));
 
                 //file it's a ParseFile that contains the image selected
-                Bitmap image = BitmapFactory.decodeFile(picturePath);
+                Bitmap image = BitmapFactory.decodeFile(picturePath, options);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG, 50, stream);
+                image.compress(Bitmap.CompressFormat.JPEG, 50, stream);
                 byte[] dataImage = stream.toByteArray();
-                setFile(new ParseFile("imagenViaje.png", dataImage));
+                setFile(new ParseFile("imagenViaje.jpeg", dataImage));
                 try {
                     file.save();
                 } catch (ParseException e) {
@@ -413,16 +413,20 @@ public class EditTripForm extends ActionBarActivity {
         }
 
         public void initializeTripData() throws ParseException {
+
+            List <ParseObject> trip;
+            trip = Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId");
+
             EditText nombre = (EditText)findViewById(R.id.EditTextNombre);
-            nombre.setText(getMyTrip().getNombre());
+            nombre.setText(trip.get(0).getString("Nombre"));
 
             EditText fechaInicio = (EditText)findViewById(R.id.EditTextFechaInicio);
             dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-            fechaInicio.setText(dateFormatter.format(getMyTrip().getFechaInicio()));
+            fechaInicio.setText(dateFormatter.format(trip.get(0).getDate("Fecha_Inicial")));
 
             EditText fechaFinal = (EditText)findViewById(R.id.EditTextFechaFinal);
             dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-            fechaFinal.setText(dateFormatter.format(getMyTrip().getFechaFinal()));
+            fechaFinal.setText(dateFormatter.format(trip.get(0).getDate("Fecha_Final")));
 
 
             LinearLayout addedFriends = (LinearLayout) //linear dels texts views
@@ -433,7 +437,7 @@ public class EditTripForm extends ActionBarActivity {
             int textViewId = Integer.MAX_VALUE;
             newTv.setId(textViewId);
             //textViewIdList.add(textViewId);
-            participantesViaje = Utils.getRegistersFromBBDD(myTrip.getId(),"Grupo", "Id_Viaje");
+            participantesViaje = Utils.getRegistersFromBBDD(myTrip,"Grupo", "Id_Viaje");
             List<ParseObject> datosUsuario;
             String idUsario;
             String textoAMostrar = "";
@@ -441,7 +445,6 @@ public class EditTripForm extends ActionBarActivity {
                 idUsario = participantesViaje.get(i).getString("Id_Usuario");
                 if(!idUsario.equals(myUser.getObjectId())) {
                     datosUsuario = Utils.getUserFromId(idUsario);
-                    //registrosGrupo.add(datosUsuario.get(0));
                     textoAMostrar = textoAMostrar + datosUsuario.get(0).getString("Mail");
                     textoAMostrar = textoAMostrar + "\n";
                 }
@@ -449,11 +452,8 @@ public class EditTripForm extends ActionBarActivity {
             newTv.setText(textoAMostrar);
             addedFriends.addView(newTv);
 
-            List <ParseObject> trip;
-            trip = Utils.getRegistersFromBBDD(myTrip.getId(), "Viaje", "objectId");
-            getMyTrip().setImagen(trip.get(0).getParseFile("Imagen"));
-
-            ParseFile file = getMyTrip().getImagen();
+            ParseFile file = trip.get(0).getParseFile("Imagen");
+            setFile(file);
             if (file != null) {
                 ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
                 byte[] bitmapdata = new byte[0];
@@ -462,7 +462,12 @@ public class EditTripForm extends ActionBarActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.RGB_565;
+                options.inSampleSize = 2;
+                //Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length, options);
                 imageView.setImageBitmap(bitmap);
             }
         }
@@ -591,7 +596,21 @@ public class EditTripForm extends ActionBarActivity {
             Date dataFinal = ConvertStringToDate(fechaFinal);
 
             ParseFile imagen = getFile();
-            return new Trip(nombre, myTrip.getPais(), myTrip.getCiudad(), dataInicial, dataFinal, imagen);
+
+            List <ParseObject> trip;
+            List <ParseObject> ciudades;
+            String pais="Barcelona";
+            String ciudad="España";
+            try {
+                trip = Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId");
+                ciudades = Utils.getRegistersFromBBDD(trip.get(0).getString("Id_Ciudad"), "Ciudad", "objectId");
+                ciudad = ciudades.get(0).getString("Nombre");
+                pais = ciudades.get(0).getString("Pais");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return new Trip(nombre, pais, ciudad, dataInicial, dataFinal, imagen);
         }
 
         /**
@@ -606,13 +625,12 @@ public class EditTripForm extends ActionBarActivity {
             params.put("name", nuevoViaje.getNombre());
             params.put("idCiudad", nuevoViaje.getCiudad());
             params.put("fechaInicial", nuevoViaje.getFechaInicio());
-            params.put("fechaFinal", nuevoViaje.getFechaFinal());
+            params.put("fechafinal", nuevoViaje.getFechaFinal());
             params.put("imagen", nuevoViaje.getImagen());
             params.put("objectId", nuevoViaje.getId());
 
             String editTripResponse = ParseCloud.callFunction("updateTripData", params);
             if(!editTripResponse.isEmpty())
-                //CrearGrupoBDD(nuevoViaje);
                 success = true;
             Log.i("Add editTrip:", editTripResponse);
 
@@ -719,14 +737,14 @@ public class EditTripForm extends ActionBarActivity {
             Boolean cambiarAdministrador = false;
 
             try {
-                componentesDelViaje = Utils.getRegistersFromBBDD(myTrip.getId(), "Grupo", "Id_Viaje");
+                componentesDelViaje = Utils.getRegistersFromBBDD(myTrip, "Grupo", "Id_Viaje");
                 if (!componentesDelViaje.isEmpty()) {
                     switch (componentesDelViaje.size()) {
                         case 0:
                             //se elimina viaje, sitios y puntuaciones, con datos consistentes
                             // no deberia de entrar nunca aqui
-                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
-                            puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
+                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip, "Sitio", "Id_Viaje");
+                            puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip, "Puntuacion", "Id_Viaje");
 
                             if (!sitiosAEliminar.isEmpty()) {
                                 ParseObject.deleteAll(sitiosAEliminar);
@@ -734,13 +752,13 @@ public class EditTripForm extends ActionBarActivity {
                             if (!puntuacionesAEliminar.isEmpty()) {
                                 ParseObject.deleteAll(puntuacionesAEliminar);
                             }
-                            ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
+                            ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
 
-                            msn = "Deleted Trip " + myTrip.getNombre();
+                            msn = "Deleted Trip " + myTrip;
                             break;
                         case 1:
                             //se elimina el grupo, el viaje, los sitios y las puntuaciones
-                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
+                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip, "Sitio", "Id_Viaje");
                             for (int i = 0; i < sitiosAEliminar.size(); i++) {
                                 puntuacionesAEliminar = Utils.getRegistersFromBBDD(sitiosAEliminar.get(i).getObjectId(), "Puntuacion", "Id_Sitio");
                                 if (!puntuacionesAEliminar.isEmpty()) {
@@ -754,9 +772,9 @@ public class EditTripForm extends ActionBarActivity {
                                 ParseObject.deleteAll(componentesDelViaje);
                             }
 
-                            ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
+                            ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
 
-                            msn = "Deleted Trip " + myTrip.getNombre();
+                            msn = "Deleted Trip " + myTrip;
                             break;
                         default:
                             //Se elimina el usuario del grupo y se asigna un nuevo administrador.
@@ -766,21 +784,20 @@ public class EditTripForm extends ActionBarActivity {
                                     if(componente.getBoolean("Administrador")){
                                         cambiarAdministrador = true;
                                     }
-                                    //ParseObject.createWithoutData("Grupo", componente.getObjectId()).deleteEventually();
                                     ParseObject.createWithoutData("Grupo", componente.getObjectId()).delete();
                                 }
                             }
                             if(cambiarAdministrador) {
-                                componentesDelViaje = Utils.getRegistersFromBBDD(myTrip.getId(), "Grupo", "Id_Viaje");
+                                componentesDelViaje = Utils.getRegistersFromBBDD(myTrip, "Grupo", "Id_Viaje");
                                 Utils.setValueBBDD(true, "Grupo", "Administrador", componentesDelViaje.get(0).getObjectId());
                             }
 
-                            msn = "Deleted Trip " + myTrip.getNombre();
+                            msn = "Deleted Trip " + myTrip;
                             break;
                     }
                 }else {
                     //se elimina el viaje, ¿los sitios y las puntuaciones?
-                    ParseObject.createWithoutData("Viaje", myTrip.getId()).deleteEventually();
+                    ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
                     /*
                     sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
                     puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");

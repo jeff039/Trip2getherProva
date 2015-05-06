@@ -91,7 +91,12 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
             } catch (com.parse.ParseException e) {
                 e.printStackTrace();
             }
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+            //Try to reduce the necessary memory
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            options.inSampleSize = 2;
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length, options);
             holder.imageView.setImageBitmap(bitmap);
         }else{
             holder.imageView.setBackgroundResource(R.drawable.background2);
