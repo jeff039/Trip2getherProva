@@ -18,6 +18,7 @@ import com.parse.ParseObject;
 import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.User;
 
 public class AddFriend extends ActionBarActivity {
@@ -44,15 +45,27 @@ public class AddFriend extends ActionBarActivity {
 
     public Button.OnClickListener clickAddFriend = new Button.OnClickListener() {
         public void onClick(View v) {
-        boolean sendNotification = false; //CRIDEM EL MÈTODE LOGIN
+        int sendNotification;
         try {
             sendNotification = addFriend(AddFriend.this.getFriendMail());
-            if(sendNotification) {
-                String toastText = "Enviada solicitud de amistad a "+AddFriend.this.getFriendMail();
-                Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
-                finish();
-            }else {
-                Toast.makeText(getApplicationContext(), "El usuario no existe", Toast.LENGTH_SHORT).show();
+            switch (sendNotification) {
+                case 0:
+                    String toastText = "Enviada solicitud de amistad a "+AddFriend.this.getFriendMail();
+                    Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
+                    finish();
+                    break;
+                case 1:
+                    Toast.makeText(getApplicationContext(), "El usuario no existe", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+                    Toast.makeText(getApplicationContext(), "Este es tu usuario", Toast.LENGTH_SHORT).show();
+                    break;
+                case 3:
+                    Toast.makeText(getApplicationContext(), "La amistad ya existe entre vosotros", Toast.LENGTH_SHORT).show();
+                    break;
+                case 4:
+                    Toast.makeText(getApplicationContext(), "La notificación ya se ha enviado/recibido", Toast.LENGTH_SHORT).show();
+                    break;
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -111,8 +124,8 @@ public class AddFriend extends ActionBarActivity {
      * @return
      * @throws ParseException
      */
-    public boolean addFriend(String mail) throws ParseException {
-        boolean success = false;
+    public int addFriend(String mail) throws ParseException {
+        int success = 1;
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("mail", mail);
         params.put("transmitterId", myUser.getObjectId());
@@ -121,12 +134,48 @@ public class AddFriend extends ActionBarActivity {
         //Comprovem si el mail existeix a la BD
         List<ParseObject> checkRegistro = ParseCloud.callFunction("checkUserSignIn", params);
         if (checkRegistro.isEmpty() == false){//mail existente
+            //Comprovem que aquest no és el nostre mail
+            ParseObject idFriend = checkRegistro.get(0);
+            if (idFriend.getString("Mail").compareTo(myUser.getMail())==0) {
+                success = 2;
+                return success;
+            }
+            //Si existeix el mail comprovem que l'amistad entre usuaris no existeix
+
+            List<ParseObject> checkAmistad = Utils.getRegistersFromBBDD(idFriend.getObjectId(), "Amistad", "Id_Usuario_2");
+            for(int i=0;i<checkAmistad.size();i++){
+                ParseObject idAmistad = checkAmistad.get(i);
+                if (idAmistad.getString("Id_Usuario_1").compareTo(myUser.getObjectId())==0) {
+                    success = 3;
+                    return success;
+                }
+            }
+            //Si no existeix comprovem que no s'hagi enviat ja una notificació a aquest usuari, o ell
+            //ens l'hagi enviat a nosaltres
+            List<ParseObject> checkNotificacion1 = Utils.getRegistersFromBBDD(idFriend.getObjectId(), "Notificacion", "Id_Emisor");
+            for(int i=0;i<checkNotificacion1.size();i++){
+                ParseObject idNotificacion1 = checkNotificacion1.get(i);
+                if (idNotificacion1.getString("Id_Receptor").compareTo(myUser.getObjectId())==0 &&
+                        idNotificacion1.getString("Tipo").compareTo("Amistad")==0 && !idNotificacion1.getBoolean("Estado")) {
+                    success = 4;
+                    return success;
+                }
+            }
+            List<ParseObject> checkNotificacion2 = Utils.getRegistersFromBBDD(idFriend.getObjectId(), "Notificacion", "Id_Receptor");
+            for(int i=0;i<checkNotificacion2.size();i++){
+                ParseObject idNotificacion2 = checkNotificacion2.get(i);
+                if (idNotificacion2.getString("Id_Emisor").compareTo(myUser.getObjectId())==0 &&
+                        idNotificacion2.getString("Tipo").compareTo("Amistad")==0 && !idNotificacion2.getBoolean("Estado")) {
+                    success = 4;
+                    return success;
+                }
+            }
             //Creem la notificació d'amistad cap a l'usuari receptor
             ParseObject userParse = checkRegistro.iterator().next();
             params.put("receiverId", userParse.getObjectId());
             String sendNotificationResponse = ParseCloud.callFunction("sendFriendNotification", params); //crida al BE
             if(sendNotificationResponse.isEmpty() == false) //S'ha creat l'usuari
-                success = true;
+                success = 0;
             Log.i("Notification objectId:", sendNotificationResponse);
             return success;
         } else {
