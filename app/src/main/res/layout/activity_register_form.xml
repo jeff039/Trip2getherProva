@@ -124,6 +124,56 @@
             android:background="@drawable/rounded_corner"
             android:drawableRight="@drawable/ic_cake_grey600_18dp"/>
 
+        <LinearLayout
+            android:id="@+id/linearLayoutImageUser"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/addImageToTrip"
+                android:layout_margin="10dp"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:id="@+id/imageUser"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutExtraFuncions"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <Button
+                android:id="@+id/gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gallery"
+                android:textColor="#ffffff"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/google"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/google"
+                android:textColor="#ffffff"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/sendRegister"

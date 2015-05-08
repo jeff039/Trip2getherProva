@@ -154,12 +154,12 @@ public class NewTripForm extends ActionBarActivity {
 
             //String picturePath contains the path of selected Image
             ImageView imageView = (ImageView) findViewById(R.id.imageTrip);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath, options));
+            Bitmap image = BitmapFactory.decodeFile(picturePath, options);
+            imageView.setImageBitmap(image);
 
             //file it's a ParseFile that contains the image selected
-            Bitmap image = BitmapFactory.decodeFile(picturePath, options);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            image.compress(Bitmap.CompressFormat.JPEG, 75, stream);
             byte[] dataImage = stream.toByteArray();
             setFile(new ParseFile("imagenViaje.jpeg", dataImage));
             try {
@@ -436,69 +436,37 @@ public class NewTripForm extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.saveTrip:
                 Trip nuevoViaje = CargarViaje();
-                Intent intent = new Intent(NewTripForm.this, TripList.class);
-                intent.putExtra("nombre", nuevoViaje.getNombre());
-                intent.putExtra("pais", nuevoViaje.getPais());
-                intent.putExtra("ciudad", nuevoViaje.getCiudad());
-                intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
-                intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
-                intent.putExtra("imagen", String.valueOf(nuevoViaje.getImagen()));
-                intent.putExtra("myUser", myUser);
-
-                try {
-                    String idCiudad = getIdCiudad(nuevoViaje);
+                if (nuevoViaje.getNombre().equalsIgnoreCase("")
+                        || nuevoViaje.getPais().equalsIgnoreCase("")
+                        || nuevoViaje.getCiudad().equalsIgnoreCase("")
+                        || nuevoViaje.getFechaInicio() == null
+                        || nuevoViaje.getFechaFinal() == null) {
+                    Toast.makeText(NewTripForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(NewTripForm.this, TripList.class);
+                    intent.putExtra("nombre", nuevoViaje.getNombre());
+                    intent.putExtra("pais", nuevoViaje.getPais());
+                    intent.putExtra("ciudad", nuevoViaje.getCiudad());
+                    intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
+                    intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
+                    intent.putExtra("imagen", String.valueOf(nuevoViaje.getImagen()));
+                    intent.putExtra("myUser", myUser);
+                    String idCiudad = null;
+                    try {
+                        idCiudad = getIdCiudad(nuevoViaje);
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
                     nuevoViaje.setCiudad(idCiudad);
-                    GuardarViajeBDD(nuevoViaje);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    if (nuevoViaje.getNombre().equalsIgnoreCase("")
-                            || nuevoViaje.getPais().equalsIgnoreCase("")
-                            || nuevoViaje.getCiudad().equalsIgnoreCase("")
-                            || nuevoViaje.getFechaInicio() == null
-                            || nuevoViaje.getFechaFinal() == null) {
-                        Toast.makeText(NewTripForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        intent = new Intent(NewTripForm.this, TripList.class);
-                        intent.putExtra("nombre", nuevoViaje.getNombre());
-                        intent.putExtra("pais", nuevoViaje.getPais());
-                        intent.putExtra("ciudad", nuevoViaje.getCiudad());
-                        intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
-                        intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
-                        intent.putExtra("imagen", String.valueOf(nuevoViaje.getImagen()));
-                        intent.putExtra("myUser", myUser);
-
-                        //Creem i afegim el grup
-                        for (int i = 0; i < includedFriends.size(); i++) {
-                            HashMap<String, Object> params = new HashMap<String, Object>();
-                            params.put("Id_Viaje", nuevoViaje.getId());
-                            params.put("Id_Usuario", includedFriends.get(i));
-
-                            String idCiudad = null;
-                            try {
-                                idCiudad = getIdCiudad(nuevoViaje);
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            }
-                            nuevoViaje.setCiudad(idCiudad);
-                            try {
-                                GuardarViajeBDD(nuevoViaje);
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            }
-
-                            try {
-                                ParseCloud.callFunction("addNotification", params);
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            }
-                            int prova = 0;
-                        }
-                        startActivity(intent);
-                        return true;
-
+                    Boolean savedCorrectly = false;
+                    try {
+                        savedCorrectly = GuardarViajeBDD(nuevoViaje);
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
+                    if(savedCorrectly ) {
                         ///creeem el grup
                         //AFEGIM AL GRUP
-
                         for (int i = 0; i < includedFriends.size(); i++) {
                             HashMap<String, Object> params = new HashMap<String, Object>();
                             params.put("Id_Viaje", nuevoViaje.getId());
@@ -508,7 +476,6 @@ public class NewTripForm extends ActionBarActivity {
                             } catch (ParseException e2) {
                                 e2.printStackTrace();
                             }
-
                             //ENVIEM NOTIFICACIONS ALS UDUARIS AFEGITS DE TIPUS add
                             //(SEND GENERIC NOTIFICATION)
                             HashMap<String, Object> params2 = new HashMap<String, Object>();
@@ -523,17 +490,12 @@ public class NewTripForm extends ActionBarActivity {
                             } catch (ParseException e1) {
                                 e1.printStackTrace();
                             }
-
-
                         }
                         //////////////////////////////////////
-
                         startActivity(intent);
-
-                        return true;
+                    }else{
+                        Toast.makeText(NewTripForm.this, "Can't create de Trip, please try again." , Toast.LENGTH_SHORT).show();
                     }
-
-
                 }
             default:
                 return super.onOptionsItemSelected(item);

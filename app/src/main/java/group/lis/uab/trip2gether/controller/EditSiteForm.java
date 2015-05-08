@@ -142,12 +142,12 @@ public class EditSiteForm extends ActionBarActivity {
 
             // String picturePath contains the path of selected Image
             ImageView imageView = (ImageView) findViewById(R.id.imageSite);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath, options));
+            Bitmap image = BitmapFactory.decodeFile(picturePath, options);
+            imageView.setImageBitmap(image);
 
             //file it's a ParseFile that contains the image selected
-            Bitmap image = BitmapFactory.decodeFile(picturePath, options);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            image.compress(Bitmap.CompressFormat.JPEG, 75, stream);
             byte[] dataImage = stream.toByteArray();
             setFile(new ParseFile("imagenViaje.JPEG", dataImage));
             try {
@@ -202,19 +202,7 @@ public class EditSiteForm extends ActionBarActivity {
         setFile(file);
         if (file != null) {
             ImageView imageView = (ImageView) findViewById(R.id.imageSite);
-            byte[] bitmapdata = new byte[0];
-            try {
-                bitmapdata = file.getData();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            //Try to reduce the necessary memory
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.RGB_565;
-            options.inSampleSize = 2;
-
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length, options);
-            imageView.setImageBitmap(bitmap);
+            Utils.setImageViewWithParseFile(imageView, file, false);
         }
     }
 

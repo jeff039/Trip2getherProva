@@ -2,7 +2,12 @@ package group.lis.uab.trip2gether.controller;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -12,12 +17,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.app.ActionBar;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,11 +36,15 @@ import java.util.regex.Pattern;
 
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Encrypt;
+import group.lis.uab.trip2gether.Resources.Utils;
 
 /**
  * Created by Jofré on 18/03/2015.
  */
 public class RegisterForm extends ActionBarActivity {
+
+    private static final int LOAD_IMAGE = 1;
+    private ParseFile file;
 
     //UI References
     private EditText pickDate;
@@ -41,6 +53,12 @@ public class RegisterForm extends ActionBarActivity {
 
     private boolean emailcheck;
 
+    public ParseFile getFile() {
+        return file;
+    }
+    public void setFile(ParseFile file) {
+        this.file = file;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +68,52 @@ public class RegisterForm extends ActionBarActivity {
         this.setDateTimeField();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            //Try to reduce the necessary memory
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            options.inSampleSize = 2;
+
+            // String picturePath contains the path of selected Image
+            ImageView imageView = (ImageView) findViewById(R.id.imageUser);
+            Bitmap image = BitmapFactory.decodeFile(picturePath, options);
+            imageView.setImageBitmap(image);
+
+            //file it's a ParseFile that contains the image selected
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.JPEG, 75, stream);
+            byte[] dataImage = stream.toByteArray();
+            setFile(new ParseFile("imagenPerfil.JPEG", dataImage));
+            try {
+                file.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /////////////////INTERFÍCIE////////////////////////////////////
     public void initializeButtons() {
+        Button gallery = (Button)findViewById(R.id.gallery);
+        gallery.setOnClickListener(clickGallery);
+        Button google = (Button)findViewById(R.id.google);
+        google.setOnClickListener(clickGoogle);
+
         Button sendRegister = (Button)findViewById(R.id.sendRegister);
         sendRegister.setOnClickListener(clickSendRegister);
         pickDate = (EditText) findViewById(R.id.date_of_birth);
@@ -60,6 +122,32 @@ public class RegisterForm extends ActionBarActivity {
         pickDate.setOnFocusChangeListener(focusPickDate);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
     }
+
+    /**
+     * Method Button.OnClickListener clickGallery
+     */
+    public Button.OnClickListener clickGallery = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(
+                    Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(i, LOAD_IMAGE);
+        }
+    };
+
+    /**
+     * Method Button.OnClickListener clickGoogle
+     */
+    public Button.OnClickListener clickGoogle = new Button.OnClickListener() {
+        public void onClick(View v) {
+
+            EditText TextNombre =(EditText)findViewById(R.id.name);
+            String search = TextNombre.getText().toString();
+            Uri uri = Uri.parse("https://www.google.com/search?hl=en&site=imghp&tbm=isch&source=hp&q="+search);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+    };
+
 
     public Button.OnClickListener clickSendRegister = new Button.OnClickListener() {
         public void onClick(View v) {
@@ -145,6 +233,7 @@ public class RegisterForm extends ActionBarActivity {
         params.put("password", password);
         params.put("country", country);
         params.put("date_of_birth", date_of_birth);
+        params.put("Image", getFile());
 
         //Comprovem si el mail existeix a la BD
         ArrayList checkRegistro = ParseCloud.callFunction("checkUserSignIn", params);

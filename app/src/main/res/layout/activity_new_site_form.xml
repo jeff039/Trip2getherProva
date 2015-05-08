@@ -113,13 +113,23 @@
                     android:id="@+id/gallery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/gallery"/>
+                    android:text="@string/gallery"
+                    android:textColor="#ffffff"
+                    android:padding="10dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button"
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/google"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/google"/>
+                    android:text="@string/google"
+                    android:textColor="#ffffff"
+                    android:padding="10dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button"
+                    android:textSize="16sp" />
             </LinearLayout>
 
         </LinearLayout>

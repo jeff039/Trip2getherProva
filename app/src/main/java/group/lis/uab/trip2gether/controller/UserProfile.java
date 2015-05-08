@@ -20,11 +20,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import java.util.HashMap;
 import java.util.List;
@@ -93,6 +95,12 @@ public class UserProfile extends ActionBarActivity {
             int number_user_trips = numberTripsResponse.size();
             String text_user_trips = String.valueOf(number_user_trips);
             user_trips.setText(text_user_trips);
+
+            ParseFile image;
+            image = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Usuario", "objectId").get(0).getParseFile("Imagen");
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+            Utils.setImageViewWithParseFile(imageView, image, true);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -47,7 +47,6 @@ public class SiteView  extends ActionBarActivity {
     private String currentSiteId;
     private String currentSiteNombre;
     private String nombreViaje;
-    public static Site currentSiteRefresh = null;
     private User myUser;
     private String idViaje;
     private String idViajeRefresh;
@@ -58,7 +57,6 @@ public class SiteView  extends ActionBarActivity {
     private ListView leftDrawerList;
     private Intent intent;
     private RatingBar ratingBar;
-    public static Boolean refreshActivity = false;
     public ImageView backSite;
     private List<ParseObject> idsSitio;
 
@@ -66,7 +64,7 @@ public class SiteView  extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_view);
-        Intent intent = getIntent();
+        intent = getIntent();
         currentSiteId = intent.getStringExtra("currentSiteId");
         nombreViaje = intent.getStringExtra("nombre_viaje");
         myUser = (User)intent.getSerializableExtra("myUser");
@@ -101,23 +99,11 @@ public class SiteView  extends ActionBarActivity {
         site = Utils.getRegistersFromBBDD(siteId, "Sitio", "objectId").get(0);
         this.currentSiteNombre= site.getString("Nombre");
 
-        backSite = (ImageView) findViewById(R.id.backSite);
+
         ParseFile imagen = site.getParseFile("Imagen");
-
-        if(imagen != null){
-            byte[] bitmapdata = new byte[0];
-            try {
-                bitmapdata = imagen.getData();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            //Try to reduce the necessary memory
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.RGB_565;
-            options.inSampleSize = 2;
-
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length, options);
-            backSite.setImageBitmap(bitmap);
+        if (imagen != null) {
+            backSite = (ImageView) findViewById(R.id.backSite);
+            Utils.setImageViewWithParseFile(backSite, imagen, false);
         }
 
         TextView name = (TextView)findViewById(R.id.nombreSiteView);
@@ -243,12 +229,12 @@ public class SiteView  extends ActionBarActivity {
 
     public Button.OnClickListener clickEditThisSite = new Button.OnClickListener() {
         public void onClick(View v) {
-            Intent intent = new Intent(SiteView.this, EditSiteForm.class);
-            intent.putExtra("mySiteId", currentSiteId);
-            intent.putExtra("myUser", myUser);
-            intent.putExtra("id_viaje", idViaje);
-            intent.putExtra("nombre_viaje", nombreViaje);
-            startActivity(intent);
+            Intent editThisSite = new Intent(SiteView.this, EditSiteForm.class);
+            editThisSite.putExtra("mySiteId", currentSiteId);
+            editThisSite.putExtra("myUser", myUser);
+            editThisSite.putExtra("id_viaje", idViaje);
+            editThisSite.putExtra("nombre_viaje", nombreViaje);
+            startActivity(editThisSite);
         }
     };
 
@@ -375,10 +361,10 @@ public class SiteView  extends ActionBarActivity {
     @Override
     public void onBackPressed()
     {
-        Intent intent = new Intent (SiteView.this, SiteList.class);
-        intent.putExtra("myUser", myUser);
-        intent.putExtra("id_viaje", idViaje);
-        intent.putExtra("nombre_viaje", nombreViaje);
-        startActivity(intent);
+        Intent goBack = new Intent (SiteView.this, SiteList.class);
+        goBack.putExtra("myUser", myUser);
+        goBack.putExtra("id_viaje", idViaje);
+        goBack.putExtra("nombre_viaje", nombreViaje);
+        startActivity(goBack);
     }
 }

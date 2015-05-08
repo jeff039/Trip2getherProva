@@ -88,24 +88,9 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
 
 
         ParseFile file = trips.get(position).getImagen();
-        /*
-        Uri file = trips.get(position).getImagen();
-        */
         if (file != null) {
-            byte[] bitmapdata = new byte[0];
-            try {
-                bitmapdata = file.getData();
-            } catch (com.parse.ParseException e) {
-                e.printStackTrace();
-            }
-            //Try to reduce the necessary memory
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.RGB_565;
-            options.inSampleSize = 2;
-
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length, options);
-            holder.imageView.setImageBitmap(bitmap);
-            //holder.imageView.setImageURI(file);
+            ImageView imageView = holder.imageView;
+            Utils.setImageViewWithParseFile(imageView, file, false);
         }else{
             holder.imageView.setBackgroundResource(R.drawable.background2);
         }

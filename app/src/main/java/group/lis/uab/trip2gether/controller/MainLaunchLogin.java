@@ -156,4 +156,10 @@ public class MainLaunchLogin extends ActionBarActivity {
         int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        //do nothing
+    }
 }

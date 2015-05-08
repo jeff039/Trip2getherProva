@@ -3,14 +3,28 @@ package group.lis.uab.trip2gether.Resources;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.media.Image;
+import android.widget.ImageView;
+
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.model.Trip;
 
 public class Utils {
@@ -257,6 +271,79 @@ public class Utils {
             if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
             if (sNextGeneratedId.compareAndSet(result, newValue)) {
                 return result;
+            }
+        }
+    }
+
+    /**
+     * Función para redondear una imagen.
+     *
+     * @return output Bitmap de la imagen redondeada.
+     */
+    public static Bitmap getRoundedCornerBitmap( Bitmap image, boolean square) {
+        int width = 0;
+        int height = 0;
+
+        Bitmap bitmap = image ;
+
+        if(square){
+            if(bitmap.getWidth() < bitmap.getHeight()){
+                width = bitmap.getWidth();
+                height = bitmap.getWidth();
+            } else {
+                width = bitmap.getHeight();
+                height = bitmap.getHeight();
+            }
+        } else {
+            height = bitmap.getHeight();
+            width = bitmap.getWidth();
+        }
+
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, width, height);
+        final RectF rectF = new RectF(rect);
+        final float roundPx = 90;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+    }
+
+
+    /**
+     * Función que carga el ParseFile (imagen) en el ImageView dado.
+     * @param imageView ImageView donde se cargara la imagen.
+     * @param file ParseFile de la a cargar.
+     * @param rounded Boolean con o sin efecto de redonda.
+     */
+    public static void setImageViewWithParseFile(ImageView imageView, ParseFile file, Boolean rounded) {
+        if (file != null) {
+            byte[] bitmapdata = new byte[0];
+            try {
+                bitmapdata = file.getData();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            //Try to reduce the necessary memory
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            options.inSampleSize = 2;
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length, options);
+            if(rounded) {
+                imageView.setImageBitmap(getRoundedCornerBitmap(bitmap, rounded));
+            }else{
+                imageView.setImageBitmap(bitmap);
             }
         }
     }

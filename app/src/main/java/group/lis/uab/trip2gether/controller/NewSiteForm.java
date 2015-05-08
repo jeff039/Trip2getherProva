@@ -89,12 +89,12 @@ public class NewSiteForm extends ActionBarActivity {
 
             // String picturePath contains the path of selected Image
             ImageView imageView = (ImageView) findViewById(R.id.imageSite);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath, options));
+            Bitmap image = BitmapFactory.decodeFile(picturePath, options);
+            imageView.setImageBitmap(image);
 
             //file it's a ParseFile that contains the image selected
-            Bitmap image = BitmapFactory.decodeFile(picturePath, options);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 75, stream);
+            image.compress(Bitmap.CompressFormat.JPEG, 75, stream);
             byte[] dataImage = stream.toByteArray();
             setFile(new ParseFile("imagenViaje.png", dataImage));
             try {
