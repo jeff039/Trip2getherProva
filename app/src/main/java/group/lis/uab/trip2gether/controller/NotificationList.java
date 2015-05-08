@@ -85,11 +85,12 @@ public class NotificationList extends ActionBarActivity {
             ParseObject noti = notiResponse.get(i);
             HashMap<String, Object> paramsQuery2 = new HashMap<String, Object>();
             paramsQuery2.put("objectId", noti.getObjectId()); //(receptor)
-
-            try {
-                ParseCloud.callFunction("updateNotification", paramsQuery2);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (noti.getString("Tipo").compareTo("Amistad")!=0) {
+                try {
+                    ParseCloud.callFunction("updateNotification", paramsQuery2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
             //////////////////////////////////////////////////////////
         }

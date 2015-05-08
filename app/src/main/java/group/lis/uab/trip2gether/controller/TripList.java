@@ -210,22 +210,24 @@ public class TripList extends ActionBarActivity {
             DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             switch (position){
                 case 1:
-                    openMyProfile();
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openMyProfile();
                     break;
                 case 2:
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                     openMyTrips();
                     break;
                 case 3:
-                    openFriends();
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openFriends();
                     break;
                 case 4:
                     //el botó  de notificacions es canviara si a la bd canvia
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                     openNotificationList();
-                    mDrawerLayout.closeDrawer(leftDrawerList);
                     break;
                 case 5: //ajustes
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                     openSettings();
                     break;
                 case 6: //cerrar sesión
