@@ -230,7 +230,7 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         //////////////////////////////////////////////////////////
 
         Bundle paramsOut = new Bundle();
-        paramsOut.putSerializable("currentSite", site);
+        paramsOut.putString("currentSiteId", site.getId());
         paramsOut.putSerializable("myUser", user);
         Intent siteView = new Intent(SiteMapsActivity.this, SiteView.class);
         siteView.putExtras(paramsOut);
