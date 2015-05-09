@@ -306,7 +306,7 @@ public class Utils {
         final Paint paint = new Paint();
         final Rect rect = new Rect(0, 0, width, height);
         final RectF rectF = new RectF(rect);
-        final float roundPx = 90;
+        final float roundPx = 360;
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);

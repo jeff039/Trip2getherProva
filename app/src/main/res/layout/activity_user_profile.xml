@@ -37,7 +37,8 @@
                     android:layout_height="120dp"
                     android:id="@+id/imageView"
                     android:clickable="false"
-                    android:src="@drawable/avatar" />
+                    android:src="@drawable/avatar"
+                    android:background="@drawable/rounded_border_image"/>
             </LinearLayout>
             <!-- USERNAME -->
             <LinearLayout
