@@ -187,7 +187,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dip"
-                    android:text="DELETE THIS SITE"
+                    android:text="@string/deleteSite"
                     android:textColor="#ffffff"
                     android:padding="10dp"
                     android:layout_margin="5dp"

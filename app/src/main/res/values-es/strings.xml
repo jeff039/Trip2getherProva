@@ -51,6 +51,10 @@
     <string name="friendRequestConfirm">Solicitud aceptada</string>
     <string name="friendRequestDecline">Solicitud rechazada</string>
     <string name="register">Registrarse</string>
+    <string name="newFriend">Agregar Amigo</string>
+    <string name="puntuar">Puntuar</string>
+    <string name="deleteSite">ELIMINAR ESTE SITIO</string>
+    <string name="editSiteTitle">EDITAR SITIO</string>
 
     <string name="country_prompt">Selecciona un país</string>
 

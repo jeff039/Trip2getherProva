@@ -51,6 +51,10 @@
     <string name="friendRequestConfirm">Solicitut acceptada</string>
     <string name="friendRequestDecline">Solicitut rebutjada</string>
     <string name="register">Registrar-se</string>
+    <string name="newFriend">Agregar Amic</string>
+    <string name="puntuar">Puntuar</string>
+    <string name="deleteSite">ELIMINAR AQUEST LLOC</string>
+    <string name="editSiteTitle">EDITAR LLOC</string>
 
     <string name="country_prompt">Choose a country</string>
 

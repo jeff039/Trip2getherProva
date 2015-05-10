@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text= "EDIT SITE"
+        android:text= "@string/editSiteTitle"
         android:textColor="#ffffff"
         android:textSize="20sp" />
 </android.support.v7.widget.Toolbar>

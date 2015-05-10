@@ -51,6 +51,10 @@
     <string name="friendRequestConfirm">Request accepted</string>
     <string name="friendRequestDecline">Request denied</string>
     <string name="register">Registry</string>
+    <string name="newFriend">Add Friend</string>
+    <string name="puntuar">Rate</string>
+    <string name="deleteSite">DELETE THIS SITE</string>
+    <string name="editSiteTitle">EDIT SITE</string>
 
     <string name="country_prompt">Choose a country</string>
 

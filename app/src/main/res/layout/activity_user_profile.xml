@@ -109,7 +109,7 @@
                 android:id="@+id/addFriend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Agregar Amigo"
+                android:text="@string/newFriend"
                 android:textColor="#ffffff"
                 android:background="#7EB465"
                 android:gravity="center"

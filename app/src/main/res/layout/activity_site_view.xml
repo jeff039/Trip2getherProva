@@ -173,7 +173,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
                     android:textSize="14sp"
-                    android:text="Puntuar"
+                    android:text="@string/puntuar"
                     android:textColor="#ffffff"
                     android:background="@drawable/button"/>
             </LinearLayout>
