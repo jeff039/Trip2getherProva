@@ -176,7 +176,7 @@ public class SiteList  extends ActionBarActivity {
         ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
         String [] options = getResources().getStringArray(R.array.options_array);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     /**
@@ -318,6 +318,10 @@ public class SiteList  extends ActionBarActivity {
                 case 2:
                     openMyTrips();
                     break;
+                case 3:
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openFriends();
+                    break;
                 case 4:
                     //el botó  de notificacions es canviara si a la bd canvia
                     openNotificationList();
@@ -364,5 +368,11 @@ public class SiteList  extends ActionBarActivity {
         Intent notificationList = new Intent(this, NotificationList.class);
         notificationList.putExtra("myUser", myUser);
         startActivity(notificationList);
+    }
+
+    public void openFriends() {
+        Intent friendsList = new Intent(this, Friends.class);
+        friendsList.putExtra("myUser", myUser);
+        startActivity(friendsList);
     }
 }

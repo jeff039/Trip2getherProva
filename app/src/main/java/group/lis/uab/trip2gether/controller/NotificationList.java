@@ -159,6 +159,7 @@ public class NotificationList extends ActionBarActivity {
         String [] options = getResources().getStringArray(R.array.options_array);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     /**
@@ -171,5 +172,86 @@ public class NotificationList extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_launch_login, menu);
         return true;
+    }
+    /**
+     * Method DrawerItemClickListener
+     */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        /**
+         * Method onItemClick
+         * @param parent
+         * @param view
+         * @param position
+         * @param id
+         */
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            switch (position){
+                case 1:
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openMyProfile();
+                    break;
+                case 2:
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openMyTrips();
+                    break;
+                case 3:
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openFriends();
+                    break;
+                case 4:
+                    //el botó  de notificacions es canviara si a la bd canvia
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openNotificationList();
+                    break;
+                case 5: //ajustes
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openSettings();
+                    break;
+                case 6: //cerrar sesión
+                    logout();
+                    break;
+            }
+        }
+    }
+
+    public void logout()
+    {
+        Intent i = new Intent(this, MainLaunchLogin.class);
+        startActivity(i);
+    }
+
+    public void openSettings()
+    {
+        Intent i = new Intent(this, Settings.class);
+        startActivity(i);
+    }
+
+    /**
+     * Method openMyProfile
+     */
+    public void openMyProfile() {
+        Intent userProfile = new Intent(this, UserProfile.class);
+        userProfile.putExtra("myUser", myUser);
+        startActivity(userProfile);
+    }
+
+    public void openMyTrips() {
+        Intent myTrips = new Intent(this, TripList.class);
+        myTrips.putExtra("myUser", myUser);
+        startActivity(myTrips);
+    }
+
+    public void openNotificationList() {
+        Intent notificationList = new Intent(this, NotificationList.class);
+        notificationList.putExtra("myUser", myUser);
+        startActivity(notificationList);
+    }
+
+    public void openFriends() {
+        Intent friendsList = new Intent(this, Friends.class);
+        friendsList.putExtra("myUser", myUser);
+        startActivity(friendsList);
     }
 }

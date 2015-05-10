@@ -256,28 +256,58 @@ public class SiteView  extends ActionBarActivity {
             DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             switch (position){
                 case 1:
-                    openMyProfile();
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openMyProfile();
                     break;
                 case 2:
-                    openMyTripList();
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openMyTrips();
+                    break;
+                case 3:
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openFriends();
                     break;
                 case 4:
-                    openNotificationList();
+                    //el botó  de notificacions es canviara si a la bd canvia
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openNotificationList();
+                    break;
+                case 5: //ajustes
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    openSettings();
+                    break;
+                case 6: //cerrar sesión
+                    logout();
                     break;
             }
         }
     }
 
+    public void logout()
+    {
+        Intent i = new Intent(this, MainLaunchLogin.class);
+        startActivity(i);
+    }
+
+    public void openSettings()
+    {
+        Intent i = new Intent(this, Settings.class);
+        startActivity(i);
+    }
+
     /**
-     * Method openMyProfile.
+     * Method openMyProfile
      */
     public void openMyProfile() {
         Intent userProfile = new Intent(this, UserProfile.class);
         userProfile.putExtra("myUser", myUser);
         startActivity(userProfile);
+    }
+
+    public void openMyTrips() {
+        Intent myTrips = new Intent(this, TripList.class);
+        myTrips.putExtra("myUser", myUser);
+        startActivity(myTrips);
     }
 
     public void openNotificationList() {
@@ -286,11 +316,12 @@ public class SiteView  extends ActionBarActivity {
         startActivity(notificationList);
     }
 
-    public void openMyTripList() {
-        Intent tripList = new Intent(this, TripList.class);
-        tripList.putExtra("myUser", myUser);
-        startActivity(tripList);
+    public void openFriends() {
+        Intent friendsList = new Intent(this, Friends.class);
+        friendsList.putExtra("myUser", myUser);
+        startActivity(friendsList);
     }
+
 
     /**
      * Method onCreateOptionsMenu. Barra superior
