@@ -16,7 +16,7 @@
     <string name="userHint">Usuari</string>
     <string name="passwHint">Contrasenya</string>
     <string name="loginButton">Iniciar Sessió</string>
-    <string name="registerButton">Registra t a Trip2Gether</string>
+    <string name="registerButton">Registra\'t a Trip2Gether</string>
     <string name="addTitle">Afegir Nou Viatge</string>
     <string name="editUserProfile">Editar perfil d usuari</string>
     <string name="updateUserProfileButton">ACTUALITZAR PERFIL</string>
@@ -31,10 +31,10 @@
     <string name="tripHint">Títol del viatge</string>
     <string name="saveTrip">GUARDAR</string>
     <string name="description">Descripció:</string>
-    <string name="stars">Tu Puntuació:</string>
+    <string name="stars">La teva puntuació:</string>
     <string name="editSite">editarLloc</string>
     <string name="title_activity_site_view">Lloc</string>
-    <string name="dateStart">Data d inici</string>
+    <string name="dateStart">Data d\'inici</string>
     <string name="dateEnd">Data Final</string>
     <string name="tripName">Nom del Viatge</string>
     <string name="addFriendToTrip">Agregar Amic</string>
@@ -47,7 +47,7 @@
     <string name="mailFriend">Mail amistat</string>
     <string name="save">GUARDAR</string>
     <string name="notifications">Notificacions</string>
-    <string name="friendRequest">T ha enviat una solicitut d amistat</string>
+    <string name="friendRequest">T\'ha enviat una solicitut d amistat</string>
     <string name="friendRequestConfirm">Solicitut acceptada</string>
     <string name="friendRequestDecline">Solicitut rebutjada</string>
     <string name="register">Registrar-se</string>
@@ -96,16 +96,16 @@
     </string-array>
     <string name="OK">OK</string>
     <string name="mapRoute">View route in map</string>
-    <string name="addSite">Add new Site</string>
-    <string name="anyLocation">You have not selected any location!</string>
-    <string name="title_activity_friends">Amigos</string>
-    <string name="action_settings">Settings</string>
-    <string name="addFriend">Add Friend</string>
+    <string name="addSite">Afegeix un nou lloc</string>
+    <string name="anyLocation">No has seleccionat cap ubicació!</string>
+    <string name="title_activity_friends">Amics</string>
+    <string name="action_settings">Configuració</string>
+    <string name="addFriend">Afegir amistat</string>
     <string name="title_activity_test">test</string>
-    <string name="noFriendsAlert">You have no friends to invite!</string>
-    <string name="trips">Trips</string>
-    <string name="login">Cargando...</string>
-    <string name="open">abrir</string>
-    <string name="close">cerrar</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="noFriendsAlert">No tens cap amic a convidar!</string>
+    <string name="trips">Viatges</string>
+    <string name="login">Cargant...</string>
+    <string name="open">obrir</string>
+    <string name="close">tancar</string>
+    <string name="title_activity_settings">Configuració</string>
 </resources>
