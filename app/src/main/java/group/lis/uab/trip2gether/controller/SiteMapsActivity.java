@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,6 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.User;
 
@@ -37,6 +41,93 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_maps);
         setUpMapIfNeeded();
+    }
+
+    public void setUpInfoWindow(final Site site)
+    {
+        /////////////////INFO WINDOW/////////
+        // Getting reference to the SupportMapFragment of activity_main.xml
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+        // Getting GoogleMap object from the fragment
+        mMap = mapFragment.getMap();
+
+        // Setting a custom info window adapter for the google map
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(final Marker marker) {
+
+                // Getting view from the layout file info_window_layout
+                View infoWindow = getLayoutInflater().inflate(R.layout.maps_title, null);
+                ImageView siteImage = (ImageView) infoWindow.findViewById(R.id.siteImage);
+
+                //CONTINGUT DE LA IMATGE
+                Site clickedSite = site;
+                String siteId = clickedSite.getId();
+                ParseObject site= null;
+                try {
+                    site = Utils.getRegistersFromBBDD(siteId, "Sitio", "objectId").get(0);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                ParseFile imagen = site.getParseFile("Imagen");
+                if (imagen != null) {
+                    Utils.setImageViewWithParseFile(siteImage, imagen, false);
+                }
+                // Returning the view containing InfoWindow contents
+                return infoWindow;
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Bundle paramsIn = getIntent().getExtras();
+                User user = (User) paramsIn.getSerializable("userObject");
+                Site site = getClickedSite(marker);
+                //////////////////////////////////////////////////////////
+                Bundle paramsOut = new Bundle();
+                paramsOut.putString("currentSiteId", site.getId());
+                paramsOut.putSerializable("myUser", user);
+                Intent siteView = new Intent(SiteMapsActivity.this, SiteView.class);
+                siteView.putExtras(paramsOut);
+                startActivity(siteView);
+            }
+        });
+    }
+
+
+
+    public Site getClickedSite(Marker marker)
+    {
+        //////////////////////////////////
+        LatLng position = marker.getPosition();
+        ///////QUERY SITE/////////////////////
+        HashMap<String, Object> paramsQuery = new HashMap<String, Object>();
+        paramsQuery.put("latitude", position.latitude);
+        paramsQuery.put("longitude", position.longitude);
+
+        List<ParseObject> siteResponse = null; //crida al BE
+        try {
+            siteResponse = ParseCloud.callFunction("getSiteByCoordenates", paramsQuery);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        ParseObject siteParse = siteResponse.get(0);
+        Site site = new Site(siteParse.getString("Nombre"), siteParse.getString("Descripcion"),
+                siteParse.getParseFile("Imagen"), siteParse.getString("Id_Viaje"), siteParse.getObjectId(),
+                siteParse.getDouble("Duracion"),
+                siteParse.getDouble("Precio"), siteParse.getDouble("Latitud"), siteParse.getDouble("Longitud"));
+        return  site;
     }
 
     /////BOTÓ OK/////////////
@@ -160,8 +251,7 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
                     mMap.clear(); //eliminem els markers anteriors
                     String positionText = point.toString();
                     marker = new MarkerOptions()
-                            .position(new LatLng(point.latitude, point.longitude))
-                            .title(positionText);
+                            .position(new LatLng(point.latitude, point.longitude));
                     mMap.addMarker(marker); //nou marker
                     //System.out.println(point.latitude + "---" + point.longitude);
                 }
@@ -206,36 +296,9 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Bundle paramsIn = getIntent().getExtras();
-        //////////////////////////////////
-        LatLng position = marker.getPosition();
-        User user = (User) paramsIn.getSerializable("userObject");
-
-        ///////QUERY SITE/////////////////////
-        HashMap<String, Object> paramsQuery = new HashMap<String, Object>();
-        paramsQuery.put("latitude", position.latitude);
-        paramsQuery.put("longitude", position.longitude);
-
-        List<ParseObject> siteResponse = null; //crida al BE
-        try {
-            siteResponse = ParseCloud.callFunction("getSiteByCoordenates", paramsQuery);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        ParseObject siteParse = siteResponse.get(0);
-        Site site = new Site(siteParse.getString("Nombre"), siteParse.getString("Descripcion"),
-                siteParse.getParseFile("Imagen"), siteParse.getString("Id_Viaje"), siteParse.getObjectId(),
-                siteParse.getDouble("Duracion"),
-                siteParse.getDouble("Precio"), siteParse.getDouble("Latitud"), siteParse.getDouble("Longitud"));
-        //////////////////////////////////////////////////////////
-
-        Bundle paramsOut = new Bundle();
-        paramsOut.putString("currentSiteId", site.getId());
-        paramsOut.putSerializable("myUser", user);
-        Intent siteView = new Intent(SiteMapsActivity.this, SiteView.class);
-        siteView.putExtras(paramsOut);
-        startActivity(siteView);
-
+        Site site = getClickedSite(marker);
+        setUpInfoWindow(site);
+        marker.showInfoWindow();
         return false;
     }
 }
