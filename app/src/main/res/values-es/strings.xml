@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">Trip2gether</string>
-    <string name="gallery">Abrir Galería</string>
-    <string name="google">Buscar en Google</string>
+    <string name="gallery">Mi Galería</string>
+    <string name="google">Google</string>
     <string name="title_activity_trip_list">Mis Viajes</string>
     <string name="title_activity_edit_trip">Editar Viaje</string>
     <string name="title_activity_site_list">Sitios</string>
@@ -19,6 +19,7 @@
     <string name="registerButton">Regístrate en Trip2Gether</string>
     <string name="addTitle">Agregar Nuevo Viaje</string>
     <string name="editUserProfile">Edit User Profile</string>
+    <string name="addAvatar">Agregar imagen de perfil desde:</string>
     <string name="updateUserProfileButton">ACTUALIZAR PERFIL</string>
     <string name="loginErr">Usario no encontrado</string>
     <string name="nombre">Nombre</string>
@@ -38,7 +39,7 @@
     <string name="dateEnd">Fecha Final</string>
     <string name="tripName">Nombre del Viaje</string>
     <string name="addFriendToTrip">Agregar Amigo</string>
-    <string name="addImageToTrip">AGREGAR IMAGEN</string>
+    <string name="addImageToTrip">Agregar Imagen desde:</string>
     <string name="precio">Precio:</string>
     <string name="duracion">Duracion:</string>
     <string name="duracionMin">Duracion (minutos)</string>

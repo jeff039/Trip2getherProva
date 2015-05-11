@@ -1,191 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#eee">
-    <FrameLayout
+    <include
+        android:id="@+id/action_bar_register_form"
+        layout="@layout/action_bar_register_form"></include>
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <include
-            android:id="@+id/action_bar_register_form"
-            layout="@layout/action_bar_register_form"></include>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:padding="30dp"
-        android:id="@+id/linearLayout">
-
-        <!--USERNAME LABEL-->
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/nombre"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:inputType="textCapWords"
-            android:textColor="#cccccc"
-            android:textColorHint="#bbbbbb"
-            android:background="@drawable/rounded_corner"
-            android:drawableRight="@drawable/ic_person_grey600_18dp"/>
-
-        <!--SURNAME LABEL-->
-        <EditText
-            android:id="@+id/surname"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/apellidos"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:inputType="textCapWords"
-            android:textColor="#cccccc"
-            android:textColorHint="#bbbbbb"
-            android:background="@drawable/rounded_corner"/>
-
-        <!--EMAIL LABEL-->
-        <EditText
-            android:id="@+id/mail"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/mail"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="#cccccc"
-            android:textColorHint="#bbbbbb"
-            android:background="@drawable/rounded_corner"
-            android:drawableRight="@drawable/ic_local_post_office_grey600_18dp"/>
-
-        <!--PASSWORD LABEL-->
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/passwHint"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:inputType="textPassword"
-            android:textColor="#cccccc"
-            android:textColorHint="#bbbbbb"
-            android:background="@drawable/rounded_corner"
-            android:drawableRight="@drawable/ic_vpn_key_grey600_18dp"/>
-        <!--android:inputType="textCapWords"-->
-
-
-        <!--COUNTRY LABEL-->
-        <EditText
-            android:id="@+id/country"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/pais"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:inputType="textCapWords"
-            android:textColor="#cccccc"
-            android:textColorHint="#bbbbbb"
-            android:background="@drawable/rounded_corner"
-            android:drawableRight="@drawable/ic_place_grey600_18dp"/>
-
-        <!--CITY LABEL-->
-        <EditText
-            android:id="@+id/city"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/ciudad"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:inputType="textCapWords"
-            android:textColor="#cccccc"
-            android:textColorHint="#bbbbbb"
-            android:background="@drawable/rounded_corner" />
-
-        <!--DATE OF BIRTH LABEL-->
-        <EditText
-            android:id="@+id/date_of_birth"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:inputType="date"
-            android:hint="@string/fecha_nacimiento"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="#cccccc"
-            android:textColorHint="#bbbbbb"
-            android:background="@drawable/rounded_corner"
-            android:drawableRight="@drawable/ic_cake_grey600_18dp"/>
-
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp">
         <LinearLayout
-            android:id="@+id/linearLayoutImageUser"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/addImageToTrip"
-                android:layout_margin="10dp"
-                android:textSize="18sp"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="30dp"
+            android:id="@+id/linearLayout">
 
-            <ImageView
-                android:id="@+id/imageUser"
+            <!--USERNAME LABEL-->
+            <EditText
+                android:id="@+id/name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayoutExtraFuncions"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
-            <Button
-                android:id="@+id/gallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/gallery"
-                android:textColor="#ffffff"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/nombre"
                 android:padding="10dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/button"
-                android:textSize="16sp" />
+                android:singleLine="true"
+                android:inputType="textCapWords"
+                android:textColor="#333333"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_person_grey600_18dp"/>
+
+            <!--SURNAME LABEL-->
+            <EditText
+                android:id="@+id/surname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/apellidos"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:inputType="textCapWords"
+                android:textColor="#333333"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"/>
+
+            <!--EMAIL LABEL-->
+            <EditText
+                android:id="@+id/mail"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/mail"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_local_post_office_grey600_18dp"/>
+
+            <!--PASSWORD LABEL-->
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/passwHint"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:textColor="#333333"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_vpn_key_grey600_18dp"/>
+            <!--android:inputType="textCapWords"-->
+
+
+            <!--COUNTRY LABEL-->
+            <EditText
+                android:id="@+id/country"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/pais"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:inputType="textCapWords"
+                android:textColor="#333333"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_place_grey600_18dp"/>
+
+            <!--CITY LABEL-->
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/ciudad"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:inputType="textCapWords"
+                android:textColor="#333333"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner" />
+
+            <!--DATE OF BIRTH LABEL-->
+            <EditText
+                android:id="@+id/date_of_birth"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:inputType="date"
+                android:hint="@string/fecha_nacimiento"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_cake_grey600_18dp"/>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutImageUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/addAvatar"
+                    android:layout_margin="10dp"
+                    android:textSize="18sp"/>
+
+                <ImageView
+                    android:id="@+id/imageUser"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutExtraFuncions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <Button
+                    android:id="@+id/gallery"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gallery"
+                    android:textColor="#ffffff"
+                    android:padding="10dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/google"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/google"
+                    android:textColor="#ffffff"
+                    android:padding="10dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <Button
-                android:id="@+id/google"
-                android:layout_width="wrap_content"
+                android:id="@+id/sendRegister"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/google"
+                android:layout_marginTop="30dip"
+                android:text="@string/register"
                 android:textColor="#ffffff"
-                android:padding="10dp"
-                android:layout_margin="5dp"
                 android:background="@drawable/button"
-                android:textSize="16sp" />
+                android:gravity="center"
+                android:textSize="18sp" />
+
         </LinearLayout>
-
-        <Button
-            android:id="@+id/sendRegister"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dip"
-            android:text="@string/register"
-            android:textColor="#ffffff"
-            android:background="@drawable/button"
-            android:gravity="center"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-    </FrameLayout>
-</ScrollView>
+    </ScrollView>
+</FrameLayout>
