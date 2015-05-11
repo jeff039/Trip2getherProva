@@ -68,6 +68,7 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
                 // Getting view from the layout file info_window_layout
                 View infoWindow = getLayoutInflater().inflate(R.layout.maps_title, null);
                 ImageView siteImage = (ImageView) infoWindow.findViewById(R.id.siteImage);
+                TextView siteText = (TextView) infoWindow.findViewById(R.id.siteText);
 
                 //CONTINGUT DE LA IMATGE
                 Site clickedSite = site;
@@ -83,6 +84,10 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
                 if (imagen != null) {
                     Utils.setImageViewWithParseFile(siteImage, imagen, false);
                 }
+
+                //CONTINGUT DEL NOM
+                siteText.setText(clickedSite.getNombre());
+
                 // Returning the view containing InfoWindow contents
                 return infoWindow;
             }

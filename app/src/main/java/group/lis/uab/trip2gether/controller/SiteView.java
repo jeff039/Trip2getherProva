@@ -388,7 +388,7 @@ public class SiteView  extends ActionBarActivity {
             }
         }
     }
-
+    /*
     @Override
     public void onBackPressed()
     {
@@ -397,5 +397,5 @@ public class SiteView  extends ActionBarActivity {
         goBack.putExtra("id_viaje", idViaje);
         goBack.putExtra("nombre_viaje", nombreViaje);
         startActivity(goBack);
-    }
+    }*/
 }
