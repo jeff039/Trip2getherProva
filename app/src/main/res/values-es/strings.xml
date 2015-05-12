@@ -38,8 +38,8 @@
     <string name="dateStart">Fecha de Inicio</string>
     <string name="dateEnd">Fecha Final</string>
     <string name="tripName">Nombre del Viaje</string>
-    <string name="addFriendToTrip">Agregar Amigo</string>
-    <string name="addImageToTrip">Agregar Imagen desde:</string>
+    <string name="addFriendToTrip">Agregar Amigos</string>
+    <string name="addImageToTrip">Agregar imagen desde:</string>
     <string name="precio">Precio:</string>
     <string name="duracion">Duracion:</string>
     <string name="duracionMin">Duracion (minutos)</string>
@@ -99,7 +99,7 @@
         <item>Ajustes</item>
         <item>Cerrar Sesión</item>
     </string-array>
-    <string name="OK">OK</string>
+    <string name="OK">Listo</string>
     <string name="mapRoute">View route in map</string>
     <string name="addSite">Añade nuevo sitio</string>
     <string name="anyLocation">No has seleccionado ninguna ubicación!</string>

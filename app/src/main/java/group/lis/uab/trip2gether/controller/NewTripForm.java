@@ -179,12 +179,12 @@ public class NewTripForm extends ActionBarActivity {
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
 
-        final ImageButton addFriendButton = (ImageButton)findViewById(R.id.ImageButtonAddFirends);
+        final Button addFriendButton = (Button)findViewById(R.id.ImageButtonAddFirends);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //quan clickem canviem el color
-                addFriendButton.setImageResource(R.drawable.ic_action_add_group);
+                //addFriendButton.setImageResource(R.drawable.ic_action_add_group);
 
                 //POPUP add friend
                 LayoutInflater layoutInflater
@@ -195,8 +195,8 @@ public class NewTripForm extends ActionBarActivity {
 
                 final PopupWindow popupWindow = new PopupWindow(
                         popupView,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT);
                 popupWindow.setFocusable(true); //per evitar back
 
                 //PRIMER COP?
@@ -218,7 +218,7 @@ public class NewTripForm extends ActionBarActivity {
                 btnOK.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        addFriendButton.setImageResource(R.drawable.ic_action_add_group);
+                        //addFriendButton.setImageResource(R.drawable.ic_action_add_group);
 
                        //PER TOT ELS CHECKS MIREM QUIN ESTÀ CHECKED
                         for(int i = 0; i < checkIdList.size(); i++) {
@@ -275,7 +275,7 @@ public class NewTripForm extends ActionBarActivity {
                         }
                         popupWindow.dismiss(); //tanquem el popup
                     }});
-                popupWindow.showAsDropDown(addFriendButton, 50, -30); //mostrem el popup
+                popupWindow.showAsDropDown(popupView); //mostrem el popup
             }
         });
 
@@ -345,8 +345,9 @@ public class NewTripForm extends ActionBarActivity {
                 String friendEmail = userParse.getString("Mail"); //email de l'amic
 
                 //CHECKBOXES
-                CheckBox cb = new CheckBox(getApplicationContext());
+                CheckBox cb = new CheckBox(this);
                 cb.setText(friendEmail);
+                cb.setTextColor(Color.BLACK);
                 //SI ÉS EL PRIMER COP S'HA DE CREAR ID NOVA, PERÒ SINÓ HEM DE TORNAR A AFEGIR LA ID ANTIGA (ES MANTÉ)
                 int checkId = 0;
                 if(first) {
