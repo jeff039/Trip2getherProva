@@ -22,32 +22,34 @@
             <!--NAME LABEL-->
             <EditText
                 android:id="@+id/Nombre"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/nombre"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:inputType="textCapWords"
-                android:textColor="#cccccc"
+                android:textColor="#333333"
                 android:textColorHint="#bbbbbb"
                 android:background="@drawable/rounded_corner"
                 android:drawableRight="@drawable/ic_place_grey600_18dp" />
 
-            <!--SURNAME LABEL-->
+            <!--DESCRIPTION LABEL-->
             <EditText
                 android:id="@+id/Descripcion"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/description"
+                android:scrollbars="vertical"
+                android:gravity="top|left"
+                android:lines="3"
                 android:padding="10dp"
-                android:singleLine="true"
-                android:inputType="textCapWords"
-                android:textColor="#cccccc"
+                android:inputType="textMultiLine"
+                android:textColor="#333333"
                 android:textColorHint="#bbbbbb"
                 android:background="@drawable/rounded_corner"
-                android:drawableRight="@drawable/ic_place_grey600_18dp" />
+                android:drawableRight="@drawable/ic_border_color_grey600_18dp" />
 
             <!--DURATION LABEL-->
             <EditText
@@ -59,10 +61,10 @@
                 android:padding="10dp"
                 android:singleLine="true"
                 android:inputType="textCapWords"
-                android:textColor="#cccccc"
+                android:textColor="#333333"
                 android:textColorHint="#bbbbbb"
                 android:background="@drawable/rounded_corner"
-                android:drawableRight="@drawable/ic_place_grey600_18dp" />
+                android:drawableRight="@drawable/ic_query_builder_grey600_18dp" />
 
             <!--PRICE LABEL-->
             <EditText
@@ -74,10 +76,10 @@
                 android:padding="10dp"
                 android:singleLine="true"
                 android:inputType="textCapWords"
-                android:textColor="#cccccc"
+                android:textColor="#333333"
                 android:textColorHint="#bbbbbb"
                 android:background="@drawable/rounded_corner"
-                android:drawableRight="@drawable/ic_place_grey600_18dp" />
+                android:drawableRight="@drawable/ic_attach_money_grey600_18dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -98,20 +100,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_below="@+id/linearLayoutImagenSite"
-            android:layout_marginTop="10px">
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/addImageToTrip"
+                android:layout_margin="10dp"
+                android:textSize="18sp"/>
 
             <LinearLayout
                 android:id="@+id/linearLayoutExtraFuncions"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_below="@+id/linearLayoutImagenSite"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:gravity="center_horizontal"
+                android:layout_below="@+id/linearLayoutImagenSite">
 
                 <Button
                     android:id="@+id/gallery"
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:text="@string/gallery"
                     android:textColor="#ffffff"
@@ -122,7 +131,7 @@
 
                 <Button
                     android:id="@+id/google"
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:text="@string/google"
                     android:textColor="#ffffff"

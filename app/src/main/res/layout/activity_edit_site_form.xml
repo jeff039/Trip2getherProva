@@ -29,14 +29,14 @@
 
                 <EditText
                     android:id="@+id/EditTextSiteNombre"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/nombre"
                     android:padding="10dp"
                     android:singleLine="true"
                     android:inputType="textCapWords"
-                    android:textColor="#cccccc"
+                    android:textColor="#333333"
                     android:textColorHint="#bbbbbb"
                     android:background="@drawable/rounded_corner"
                     android:drawableRight="@drawable/ic_place_grey600_18dp" />
@@ -45,36 +45,32 @@
             <LinearLayout
                 android:id="@+id/linearLayoutSiteDescripcion"
                 android:layout_below="@+id/linearLayoutSiteNombre"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp">
 
                 <EditText
                     android:id="@+id/EditTextSiteDescripcion"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:padding="10dp"
-                    android:hint="@string/description"
+                    android:scrollbars="vertical"
+                    android:gravity="top|left"
+                    android:lines="3"
+                    android:inputType="textMultiLine"
                     android:singleLine="true"
-                    android:inputType="textCapWords"
-                    android:textColor="#cccccc"
+                    android:textColor="#333333"
                     android:textColorHint="#bbbbbb"
                     android:background="@drawable/rounded_corner"
-                    android:drawableRight="@drawable/ic_place_grey600_18dp" />
+                    android:drawableRight="@drawable/ic_border_color_grey600_18dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutSiteDuracion"
                 android:layout_below="@+id/linearLayoutSiteDescripcion"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp">
 
                 <EditText
@@ -83,23 +79,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:padding="10dp"
-                    android:hint="@string/duracion"
                     android:singleLine="true"
-                    android:inputType="textCapWords"
-                    android:textColor="#cccccc"
+                    android:inputType="text"
+                    android:textColor="#333333"
                     android:textColorHint="#bbbbbb"
                     android:background="@drawable/rounded_corner"
-                    android:drawableRight="@drawable/ic_place_grey600_18dp" />
+                    android:drawableRight="@drawable/ic_query_builder_grey600_18dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutSitePrecio"
                 android:layout_below="@+id/linearLayoutSiteDuracion"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp">
 
                 <EditText
@@ -109,12 +101,11 @@
                     android:layout_marginBottom="10dp"
                     android:padding="10dp"
                     android:hint="@string/precio"
-                    android:singleLine="true"
-                    android:inputType="textCapWords"
-                    android:textColor="#cccccc"
+                    android:inputType="text"
+                    android:textColor="#333333"
                     android:textColorHint="#bbbbbb"
                     android:background="@drawable/rounded_corner"
-                    android:drawableRight="@drawable/ic_place_grey600_18dp" />
+                    android:drawableRight="@drawable/ic_attach_money_grey600_18dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -131,7 +122,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/addImageToTrip"
-                    android:layout_margin="10dp"
                     android:textSize="18sp"/>
 
                 <ImageView
@@ -146,15 +136,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_gravity="center_horizontal"
-                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
                 android:layout_below="@+id/linearLayoutImagenSite"
-                android:layout_marginTop="10px">
+                android:layout_marginTop="10dp">
                 <Button
                     android:id="@+id/gallery"
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
                     android:text="@string/gallery"
                     android:textColor="#ffffff"
                     android:padding="10dp"
@@ -163,9 +151,8 @@
                     android:textSize="16sp" />
                 <Button
                     android:id="@+id/google"
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
                     android:text="@string/google"
                     android:textColor="#ffffff"
                     android:padding="10dp"
