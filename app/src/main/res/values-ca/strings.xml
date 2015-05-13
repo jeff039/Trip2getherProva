@@ -89,6 +89,7 @@
     </string-array>
 
     <string name="title_activity_site_maps">Map</string>
+    <string name="title_activity_map">Mapa de Viatge</string>
     <!-- OPCIONS DE LA DRAWER LIST -->
     <string-array name="options_array">
         <item>Perfil</item>

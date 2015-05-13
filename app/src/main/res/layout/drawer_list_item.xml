@@ -5,4 +5,4 @@
     android:gravity="center_vertical"
     android:padding="16dp"
     android:textSize="16sp"
-    android:textColor="#333" />
+    android:textColor="#333"/>

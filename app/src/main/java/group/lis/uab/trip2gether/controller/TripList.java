@@ -40,7 +40,6 @@ public class TripList extends ActionBarActivity {
     private ArrayList<Trip> trips = new ArrayList<Trip>();
     private Toolbar mToolbar;
     private ListView leftDrawerList;
-    int ICONS[] = {R.drawable.ic_place_grey600_18dp,R.drawable.ic_place_grey600_18dp,R.drawable.ic_place_grey600_18dp,R.drawable.ic_place_grey600_18dp};
 
     /**
      * Method onCreate
@@ -158,6 +157,7 @@ public class TripList extends ActionBarActivity {
             }
         });
     }
+
 
     /**
      * Method initializeButtons. Elements de la interfície

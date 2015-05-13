@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_gravity="center_horizontal"
+        android:textAllCaps="true"
         android:shadowColor="#7F000000"
         android:shadowDx="1"
         android:shadowDy="1"
