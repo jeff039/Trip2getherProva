@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,7 +34,7 @@ import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.User;
 
-public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener {
+public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     MarkerOptions marker;
@@ -52,9 +53,20 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
             //mMap.clear(); //borrem i escrvim els punts de nou
             //SiteMapsActivity.this.setUpMap();
             mMap.addMarker(new MarkerOptions().position(
-                    new LatLng(location.getLatitude(), location.getLongitude()))).setIcon(BitmapDescriptorFactory
-                    .fromResource(R.drawable.my_location));
+                    new LatLng(location.getLatitude(), location.getLongitude())).title(getString(R.string.myLocation)))
+                    .setIcon(BitmapDescriptorFactory
+                            .fromResource(R.drawable.my_location));
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location)
+    {
+        mMap.clear();
+        this.setUpMap();
+        mMap.addMarker(new MarkerOptions().position(
+                new LatLng(location.getLatitude(), location.getLongitude())).title(getString(R.string.myLocation))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_location)));
     }
 
     public void setUpInfoWindow(final Site site)

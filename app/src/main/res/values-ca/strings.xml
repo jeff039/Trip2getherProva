@@ -117,4 +117,5 @@
     <string name="oldPasswHint">vella Contrasenya</string>
     <string name="newPasswHint">nova Contrasenya</string>
     <string name="editPasswordForm">Editar Contrasenya</string>
+    <string name="myLocation">La meva localització</string>
 </resources>

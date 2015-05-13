@@ -118,4 +118,5 @@
     <string name="oldPasswHint">vieja Contraseñad</string>
     <string name="newPasswHint">nueva Contraseña</string>
     <string name="editPasswordForm">Editar Contraseña</string>
+    <string name="myLocation">Mi localización</string>
 </resources>

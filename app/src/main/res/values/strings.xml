@@ -117,4 +117,5 @@
     <string name="oldPasswHint">old Password</string>
     <string name="newPasswHint">new Password</string>
     <string name="editPasswordForm">Edit Password</string>
+    <string name="myLocation">My location</string>
 </resources>
