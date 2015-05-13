@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">Trip2gether</string>
-    <string name="gallery">Open Gallery</string>
-    <string name="google">Search on Google</string>
+    <string name="gallery">My Gallery</string>
+    <string name="google">Google</string>
     <string name="title_activity_trip_list">My trips</string>
     <string name="title_activity_edit_trip">Edit Trip</string>
     <string name="title_activity_site_list">Sites</string>
@@ -38,7 +38,7 @@
     <string name="dateEnd">End date</string>
     <string name="tripName">Trip Name</string>
     <string name="addFriendToTrip">Add Friend</string>
-    <string name="addImageToTrip">ADD IMAGE</string>
+    <string name="addImageToTrip">ADD IMAGE FROM</string>
     <string name="precio">Price:</string>
     <string name="duracion">Duration:</string>
     <string name="duracionMin">Duration (minutes)</string>

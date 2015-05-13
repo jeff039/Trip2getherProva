@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="30dp">
+            android:padding="25dp">
             <LinearLayout
                 android:id="@+id/linearLayoutNombre"
                 android:layout_width="match_parent"
@@ -173,7 +173,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_below="@+id/linearLayoutAddPerson">
 
                 <TextView

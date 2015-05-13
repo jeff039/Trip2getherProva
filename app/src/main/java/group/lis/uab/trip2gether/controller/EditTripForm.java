@@ -303,8 +303,8 @@ public class EditTripForm extends ActionBarActivity {
 
                     final PopupWindow popupWindow = new PopupWindow(
                             popupView,
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT);
                     popupWindow.setFocusable(true); //per evitar back
 
                     //PRIMER COP?
@@ -399,7 +399,7 @@ public class EditTripForm extends ActionBarActivity {
                             popupWindow.dismiss(); //tanquem el popup
                         }});
                     ////////////////////////////////
-                    popupWindow.showAsDropDown(addFriendButton, 50, -30); //mostrem el popup
+                    popupWindow.showAsDropDown(popupView); //mostrem el popup
 
                 }
             });
@@ -508,8 +508,9 @@ public class EditTripForm extends ActionBarActivity {
                 String friendEmail = userParse.getString("Mail"); //email de l'amic
 
                 ///////////////////////////////CHECKBOXES///////////
-                CheckBox cb = new CheckBox(getApplicationContext());
+                CheckBox cb = new CheckBox(this);
                 cb.setText(friendEmail);
+                cb.setTextColor(Color.BLACK);
                 //SI ÉS EL PRIMER COP S'HA DE CREAR ID NOVA, PERÒ SINÓ HEM DE TORNAR A AFEGIR LA ID ANTIGA (ES MANTÉ)
                 int checkId = 0;
                 if(first) {
