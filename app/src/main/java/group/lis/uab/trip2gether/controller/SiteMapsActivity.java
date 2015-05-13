@@ -44,14 +44,15 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_maps);
         setUpMapIfNeeded();
+        setLocation();
+    }
 
+    public void setLocation()
+    {
         //GEOLOCALITZACIÓ
-        //this.mMap.getUiSettings().setMyLocationButtonEnabled(false);
         this.mMap.setMyLocationEnabled(true);
         Location location = this.mMap.getMyLocation();
         if (location != null) {
-            //mMap.clear(); //borrem i escrvim els punts de nou
-            //SiteMapsActivity.this.setUpMap();
             mMap.addMarker(new MarkerOptions().position(
                     new LatLng(location.getLatitude(), location.getLongitude())).title(getString(R.string.myLocation)))
                     .setIcon(BitmapDescriptorFactory
