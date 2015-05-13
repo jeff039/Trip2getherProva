@@ -99,11 +99,96 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
         String time = String.valueOf((int) sitios.get(position).getDuracion());
         holder.txtTimeHours.setText(time+"h");
 
-        holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
-        holder.imgStar2.setImageResource(R.drawable.ic_stars_white_48dp);
-        holder.imgStar3.setImageResource(R.drawable.ic_stars_white_48dp);
-        holder.imgStar4.setImageResource(R.drawable.ic_stars_grey600_48dp);
-        holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+
+        if(sitios.get(position).getEstrellas()<1){
+            if(sitios.get(position).getEstrellas() >= 0.5){
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_half_white_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+            }
+            else {
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+            }
+        }
+        if(sitios.get(position).getEstrellas()>=1 && sitios.get(position).getEstrellas()<2){
+            if(sitios.get(position).getEstrellas() >= 1.5){
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_half_white_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+            }
+            else {
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+            }
+        }
+        if(sitios.get(position).getEstrellas()>=2 && sitios.get(position).getEstrellas()<3){
+            if(sitios.get(position).getEstrellas() >= 2.5){
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_half_white_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+            }
+            else {
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+            }
+        }
+        if(sitios.get(position).getEstrellas()>=3 && sitios.get(position).getEstrellas()<4){
+            if(sitios.get(position).getEstrellas() >= 3.5){
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_half_white_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+            }
+            else {
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_grey600_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+            }
+        }
+        if(sitios.get(position).getEstrellas()>=4 && sitios.get(position).getEstrellas()<5){
+            if(sitios.get(position).getEstrellas() >= 4.5) {
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_half_white_48dp);
+            }
+            else {
+                holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar2.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar3.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar4.setImageResource(R.drawable.ic_stars_white_48dp);
+                holder.imgStar5.setImageResource(R.drawable.ic_stars_grey600_48dp);
+            }
+        }
+        if(sitios.get(position).getEstrellas()== 5){
+            holder.imgStar1.setImageResource(R.drawable.ic_stars_white_48dp);
+            holder.imgStar2.setImageResource(R.drawable.ic_stars_white_48dp);
+            holder.imgStar3.setImageResource(R.drawable.ic_stars_white_48dp);
+            holder.imgStar4.setImageResource(R.drawable.ic_stars_white_48dp);
+            holder.imgStar5.setImageResource(R.drawable.ic_stars_white_48dp);
+        }
+
+
 
         return row;
     }

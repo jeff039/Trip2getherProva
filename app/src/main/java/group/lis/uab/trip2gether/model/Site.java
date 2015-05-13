@@ -28,6 +28,12 @@ public class Site implements Serializable {
 
     private double longitud;
 
+    private double estrellas;
+
+    public double getEstrellas() {return estrellas;}
+
+    public void setEstrellas(double estrellas) {this.estrellas = estrellas;}
+
     public void setId(String id){ this.objectId = id; }
 
     public String getId(){ return this.objectId; }

@@ -223,6 +223,7 @@ public class SiteView  extends ActionBarActivity {
             refresh.putExtra("id_viaje", idViaje);
             refresh.putExtra("nombre_viaje", nombreViaje);
             startActivity(refresh);
+            finish();
         }
     };
 

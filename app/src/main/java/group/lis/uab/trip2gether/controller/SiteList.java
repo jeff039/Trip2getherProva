@@ -122,6 +122,7 @@ public class SiteList  extends ActionBarActivity {
             Site sitio = new Site(idSitio.getString("Nombre"), idSitio.getString("Descripcion"),
                     idSitio.getParseFile("Imagen"), idSitio.getString("Id_Viaje"), idSitio.getObjectId(), idSitio.getDouble("Duracion"),
                     idSitio.getDouble("Precio"), idSitio.getDouble("Latitud"), idSitio.getDouble("Longitud"));
+            sitio.setEstrellas(idSitio.getDouble("Estrellas"));
             this.sites.add(sitio);
         }
 
