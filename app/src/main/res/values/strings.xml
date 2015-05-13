@@ -113,4 +113,8 @@
     <string name="close">close</string>
     <string name="title_activity_settings">Settings</string>
     <string name="siteView">View Site</string>
+    <string name="updatePasswordButton">Update Password</string>
+    <string name="oldPasswHint">old Password</string>
+    <string name="newPasswHint">new Password</string>
+    <string name="editPasswordForm">Edit Password</string>
 </resources>

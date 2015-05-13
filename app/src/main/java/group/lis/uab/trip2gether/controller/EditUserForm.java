@@ -125,6 +125,8 @@ public class EditUserForm extends ActionBarActivity {
         gallery.setOnClickListener(clickGallery);
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
+        Button editPassword = (Button)findViewById(R.id.editPassword);
+        editPassword.setOnClickListener(clickEditPassword);
 
         Button sendUpdateUserProfile = (Button) findViewById(R.id.sendUpdateUserProfile);
         sendUpdateUserProfile.setOnClickListener(clickSendUpdateUserProfile);
@@ -143,8 +145,6 @@ public class EditUserForm extends ActionBarActivity {
         city.setText(myUser.getCity());
         EditText country = (EditText)findViewById(R.id.country);
         country.setText(myUser.getCountry());
-        EditText mail = (EditText)findViewById(R.id.mail);
-        mail.setText(myUser.getMail());
         EditText dateOfBirth = (EditText)findViewById(R.id.date_of_birth);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
         dateOfBirth.setText(dateFormatter.format(myUser.getDateOfBirth()));
@@ -169,15 +169,13 @@ public class EditUserForm extends ActionBarActivity {
                         || EditUserForm.this.getSurname().equalsIgnoreCase("")
                         || EditUserForm.this.getCity().equalsIgnoreCase("")
                         || EditUserForm.this.getDateOfBirth()==null
-                        || EditUserForm.this.getMail().equalsIgnoreCase("")
-                        || EditUserForm.this.getPassword().equalsIgnoreCase("")
                         || EditUserForm.this.getCountry().equalsIgnoreCase("")) {
                     Toast.makeText(EditUserForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     User myUpdatedUser = EditUserForm.this.updateUserData(EditUserForm.this.getName(),
                             EditUserForm.this.getSurname(), EditUserForm.this.getCity(),
-                            EditUserForm.this.getMail(), EditUserForm.this.getPassword(),
+                            myUser.getMail(), myUser.getPassword(),
                             EditUserForm.this.getCountry(), EditUserForm.this.getDateOfBirth(),
                             myUser.getObjectId());
 
@@ -224,6 +222,14 @@ public class EditUserForm extends ActionBarActivity {
         }
     };
 
+    public Button.OnClickListener clickEditPassword = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent editPasswordForm = new Intent(EditUserForm.this, EditPasswordForm.class);
+            editPasswordForm.putExtra("myUser", myUser);
+            startActivityForResult(editPasswordForm, 0);
+        }
+    };
+
 
     public EditText.OnClickListener clickPickDate = new EditText.OnClickListener() {
         @Override
@@ -259,9 +265,9 @@ public class EditUserForm extends ActionBarActivity {
     ////////////////UPDATE USER PROFILE////////////////////////////////////////
     public User updateUserData(String name, String surname, String city, String mail, String password,
                                   String country, Date date_of_birth, String objectId) throws ParseException {
-        Encrypt encrypt = new Encrypt(getApplicationContext());
+        //Encrypt encrypt = new Encrypt(getApplicationContext());
         boolean success = false;
-        password = encrypt.encryptPassword(password);
+        //password = encrypt.encryptPassword(password);
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("name", name);
         params.put("surname", surname);
@@ -320,17 +326,6 @@ public class EditUserForm extends ActionBarActivity {
         return dateOfBirthDate;
     }
 
-    public String getMail() {
-        EditText mail = (EditText) findViewById(R.id.mail);
-        String mailText = mail.getText().toString();
-        return mailText;
-    }
-
-    public String getPassword() {
-        EditText password = (EditText) findViewById(R.id.password);
-        String passwordText = password.getText().toString();
-        return passwordText;
-    }
 
     public String getCountry() {
         EditText country = (EditText) findViewById(R.id.country);

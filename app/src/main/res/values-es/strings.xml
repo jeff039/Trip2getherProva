@@ -114,4 +114,8 @@
     <string name="close">cerrar</string>
     <string name="title_activity_settings">Ajustes</string>
     <string name="siteView">Ver Sitio</string>
+    <string name="updatePasswordButton">Actualizar contraseña</string>
+    <string name="oldPasswHint">vieja Contraseñad</string>
+    <string name="newPasswHint">nueva Contraseña</string>
+    <string name="editPasswordForm">Editar Contraseña</string>
 </resources>

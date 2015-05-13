@@ -113,4 +113,8 @@
     <string name="close">tancar</string>
     <string name="title_activity_settings">Configuració</string>
     <string name="siteView">Veure lloc</string>
+    <string name="updatePasswordButton">Actualitzar contrasenya</string>
+    <string name="oldPasswHint">vella Contrasenya</string>
+    <string name="newPasswHint">nova Contrasenya</string>
+    <string name="editPasswordForm">Editar Contrasenya</string>
 </resources>

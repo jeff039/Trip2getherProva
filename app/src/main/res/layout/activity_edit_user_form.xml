@@ -49,7 +49,7 @@
                 android:background="@drawable/rounded_corner" />
 
             <!--EMAIL LABEL-->
-            <EditText
+            <!--<EditText
                 android:id="@+id/mail"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -60,11 +60,13 @@
                 android:textColor="#cccccc"
                 android:textColorHint="#bbbbbb"
                 android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/background_floating_material_light"
+                android:enabled="false"
                 android:drawableRight="@drawable/ic_local_post_office_grey600_18dp" />
 
-            <!--PASSWORD LABEL-->
+            --><!--PASSWORD LABEL-->
 
-            <EditText
+            <!--<EditText
                 android:id="@+id/password"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +78,9 @@
                 android:textColor="#cccccc"
                 android:textColorHint="#bbbbbb"
                 android:background="@drawable/rounded_corner"
-                android:drawableRight="@drawable/ic_vpn_key_grey600_18dp" />
+                android:backgroundTint="@color/background_floating_material_light"
+                android:enabled="false"
+                android:drawableRight="@drawable/ic_vpn_key_grey600_18dp" />-->
             <!--android:inputType="textCapWords"-->
 
             <!--COUNTRY LABEL-->
@@ -121,6 +125,17 @@
                 android:textColorHint="#bbbbbb"
                 android:background="@drawable/rounded_corner"
                 android:drawableRight="@drawable/ic_cake_grey600_18dp" />
+
+            <Button
+                android:id="@+id/editPassword"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:textColor="#ffffff"
+                android:background="@drawable/button"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="@string/editPasswordForm"/>
 
 
                 <LinearLayout
