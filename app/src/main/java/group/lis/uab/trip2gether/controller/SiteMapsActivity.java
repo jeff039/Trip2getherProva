@@ -3,6 +3,7 @@ package group.lis.uab.trip2gether.controller;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,6 +43,18 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_maps);
         setUpMapIfNeeded();
+
+        //GEOLOCALITZACIÓ
+        //this.mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        this.mMap.setMyLocationEnabled(true);
+        Location location = this.mMap.getMyLocation();
+        if (location != null) {
+            //mMap.clear(); //borrem i escrvim els punts de nou
+            //SiteMapsActivity.this.setUpMap();
+            mMap.addMarker(new MarkerOptions().position(
+                    new LatLng(location.getLatitude(), location.getLongitude()))).setIcon(BitmapDescriptorFactory
+                    .fromResource(R.drawable.my_location));
+        }
     }
 
     public void setUpInfoWindow(final Site site)
@@ -266,6 +280,9 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         }
         else if (params.getString("route").equals("true")) //mirant la ruta
         {
+
+
+
             //què passarà quan pitjem en una marca
             mMap.setOnMarkerClickListener(this);
 
@@ -306,4 +323,8 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         marker.showInfoWindow();
         return false;
     }
+
+
+
+
 }
