@@ -342,7 +342,7 @@ public class NewTripForm extends ActionBarActivity {
                     e.printStackTrace();
                 }
                 ParseObject userParse = userResponse.get(0);
-                String friendEmail = userParse.getString("Mail"); //email de l'amic
+                String friendEmail = userParse.getString("Nombre"); //email de l'amic
 
                 //CHECKBOXES
                 CheckBox cb = new CheckBox(this);
