@@ -1,7 +1,10 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.animation.*;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -14,6 +17,8 @@ import android.graphics.Bitmap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.Toast;
+
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -31,7 +36,6 @@ public class MainLaunchLogin extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_launch_login);
         this.initializeButtons();
-
     }
 
     /**
@@ -46,38 +50,44 @@ public class MainLaunchLogin extends ActionBarActivity {
 
     public Button.OnClickListener clickLogin = new Button.OnClickListener() {
         public void onClick(View v) {
-            //POPUP DE LOGIN
-            LayoutInflater layoutInflater
-                    = (LayoutInflater)getBaseContext()
-                    .getSystemService(LAYOUT_INFLATER_SERVICE);
+            if(!Utils.isNetworkStatusAvialable (getApplicationContext())) {
+                Intent noInternet = new Intent(MainLaunchLogin.this, NoInternetConnection.class);
+                startActivity(noInternet);
+            }
+            else {
+
+                //POPUP DE LOGIN
+                LayoutInflater layoutInflater
+                        = (LayoutInflater) getBaseContext()
+                        .getSystemService(LAYOUT_INFLATER_SERVICE);
 
 
-            final View popupView = layoutInflater.inflate(R.layout.login_popup, null);
+                final View popupView = layoutInflater.inflate(R.layout.login_popup, null);
 
-            final PopupWindow popupWindow = new PopupWindow(popupView);
-            popupWindow.setFocusable(true); //per evitar back
-            popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-            popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            popupWindow.showAsDropDown(popupView);
+                final PopupWindow popupWindow = new PopupWindow(popupView);
+                popupWindow.setFocusable(true); //per evitar back
+                popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+                popupWindow.showAsDropDown(popupView);
 
-            //mostrem el popup
-            ///////////////
+                //mostrem el popup
+                ///////////////
 
-            boolean login = false; //CRIDEM EL MÈTODE LOGIN
-            try {
-                User myUser = MainLaunchLogin.this.login(MainLaunchLogin.this.getUser(),
-                        MainLaunchLogin.this.getPassw());
-                if(myUser != null)
-                {
-                    Intent tripList = new Intent(MainLaunchLogin.this, TripList.class);
-                    tripList.putExtra("myUser", myUser);
-                    startActivity(tripList);
-                }else{
-                    Utils.showInfoAlert(getResources().getString(R.string.loginErr), MainLaunchLogin.this);
-                    popupWindow.dismiss(); //tanquem el popup
+                boolean login = false; //CRIDEM EL MÈTODE LOGIN
+                try {
+                    User myUser = MainLaunchLogin.this.login(MainLaunchLogin.this.getUser(),
+                            MainLaunchLogin.this.getPassw());
+                    if (myUser != null) {
+                        Intent tripList = new Intent(MainLaunchLogin.this, TripList.class);
+                        tripList.putExtra("myUser", myUser);
+                        startActivity(tripList);
+                    } else {
+                        Utils.showInfoAlert(getResources().getString(R.string.loginErr), MainLaunchLogin.this);
+                        popupWindow.dismiss(); //tanquem el popup
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
         }
     };
@@ -162,4 +172,5 @@ public class MainLaunchLogin extends ActionBarActivity {
     {
         //do nothing
     }
+
 }

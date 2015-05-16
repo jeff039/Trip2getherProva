@@ -120,4 +120,5 @@
     <string name="newPasswHint">nueva Contraseña</string>
     <string name="editPasswordForm">Editar Contraseña</string>
     <string name="myLocation">Mi localización</string>
+    <string name="tryAgain">Vuelve a intentarlo</string>
 </resources>

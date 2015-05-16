@@ -119,6 +119,10 @@
             android:name=".controller.EditPasswordForm"
             android:label="" >
         </activity>
+        <activity
+            android:name=".controller.NoInternetConnection"
+            android:label="" >
+        </activity>
     </application>
 
 </manifest>
