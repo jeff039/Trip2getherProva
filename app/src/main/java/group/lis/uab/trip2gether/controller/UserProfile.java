@@ -1,29 +1,21 @@
 package group.lis.uab.trip2gether.controller;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -42,6 +34,9 @@ public class UserProfile extends ActionBarActivity {
     private User myUser;
     private Toolbar mToolbar;
     private ListView leftDrawerList;
+    private DrawerLayout mDrawerLayout;
+    private SmoothActionBarDrawerToggle mDrawerToggle;
+    private ArrayAdapter<String> navigationDrawerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +44,55 @@ public class UserProfile extends ActionBarActivity {
         setContentView(R.layout.activity_user_profile);
         Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
-        mToolbar = (Toolbar) findViewById(R.id.action_bar_user_profile);
+
+        setRef();
+        //Set the custom toolbar
         setSupportActionBar(mToolbar);
-        this.initializeDrawerLayout();
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
         this.initializeButtons();
         this.initializeUserData();
+    }
+
+    private class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
+
+        private Runnable runnable;
+
+        public SmoothActionBarDrawerToggle(UserProfile activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
+            super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            super.onDrawerOpened(drawerView);
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onDrawerClosed(View view) {
+            super.onDrawerClosed(view);
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            super.onDrawerStateChanged(newState);
+            if (runnable != null && newState == DrawerLayout.STATE_IDLE) {
+                runnable.run();
+                runnable = null;
+            }
+        }
+
+        public void runWhenIdle(Runnable runnable) {
+            this.runnable = runnable;
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
+        switch (requestCode) {
             case (0) : {
                 if (resultCode == Activity.RESULT_OK) {
                     myUser = (User) data.getSerializableExtra("myUser");
@@ -68,6 +101,25 @@ public class UserProfile extends ActionBarActivity {
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    private void setRef()
+    {
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.action_bar_user_profile);
+        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
+        leftDrawerList.addHeaderView(list_header);
+        String [] options = getResources().getStringArray(R.array.options_array);
+        navigationDrawerAdapter = new ArrayAdapter<String>(UserProfile.this, R.layout.drawer_list_item, options);
+        leftDrawerList.setAdapter(navigationDrawerAdapter);
+        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     ////////////INTERFÍCIE/////////////////
@@ -110,27 +162,9 @@ public class UserProfile extends ActionBarActivity {
      * Method initializeButtons. Button Open Drawer
      */
     public void initializeButtons(){
-        ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
-        openDrawer.setOnClickListener(clickDrawer);
         Button addFriend = (Button) findViewById(R.id.addFriend);
         addFriend.setOnClickListener(clickAddFriend);
     }
-
-    /**
-     * Method Button.OnClickListener. clickDrawer
-     */
-    public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
-        public void onClick(View v) {
-            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-            else
-            {
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
-            }
-        }
-    };
 
     public Button.OnClickListener clickAddFriend = new Button.OnClickListener() {
         public void onClick(View v) {
@@ -141,20 +175,6 @@ public class UserProfile extends ActionBarActivity {
     };
 
     /**
-     * Method initializeDrawerLayout. Drawer layout
-     */
-    public void initializeDrawerLayout(){
-        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
-        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
-        leftDrawerList.addHeaderView(list_header);
-
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        String [] options = getResources().getStringArray(R.array.options_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, options));
-        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-    }
-
-    /**
      * Method onCreateOptionsMenu. Barra superior
      * @param menu
      * @return true
@@ -163,7 +183,6 @@ public class UserProfile extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_user_profile, menu);
-
         return true;
     }
 
@@ -202,33 +221,63 @@ public class UserProfile extends ActionBarActivity {
          */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            switch (position){
-                case 1:
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openMyProfile();
+            switch (position) {
+                case 1: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openMyProfile();
+                        }
+                    });
                     break;
-                case 2:
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openMyTrips();
+                }
+                case 2: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openMyTrips();
+                        }
+                    });
                     break;
-                case 3:
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openFriends();
+                }
+                case 3: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openFriends();
+                        }
+                    });
                     break;
-                case 4:
-                    //el botó  de notificacions es canviara si a la bd canvia
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openNotificationList();
+                }
+                case 4: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openNotificationList();
+                        }
+                    });
                     break;
-                case 5: //ajustes
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openSettings();
+                }
+                case 5: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openSettings();
+                        }
+                    });
                     break;
-                case 6: //cerrar sesión
-                    logout();
+                }
+                case 6: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            logout();
+                        }
+                    });
                     break;
+                }
             }
+            mDrawerLayout.closeDrawers();
         }
     }
     public void logout()

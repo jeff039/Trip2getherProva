@@ -1,5 +1,6 @@
 <resources>
     <color name="primary">#4B4A68</color>
+    <color name="primary_transp">#B34B4A68</color>
     <color name="primary_dark">#373658</color>
     <color name="accent">#ffc400</color>
     <color name="text_primary">#fff</color>

@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -41,6 +42,7 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     MarkerOptions marker;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +60,10 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
             mMap.addMarker(new MarkerOptions().position(
                     new LatLng(location.getLatitude(), location.getLongitude())).title(getString(R.string.myLocation)))
                     .setIcon(BitmapDescriptorFactory
-                            .fromResource(R.drawable.my_location));
+                            .fromResource(R.drawable.loading_logo));
         }
     }
+
 
     @Override
     public void onLocationChanged(Location location)
@@ -69,7 +72,7 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         this.setUpMap();
         mMap.addMarker(new MarkerOptions().position(
                 new LatLng(location.getLatitude(), location.getLongitude())).title(getString(R.string.myLocation))
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_location)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.loading_logo)));
     }
 
     public void setUpInfoWindow(final Site site)
