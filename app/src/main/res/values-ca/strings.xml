@@ -109,7 +109,7 @@
     <string name="title_activity_test">test</string>
     <string name="noFriendsAlert">No tens cap amic a convidar!</string>
     <string name="trips">Viatges</string>
-    <string name="login">Cargant...</string>
+    <string name="login">Carregant...</string>
     <string name="open">obrir</string>
     <string name="close">tancar</string>
     <string name="title_activity_settings">Configuració</string>
@@ -120,4 +120,7 @@
     <string name="editPasswordForm">Editar Contrasenya</string>
     <string name="myLocation">La meva localització</string>
     <string name="tryAgain">Torna-ho a provar</string>
+    <string name="notificationAdd">T\'ha afegit a un viatge</string>
+    <string name="notificationDelete">S\'ha eliminat d\'un viatge</string>
+    <string name="notificationDrop">Has estat eliminat d\'un viatge</string>
 </resources>

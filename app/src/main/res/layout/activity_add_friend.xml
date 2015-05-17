@@ -11,36 +11,41 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp"
-        android:id="@+id/linearLayout"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:id="@+id/linearLayout">
 
-        <!--MAIL FRIEND LABEL-->
-        <EditText
-            android:id="@+id/mail_friend"
-            android:layout_width="fill_parent"
+        <include android:id="@+id/action_bar_add_friend"
+            layout="@layout/action_bar_add_friend"></include>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/mailFriend"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="#cccccc"
-            android:textColorHint="#bbbbbb"
-            android:background="@drawable/rounded_corner"
-            android:drawableRight="@drawable/ic_local_post_office_grey600_18dp"/>
+            android:orientation="vertical"
+            android:padding="30dp">
 
-        <Button
-            android:id="@+id/addFriend"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dip"
-            android:textColor="#ffffff"
-            android:background="@drawable/button"
-            android:gravity="center"
-            android:textSize="18dp"
-            android:text="@string/addFriend"/>
+            <!--MAIL FRIEND LABEL-->
+            <EditText
+                android:id="@+id/mail_friend"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/mailFriend"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#cccccc"
+                android:textColorHint="#bbbbbb"
+                android:background="@drawable/rounded_corner"
+                android:drawableRight="@drawable/ic_local_post_office_grey600_18dp"/>
 
+            <Button
+                android:id="@+id/addFriend"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dip"
+                android:textColor="#ffffff"
+                android:background="@drawable/button"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="@string/addFriend"/>
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

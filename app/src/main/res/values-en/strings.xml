@@ -120,4 +120,8 @@
     <string name="editPasswordForm">Edit Password</string>
     <string name="myLocation">My location</string>
     <string name="tryAgain">TRY AGAIN</string>
+    <string name="notificationAdd">Added you to a trip</string>
+    <string name="notificationDelete">It is removed from a trip</string>
+    <string name="notificationDrop">You have been removed from a trip</string>
+
 </resources>

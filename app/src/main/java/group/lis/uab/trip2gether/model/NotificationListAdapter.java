@@ -100,6 +100,24 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
             holder.imgDecline.setImageResource(R.drawable.ic_action_decline);
         }
 
+        if (notifications.get(position).getTipo().compareTo("add")==0) {
+            holder.txtSubtitle.setText(R.string.notificationAdd);
+            holder.imgConfirm.setEnabled(false);
+            holder.imgDecline.setEnabled(false);
+        }
+
+        if (notifications.get(position).getTipo().compareTo("delete")==0) {
+            holder.txtSubtitle.setText(R.string.notificationDelete);
+            holder.imgConfirm.setEnabled(false);
+            holder.imgDecline.setEnabled(false);
+        }
+
+        if (notifications.get(position).getTipo().compareTo("drop")==0) {
+            holder.txtSubtitle.setText(R.string.notificationDrop);
+            holder.imgConfirm.setEnabled(false);
+            holder.imgDecline.setEnabled(false);
+        }
+
         final NotificationListHolder finalHolder = holder;
         holder.imgConfirm.setOnClickListener(new View.OnClickListener() {
             @Override

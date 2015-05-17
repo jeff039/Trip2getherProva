@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -21,12 +22,15 @@ import group.lis.uab.trip2gether.model.User;
 
 public class AddFriend extends ActionBarActivity {
 
+    private Toolbar mToolbar;
     private User myUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
+        mToolbar = (Toolbar) findViewById(R.id.action_bar_add_friend);
+        setSupportActionBar(mToolbar);
         Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
         this.initializeButtons();

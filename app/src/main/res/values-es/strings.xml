@@ -121,4 +121,7 @@
     <string name="editPasswordForm">Editar Contraseña</string>
     <string name="myLocation">Mi localización</string>
     <string name="tryAgain">Vuelve a intentarlo</string>
+    <string name="notificationAdd">Te ha añadido a un viaje</string>
+    <string name="notificationDelete">Se ha eliminado de un viaje</string>
+    <string name="notificationDrop">Has sido eliminado de un viaje</string>
 </resources>
