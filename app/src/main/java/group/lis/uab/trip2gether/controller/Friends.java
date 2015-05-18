@@ -135,6 +135,8 @@ public class Friends extends ActionBarActivity {
                                 //refresquem
                                 Intent refresh = new Intent(Friends.this, Friends.class);
                                 refresh.putExtra("myUser", myUser);
+                                //alhora de fer back ja no tornem aquí
+                                Friends.this.finish(); //finalitzem l'activitat actual
                                 startActivity(refresh);
                             }
                         })
