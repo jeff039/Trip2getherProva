@@ -1,7 +1,10 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -68,7 +71,7 @@ public class Friends extends ActionBarActivity {
     }
 
     public void ViewFriendsFromBBDD() throws com.parse.ParseException {
-        List<ParseObject> idsFriends = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Amistad", "Id_Usuario_1");
+        final List<ParseObject> idsFriends = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Amistad", "Id_Usuario_1");
 
         for(int i=0;i<idsFriends.size();i++){
             ParseObject idFriends = idsFriends.get(i);
@@ -90,9 +93,60 @@ public class Friends extends ActionBarActivity {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*Intent intent = new Intent (SiteList.this, SiteView.class);
-                intent.putExtra("currentSite", sites.get(position));
-                startActivity(intent);*/
+
+            }
+        });
+
+        lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
+                //ELIMINAR AMIGO
+                String alertString = getResources().getString(R.string.friendDel); //missatge de alerta
+                new AlertDialog.Builder(Friends.this)
+                        //.setTitle("DB")
+                        .setMessage(alertString)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) { //si és sí, eliminem
+
+                                String friendId = friends.get(position).getObjectId();
+                                String friendId2 = myUser.getObjectId();
+                                //(NO PODEN HVER DOS AMISTATS AMB LA MATEIXA PERSONA)
+                                ///////QUERY DEL FRIEND/////////////////////
+                                //eliminem la amistat en els dos sentits
+                                HashMap<String, Object> paramsQuery = new HashMap<String, Object>();
+                                paramsQuery.put("friend_Id", friendId); //ell cap a mi
+                                paramsQuery.put("myId", friendId2);
+                                HashMap<String, Object> paramsQuery2 = new HashMap<String, Object>();
+                                paramsQuery2.put("friend_Id", friendId); //jo cap a ell
+                                paramsQuery2.put("myId", friendId2);
+
+                                //AMISTAT EN ELS DOS SENTITS
+                                try {
+                                    ParseCloud.callFunction("delFriendship", paramsQuery);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    ParseCloud.callFunction("delFriendshipReverse", paramsQuery2);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                //refresquem
+                                Intent refresh = new Intent(Friends.this, Friends.class);
+                                refresh.putExtra("myUser", myUser);
+                                startActivity(refresh);
+                            }
+                        })
+
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert) //ICONA!!!!
+                        .show();
+                return true;
             }
         });
     }

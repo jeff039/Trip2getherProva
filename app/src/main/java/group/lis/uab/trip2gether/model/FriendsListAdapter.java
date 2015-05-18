@@ -76,7 +76,7 @@ public class FriendsListAdapter extends ArrayAdapter<User> {
         } else {
             holder = (FriendsListHolder) row.getTag();
         }
-        holder.txtTitle.setText(friends.get(position).getMail());
+        holder.txtTitle.setText(friends.get(position).getName());
         return row;
     }
 }

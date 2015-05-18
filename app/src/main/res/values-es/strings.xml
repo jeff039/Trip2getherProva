@@ -124,4 +124,5 @@
     <string name="notificationAdd">Te ha añadido a un viaje</string>
     <string name="notificationDelete">Se ha eliminado de un viaje</string>
     <string name="notificationDrop">Has sido eliminado de un viaje</string>
+    <string name="friendDel">¿Seguro que deseas eliminar este amigo?</string>
 </resources>
