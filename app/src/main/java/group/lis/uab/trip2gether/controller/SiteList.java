@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -43,6 +44,9 @@ public class SiteList  extends ActionBarActivity {
     private ListView leftDrawerList;
     private User myUser;
     private String nombreViaje = "";
+    private DrawerLayout mDrawerLayout;
+    private SmoothActionBarDrawerToggle mDrawerToggle;
+    private ArrayAdapter<String> navigationDrawerAdapter;
 
     /**
      * Method onCreate
@@ -56,17 +60,19 @@ public class SiteList  extends ActionBarActivity {
         intent = getIntent();
         idViaje = intent.getStringExtra("id_viaje");
         this.nombreViaje = intent.getStringExtra("nombre_viaje");
-
-        mToolbar = (Toolbar) findViewById(R.id.action_bar_site_list);
-        setSupportActionBar(mToolbar);
-
         TextView name = (TextView)findViewById(R.id.txtSiteName);
         name.setText(nombreViaje);
 
+        setRef();
+        //Set the custom toolbar
+        setSupportActionBar(mToolbar);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
         myUser = (User) intent.getSerializableExtra("myUser");
 
-        this.initializeDrawerLayout();
-        this.initializeButtons();
         this.checkNotifications();
 
         try {
@@ -74,6 +80,57 @@ public class SiteList  extends ActionBarActivity {
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
+
+        private Runnable runnable;
+
+        public SmoothActionBarDrawerToggle(SiteList activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
+            super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            super.onDrawerOpened(drawerView);
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onDrawerClosed(View view) {
+            super.onDrawerClosed(view);
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            super.onDrawerStateChanged(newState);
+            if (runnable != null && newState == DrawerLayout.STATE_IDLE) {
+                runnable.run();
+                runnable = null;
+            }
+        }
+
+        public void runWhenIdle(Runnable runnable) {
+            this.runnable = runnable;
+        }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    private void setRef()
+    {
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.action_bar_site_list);
+        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
+        leftDrawerList.addHeaderView(list_header);
+        String [] options = getResources().getStringArray(R.array.options_array);
+        navigationDrawerAdapter = new ArrayAdapter<String>(SiteList.this, R.layout.drawer_list_item, options);
+        leftDrawerList.setAdapter(navigationDrawerAdapter);
+        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     @Override
@@ -99,11 +156,7 @@ public class SiteList  extends ActionBarActivity {
         ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
         if(notifications > 0)
         {
-            openDrawer.setImageResource(R.drawable.ic_action_noti);
-        }
-        else //si no tenim noves notificacions
-        {
-            openDrawer.setImageResource(R.drawable.ic_menu_white_18dp);
+            mToolbar.setNavigationIcon(R.drawable.ic_action_noti);
         }
     }
 
@@ -141,43 +194,6 @@ public class SiteList  extends ActionBarActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    /**
-     * Method initializeButtons. Elements de la interfície
-     */
-    public void initializeButtons() {
-        ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
-        openDrawer.setOnClickListener(clickDrawer);
-    }
-
-    /**
-     * Method Button.OnClickListener clickDrawer
-     */
-    public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
-        public void onClick(View v) {
-            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-            else {
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
-            }
-        }
-    };
-
-    /**
-     * Method initializeDrawerLayout. Drawer layout
-     */
-    public void initializeDrawerLayout(){
-        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
-        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
-        leftDrawerList.addHeaderView(list_header);
-
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        String [] options = getResources().getStringArray(R.array.options_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
-        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     /**
@@ -310,31 +326,63 @@ public class SiteList  extends ActionBarActivity {
          */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            switch (position){
-                case 1:
-                    openMyProfile();
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+            switch (position) {
+                case 1: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openMyProfile();
+                        }
+                    });
                     break;
-                case 2:
-                    openMyTrips();
+                }
+                case 2: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openMyTrips();
+                        }
+                    });
                     break;
-                case 3:
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openFriends();
+                }
+                case 3: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openFriends();
+                        }
+                    });
                     break;
-                case 4:
-                    //el botó  de notificacions es canviara si a la bd canvia
-                    openNotificationList();
-                    mDrawerLayout.closeDrawer(leftDrawerList);
+                }
+                case 4: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openNotificationList();
+                        }
+                    });
                     break;
-                case 5: //ajustes
-                    openSettings();
+                }
+                case 5: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openSettings();
+                        }
+                    });
                     break;
-                case 6: //cerrar sesión
-                    logout();
+                }
+                case 6: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            logout();
+                        }
+                    });
                     break;
+                }
             }
+            mDrawerLayout.closeDrawers();
         }
     }
 

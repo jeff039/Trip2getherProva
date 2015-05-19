@@ -99,6 +99,26 @@
         <item>Settings</item>
         <item>Logout</item>
     </string-array>
+
+    <string-array name="nav_drawer_items">
+        <item>Profile</item>
+        <item>My Trips</item>
+        <item>Friends</item>
+        <item>Notifications</item>
+        <item>Settings</item>
+        <item>Logout</item>
+    </string-array>
+
+    <!-- Iconos de los items -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_attach_money_grey600_18dp</item>
+        <item>@drawable/ic_cake_grey600_18dp</item>
+        <item>@drawable/ic_attach_money_grey600_18dp</item>
+        <item>@drawable/ic_cake_grey600_18dp</item>
+        <item>@drawable/ic_attach_money_grey600_18dp</item>
+        <item>@drawable/ic_cake_grey600_18dp</item>
+    </array>
+
     <string name="OK">OK</string>
     <string name="mapRoute">View route in map</string>
     <string name="addSite">Add new Site</string>
