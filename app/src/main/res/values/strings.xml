@@ -148,5 +148,6 @@
     <string name="notificationAccept">Accepts your friend request</string>
     <string name="notificationDecline">Rejects your friend request</string>
     <string name="noInternet">No Internet connection found. Check your connection or try again.</string>
+    <string name="about">This App...</string>
 
 </resources>

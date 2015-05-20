@@ -129,4 +129,5 @@
     <string name="notificationAccept">Acepta tu solicitud de amistad</string>
     <string name="notificationDecline">Rechaza tu solicitud de amistad</string>
     <string name="noInternet">No se ha encontrado conexión a Internet. Revisa la conexión o inténtalo denuevo.</string>
+    <string name="about">Esta app ha sido desarrollada por:\n\nMireia Andreu\nDavid Cara\nVictor Cruz\nDavid García\nJofré Orús\nVíctor Segura\nMarc Solé\nJavier Villar</string>
 </resources>
