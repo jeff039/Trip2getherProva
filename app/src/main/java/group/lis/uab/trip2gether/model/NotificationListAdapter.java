@@ -118,6 +118,18 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
             holder.imgDecline.setEnabled(false);
         }
 
+        if (notifications.get(position).getTipo().compareTo("accept")==0) {
+            holder.txtSubtitle.setText(R.string.notificationAccept);
+            holder.imgConfirm.setEnabled(false);
+            holder.imgDecline.setEnabled(false);
+        }
+
+        if (notifications.get(position).getTipo().compareTo("decline")==0) {
+            holder.txtSubtitle.setText(R.string.notificationDecline);
+            holder.imgConfirm.setEnabled(false);
+            holder.imgDecline.setEnabled(false);
+        }
+
         final NotificationListHolder finalHolder = holder;
         holder.imgConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +137,9 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
                 try {
                     Boolean friendship = friendship(notifications.get(position).getIdEmisor(), notifications.get(position).getIdReceptor());
                     if (friendship) {
-                        Boolean updateNotification = updateNotification(notifications.get(position).getObjectId());
+                        Boolean updateNotification = updateNotification(notifications.get(position).getObjectId(),
+                                notifications.get(position).getIdReceptor(), notifications.get(position).getIdEmisor(),
+                                true);
                         if (updateNotification) {
                             finalHolder.imgConfirm.setVisibility(View.INVISIBLE);
                             finalHolder.imgConfirm.setEnabled(false);
@@ -145,7 +159,9 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
             public void onClick(View v) {
                 Boolean updateNotification = null;
                 try {
-                    updateNotification = updateNotification(notifications.get(position).getObjectId());
+                    updateNotification = updateNotification(notifications.get(position).getObjectId(),
+                            notifications.get(position).getIdReceptor(), notifications.get(position).getIdEmisor(),
+                            false);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -183,14 +199,26 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
         return success;
     }
 
-    public boolean updateNotification(String objectId) throws ParseException {
+    public boolean updateNotification(String objectId, String idReceptor, String idEmisor,
+                                      Boolean accept) throws ParseException {
         boolean success = false;
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("objectId", objectId);
+        HashMap<String, Object> params2 = new HashMap<String, Object>();
+        params2.put("transmitterId", idReceptor);
+        params2.put("receiverId", idEmisor);
 
         ParseObject updateNotificationResponse = ParseCloud.callFunction("updateNotification", params);
         if(updateNotificationResponse.getObjectId() != null) {
-            success = true;
+            if (accept) {
+                params2.put("type", "accept");
+            }else {
+                params2.put("type", "decline");
+            }
+            String acceptNotification = ParseCloud.callFunction("addNotification", params2);
+            if (!acceptNotification.isEmpty()) {
+                success = true;
+            }
         }
         return success;
     }

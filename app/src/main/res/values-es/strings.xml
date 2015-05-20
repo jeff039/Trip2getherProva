@@ -125,4 +125,6 @@
     <string name="notificationDelete">Se ha eliminado de un viaje</string>
     <string name="notificationDrop">Has sido eliminado de un viaje</string>
     <string name="friendDel">¿Seguro que deseas eliminar este amigo?</string>
+    <string name="notificationAccept">Acepta tu solicitud de amistad</string>
+    <string name="notificationDecline">Rechaza tu solicitud de amistad</string>
 </resources>

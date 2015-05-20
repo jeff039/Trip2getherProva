@@ -124,4 +124,6 @@
     <string name="notificationDelete">S\'ha eliminat d\'un viatge</string>
     <string name="notificationDrop">Has estat eliminat d\'un viatge</string>
     <string name="friendDel">Estàs segur que vols eliminar aquest amic?</string>
+    <string name="notificationAccept">Accepta la teva sol·licitud d\'amistad</string>
+    <string name="notificationDecline">Rebutja la teva sol·licitud d\'amistad</string>
 </resources>
