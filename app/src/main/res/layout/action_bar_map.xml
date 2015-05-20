@@ -21,5 +21,4 @@
         android:text= "@string/title_activity_map"
         android:textColor="#ffffff"
         android:textSize="20sp" />
-
 </android.support.v7.widget.Toolbar>

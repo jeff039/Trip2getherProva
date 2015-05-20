@@ -19,6 +19,7 @@ import group.lis.uab.trip2gether.model.User;
 
 public class EditPasswordForm extends ActionBarActivity {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private Toolbar mToolbar;
     User myUser;
 
@@ -82,7 +83,7 @@ public class EditPasswordForm extends ActionBarActivity {
         oldPassword = encrypt.encryptPassword(oldPassword);
         newPassword = encrypt.encryptPassword(newPassword);
 
-        //Comprovem si el password antic és correcte i que l'antic i el nou no siguin iguals
+        //Comprovacions: correcta password antiga y que la nova password sigui diferent
         if (oldPassword.compareTo(myUser.getPassword())==0 && oldPassword.compareTo(newPassword)!=0) {
             //Actualitzem el password
             Utils.setValueBBDD(newPassword, "Usuario", "Password", objectId);

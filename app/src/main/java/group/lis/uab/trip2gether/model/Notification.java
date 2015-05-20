@@ -2,9 +2,6 @@ package group.lis.uab.trip2gether.model;
 
 import java.io.Serializable;
 
-/**
- * Created by Jofré on 26/04/2015.
- */
 public class Notification implements Serializable {
 
     private String objectId;

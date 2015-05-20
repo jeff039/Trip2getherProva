@@ -1,13 +1,8 @@
 package group.lis.uab.trip2gether.model;
 
-
 import com.parse.ParseFile;
-
 import java.io.Serializable;
 
-/**
- * Created by Mireia on 27/03/2015.
- */
 public class Site implements Serializable {
 
     private String objectId;
@@ -110,5 +105,4 @@ public class Site implements Serializable {
         this.setLatitud(latitud);
         this.setLongitud(longitud);
     }
-
 }

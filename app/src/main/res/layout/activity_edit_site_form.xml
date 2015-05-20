@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:fillViewport="true"
     android:background="#eee">
+    <!--suppress CheckTagEmptyBody -->
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +13,8 @@
         android:layout_height="wrap_content"
         tools:context=".EditSite">
 
-        <include android:id="@+id/action_bar_edit_site"
+        <include
+            android:id="@+id/action_bar_edit_site"
             layout="@layout/action_bar_edit_site"></include>
 
         <LinearLayout

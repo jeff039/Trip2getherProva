@@ -123,7 +123,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
                 Intent intent = new Intent(context, EditTripForm.class);
                 intent.putExtra("myUser", myUser);
                 intent.putExtra("myTripId", trips.get(position).getId());
-                ((Activity)context).startActivity(intent);
+                (context).startActivity(intent);
             }
         });
 
@@ -131,7 +131,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Friends.class);
-                ((Activity)context).startActivity(intent);
+                (context).startActivity(intent);
             }
         });
         return row;

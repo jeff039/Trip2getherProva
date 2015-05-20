@@ -3,9 +3,6 @@ package group.lis.uab.trip2gether.model;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by Jofré on 30/03/2015.
- */
 public class User implements Serializable{
 
     private String mail;
@@ -99,6 +96,4 @@ public class User implements Serializable{
     public String getObjectId() {
         return this.objectId;
     }
-
-
 }

@@ -6,7 +6,8 @@
     tools:context=".NeSite"
     android:background="#eee">
 
-    <include android:id="@+id/action_bar_new_site"
+    <include
+        android:id="@+id/action_bar_new_site"
         layout="@layout/action_bar_new_site"></include>
 
     <LinearLayout

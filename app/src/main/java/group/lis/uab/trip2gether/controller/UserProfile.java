@@ -26,13 +26,11 @@ import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.User;
 
-/**
- * Created by Jofré on 31/03/2015.
- */
 public class UserProfile extends ActionBarActivity {
 
     private User myUser;
     private Toolbar mToolbar;
+    @SuppressWarnings("FieldCanBeLocal")
     private ListView leftDrawerList;
     private DrawerLayout mDrawerLayout;
     private SmoothActionBarDrawerToggle mDrawerToggle;
@@ -44,15 +42,11 @@ public class UserProfile extends ActionBarActivity {
         setContentView(R.layout.activity_user_profile);
         Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
-
         setRef();
-        //Set the custom toolbar
         setSupportActionBar(mToolbar);
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
         this.initializeButtons();
         this.initializeUserData();
     }
@@ -83,7 +77,6 @@ public class UserProfile extends ActionBarActivity {
                 runnable = null;
             }
         }
-
         public void runWhenIdle(Runnable runnable) {
             this.runnable = runnable;
         }
@@ -109,11 +102,9 @@ public class UserProfile extends ActionBarActivity {
         mDrawerToggle.syncState();
     }
 
-    private void setRef()
-    {
+    private void setRef() {
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.action_bar_user_profile);
         leftDrawerList = (ListView) findViewById(R.id.left_drawer);
-
         View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
         leftDrawerList.addHeaderView(list_header);
         String [] options = getResources().getStringArray(R.array.options_array);
@@ -122,7 +113,6 @@ public class UserProfile extends ActionBarActivity {
         leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-    ////////////INTERFÍCIE/////////////////
     public void initializeUserData() {
         TextView name = (TextView)findViewById(R.id.user_name);
         name.setText(myUser.getName());
@@ -168,9 +158,9 @@ public class UserProfile extends ActionBarActivity {
 
     public Button.OnClickListener clickAddFriend = new Button.OnClickListener() {
         public void onClick(View v) {
-            Intent addFriendIntent = new Intent(UserProfile.this, AddFriend.class);
-            addFriendIntent.putExtra("myUser", myUser);
-            startActivity(addFriendIntent);
+        Intent addFriendIntent = new Intent(UserProfile.this, AddFriend.class);
+        addFriendIntent.putExtra("myUser", myUser);
+        startActivity(addFriendIntent);
         }
     };
 
@@ -197,7 +187,6 @@ public class UserProfile extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         switch(id) {
             case (R.id.edit_user_profile):
                 Intent editUserForm = new Intent(this, EditUserForm.class);
@@ -280,21 +269,17 @@ public class UserProfile extends ActionBarActivity {
             mDrawerLayout.closeDrawers();
         }
     }
-    public void logout()
-    {
+
+    public void logout() {
         Intent i = new Intent(this, MainLaunchLogin.class);
         startActivity(i);
     }
 
-    public void openSettings()
-    {
+    public void openSettings() {
         Intent i = new Intent(this, Settings.class);
         startActivity(i);
     }
 
-    /**
-     * Method openMyProfile
-     */
     public void openMyProfile() {
         Intent userProfile = new Intent(this, UserProfile.class);
         userProfile.putExtra("myUser", myUser);

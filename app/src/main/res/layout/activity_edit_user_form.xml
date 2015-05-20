@@ -5,20 +5,24 @@
     android:layout_height="fill_parent"
     android:fillViewport="true"
     android:background="#eee">
-        <LinearLayout
+        <!--suppress CheckTagEmptyBody -->
+    <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/linearLayout">
 
-            <include android:id="@+id/action_bar_edit_user"
+            <include
+                android:id="@+id/action_bar_edit_user"
                 layout="@layout/action_bar_edit_user"></include>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="30dp">
+
             <!--NAME LABEL-->
             <EditText
                 android:id="@+id/name"
@@ -47,41 +51,6 @@
                 android:textColor="#cccccc"
                 android:textColorHint="#bbbbbb"
                 android:background="@drawable/rounded_corner" />
-
-            <!--EMAIL LABEL-->
-            <!--<EditText
-                android:id="@+id/mail"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="@string/mail"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="#cccccc"
-                android:textColorHint="#bbbbbb"
-                android:background="@drawable/rounded_corner"
-                android:backgroundTint="@color/background_floating_material_light"
-                android:enabled="false"
-                android:drawableRight="@drawable/ic_local_post_office_grey600_18dp" />
-
-            --><!--PASSWORD LABEL-->
-
-            <!--<EditText
-                android:id="@+id/password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="@string/passwHint"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:inputType="textPassword"
-                android:textColor="#cccccc"
-                android:textColorHint="#bbbbbb"
-                android:background="@drawable/rounded_corner"
-                android:backgroundTint="@color/background_floating_material_light"
-                android:enabled="false"
-                android:drawableRight="@drawable/ic_vpn_key_grey600_18dp" />-->
-            <!--android:inputType="textCapWords"-->
 
             <!--COUNTRY LABEL-->
             <EditText

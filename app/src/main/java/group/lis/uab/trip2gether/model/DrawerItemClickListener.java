@@ -4,10 +4,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-/**
- * Created by davidcara on 29/3/15.
- */
 public class DrawerItemClickListener implements ListView.OnItemClickListener {
+
     @SuppressWarnings("rawtypes")
     @Override
     public void onItemClick(AdapterView parent, View view, int position, long id) {

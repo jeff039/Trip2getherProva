@@ -14,8 +14,9 @@
             tools:context="group.lis.uab.trip2gether.controller.SiteMapsActivity"
             android:name="com.google.android.gms.maps.SupportMapFragment" />
 
-        <include android:id="@+id/action_bar_map"
-        layout="@layout/action_bar_map"></include>
+        <include
+            android:id="@+id/action_bar_map"
+            layout="@layout/action_bar_map"></include>
 
         <Button
             android:id="@+id/maps_ok"

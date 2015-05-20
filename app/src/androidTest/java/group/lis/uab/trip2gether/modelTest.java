@@ -36,9 +36,12 @@ public class modelTest extends InstrumentationTestCase {
         final String country = "Spain";
         final String city = "Barcelona";
         final Date birth = new Date();
-        birth.setDate(12);
-        birth.setMonth(07);
-        birth.setYear(2011);
+        int day = 12;
+        birth.setDate(day);
+        int month = 07;
+        birth.setMonth(month);
+        int year = 2011;
+        birth.setYear(year);
         final String objectId = "jashdi23";
         User pepe = new User(mail, password, name, surname, country, city, birth, objectId);
         user = pepe;
@@ -49,9 +52,12 @@ public class modelTest extends InstrumentationTestCase {
         assertEquals("Fernandez", pepe.getSurname());
         assertEquals("Spain", pepe.getCountry());
         assertEquals("Barcelona", pepe.getCity());
-        assertEquals(12, pepe.getDateOfBirth().getDate());
-        assertEquals(07, pepe.getDateOfBirth().getMonth());
-        assertEquals(2011, pepe.getDateOfBirth().getYear());
+
+        assertEquals(day, pepe.getDateOfBirth().getDate());
+
+        assertEquals(month, pepe.getDateOfBirth().getMonth());
+
+        assertEquals(year, pepe.getDateOfBirth().getYear());
         assertEquals("jashdi23", pepe.getObjectId());
     }
 
@@ -60,13 +66,19 @@ public class modelTest extends InstrumentationTestCase {
         final String pais = "Alemania";
         final String ciudad = "Berlin";
         final Date fechaInicio = new Date();
-        fechaInicio.setDate(01);
-        fechaInicio.setMonth(05);
-        fechaInicio.setYear(2014);
+        int day = 1;
+        fechaInicio.setDate(day);
+        int month = 05;
+        fechaInicio.setMonth(month);
+        int year = 2014;
+        fechaInicio.setYear(year);
         final Date fechaFinal = new Date();
-        fechaFinal.setDate(20);
-        fechaFinal.setMonth(10);
-        fechaFinal.setYear(2016);
+        int day2 = 20;
+        fechaFinal.setDate(day2);
+        int month2 = 10;
+        fechaFinal.setMonth(month2);
+        int year2 = 2016;
+        fechaFinal.setYear(year2);
         final ParseFile imagen = null;
         Trip viaje = new Trip(nombre, pais, ciudad, fechaInicio, fechaFinal, imagen);
         trip = viaje;
@@ -74,12 +86,12 @@ public class modelTest extends InstrumentationTestCase {
         assertEquals("Verano2015", viaje.getNombre());
         assertEquals("Alemania", viaje.getPais());
         assertEquals("Berlin", viaje.getCiudad());
-        assertEquals(01, viaje.getFechaInicio().getDate());
-        assertEquals(05, viaje.getFechaInicio().getMonth());
-        assertEquals(2014, viaje.getFechaInicio().getYear());
-        assertEquals(20, viaje.getFechaFinal().getDate());
-        assertEquals(10, viaje.getFechaFinal().getMonth());
-        assertEquals(2016, viaje.getFechaFinal().getYear());
+        assertEquals(day, viaje.getFechaInicio().getDate());
+        assertEquals(month, viaje.getFechaInicio().getMonth());
+        assertEquals(year, viaje.getFechaInicio().getYear());
+        assertEquals(day2, viaje.getFechaFinal().getDate());
+        assertEquals(month2, viaje.getFechaFinal().getMonth());
+        assertEquals(year2, viaje.getFechaFinal().getYear());
         assertEquals(null, viaje.getImagen());
     }
 
@@ -101,10 +113,10 @@ public class modelTest extends InstrumentationTestCase {
         assertEquals("Esto es la Sagrada familia", sitio.getDescripcion());
         assertEquals("masuidh23d", sitio.getIdViaje());
         assertEquals(null, sitio.getImagen());
-        assertEquals(59, sitio.getDuracion(),0);
-        assertEquals(25, sitio.getPrecio(),0);
-        assertEquals(26545.2151, sitio.getLatitud(),0);
-        assertEquals(21875.32131, sitio.getLongitud(),0);
+        assertEquals(duracion, sitio.getDuracion(),0);
+        assertEquals(precio, sitio.getPrecio(),0);
+        assertEquals(latitud, sitio.getLatitud(),0);
+        assertEquals(longitud, sitio.getLongitud(),0);
     }
 
     public void test04Notification() {

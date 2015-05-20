@@ -43,6 +43,7 @@ public class EditUserForm extends ActionBarActivity {
     private EditText pickDate;
     private DatePickerDialog pickDateDialog;
     private SimpleDateFormat dateFormatter;
+    @SuppressWarnings("FieldCanBeLocal")
     private Toolbar mToolbar;
 
     User myUser;

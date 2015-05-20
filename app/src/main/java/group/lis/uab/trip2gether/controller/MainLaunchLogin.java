@@ -50,19 +50,13 @@ public class MainLaunchLogin extends ActionBarActivity {
                         = (LayoutInflater) getBaseContext()
                         .getSystemService(LAYOUT_INFLATER_SERVICE);
 
-
                 final View popupView = layoutInflater.inflate(R.layout.login_popup, null);
-
                 final PopupWindow popupWindow = new PopupWindow(popupView);
-                popupWindow.setFocusable(true); //per evitar back
+                popupWindow.setFocusable(true);
                 popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
                 popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
                 popupWindow.showAsDropDown(popupView);
-
-                //mostrem el popup
-                ///////////////
-
-                boolean login = false; //CRIDEM EL MÈTODE LOGIN
+                boolean login = false;
                 try {
                     User myUser = MainLaunchLogin.this.login(MainLaunchLogin.this.getUser(),
                             MainLaunchLogin.this.getPassw());
@@ -72,7 +66,7 @@ public class MainLaunchLogin extends ActionBarActivity {
                         startActivity(tripList);
                     } else {
                         Utils.showInfoAlert(getResources().getString(R.string.loginErr), MainLaunchLogin.this);
-                        popupWindow.dismiss(); //tanquem el popup
+                        popupWindow.dismiss();
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -90,8 +84,8 @@ public class MainLaunchLogin extends ActionBarActivity {
     };
 
     /**
-     * Login. User serà el email (VIGILAR NO EMAILS REPETITS)
-     * @param user
+     * Login.
+     * @param user = mail
      * @param passw
      * @return success
      * @throws ParseException
@@ -104,8 +98,8 @@ public class MainLaunchLogin extends ActionBarActivity {
         params.put("user", user);
         params.put("passw", passw);
 
-        List<ParseObject> loginResponse = ParseCloud.callFunction("login", params); //crida al BE
-        if(loginResponse.isEmpty() == false) { //tenim un usuari
+        List<ParseObject> loginResponse = ParseCloud.callFunction("login", params);
+        if(!loginResponse.isEmpty()) {
             ParseObject userParse = loginResponse.iterator().next();
             myUser = new User(userParse.getString("Mail"), userParse.getString("Password"),
                     userParse.getString("Nombre"), userParse.getString("Apellidos"),

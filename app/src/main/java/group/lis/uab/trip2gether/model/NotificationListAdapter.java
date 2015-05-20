@@ -2,39 +2,23 @@ package group.lis.uab.trip2gether.model;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
-import group.lis.uab.trip2gether.Resources.Encrypt;
 import group.lis.uab.trip2gether.Resources.Utils;
-import group.lis.uab.trip2gether.controller.EditTripForm;
-import group.lis.uab.trip2gether.controller.Friends;
-import group.lis.uab.trip2gether.controller.NotificationList;
 
-/**
- * Created by Jofré on 27/04/2015.
- */
 public class NotificationListAdapter extends ArrayAdapter<Notification> {
+
     private Context context;
     private int layoutResourceId;
     private User myUser;
@@ -178,6 +162,13 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
         return row;
     }
 
+    /**
+     * Method friendship
+     * @param idUsuario1
+     * @param idUsuario2
+     * @return success
+     * @throws ParseException
+     */
     public boolean friendship(String idUsuario1, String idUsuario2) throws ParseException {
         boolean success = false;
         HashMap<String, Object> params = new HashMap<String, Object>();
@@ -199,6 +190,15 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
         return success;
     }
 
+    /**
+     * Method updateNotification
+     * @param objectId
+     * @param idReceptor
+     * @param idEmisor
+     * @param accept
+     * @return success
+     * @throws ParseException
+     */
     public boolean updateNotification(String objectId, String idReceptor, String idEmisor,
                                       Boolean accept) throws ParseException {
         boolean success = false;

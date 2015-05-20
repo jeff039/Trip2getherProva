@@ -90,6 +90,7 @@ public class EditTripForm extends ActionBarActivity {
     public void setFile(ParseFile file) {
         this.file = file;
     }
+    @SuppressWarnings("FieldCanBeLocal")
     private Toolbar mToolbar;
 
     @Override

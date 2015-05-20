@@ -38,6 +38,7 @@ public class TripList extends ActionBarActivity {
     protected ListAdapter adapter;
     protected ListView lista;
     private static Context context;
+    @SuppressWarnings("FieldCanBeLocal")
     private static Intent intent;
     private User myUser;
     private ArrayList<Trip> trips = new ArrayList<Trip>();
@@ -45,6 +46,7 @@ public class TripList extends ActionBarActivity {
     private ListView leftDrawerList;
     private DrawerLayout mDrawerLayout;
     private SmoothActionBarDrawerToggle mDrawerToggle;
+    @SuppressWarnings("FieldCanBeLocal")
     private ArrayAdapter<String> navigationDrawerAdapter;
 
     /**
@@ -68,7 +70,6 @@ public class TripList extends ActionBarActivity {
 
         myUser = (User) intent.getSerializableExtra("myUser");
         this.checkNotifications(); //per canviar el botó
-
 
         try {
             this.ViewTripFromBBDD();
@@ -128,27 +129,29 @@ public class TripList extends ActionBarActivity {
         leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-
+    /**
+     * Refresh notifications too
+     */
     @Override
-    public void onResume() //quan recarreguem la vista també les notificacions
-    {
+    public void onResume() {
         super.onResume();
         this.checkNotifications();
     }
 
     public void checkNotifications()
     {
-        ///////QUERY AMICS/////////////////////
+        //Query friends
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("userId", myUser.getObjectId());
 
-        List<ParseObject> notiResponse = null; //crida al BE
+        List<ParseObject> notiResponse = null;
         try {
             notiResponse = ParseCloud.callFunction("getActiveNotifications", params);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        int notifications = notiResponse.size(); //quantes notificacions actives
+        //Number of active notifications
+        int notifications = notiResponse.size();
         if(notifications > 0)
         {
             mToolbar.setNavigationIcon(R.drawable.ic_action_noti);
