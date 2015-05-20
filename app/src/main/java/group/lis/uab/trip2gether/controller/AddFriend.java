@@ -28,13 +28,12 @@ public class AddFriend extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friend);
+        setContentView(R.layout.activity_add_friend/**/);
         mToolbar = (Toolbar) findViewById(R.id.action_bar_add_friend);
         setSupportActionBar(mToolbar);
         Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
         this.initializeButtons();
-
     }
 
     /**
