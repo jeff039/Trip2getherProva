@@ -7,37 +7,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
-import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.Notification;
 import group.lis.uab.trip2gether.model.NotificationListAdapter;
-import group.lis.uab.trip2gether.model.Site;
-import group.lis.uab.trip2gether.model.SiteListAdapter;
-import group.lis.uab.trip2gether.model.TripListAdapter;
 import group.lis.uab.trip2gether.model.User;
 
-/**
- * Created by Jofré on 26/04/2015.
- */
 public class NotificationList extends ActionBarActivity {
     private ArrayList<Notification> notifications = new ArrayList<Notification>();
     private ArrayList<String> notificationsNames = new ArrayList<String>();
@@ -56,11 +42,8 @@ public class NotificationList extends ActionBarActivity {
         context = this;
         Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
-
         setRef();
-        //Set the custom toolbar
         setSupportActionBar(mToolbar);
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -86,11 +69,13 @@ public class NotificationList extends ActionBarActivity {
             super.onDrawerOpened(drawerView);
             invalidateOptionsMenu();
         }
+
         @Override
         public void onDrawerClosed(View view) {
             super.onDrawerClosed(view);
             invalidateOptionsMenu();
         }
+
         @Override
         public void onDrawerStateChanged(int newState) {
             super.onDrawerStateChanged(newState);
@@ -99,7 +84,6 @@ public class NotificationList extends ActionBarActivity {
                 runnable = null;
             }
         }
-
         public void runWhenIdle(Runnable runnable) {
             this.runnable = runnable;
         }
@@ -111,11 +95,9 @@ public class NotificationList extends ActionBarActivity {
         mDrawerToggle.syncState();
     }
 
-    private void setRef()
-    {
+    private void setRef() {
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.action_bar_notification_list);
         leftDrawerList = (ListView) findViewById(R.id.left_drawer);
-
         View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
         leftDrawerList.addHeaderView(list_header);
         String [] options = getResources().getStringArray(R.array.options_array);
@@ -124,9 +106,7 @@ public class NotificationList extends ActionBarActivity {
         leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-    public void setUserNotificationsViewed() //per posar les notificacions d'un usuari amb Estado "true" (vistes)
-    {
-        ///////QUERY NOTIS/////////////////////
+    public void setUserNotificationsViewed() { //per posar les notificacions d'un usuari amb Estado "true" (vistes)
         List<ParseObject> notiResponse = null; //crida al BE
         HashMap<String, Object> paramsQuery = new HashMap<String, Object>();
         paramsQuery.put("userId", myUser.getObjectId()); //(receptor)
@@ -136,8 +116,7 @@ public class NotificationList extends ActionBarActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //////////////////////////////////////////////////////////
-        ///////UPDATE SITE/////////////////////
+
         for(int i = 0; i < notiResponse.size(); i++)
         {
             ParseObject noti = notiResponse.get(i);
@@ -150,7 +129,6 @@ public class NotificationList extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
-            //////////////////////////////////////////////////////////
         }
     }
 
@@ -171,7 +149,6 @@ public class NotificationList extends ActionBarActivity {
         NotificationListAdapter adaptador = new NotificationListAdapter(context, R.layout.notification_list_item_row, notifications, myUser);
         lista = (ListView)findViewById(R.id.listaNotificaciones);
         lista.setAdapter(adaptador);
-
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -266,14 +243,12 @@ public class NotificationList extends ActionBarActivity {
         }
     }
 
-    public void logout()
-    {
+    public void logout() {
         Intent i = new Intent(this, MainLaunchLogin.class);
         startActivity(i);
     }
 
-    public void openSettings()
-    {
+    public void openSettings() {
         Intent i = new Intent(this, Settings.class);
         startActivity(i);
     }

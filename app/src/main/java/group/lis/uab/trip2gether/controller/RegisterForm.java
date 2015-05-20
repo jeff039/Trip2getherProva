@@ -19,12 +19,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.app.ActionBar;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,26 +30,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Encrypt;
-import group.lis.uab.trip2gether.Resources.Utils;
 
-/**
- * Created by Jofré on 18/03/2015.
- */
 public class RegisterForm extends ActionBarActivity {
 
     private static final int LOAD_IMAGE = 1;
     private ParseFile file;
-
     //UI References
     private EditText pickDate;
     private DatePickerDialog pickDateDialog;
     private SimpleDateFormat dateFormatter;
-
     private boolean emailcheck;
-
     public ParseFile getFile() {
         return file;
     }
@@ -107,7 +96,6 @@ public class RegisterForm extends ActionBarActivity {
         }
     }
 
-    /////////////////INTERFÍCIE////////////////////////////////////
     public void initializeButtons() {
         Button gallery = (Button)findViewById(R.id.gallery);
         gallery.setOnClickListener(clickGallery);
@@ -151,39 +139,38 @@ public class RegisterForm extends ActionBarActivity {
 
     public Button.OnClickListener clickSendRegister = new Button.OnClickListener() {
         public void onClick(View v) {
-            try {
-                if (RegisterForm.this.getName().equalsIgnoreCase("")
-                        || RegisterForm.this.getSurname().equalsIgnoreCase("")
-                        || RegisterForm.this.getCity().equalsIgnoreCase("")
-                        || RegisterForm.this.getDateOfBirth()==null
-                        || RegisterForm.this.getMail().equalsIgnoreCase("")
-                        || RegisterForm.this.getPassword().equalsIgnoreCase("")
-                        || RegisterForm.this.getCountry().equalsIgnoreCase("")) {
-                    Toast.makeText(RegisterForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
-                }
-                checkemail(RegisterForm.this.getMail());
-                if (emailcheck == true) {
-                    boolean register = RegisterForm.this.register(RegisterForm.this.getName(),
-                            RegisterForm.this.getSurname(), RegisterForm.this.getCity(),
-                            RegisterForm.this.getMail(), RegisterForm.this.getPassword(),
-                            RegisterForm.this.getCountry(), RegisterForm.this.getDateOfBirth());
-
-                    if (register) {
-                        Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
-                        //Intent mainLaunchLogin = new Intent(RegisterForm.this, MainLaunchLogin.class);
-                        finish();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Error registering the user", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else{
-                    Toast.makeText(RegisterForm.this, "Invalid email adress.", Toast.LENGTH_SHORT).show();
-                }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (java.text.ParseException e) {
-                e.printStackTrace();
+        try {
+            if (RegisterForm.this.getName().equalsIgnoreCase("")
+                    || RegisterForm.this.getSurname().equalsIgnoreCase("")
+                    || RegisterForm.this.getCity().equalsIgnoreCase("")
+                    || RegisterForm.this.getDateOfBirth()==null
+                    || RegisterForm.this.getMail().equalsIgnoreCase("")
+                    || RegisterForm.this.getPassword().equalsIgnoreCase("")
+                    || RegisterForm.this.getCountry().equalsIgnoreCase("")) {
+                Toast.makeText(RegisterForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
             }
+            checkemail(RegisterForm.this.getMail());
+            if (emailcheck == true) {
+                boolean register = RegisterForm.this.register(RegisterForm.this.getName(),
+                        RegisterForm.this.getSurname(), RegisterForm.this.getCity(),
+                        RegisterForm.this.getMail(), RegisterForm.this.getPassword(),
+                        RegisterForm.this.getCountry(), RegisterForm.this.getDateOfBirth());
+
+                if (register) {
+                    Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error registering the user", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                Toast.makeText(RegisterForm.this, "Invalid email adress.", Toast.LENGTH_SHORT).show();
+            }
+    } catch (ParseException e) {
+        e.printStackTrace();
+    } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
         }
     };
 
@@ -217,9 +204,18 @@ public class RegisterForm extends ActionBarActivity {
 
     }
 
-
-
-    ////////////////REGISTER////////////////////////////////////////
+    /**
+     * Method register
+     * @param name
+     * @param surname
+     * @param city
+     * @param mail
+     * @param password
+     * @param country
+     * @param date_of_birth
+     * @return
+     * @throws ParseException
+     */
     public boolean register(String name, String surname, String city, String mail, String password,
                             String country, Date date_of_birth) throws ParseException {
         Encrypt encrypt = new Encrypt(getApplicationContext());
@@ -250,31 +246,51 @@ public class RegisterForm extends ActionBarActivity {
         }
     }
 
-    public void checkemail(String mail)
-    {
+    /**
+     * Method checkemail
+     * @param mail
+     */
+    public void checkemail(String mail) {
         Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
         Matcher matcher = pattern.matcher(mail);
         emailcheck = matcher.matches();
     }
 
+    /**
+     * Method getName
+     * @return nameText
+     */
     public String getName() {
         EditText name = (EditText) findViewById(R.id.name);
         String nameText = name.getText().toString();
         return nameText;
     }
 
+    /**
+     * Method getSurname
+     * @return surnameText
+     */
     public String getSurname() {
         EditText surname = (EditText) findViewById(R.id.surname);
         String surnameText = surname.getText().toString();
         return surnameText;
     }
 
+    /**
+     * Method getCity
+     * @return cityText
+     */
     public String getCity() {
         EditText city = (EditText) findViewById(R.id.city);
         String cityText = city.getText().toString();
         return cityText;
     }
 
+    /**
+     * Method getDateOfBirth
+     * @return dateOfBirthDate
+     * @throws java.text.ParseException
+     */
     public Date getDateOfBirth() throws java.text.ParseException {
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
         EditText dateOfBirth = (EditText) findViewById(R.id.date_of_birth);
@@ -284,25 +300,36 @@ public class RegisterForm extends ActionBarActivity {
         return dateOfBirthDate;
     }
 
+    /**
+     * Method getMail
+     * @return mailText
+     */
     public String getMail() {
         EditText mail = (EditText)findViewById(R.id.mail);
         String mailText = mail.getText().toString();
         return mailText;
     }
 
+    /**
+     * Method getPassword
+     * @return passwordText
+     */
     public String getPassword() {
         EditText password = (EditText)findViewById(R.id.password);
         String passwordText = password.getText().toString();
         return passwordText;
     }
 
+    /**
+     * Method getCountry
+     * @return countryText
+     */
     public String getCountry() {
         EditText country = (EditText) findViewById(R.id.country);
         String countryText = country.getText().toString();
         return countryText;
     }
 
-    ////////////////////////BARRA SUPERIOR////////////////////////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -316,9 +343,6 @@ public class RegisterForm extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         return super.onOptionsItemSelected(item);
     }
-
 }
-

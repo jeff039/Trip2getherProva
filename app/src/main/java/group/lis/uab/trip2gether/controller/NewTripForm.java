@@ -79,15 +79,11 @@ public class NewTripForm extends ActionBarActivity {
     public ParseFile getFile() {
         return file;
     }
-
     public void setFile(ParseFile file) {
         this.file = file;
     }
-
     private ArrayList<String> paises = new ArrayList<String>();
-
     private ArrayList<String> ciudades = new ArrayList<String>();
-
     private NewTripForm context = null;
 
     /**
@@ -99,10 +95,8 @@ public class NewTripForm extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip_form);
         context = this;
-
         mToolbar = (Toolbar) findViewById(R.id.action_bar_new_trip);
         setSupportActionBar(mToolbar);
-
         this.initializeButtons();
         this.setDateTimeFieldIni();
         this.setDateTimeFieldFin();
@@ -305,8 +299,7 @@ public class NewTripForm extends ActionBarActivity {
      * @param popupView
      * @param first
      */
-    public void setPopUpContent(View popupView, boolean first)
-    {
+    public void setPopUpContent(View popupView, boolean first) {
         //Contingut de la vista DINÀMIC segons els amics
         //agafem de la popup view perquè encara no ha estat carregada
         final LinearLayout ll = (LinearLayout) popupView.findViewById(R.id.linearFriends);

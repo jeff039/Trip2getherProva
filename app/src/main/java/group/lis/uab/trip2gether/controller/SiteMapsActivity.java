@@ -1,7 +1,6 @@
 package group.lis.uab.trip2gether.controller;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -10,14 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -27,11 +23,9 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.Site;
@@ -42,7 +36,6 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     MarkerOptions marker;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +44,7 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         setLocation();
     }
 
-    public void setLocation()
-    {
-        //GEOLOCALITZACIÓ
+    public void setLocation() {
         this.mMap.setMyLocationEnabled(true);
         Location location = this.mMap.getMyLocation();
         if (location != null) {
@@ -63,7 +54,6 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
                             .fromResource(R.drawable.loading_logo));
         }
     }
-
 
     @Override
     public void onLocationChanged(Location location)
@@ -75,12 +65,9 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.loading_logo)));
     }
 
-    public void setUpInfoWindow(final Site site)
-    {
-        /////////////////INFO WINDOW/////////
+    public void setUpInfoWindow(final Site site) {
         // Getting reference to the SupportMapFragment of activity_main.xml
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
         // Getting GoogleMap object from the fragment
         mMap = mapFragment.getMap();
 
@@ -142,16 +129,12 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         });
     }
 
-
-    public Site getClickedSite(Marker marker)
-    {
-        //////////////////////////////////
+    public Site getClickedSite(Marker marker) {
         LatLng position = marker.getPosition();
         ///////QUERY SITE/////////////////////
         HashMap<String, Object> paramsQuery = new HashMap<String, Object>();
         paramsQuery.put("latitude", position.latitude);
         paramsQuery.put("longitude", position.longitude);
-
         List<ParseObject> siteResponse = null; //crida al BE
         try {
             siteResponse = ParseCloud.callFunction("getSiteByCoordenates", paramsQuery);
@@ -166,57 +149,53 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         return  site;
     }
 
-    /////BOTÓ OK/////////////
-    public void initializeButtonsAdd()
-    {
+    public void initializeButtonsAdd() {
         Button ok = (Button) findViewById(R.id.maps_ok);
         ok.setOnClickListener(clickOKAdd);
     }
 
-    public void initializeButtonsRoute()
-    {
+    public void initializeButtonsRoute() {
         Button ok = (Button) findViewById(R.id.maps_ok);
         ok.setOnClickListener(clickOKRoute);
     }
 
     public Button.OnClickListener clickOKAdd = new Button.OnClickListener() {
         public void onClick(View v) {
-            if(marker != null) { //si hem marcat
-                //cridem el formulari (pas2)
-                Bundle params = getIntent().getExtras();
-                String tripId = params.getString("tripId");
-                User myUser = (User) params.getSerializable("myUser");
-                String nombreViaje = params.getString("nombre_viaje");
+        if(marker != null) { //si hem marcat
+            //cridem el formulari (pas2)
+            Bundle params = getIntent().getExtras();
+            String tripId = params.getString("tripId");
+            User myUser = (User) params.getSerializable("myUser");
+            String nombreViaje = params.getString("nombre_viaje");
 
-                //enviem el punt al formulari si l'hem marcat
-                Bundle paramsSiteForm = new Bundle();
-                paramsSiteForm.putString("tripId", tripId);
-                paramsSiteForm.putDouble("latitude", marker.getPosition().latitude);
-                paramsSiteForm.putDouble("longitude", marker.getPosition().longitude);
+            //enviem el punt al formulari si l'hem marcat
+            Bundle paramsSiteForm = new Bundle();
+            paramsSiteForm.putString("tripId", tripId);
+            paramsSiteForm.putDouble("latitude", marker.getPosition().latitude);
+            paramsSiteForm.putDouble("longitude", marker.getPosition().longitude);
 
-                paramsSiteForm.putSerializable("myUser", myUser);
-                paramsSiteForm.putString("id_viaje", tripId);
-                paramsSiteForm.putString("nombre_viaje", nombreViaje);
-                //cridem el formulari
-                Intent newSite = new Intent(SiteMapsActivity.this, NewSiteForm.class);
-                newSite.putExtras(paramsSiteForm);
-                startActivity(newSite);
-            }
-            else
-            {
-                String alertString = getResources().getString(R.string.anyLocation); //missatge de alerta
-                //Enviem el missatge dient que 's'ha inserit correctament
-                new AlertDialog.Builder(SiteMapsActivity.this) //ens trobem en una funció de un botó, especifiquem la classe (no this)
-                        //.setTitle("DB")
-                        .setMessage(alertString)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //no fem res
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_info)
-                        .show();
-            }
+            paramsSiteForm.putSerializable("myUser", myUser);
+            paramsSiteForm.putString("id_viaje", tripId);
+            paramsSiteForm.putString("nombre_viaje", nombreViaje);
+            //cridem el formulari
+            Intent newSite = new Intent(SiteMapsActivity.this, NewSiteForm.class);
+            newSite.putExtras(paramsSiteForm);
+            startActivity(newSite);
+        }
+        else {
+            String alertString = getResources().getString(R.string.anyLocation); //missatge de alerta
+            //Enviem el missatge dient que 's'ha inserit correctament
+            new AlertDialog.Builder(SiteMapsActivity.this) //ens trobem en una funció de un botó, especifiquem la classe (no this)
+                    //.setTitle("DB")
+                    .setMessage(alertString)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //no fem res
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .show();
+        }
         }
     };
 
@@ -297,9 +276,6 @@ public class SiteMapsActivity extends FragmentActivity implements GoogleMap.OnMa
         }
         else if (params.getString("route").equals("true")) //mirant la ruta
         {
-
-
-
             //què passarà quan pitjem en una marca
             mMap.setOnMarkerClickListener(this);
 

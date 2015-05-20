@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -30,10 +29,8 @@ import group.lis.uab.trip2gether.model.User;
 
 public class NewSiteForm extends ActionBarActivity {
     private static final int LOAD_IMAGE = 1; //static final -> no canviarà (s'ha d'inicializar)
-
     private static Intent intentR = null;
     private User myUser;
-
     private ParseFile file;
     public ParseFile getFile() {
         return file;
@@ -41,12 +38,10 @@ public class NewSiteForm extends ActionBarActivity {
     public void setFile(ParseFile file) {
         this.file = file;
     }
-
     private String idViaje="";
     private String nombreViaje="";
     public void setIdViaje(String idViaje) { this.idViaje = idViaje; }
     public String getIdViaje() { return idViaje; }
-
     private Toolbar mToolbar;
     private ListView leftDrawerList;
 
@@ -186,7 +181,8 @@ public class NewSiteForm extends ActionBarActivity {
     }
 
     /**
-     * CargarSitio. Recuperamos la información de los datos del sitio especificado por el usuario.
+     * Method CargarSitio
+     * @return
      */
     public Site CargarSitio(){
         EditText TextNombre =(EditText)findViewById(R.id.Nombre);
@@ -194,7 +190,6 @@ public class NewSiteForm extends ActionBarActivity {
 
         EditText TextDescripcion =(EditText)findViewById(R.id.Descripcion);
         String descripcion = TextDescripcion.getText().toString();
-
 
         double duracion;
         EditText TextDuracion =(EditText)findViewById(R.id.Duracion);
@@ -215,12 +210,9 @@ public class NewSiteForm extends ActionBarActivity {
         else {
             precio = Integer.parseInt(precioString);
         }
-
         ParseFile imagen = getFile();
-
         Double latitud = intentR.getExtras().getDouble("latitude");
         Double longitud =intentR.getExtras().getDouble("longitude");
-
         return new Site(nombre, descripcion, imagen, getIdViaje(), "", duracion, precio, latitud, longitud);
     }
 
@@ -247,7 +239,6 @@ public class NewSiteForm extends ActionBarActivity {
             nuevoSitio.setId(addSiteResponse);
         success = true;
         Log.i("Add newSite:", addSiteResponse);
-
         return success;
     }
 }

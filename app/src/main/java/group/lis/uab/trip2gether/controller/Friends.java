@@ -4,45 +4,28 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
-import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.FriendsListAdapter;
-import group.lis.uab.trip2gether.model.Notification;
-import group.lis.uab.trip2gether.model.NotificationListAdapter;
-import group.lis.uab.trip2gether.model.Site;
-import group.lis.uab.trip2gether.model.SiteListAdapter;
-import group.lis.uab.trip2gether.model.TripListAdapter;
 import group.lis.uab.trip2gether.model.User;
 
-/**
- * Created by Jofré on 26/04/2015.
- */
 public class Friends extends ActionBarActivity {
     private ArrayList<User> friends = new ArrayList<User>();
     private ArrayList<String> friendsNames = new ArrayList<String>();
@@ -318,14 +301,12 @@ public class Friends extends ActionBarActivity {
         }
     }
 
-    public void logout()
-    {
+    public void logout() {
         Intent i = new Intent(this, MainLaunchLogin.class);
         startActivity(i);
     }
 
-    public void openSettings()
-    {
+    public void openSettings() {
         Intent i = new Intent(this, Settings.class);
         startActivity(i);
     }
