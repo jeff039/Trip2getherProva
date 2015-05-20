@@ -79,6 +79,7 @@ public class SiteView  extends ActionBarActivity {
         }
 
         this.initializeButtons();
+
         try {
             this.initializeSiteData();
         } catch (ParseException e) {
@@ -206,7 +207,8 @@ public class SiteView  extends ActionBarActivity {
             Double sumatorio;
             int contador = 0;
             sumatorio = 0.0;
-            for(int i=0;i<idsSitio.size(); i++){
+            int len = idsSitio.size();
+            for(int i=0;i<len; i++){
                 ParseObject idSitio = idsSitio.get(i);
                 if(idSitio.getString("Id_Usuario").equals(myUser.getObjectId())){
                     rateExist = true;
@@ -262,7 +264,6 @@ public class SiteView  extends ActionBarActivity {
             finish();
         }
     };
-
 
     public Button.OnClickListener clickEditThisSite = new Button.OnClickListener() {
         public void onClick(View v) {

@@ -1,20 +1,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     android:background="@drawable/no_internet_connection">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/noInternet"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:textColor="#FFFFFF"/>
     <!--RETRY BUTTON-->
     <Button
         android:id="@+id/tryAgain"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
         android:text="@string/tryAgain"
         android:textColor="#FFFFFF"
-        android:layout_marginLeft="55dp"
-        android:layout_marginRight="55dp"
-        android:background="@drawable/button_login"
-        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button"
         android:textSize="15dp" />
 
 </LinearLayout>

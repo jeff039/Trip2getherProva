@@ -55,6 +55,7 @@
     <string name="newFriend">Agregar Amigo</string>
     <string name="puntuar">Puntuar</string>
     <string name="deleteSite">ELIMINAR ESTE SITIO</string>
+    <string name="deleteTrip">ELIMINAR VIAJE</string>
     <string name="editSiteTitle">EDITAR SITIO</string>
 
     <string name="country_prompt">Selecciona un país</string>
@@ -120,11 +121,12 @@
     <string name="newPasswHint">nueva Contraseña</string>
     <string name="editPasswordForm">Editar Contraseña</string>
     <string name="myLocation">Mi localización</string>
-    <string name="tryAgain">Vuelve a intentarlo</string>
+    <string name="tryAgain">Volver a intentarlo</string>
     <string name="notificationAdd">Te ha añadido a un viaje</string>
     <string name="notificationDelete">Se ha eliminado de un viaje</string>
     <string name="notificationDrop">Has sido eliminado de un viaje</string>
     <string name="friendDel">¿Seguro que deseas eliminar este amigo?</string>
     <string name="notificationAccept">Acepta tu solicitud de amistad</string>
     <string name="notificationDecline">Rechaza tu solicitud de amistad</string>
+    <string name="noInternet">No se ha encontrado conexión a Internet. Revisa la conexión o inténtalo denuevo.</string>
 </resources>

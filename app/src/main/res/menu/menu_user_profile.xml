@@ -1,7 +1,8 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="group.lis.uab.trip2gether.controller.TripList">
+    tools:context="group.lis.uab.trip2gether.controller.UserProfile">
 
     <item android:id="@+id/edit_user_profile"
         android:icon="@drawable/ic_mode_edit_white_18dp"

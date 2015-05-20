@@ -19,7 +19,6 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/background"/>
-        <!-- android:src="@drawable/about_us" -->/>
+        android:src="@drawable/loading_logo"/>
 
 </RelativeLayout>
