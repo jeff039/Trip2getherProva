@@ -191,11 +191,11 @@
                     android:id="@+id/sendDeleteThisTrip"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="DELETE THIS TRIP"
+                    android:text="@string/deleteTrip"
                     android:textColor="#ffffff"
                     android:padding="10dp"
                     android:layout_margin="5dp"
-                    android:background="@drawable/button"
+                    android:background="@drawable/button_delete"
                     android:textSize="16sp" />
             </LinearLayout>
 

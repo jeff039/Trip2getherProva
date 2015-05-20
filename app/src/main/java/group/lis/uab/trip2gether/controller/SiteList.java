@@ -169,8 +169,8 @@ public class SiteList  extends ActionBarActivity {
             this.idViaje="";
         }
         List<ParseObject> idsSitio = Utils.getRegistersFromBBDD(this.idViaje, "Sitio", "Id_Viaje");
-
-        for(int i=0;i<idsSitio.size();i++){
+        int len = idsSitio.size();
+        for(int i=0;i<len;i++){
             ParseObject idSitio = idsSitio.get(i);
             Site sitio = new Site(idSitio.getString("Nombre"), idSitio.getString("Descripcion"),
                     idSitio.getParseFile("Imagen"), idSitio.getString("Id_Viaje"), idSitio.getObjectId(), idSitio.getDouble("Duracion"),

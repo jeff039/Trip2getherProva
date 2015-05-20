@@ -29,7 +29,7 @@
                 <!--NAME LABEL-->
                 <EditText
                     android:id="@+id/EditTextNombre"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="56dp"
@@ -39,28 +39,25 @@
                     android:inputType="textCapWords"
                     android:textColor="#333333"
                     android:textColorHint="#bbbbbb"
-                    android:background="@drawable/rounded_corner"
-                    android:drawableRight="@drawable/ic_place_grey600_18dp"/>
-
+                    android:background="@drawable/rounded_corner"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutPais"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/linearLayoutNombre">
-
                 <!--COUNTRY LABEL-->
                 <Spinner
                     android:id="@+id/SpinnerPaises"
                     android:hint="@string/tripName"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:spinnerMode="dropdown"
                     android:background="@drawable/rounded_corner"/>
-
             </LinearLayout>
 
             <!--CITY LABEL-->
@@ -71,17 +68,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/linearLayoutPais">
-
                 <Spinner
                     android:id="@+id/SpinnerCiudades"
                     android:hint="@string/nombre"
-                    android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:prompt="@array/ciudadDefault"
+                    android:layout_marginBottom="10dp"
                     android:spinnerMode="dropdown"
-                    android:background="@drawable/rounded_corner"
-                    android:drawableRight="@drawable/ic_place_grey600_18dp"/>
+                    android:background="@drawable/rounded_corner"/>
 
             </LinearLayout>
 

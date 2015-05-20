@@ -161,10 +161,9 @@ public class TripList extends ActionBarActivity {
      */
     public void ViewTripFromBBDD() throws com.parse.ParseException {
         List<ParseObject> idsViatje = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Grupo", "Id_Usuario");
-
+        int len = idsViatje.size();
         if(!idsViatje.isEmpty()) {
-            for(int i=0;i<idsViatje.size();i++){
-                //ParseObject viatjeId = idsViatje.get(i);
+            for(int i=0;i<len;i++){
                 String idViaje = idsViatje.get(i).getString("Id_Viaje");
 
                 List<ParseObject> getId = Utils.getRegistersFromBBDD(idViaje, "Viaje", "objectId");
@@ -176,10 +175,8 @@ public class TripList extends ActionBarActivity {
                 String ciudad;
 
                 if(datosIdCiudad.size()==0){
-
                     pais="España";
                     ciudad="Barcelona";
-
                 }else{
                     pais = datosIdCiudad.get(0).getString("Pais");
                     ciudad = datosIdCiudad.get(0).getString("Nombre");
@@ -193,7 +190,7 @@ public class TripList extends ActionBarActivity {
             }
         }
 
-        TripListAdapter adaptador = new TripListAdapter(context, R.layout.trip_list_item_row, trips, myUser);
+        TripListAdapter adaptador = new TripListAdapter(this, R.layout.trip_list_item_row, trips, myUser);
         lista = (ListView)findViewById(R.id.listaViajes);
         lista.setAdapter(adaptador);
 

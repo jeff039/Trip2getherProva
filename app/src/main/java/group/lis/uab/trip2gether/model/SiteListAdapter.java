@@ -69,7 +69,6 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
             holder.imageView = (ImageView)row.findViewById(R.id.imgIcon);
             holder.txtName = (TextView)row.findViewById(R.id.txtName);
             holder.imgPosSite = (ImageView)row.findViewById(R.id.imgPosSite);
-            holder.imgPhotoUser = (ImageView)row.findViewById(R.id.imgPhotoUser);
             holder.imgWatch = (ImageView)row.findViewById(R.id.imgTime);
             holder.txtTimeHours = (TextView)row.findViewById(R.id.txtTimeHours);
 
@@ -97,7 +96,7 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
         holder.imgWatch.setImageResource(R.drawable.ic_watch);
 
         String time = String.valueOf((int) sitios.get(position).getDuracion());
-        holder.txtTimeHours.setText(time+"h");
+        holder.txtTimeHours.setText(time+" m");
 
 
         if(sitios.get(position).getEstrellas()<1){
