@@ -6,13 +6,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -24,28 +20,21 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-
 import group.lis.uab.trip2gether.R;
-import group.lis.uab.trip2gether.Resources.Encrypt;
 import group.lis.uab.trip2gether.Resources.Utils;
 import group.lis.uab.trip2gether.model.User;
 import android.support.v7.widget.Toolbar;
 
-/**
- * Created by Jofré on 02/04/2015.
- */
 public class EditUserForm extends ActionBarActivity {
 
     private static final int LOAD_IMAGE = 1;
@@ -118,16 +107,13 @@ public class EditUserForm extends ActionBarActivity {
         }
     }
 
-    /////////////////INTERFÍCIE////////////////////////////////////
     public void initializeButtons() {
-
         Button gallery = (Button)findViewById(R.id.gallery);
         gallery.setOnClickListener(clickGallery);
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
         Button editPassword = (Button)findViewById(R.id.editPassword);
         editPassword.setOnClickListener(clickEditPassword);
-
         Button sendUpdateUserProfile = (Button) findViewById(R.id.sendUpdateUserProfile);
         sendUpdateUserProfile.setOnClickListener(clickSendUpdateUserProfile);
         pickDate = (EditText) findViewById(R.id.date_of_birth);
@@ -159,41 +145,40 @@ public class EditUserForm extends ActionBarActivity {
             ImageView imageView = (ImageView) findViewById(R.id.imageUser);
             Utils.setImageViewWithParseFile(imageView, file, false);
         }
-
     }
 
     public Button.OnClickListener clickSendUpdateUserProfile = new Button.OnClickListener() {
         public void onClick(View v) {
-            try {
-                if (EditUserForm.this.getName().equalsIgnoreCase("")
-                        || EditUserForm.this.getSurname().equalsIgnoreCase("")
-                        || EditUserForm.this.getCity().equalsIgnoreCase("")
-                        || EditUserForm.this.getDateOfBirth()==null
-                        || EditUserForm.this.getCountry().equalsIgnoreCase("")) {
-                    Toast.makeText(EditUserForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    User myUpdatedUser = EditUserForm.this.updateUserData(EditUserForm.this.getName(),
-                            EditUserForm.this.getSurname(), EditUserForm.this.getCity(),
-                            myUser.getMail(), myUser.getPassword(),
-                            EditUserForm.this.getCountry(), EditUserForm.this.getDateOfBirth(),
-                            myUser.getObjectId());
-
-                    if (myUpdatedUser != null) {
-                        Toast.makeText(getApplicationContext(), "Updated user profile", Toast.LENGTH_SHORT).show();
-                        Intent userProfile = new Intent();
-                        userProfile.putExtra("myUser", myUser);
-                        setResult(Activity.RESULT_OK, userProfile);
-                        finish();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Error updating the user profile", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (java.text.ParseException e) {
-                e.printStackTrace();
+        try {
+            if (EditUserForm.this.getName().equalsIgnoreCase("")
+                    || EditUserForm.this.getSurname().equalsIgnoreCase("")
+                    || EditUserForm.this.getCity().equalsIgnoreCase("")
+                    || EditUserForm.this.getDateOfBirth()==null
+                    || EditUserForm.this.getCountry().equalsIgnoreCase("")) {
+                Toast.makeText(EditUserForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
             }
+            else {
+                User myUpdatedUser = EditUserForm.this.updateUserData(EditUserForm.this.getName(),
+                        EditUserForm.this.getSurname(), EditUserForm.this.getCity(),
+                        myUser.getMail(), myUser.getPassword(),
+                        EditUserForm.this.getCountry(), EditUserForm.this.getDateOfBirth(),
+                        myUser.getObjectId());
+
+                if (myUpdatedUser != null) {
+                    Toast.makeText(getApplicationContext(), "Updated user profile", Toast.LENGTH_SHORT).show();
+                    Intent userProfile = new Intent();
+                    userProfile.putExtra("myUser", myUser);
+                    setResult(Activity.RESULT_OK, userProfile);
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error updating the user profile", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
         }
     };
 
@@ -213,23 +198,21 @@ public class EditUserForm extends ActionBarActivity {
      */
     public Button.OnClickListener clickGoogle = new Button.OnClickListener() {
         public void onClick(View v) {
-
-            EditText TextNombre =(EditText)findViewById(R.id.name);
-            String search = TextNombre.getText().toString();
-            Uri uri = Uri.parse("https://www.google.com/search?hl=en&site=imghp&tbm=isch&source=hp&q="+search);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
+        EditText TextNombre =(EditText)findViewById(R.id.name);
+        String search = TextNombre.getText().toString();
+        Uri uri = Uri.parse("https://www.google.com/search?hl=en&site=imghp&tbm=isch&source=hp&q="+search);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
         }
     };
 
     public Button.OnClickListener clickEditPassword = new Button.OnClickListener() {
         public void onClick(View v) {
-            Intent editPasswordForm = new Intent(EditUserForm.this, EditPasswordForm.class);
-            editPasswordForm.putExtra("myUser", myUser);
-            startActivityForResult(editPasswordForm, 0);
+        Intent editPasswordForm = new Intent(EditUserForm.this, EditPasswordForm.class);
+        editPasswordForm.putExtra("myUser", myUser);
+        startActivityForResult(editPasswordForm, 0);
         }
     };
-
 
     public EditText.OnClickListener clickPickDate = new EditText.OnClickListener() {
         @Override
@@ -261,8 +244,19 @@ public class EditUserForm extends ActionBarActivity {
 
     }
 
-
-    ////////////////UPDATE USER PROFILE////////////////////////////////////////
+    /**
+     * Method updateUserData
+     * @param name
+     * @param surname
+     * @param city
+     * @param mail
+     * @param password
+     * @param country
+     * @param date_of_birth
+     * @param objectId
+     * @return
+     * @throws ParseException
+     */
     public User updateUserData(String name, String surname, String city, String mail, String password,
                                   String country, Date date_of_birth, String objectId) throws ParseException {
         //Encrypt encrypt = new Encrypt(getApplicationContext());
@@ -326,14 +320,12 @@ public class EditUserForm extends ActionBarActivity {
         return dateOfBirthDate;
     }
 
-
     public String getCountry() {
         EditText country = (EditText) findViewById(R.id.country);
         String countryText = country.getText().toString();
         return countryText;
     }
 
-    ////////////////////////BARRA SUPERIOR////////////////////////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -347,8 +339,6 @@ public class EditUserForm extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         return super.onOptionsItemSelected(item);
     }
-
 }

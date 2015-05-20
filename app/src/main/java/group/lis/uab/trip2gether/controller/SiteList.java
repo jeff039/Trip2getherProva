@@ -6,16 +6,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.view.MenuItem;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -25,11 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
-import group.lis.uab.trip2gether.model.DrawerItemClickListener;
 import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.SiteListAdapter;
 import group.lis.uab.trip2gether.model.User;
-
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
@@ -386,21 +381,16 @@ public class SiteList  extends ActionBarActivity {
         }
     }
 
-    public void logout()
-    {
+    public void logout() {
         Intent i = new Intent(this, MainLaunchLogin.class);
         startActivity(i);
     }
 
-    public void openSettings()
-    {
+    public void openSettings() {
         Intent i = new Intent(this, Settings.class);
         startActivity(i);
     }
 
-    /**
-     * Method openMyProfile
-     */
     public void openMyProfile() {
         Intent userProfile = new Intent(this, UserProfile.class);
         userProfile.putExtra("myUser", myUser);

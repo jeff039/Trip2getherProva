@@ -27,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -75,7 +74,6 @@ public class EditTripForm extends ActionBarActivity {
     private ArrayList<String> participantGroupToDelete = new ArrayList<String>(); //llista de ids dels amics que s'han d'eliminar
     private ArrayList<String> participantGroupTrip = new ArrayList<String>(); //llista de ids dels participants actuals
     // del grup d'un viaje
-    ///////////////////////////////////////////
 
     public User getMyUser() {
         return myUser;
@@ -83,18 +81,15 @@ public class EditTripForm extends ActionBarActivity {
     public void setMyUser(User user) {
         this.myUser = user;
     }
-
     public void setMyTrip (String myTrip) {
         this.myTrip = myTrip;
     }
-
     public ParseFile getFile() {
         return file;
     }
     public void setFile(ParseFile file) {
         this.file = file;
     }
-
     private Toolbar mToolbar;
 
     @Override
@@ -276,7 +271,7 @@ public class EditTripForm extends ActionBarActivity {
                 }
             }
         }
-        /////////////////INTERFÍCIE////////////////////////////////////
+
         public void initializeButtons() {
 
             Button sendDeleteThisTrip = (Button) findViewById(R.id.sendDeleteThisTrip);
@@ -795,17 +790,6 @@ public class EditTripForm extends ActionBarActivity {
                 }else {
                     //se elimina el viaje, ¿los sitios y las puntuaciones?
                     ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
-                    /*
-                    sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Sitio", "Id_Viaje");
-                    puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip.getId(), "Puntuacion", "Id_Viaje");
-
-                    if(!sitiosAEliminar..isEmpty()){
-                        ParseObject.deleteAll(sitiosAEliminar);
-                    }
-                    id(!puntuacionesAEliminar.isEmpty()){
-                        ParseObject.deleteAll(puntuacionesAEliminar);
-                    }
-                    */
                 }
 
             } catch (ParseException e) {
@@ -816,7 +800,6 @@ public class EditTripForm extends ActionBarActivity {
             Intent tripList = new Intent(EditTripForm.this, TripList.class);
             tripList.putExtra("myUser", myUser);
             startActivity(tripList);
-
         }
     };
 }

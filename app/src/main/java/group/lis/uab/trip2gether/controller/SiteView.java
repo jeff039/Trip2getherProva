@@ -1,14 +1,11 @@
 package group.lis.uab.trip2gether.controller;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,23 +23,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-
 import java.util.HashMap;
 import java.util.List;
-
 import group.lis.uab.trip2gether.R;
 import group.lis.uab.trip2gether.Resources.Utils;
-import group.lis.uab.trip2gether.model.Site;
 import group.lis.uab.trip2gether.model.User;
 
-/**
- * Created by Mireia on 04/04/2015.
- */
 public class SiteView  extends ActionBarActivity {
 
     private String currentSiteId;
@@ -464,14 +454,4 @@ public class SiteView  extends ActionBarActivity {
             }
         }
     }
-    /*
-    @Override
-    public void onBackPressed()
-    {
-        Intent goBack = new Intent (SiteView.this, SiteList.class);
-        goBack.putExtra("myUser", myUser);
-        goBack.putExtra("id_viaje", idViaje);
-        goBack.putExtra("nombre_viaje", nombreViaje);
-        startActivity(goBack);
-    }*/
 }

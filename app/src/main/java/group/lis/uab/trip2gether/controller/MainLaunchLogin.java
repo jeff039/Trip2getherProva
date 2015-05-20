@@ -1,24 +1,16 @@
 package group.lis.uab.trip2gether.controller;
 
-import android.content.Context;
 import android.content.Intent;
-import android.animation.*;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.graphics.Bitmap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.Toast;
-
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -38,9 +30,6 @@ public class MainLaunchLogin extends ActionBarActivity {
         this.initializeButtons();
     }
 
-    /**
-     * Interficie
-     */
     private void initializeButtons() {
         Button login = (Button)findViewById(R.id.loginButton);
         Button register = (Button)findViewById(R.id.registerButton);
@@ -168,9 +157,7 @@ public class MainLaunchLogin extends ActionBarActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed(){
         //do nothing
     }
-
 }

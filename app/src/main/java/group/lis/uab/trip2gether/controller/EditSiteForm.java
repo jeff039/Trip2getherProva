@@ -89,7 +89,6 @@ public class EditSiteForm extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.saveEditSite) {
             Site nuevoSitio = CargarSitio();
@@ -104,25 +103,21 @@ public class EditSiteForm extends ActionBarActivity {
                 intent.putExtra("myUser", myUser);
                 intent.putExtra("id_viaje", idViaje);
                 intent.putExtra("nombre_viaje", nombreViaje);
-
                 try {
                     EditarSitioBDD(nuevoSitio);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 startActivity(intent);
-
                 return true;
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -158,7 +153,6 @@ public class EditSiteForm extends ActionBarActivity {
         }
     }
 
-    /////////////////INTERFÍCIE////////////////////////////////////
     public void initializeButtons() {
         Button sendDeleteThisSite = (Button) findViewById(R.id.sendDeleteThisSite);
         sendDeleteThisSite.setOnClickListener(clickSendDeleteThisSite);
@@ -171,7 +165,6 @@ public class EditSiteForm extends ActionBarActivity {
         ImageButton backActivity = (ImageButton)findViewById(R.id.backActvity);
         backActivity.setOnClickListener(doBackActivity);
     }
-
 
     public void initializeSiteData() {
         ParseObject site = null;
@@ -290,7 +283,6 @@ public class EditSiteForm extends ActionBarActivity {
 
         double latitud = site.getDouble("Latitud");
         double longitud = site.getDouble("Longitud");
-
         return new Site(nombre, descripcion, imagen, idViaje, objectId, duracion, precio, latitud, longitud);
     }
 
@@ -322,34 +314,31 @@ public class EditSiteForm extends ActionBarActivity {
 
     public Button.OnClickListener clickSendDeleteThisSite = new Button.OnClickListener() {
         public void onClick(View v) {
-            String msn="";
-            try {
-                List<ParseObject> participantes = Utils.getRegistersFromBBDD(idViaje,"Grupo", "Id_Viaje");
-                ParseObject sitio = Utils.getRegistersFromBBDD(mySiteId,"Sitio", "objectId").get(0);
-                for (int i=0;i<participantes.size();i++) {
-                    if (participantes.get(i).getBoolean("Administrador")) {
-                        if (myUser.getObjectId().equals(participantes.get(i).getString("Id_Usuario"))) {
-                            ParseObject.createWithoutData("Sitio", mySiteId).deleteEventually();
-                            //TODO eliminar también las puntuaciones.
-
-
-                            msn = "Deleted Site " + mySiteId;
-                        } else {
-                            msn = "Solo el administrador puede eliminar el sitio" + sitio.getString("Nombre");
-                        }
+        String msn="";
+        try {
+            List<ParseObject> participantes = Utils.getRegistersFromBBDD(idViaje,"Grupo", "Id_Viaje");
+            ParseObject sitio = Utils.getRegistersFromBBDD(mySiteId,"Sitio", "objectId").get(0);
+            for (int i=0;i<participantes.size();i++) {
+                if (participantes.get(i).getBoolean("Administrador")) {
+                    if (myUser.getObjectId().equals(participantes.get(i).getString("Id_Usuario"))) {
+                        ParseObject.createWithoutData("Sitio", mySiteId).deleteEventually();
+                        //TODO eliminar también las puntuaciones.
+                        msn = "Deleted Site " + mySiteId;
+                    } else {
+                        msn = "Solo el administrador puede eliminar el sitio" + sitio.getString("Nombre");
                     }
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-
-            Toast.makeText(getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
-            Intent siteList = new Intent(EditSiteForm.this, SiteList.class);
-            siteList.putExtra("id_viaje", idViaje);
-            siteList.putExtra("myUser", myUser);
-            siteList.putExtra("nombre_viaje", nombreViaje);
-            startActivity(siteList);
+        Toast.makeText(getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+        Intent siteList = new Intent(EditSiteForm.this, SiteList.class);
+        siteList.putExtra("id_viaje", idViaje);
+        siteList.putExtra("myUser", myUser);
+        siteList.putExtra("nombre_viaje", nombreViaje);
+        startActivity(siteList);
         }
     };
 }
