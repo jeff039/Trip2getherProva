@@ -96,7 +96,7 @@
         <item>Els meus Viatges</item>
         <item>Amics</item>
         <item>Notificacions</item>
-        <item>Configuració</item>
+        <item>Sobre nosaltres</item>
         <item>Tancar Sessió</item>
     </string-array>
     <string name="OK">OK</string>
@@ -104,7 +104,7 @@
     <string name="addSite">Afegeix un nou lloc</string>
     <string name="anyLocation">No has seleccionat cap ubicació!</string>
     <string name="title_activity_friends">Amics</string>
-    <string name="action_settings">Configuració</string>
+    <string name="action_settings">Sobre nosaltres</string>
     <string name="addFriend">Afegir amistat</string>
     <string name="title_activity_test">test</string>
     <string name="noFriendsAlert">No tens cap amic a convidar!</string>
@@ -112,7 +112,7 @@
     <string name="login">Carregant...</string>
     <string name="open">obrir</string>
     <string name="close">tancar</string>
-    <string name="title_activity_settings">Configuració</string>
+    <string name="title_activity_settings">Sobre nosaltres</string>
     <string name="siteView">Veure lloc</string>
     <string name="updatePasswordButton">Actualitzar contrasenya</string>
     <string name="oldPasswHint">vella Contrasenya</string>
