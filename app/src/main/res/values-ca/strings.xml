@@ -18,21 +18,21 @@
     <string name="loginButton">Iniciar Sessió</string>
     <string name="registerButton">Registra\'t a Trip2Gether</string>
     <string name="addTitle">Afegir Nou Viatge</string>
-    <string name="editUserProfile">Editar perfil d usuari</string>
+    <string name="editUserProfile">Editar perfil d\'usuari</string>
     <string name="updateUserProfileButton">ACTUALITZAR PERFIL</string>
     <string name="loginErr">Usari no trobat</string>
     <string name="nombre">Nom</string>
     <string name="apellidos">Cognoms</string>
     <string name="pais">Pais</string>
     <string name="ciudad">Ciutat</string>
-    <string name="fecha_nacimiento">Data de Naixement</string>
-    <string name="mail">Correo electrònic</string>
+    <string name="fecha_nacimiento">Data de naixement</string>
+    <string name="mail">Correu electrònic</string>
     <string name="send_register">Enviar Registre</string>
     <string name="tripHint">Títol del viatge</string>
     <string name="saveTrip">GUARDAR</string>
     <string name="description">Descripció:</string>
     <string name="stars">La teva puntuació:</string>
-    <string name="editSite">editarLloc</string>
+    <string name="editSite">Editar lloc</string>
     <string name="title_activity_site_view">Lloc</string>
     <string name="dateStart">Data d\'inici</string>
     <string name="dateEnd">Data Final</string>
@@ -100,7 +100,7 @@
         <item>Tancar Sessió</item>
     </string-array>
     <string name="OK">OK</string>
-    <string name="mapRoute">View route in map</string>
+    <string name="mapRoute">Veure ruta en el mapa</string>
     <string name="addSite">Afegeix un nou lloc</string>
     <string name="anyLocation">No has seleccionat cap ubicació!</string>
     <string name="title_activity_friends">Amics</string>
