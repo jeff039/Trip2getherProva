@@ -1,19 +1,44 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import group.lis.uab.trip2gether.R;
+import group.lis.uab.trip2gether.model.User;
 
 public class Settings extends ActionBarActivity {
+    private Toolbar mToolbar;
+    private User myUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.action_bar_settings);
+        setSupportActionBar(mToolbar);
+        this.initializeButtons();
     }
+
+    public void initializeButtons() {
+        ImageButton backActivity = (ImageButton)findViewById(R.id.backActivity);
+        backActivity.setOnClickListener(doBackActivity);
+    }
+
+    /**
+     * Method ImageButton.OnClickListener doBackActivity
+     */
+    public ImageButton.OnClickListener doBackActivity = new Button.OnClickListener() {
+        public void onClick(View v) {
+            onBackPressed();
+        }
+    };
 
 
     @Override
