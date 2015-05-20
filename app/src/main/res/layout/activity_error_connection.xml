@@ -18,7 +18,7 @@
     <!--RETRY BUTTON-->
     <Button
         android:id="@+id/tryAgain"
-        android:layout_width="150dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="@string/tryAgain"
         android:textColor="#FFFFFF"
