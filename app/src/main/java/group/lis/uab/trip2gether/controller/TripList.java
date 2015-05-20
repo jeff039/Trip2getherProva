@@ -188,11 +188,6 @@ public class TripList extends ActionBarActivity {
                 Trip trip = new Trip(camposViaje.getString("Nombre"), pais,
                         ciudad, camposViaje.getDate("Fecha_Inicial"),
                         camposViaje.getDate("Fecha_Final"), camposViaje.getParseFile("Imagen"));
-                /*
-                Trip trip = new Trip(camposViaje.getString("Nombre"), pais,
-                        ciudad, camposViaje.getDate("Fecha_Inicial"),
-                        camposViaje.getDate("Fecha_Final"), camposViaje.getParseFile("Imagen").getUrl());
-                */
                 trip.setId(idViaje);
                 trips.add(trip);
             }

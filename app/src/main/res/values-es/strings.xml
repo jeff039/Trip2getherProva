@@ -18,7 +18,7 @@
     <string name="loginButton">Iniciar Sesión</string>
     <string name="registerButton">Regístrate en Trip2Gether</string>
     <string name="addTitle">Agregar Nuevo Viaje</string>
-    <string name="editUserProfile">Edit User Profile</string>
+    <string name="editUserProfile">Editar Perfil</string>
     <string name="addAvatar">Agregar imagen de perfil desde:</string>
     <string name="updateUserProfileButton">ACTUALIZAR PERFIL</string>
     <string name="loginErr">Usario no encontrado</string>

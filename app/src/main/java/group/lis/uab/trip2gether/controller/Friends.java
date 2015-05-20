@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
@@ -49,6 +50,9 @@ public class Friends extends ActionBarActivity {
     private static Context context = null;
     private Toolbar mToolbar;
     private ListView leftDrawerList;
+    private DrawerLayout mDrawerLayout;
+    private SmoothActionBarDrawerToggle mDrawerToggle;
+    private ArrayAdapter<String> navigationDrawerAdapter;
     User myUser;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +62,70 @@ public class Friends extends ActionBarActivity {
         Intent intent = getIntent();
         myUser = (User) intent.getSerializableExtra("myUser");
 
-        mToolbar = (Toolbar) findViewById(R.id.action_bar_friends);
+        setRef();
+        //Set the custom toolbar
         setSupportActionBar(mToolbar);
 
-        this.initializeDrawerLayout();
-        this.initializeButtons();
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
         try {
             this.ViewFriendsFromBBDD();
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
+
+        private Runnable runnable;
+
+        public SmoothActionBarDrawerToggle(Friends activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
+            super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            super.onDrawerOpened(drawerView);
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onDrawerClosed(View view) {
+            super.onDrawerClosed(view);
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            super.onDrawerStateChanged(newState);
+            if (runnable != null && newState == DrawerLayout.STATE_IDLE) {
+                runnable.run();
+                runnable = null;
+            }
+        }
+
+        public void runWhenIdle(Runnable runnable) {
+            this.runnable = runnable;
+        }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    private void setRef()
+    {
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.action_bar_friends);
+        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
+        leftDrawerList.addHeaderView(list_header);
+        String [] options = getResources().getStringArray(R.array.options_array);
+        navigationDrawerAdapter = new ArrayAdapter<String>(Friends.this, R.layout.drawer_list_item, options);
+        leftDrawerList.setAdapter(navigationDrawerAdapter);
+        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     public void ViewFriendsFromBBDD() throws com.parse.ParseException {
@@ -154,44 +212,6 @@ public class Friends extends ActionBarActivity {
     }
 
     /**
-     * Method initializeButtons. Elements de la interfície
-     */
-    public void initializeButtons() {
-        ImageButton openDrawer = (ImageButton) findViewById(R.id.openDrawer);
-        openDrawer.setOnClickListener(clickDrawer);
-    }
-
-    /**
-     * Method Button.OnClickListener clickDrawer
-     */
-    public Button.OnClickListener clickDrawer = new Button.OnClickListener() {
-        public void onClick(View v) {
-            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-            else {
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
-            }
-        }
-    };
-
-    /**
-     * Method initializeDrawerLayout. Drawer layout
-     */
-    public void initializeDrawerLayout(){
-        leftDrawerList = (ListView) findViewById(R.id.left_drawer);
-        View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
-        leftDrawerList.addHeaderView(list_header);
-
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        String [] options = getResources().getStringArray(R.array.options_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-    }
-
-    /**
      * Method onCreateOptionsMenu. Action Bar
      * @param menu
      * @return true
@@ -225,7 +245,6 @@ public class Friends extends ActionBarActivity {
         }
     }
 
-
     /**
      * Method DrawerItemClickListener
      */
@@ -239,33 +258,63 @@ public class Friends extends ActionBarActivity {
          */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            switch (position){
-                case 1:
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openMyProfile();
+            switch (position) {
+                case 1: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openMyProfile();
+                        }
+                    });
                     break;
-                case 2:
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openMyTrips();
+                }
+                case 2: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openMyTrips();
+                        }
+                    });
                     break;
-                case 3:
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openFriends();
+                }
+                case 3: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openFriends();
+                        }
+                    });
                     break;
-                case 4:
-                    //el botó  de notificacions es canviara si a la bd canvia
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openNotificationList();
+                }
+                case 4: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openNotificationList();
+                        }
+                    });
                     break;
-                case 5: //ajustes
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    openSettings();
+                }
+                case 5: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            openSettings();
+                        }
+                    });
                     break;
-                case 6: //cerrar sesión
-                    logout();
+                }
+                case 6: {
+                    mDrawerToggle.runWhenIdle(new Runnable() {
+                        @Override
+                        public void run() {
+                            logout();
+                        }
+                    });
                     break;
+                }
             }
+            mDrawerLayout.closeDrawers();
         }
     }
 
