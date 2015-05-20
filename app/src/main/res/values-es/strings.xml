@@ -97,7 +97,7 @@
         <item>Mis viajes</item>
         <item>Amigos</item>
         <item>Notificaciones</item>
-        <item>Ajustes</item>
+        <item>Sobre Nosotros</item>
         <item>Cerrar Sesión</item>
     </string-array>
     <string name="OK">Listo</string>
@@ -105,7 +105,7 @@
     <string name="addSite">Añade nuevo sitio</string>
     <string name="anyLocation">No has seleccionado ninguna ubicación!</string>
     <string name="title_activity_friends">Amigos</string>
-    <string name="action_settings">Configuración</string>
+    <string name="action_settings">Sobre nosotros</string>
     <string name="addFriend">Añadir amigo</string>
     <string name="title_activity_test">test</string>
     <string name="noFriendsAlert">No tienes amigos a invitar!</string>
@@ -113,7 +113,7 @@
     <string name="login">Cargando...</string>
     <string name="open">abrir</string>
     <string name="close">cerrar</string>
-    <string name="title_activity_settings">Ajustes</string>
+    <string name="title_activity_settings">Sobre Nosotros</string>
     <string name="siteView">Ver Sitio</string>
     <string name="updatePasswordButton">Actualizar contraseña</string>
     <string name="oldPasswHint">vieja Contraseñad</string>
@@ -125,4 +125,6 @@
     <string name="notificationDelete">Se ha eliminado de un viaje</string>
     <string name="notificationDrop">Has sido eliminado de un viaje</string>
     <string name="friendDel">¿Seguro que deseas eliminar este amigo?</string>
+    <string name="notificationAccept">Acepta tu solicitud de amistad</string>
+    <string name="notificationDecline">Rechaza tu solicitud de amistad</string>
 </resources>
