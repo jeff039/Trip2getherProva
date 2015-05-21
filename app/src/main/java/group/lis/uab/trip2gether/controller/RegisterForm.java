@@ -147,7 +147,7 @@ public class RegisterForm extends ActionBarActivity {
                     || RegisterForm.this.getMail().equalsIgnoreCase("")
                     || RegisterForm.this.getPassword().equalsIgnoreCase("")
                     || RegisterForm.this.getCountry().equalsIgnoreCase("")) {
-                Toast.makeText(RegisterForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterForm.this, R.string.allFieldsRequired, Toast.LENGTH_SHORT).show();
             }
             checkemail(RegisterForm.this.getMail());
             if (emailcheck == true) {

@@ -124,5 +124,7 @@
     <string name="notificationDelete">It is removed from a trip</string>
     <string name="notificationDrop">You have been removed from a trip</string>
     <string name="friendDel">Are you sure you want to delete this friend?</string>
-
+    <string name="allFieldsRequired">All Fields Required.</string>
+    <string name="errorDateFinal">The start date must be lower that final date.</string>
+    <string name="errorMaxTrips">Maximum active trips reached, please delete an old trip before continuing.</string>
 </resources>

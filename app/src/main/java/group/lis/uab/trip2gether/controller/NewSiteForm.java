@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -107,6 +108,8 @@ public class NewSiteForm extends ActionBarActivity {
         gallery.setOnClickListener(clickGallery);
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
+        ImageButton backActvity = (ImageButton) findViewById(R.id.backActvity);
+        backActvity.setOnClickListener(doBackActivity);
     }
 
     public Button.OnClickListener clickGallery = new Button.OnClickListener() {
@@ -124,6 +127,19 @@ public class NewSiteForm extends ActionBarActivity {
             Uri uri = Uri.parse("https://www.google.com/search?hl=en&site=imghp&tbm=isch&source=hp&q="+search);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
+        }
+    };
+
+    /**
+     * Method ImageButton.OnClickListener doBackActivity
+     */
+    public ImageButton.OnClickListener doBackActivity = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(NewSiteForm.this, SiteList.class);
+            i.putExtra("myUser", myUser);
+            i.putExtra("id_viaje", idViaje);
+            i.putExtra("nombre_viaje", nombreViaje);
+            startActivity(i);
         }
     };
 

@@ -56,6 +56,9 @@
     <string name="deleteSite">DELETE THIS SITE</string>
     <string name="deleteTrip">DELETE THIS TRIP</string>
     <string name="editSiteTitle">EDIT SITE</string>
+    <string name="allFieldsRequired">All Fields Required.</string>
+    <string name="errorDateFinal">La fecha de inicio a de ser inferior a la de final.</string>
+    <string name="errorMaxTrips">Máximo de viajes activos alcanzado, por favor elimina un viaje antiguo antes de continuar.</string>
 
     <string name="country_prompt">Choose a country</string>
 

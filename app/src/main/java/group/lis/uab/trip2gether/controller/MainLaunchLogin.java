@@ -151,7 +151,8 @@ public class MainLaunchLogin extends ActionBarActivity {
     }
 
     @Override
-    public void onBackPressed(){
-        //do nothing
+    public void onBackPressed()
+    {
+        moveTaskToBack(true);
     }
 }

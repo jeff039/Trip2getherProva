@@ -47,7 +47,7 @@ public class EditPasswordForm extends ActionBarActivity {
         try {
             if (EditPasswordForm.this.getOldPassword().equalsIgnoreCase("")
                     || EditPasswordForm.this.getNewPassword().equalsIgnoreCase("")) {
-                Toast.makeText(EditPasswordForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditPasswordForm.this, R.string.allFieldsRequired, Toast.LENGTH_SHORT).show();
             }
             else {
                 if (EditPasswordForm.this.getOldPassword().compareTo(EditPasswordForm.this.getNewPassword())!= 0) {

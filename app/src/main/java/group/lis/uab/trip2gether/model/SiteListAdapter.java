@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import java.util.ArrayList;
 import group.lis.uab.trip2gether.R;
@@ -84,6 +86,14 @@ public class SiteListAdapter extends ArrayAdapter<Site> {
         }
 
         ParseFile file = sitios.get(position).getImagen();
+        /*
+        ParseFile file = null;
+        try {
+            file = Utils.getRegistersFromBBDD(sitios.get(position).getId(), "Sitio", "objectId").get(0).getParseFile("Imagen");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        */
         if (file != null) {
             ImageView imageView = holder.imageView;
             Utils.setImageViewWithParseFile(imageView, file, false);

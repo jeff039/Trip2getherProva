@@ -78,6 +78,7 @@ public class EditTripForm extends ActionBarActivity {
     public User getMyUser() {
         return myUser;
     }
+
     public void setMyUser(User user) {
         this.myUser = user;
     }
@@ -136,7 +137,7 @@ public class EditTripForm extends ActionBarActivity {
                     || nuevoViaje.getCiudad().equalsIgnoreCase("")
                     || nuevoViaje.getFechaInicio() == null
                     || nuevoViaje.getFechaFinal() == null) {
-                Toast.makeText(EditTripForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditTripForm.this, R.string.allFieldsRequired, Toast.LENGTH_SHORT).show();
             } else {
 
                 try {
@@ -198,7 +199,9 @@ public class EditTripForm extends ActionBarActivity {
                     for (int i = 0; i < participantGroupToAdd.size(); i++) {
                         for (int j = 0; j < participantesViaje.size(); j++) {
                             try {
-                                Utils.addNotification(participantGroupToAdd.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "add", myTrip);
+                                if (!participantesViaje.get(j).equals(myUser)) {
+                                    Utils.addNotification(participantGroupToAdd.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "add", myTrip);
+                                }
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -779,6 +782,7 @@ public class EditTripForm extends ActionBarActivity {
                                     }
                                     ParseObject.createWithoutData("Grupo", componente.getObjectId()).delete();
                                 }
+                                Utils.addNotification(myUser.getObjectId(),componente.getString("Id_Usuario"),"Grupo","delete",myTrip);
                             }
                             if(cambiarAdministrador) {
                                 componentesDelViaje = Utils.getRegistersFromBBDD(myTrip, "Grupo", "Id_Viaje");

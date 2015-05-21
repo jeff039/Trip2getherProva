@@ -126,4 +126,7 @@
     <string name="friendDel">Estàs segur que vols eliminar aquest amic?</string>
     <string name="notificationAccept">Accepta la teva sol·licitud d\'amistad</string>
     <string name="notificationDecline">Rebutja la teva sol·licitud d\'amistad</string>
+    <string name="allFieldsRequired">Tots els camps son requerits.</string>
+    <string name="errorDateFinal">La data inici a de ser inferior a la final.</string>
+    <string name="errorMaxTrips">Màxim de viatjes actius alcançat, siusplau elimina un viatje antic abans de continuar.</string>
 </resources>

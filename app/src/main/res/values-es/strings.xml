@@ -130,4 +130,7 @@
     <string name="notificationDecline">Rechaza tu solicitud de amistad</string>
     <string name="noInternet">No se ha encontrado conexión a Internet. Revisa la conexión o inténtalo denuevo.</string>
     <string name="about">Esta app ha sido desarrollada por:\n\nMireia Andreu\nDavid Cara\nVictor Cruz\nDavid García\nJofré Orús\nVíctor Segura\nMarc Solé\nJavier Villar</string>
+    <string name="allFieldsRequired">Todos los campos son requeridos.</string>
+    <string name="errorDateFinal">La fecha de inicio a de ser inferior a la de final.</string>
+    <string name="errorMaxTrips">Máximo de viajes activos alcanzado, por favor elimina un viaje antiguo antes de continuar.</string>
 </resources>

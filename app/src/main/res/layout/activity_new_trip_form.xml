@@ -42,6 +42,7 @@
                     android:background="@drawable/rounded_corner"/>
             </LinearLayout>
 
+            <!--COUNTRY LABEL-->
             <LinearLayout
                 android:id="@+id/linearLayoutPais"
                 android:layout_width="match_parent"
@@ -49,15 +50,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/linearLayoutNombre">
-                <!--COUNTRY LABEL-->
                 <Spinner
                     android:id="@+id/SpinnerPaises"
                     android:hint="@string/tripName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:spinnerMode="dropdown"
-                    android:background="@drawable/rounded_corner"/>
+                    android:background="@drawable/rounded_corner"
+                    android:prompt="@array/paisDefault"/>
             </LinearLayout>
 
             <!--CITY LABEL-->
@@ -71,10 +71,10 @@
                 <Spinner
                     android:id="@+id/SpinnerCiudades"
                     android:hint="@string/nombre"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:spinnerMode="dropdown"
+                    android:prompt="@array/ciudadDefault"
                     android:background="@drawable/rounded_corner"/>
 
             </LinearLayout>
@@ -85,7 +85,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/linearLayoutCiudad"
                 android:layout_alignParentLeft="true"
@@ -104,7 +103,6 @@
                     android:textColorHint="#bbbbbb"
                     android:background="@drawable/rounded_corner"
                     android:drawableRight="@drawable/ic_today_grey600_18dp"/>
-
             </LinearLayout>
 
             <!--DATE END LABEL-->
@@ -113,7 +111,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/linearLayoutFechaInici"
                 android:layout_alignParentLeft="true"

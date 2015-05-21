@@ -22,6 +22,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,7 @@ public class Utils {
             String nombreCiudad = ciudad.getString("Nombre");
             ciudades.add(nombreCiudad);
         }
+        Collections.sort(ciudades);
         return ciudades;
     }
 
@@ -66,6 +68,7 @@ public class Utils {
                 paises.add(nombreCiudad);
             }
         }
+        Collections.sort(paises);
         return paises;
     }
 

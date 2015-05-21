@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.parse.ParseCloud;
@@ -117,6 +118,10 @@ public class EditUserForm extends ActionBarActivity {
         editPassword.setOnClickListener(clickEditPassword);
         Button sendUpdateUserProfile = (Button) findViewById(R.id.sendUpdateUserProfile);
         sendUpdateUserProfile.setOnClickListener(clickSendUpdateUserProfile);
+
+        ImageButton backActvity = (ImageButton) findViewById(R.id.backActvity);
+        backActvity.setOnClickListener(doBackActivity);
+
         pickDate = (EditText) findViewById(R.id.date_of_birth);
         pickDate.setOnClickListener(clickPickDate);
         pickDate.setInputType(InputType.TYPE_NULL);
@@ -156,7 +161,7 @@ public class EditUserForm extends ActionBarActivity {
                     || EditUserForm.this.getCity().equalsIgnoreCase("")
                     || EditUserForm.this.getDateOfBirth()==null
                     || EditUserForm.this.getCountry().equalsIgnoreCase("")) {
-                Toast.makeText(EditUserForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditUserForm.this, R.string.allFieldsRequired, Toast.LENGTH_SHORT).show();
             }
             else {
                 User myUpdatedUser = EditUserForm.this.updateUserData(EditUserForm.this.getName(),
@@ -204,6 +209,17 @@ public class EditUserForm extends ActionBarActivity {
         Uri uri = Uri.parse("https://www.google.com/search?hl=en&site=imghp&tbm=isch&source=hp&q="+search);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
+        }
+    };
+
+    /**
+     * Method ImageButton.OnClickListener doBackActivity
+     */
+    public ImageButton.OnClickListener doBackActivity = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(EditUserForm.this, UserProfile.class);
+            i.putExtra("myUser", myUser);
+            startActivity(i);
         }
     };
 

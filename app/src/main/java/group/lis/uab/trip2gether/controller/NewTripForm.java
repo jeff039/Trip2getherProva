@@ -53,6 +53,7 @@ public class NewTripForm extends ActionBarActivity {
      * int LOAD_IMAGE. Static final -> no canviarà (s'ha d'inicializar)
      */
     private static final int LOAD_IMAGE = 1;
+    private static final int MAX_TRIP = 5;
     private EditText pickDateIni;
     private DatePickerDialog pickDateDialogIni;
     private EditText pickDateFin;
@@ -172,6 +173,8 @@ public class NewTripForm extends ActionBarActivity {
         gallery.setOnClickListener(clickGallery);
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
+        ImageButton backActvity = (ImageButton) findViewById(R.id.backActvity);
+        backActvity.setOnClickListener(doBackActivity);
 
         final Button addFriendButton = (Button)findViewById(R.id.ImageButtonAddFirends);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
@@ -274,6 +277,7 @@ public class NewTripForm extends ActionBarActivity {
         });
 
         Spinner spinnerPaises = (Spinner) findViewById (R.id.SpinnerPaises);
+
         try {
             paises = Utils.getCountriesOfBBDD();
         } catch (ParseException e) {
@@ -282,6 +286,15 @@ public class NewTripForm extends ActionBarActivity {
         ArrayAdapter<String> arrayAdapterPaises = new ArrayAdapter<String> (this, R.layout.spinner_row, paises);
         spinnerPaises.setAdapter(arrayAdapterPaises);
         spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
+
+
+        /*try {
+            spinnerPaises.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_row, Utils.getCountriesOfBBDD()));
+            spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+
 
         pickDateIni = (EditText) findViewById(R.id.EditTextFechaInicio);
         pickDateIni.setOnClickListener(clickPickDateIni);
@@ -435,60 +448,76 @@ public class NewTripForm extends ActionBarActivity {
                         || nuevoViaje.getCiudad().equalsIgnoreCase("")
                         || nuevoViaje.getFechaInicio() == null
                         || nuevoViaje.getFechaFinal() == null) {
-                    Toast.makeText(NewTripForm.this, "All Fields Required.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(NewTripForm.this, TripList.class);
-                    intent.putExtra("nombre", nuevoViaje.getNombre());
-                    intent.putExtra("pais", nuevoViaje.getPais());
-                    intent.putExtra("ciudad", nuevoViaje.getCiudad());
-                    intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
-                    intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
-                    intent.putExtra("imagen", String.valueOf(nuevoViaje.getImagen()));
-                    intent.putExtra("myUser", myUser);
-                    String idCiudad = null;
-                    try {
-                        idCiudad = getIdCiudad(nuevoViaje);
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    }
-                    nuevoViaje.setCiudad(idCiudad);
-                    Boolean savedCorrectly = false;
-                    try {
-                        savedCorrectly = GuardarViajeBDD(nuevoViaje);
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    }
-                    if(savedCorrectly ) {
-                        ///creeem el grup
-                        //AFEGIM AL GRUP
-                        for (int i = 0; i < includedFriends.size(); i++) {
-                            HashMap<String, Object> params = new HashMap<String, Object>();
-                            params.put("Id_Viaje", nuevoViaje.getId());
-                            params.put("Id_Usuario", includedFriends.get(i));
+                    Toast.makeText(NewTripForm.this, R.string.allFieldsRequired, Toast.LENGTH_SHORT).show();
+                }else{
+                    if(nuevoViaje.getFechaFinal().before(nuevoViaje.getFechaInicio())){
+                        Toast.makeText(NewTripForm.this, R.string.errorDateFinal, Toast.LENGTH_SHORT).show();
+                    }else {
+                        Integer numberTrips = 0;
+                        List<ParseObject> numberTripsResponse = null;
+                        try {
+                            numberTripsResponse = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Grupo", "Id_Usuario");
+                            numberTrips = numberTripsResponse.size();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (numberTrips >= MAX_TRIP) {
+                            Toast.makeText(NewTripForm.this, R.string.errorMaxTrips, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(NewTripForm.this, TripList.class);
+                            intent.putExtra("nombre", nuevoViaje.getNombre());
+                            intent.putExtra("pais", nuevoViaje.getPais());
+                            intent.putExtra("ciudad", nuevoViaje.getCiudad());
+                            intent.putExtra("fechaInicio", nuevoViaje.getFechaInicio());
+                            intent.putExtra("fechaFinal", nuevoViaje.getFechaFinal());
+                            intent.putExtra("imagen", String.valueOf(nuevoViaje.getImagen()));
+                            intent.putExtra("myUser", myUser);
+                            String idCiudad = null;
                             try {
-                                ParseCloud.callFunction("addGroupFriend", params);
-                            } catch (ParseException e2) {
-                                e2.printStackTrace();
-                            }
-                            //ENVIEM NOTIFICACIONS ALS UDUARIS AFEGITS DE TIPUS add
-                            //(SEND GENERIC NOTIFICATION)
-                            HashMap<String, Object> params2 = new HashMap<String, Object>();
-                            params2.put("transmitterId", myUser.getObjectId());
-                            params2.put("receiverId", includedFriends.get(i));
-                            params2.put("type", "add"); //HARDCODED
-                            //estat a false per defecte ja al cloud
-
-                            try {
-                                ParseCloud.callFunction("addNotification", params2);
-                                int prova = 0;
+                                idCiudad = getIdCiudad(nuevoViaje);
                             } catch (ParseException e1) {
                                 e1.printStackTrace();
                             }
+                            nuevoViaje.setCiudad(idCiudad);
+                            Boolean savedCorrectly = false;
+                            try {
+                                savedCorrectly = GuardarViajeBDD(nuevoViaje);
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+                            if (savedCorrectly) {
+                                ///creeem el grup
+                                //AFEGIM AL GRUP
+                                for (int i = 0; i < includedFriends.size(); i++) {
+                                    HashMap<String, Object> params = new HashMap<String, Object>();
+                                    params.put("Id_Viaje", nuevoViaje.getId());
+                                    params.put("Id_Usuario", includedFriends.get(i));
+                                    try {
+                                        ParseCloud.callFunction("addGroupFriend", params);
+                                    } catch (ParseException e2) {
+                                        e2.printStackTrace();
+                                    }
+                                    //ENVIEM NOTIFICACIONS ALS UDUARIS AFEGITS DE TIPUS add
+                                    //(SEND GENERIC NOTIFICATION)
+                                    HashMap<String, Object> params2 = new HashMap<String, Object>();
+                                    params2.put("transmitterId", myUser.getObjectId());
+                                    params2.put("receiverId", includedFriends.get(i));
+                                    params2.put("type", "add"); //HARDCODED
+                                    //estat a false per defecte ja al cloud
+
+                                    try {
+                                        ParseCloud.callFunction("addNotification", params2);
+                                        int prova = 0;
+                                    } catch (ParseException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
+                                //////////////////////////////////////
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(NewTripForm.this, "Can't create de Trip, please try again.", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        //////////////////////////////////////
-                        startActivity(intent);
-                    }else{
-                        Toast.makeText(NewTripForm.this, "Can't create de Trip, please try again." , Toast.LENGTH_SHORT).show();
                     }
                 }
             default:
@@ -576,6 +605,7 @@ public class NewTripForm extends ActionBarActivity {
         boolean success = false;
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("ciudad", nuevoViaje.getCiudad());
+        params.put("pais", nuevoViaje.getPais());
         String idCiudad = ParseCloud.callFunction("getIdCity", params);
         return idCiudad;
     }

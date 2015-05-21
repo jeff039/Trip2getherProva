@@ -175,16 +175,9 @@ public class TripList extends ActionBarActivity {
 
                 String idCiudad = camposViaje.getString("Id_Ciudad");
                 List<ParseObject> datosIdCiudad = Utils.getRegistersFromBBDD(idCiudad, "Ciudad", "objectId");
-                String pais;
-                String ciudad;
 
-                if(datosIdCiudad.size()==0){
-                    pais="España";
-                    ciudad="Barcelona";
-                }else{
-                    pais = datosIdCiudad.get(0).getString("Pais");
-                    ciudad = datosIdCiudad.get(0).getString("Nombre");
-                }
+                String pais = datosIdCiudad.get(0).getString("Pais");
+                String ciudad = datosIdCiudad.get(0).getString("Nombre");
 
                 Trip trip = new Trip(camposViaje.getString("Nombre"), pais,
                         ciudad, camposViaje.getDate("Fecha_Inicial"),
