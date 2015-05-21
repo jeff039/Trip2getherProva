@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -329,9 +330,10 @@ public class TripList extends ActionBarActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_trip_list, menu);
-        return true;
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_trip_list, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**
@@ -346,7 +348,7 @@ public class TripList extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch(id) {
-            case (R.id.addTrip):
+            case R.id.addTrip:
                 Intent newTrip = new Intent(this, NewTripForm.class);
                 newTrip.putExtra("myUser", myUser);
                 startActivity(newTrip);

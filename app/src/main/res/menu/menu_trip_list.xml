@@ -8,7 +8,5 @@
         android:id="@+id/addTrip"
         android:icon="@drawable/ic_add_white_24dp"
         android:title="@string/addTitle"
-        app:showAsAction="ifRoom"
-        android:layout_gravity="right|bottom"
-        android:layout_height= "match_parent"/>
+        app:showAsAction="ifRoom"/>
 </menu>

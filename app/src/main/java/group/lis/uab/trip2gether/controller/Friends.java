@@ -123,7 +123,7 @@ public class Friends extends ActionBarActivity {
                     idFriend.getString("Pais"), idFriend.getString("Ciudad"), idFriend.getDate("Fecha_Nacimiento"),
                     idFriend.getObjectId());
                 this.friends.add(friend);
-                this.friendsNames.add(friend.getMail());
+                this.friendsNames.add(friend.getName());
 
         }
 
