@@ -68,7 +68,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
             holder = new TripListHolder();
 
             holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
-            holder.txtSites = (TextView)row.findViewById(R.id.txtSites);            
+            holder.txtSites = (TextView)row.findViewById(R.id.txtSites);
             holder.txtNumberFriends = (TextView)row.findViewById(R.id.txtNumberFriends);
             holder.txtDateCalendar = (TextView)row.findViewById(R.id.txtDateTrip);
 
@@ -112,7 +112,7 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         String sdateInici = Utils.convertFormatDate(trips.get(position).getFechaInicio());
         String sdateFinal = Utils.convertFormatDate(trips.get(position).getFechaFinal());
         holder.txtDateCalendar.setText(sdateInici+"- "+sdateFinal);
-        
+
         holder.imgFriendsIcon.setImageResource(R.drawable.ic_managment_friends);
         holder.imgEditIcon.setImageResource(R.drawable.ic_action_edit_trip);
         holder.imgCalendar.setImageResource(R.drawable.ic_calendar);

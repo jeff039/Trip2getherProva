@@ -30,8 +30,8 @@ import group.lis.uab.trip2gether.model.User;
 public class UserProfile extends ActionBarActivity {
 
     private User myUser;
+    private static Intent intent;
     private Toolbar mToolbar;
-    @SuppressWarnings("FieldCanBeLocal")
     private ListView leftDrawerList;
     private DrawerLayout mDrawerLayout;
     private SmoothActionBarDrawerToggle mDrawerToggle;
@@ -41,13 +41,16 @@ public class UserProfile extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        Intent intent = getIntent();
-        myUser = (User) intent.getSerializableExtra("myUser");
+        intent = this.getIntent();
+
         setRef();
         setSupportActionBar(mToolbar);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        myUser = (User) intent.getSerializableExtra("myUser");
         this.initializeButtons();
         this.initializeUserData();
     }
@@ -190,7 +193,7 @@ public class UserProfile extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch(id) {
-            case (R.id.edit_user_profile):
+            case R.id.edit_user_profile:
                 Intent editUserForm = new Intent(this, EditUserForm.class);
                 editUserForm.putExtra("myUser", myUser);
                 startActivityForResult(editUserForm, 0);

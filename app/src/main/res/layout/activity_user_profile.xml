@@ -15,13 +15,15 @@
         android:orientation="vertical"
         tools:context="group.lis.uab.trip2gether.controller.UserProfile"
         tools:ignore="MergeRootFrame">
+
         <include
             android:id="@+id/action_bar_user_profile"
             layout="@layout/action_bar_user_profile"></include>
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="270dp"
+            android:layout_height="260dp"
+            android:layout_marginTop="56dp"
             android:background="@drawable/back_user">
             <!-- AVATAR -->
             <LinearLayout
@@ -29,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="80dp">
+                android:layout_marginTop="24dp">
                 <ImageView
                     android:layout_width="120dp"
                     android:layout_height="120dp"

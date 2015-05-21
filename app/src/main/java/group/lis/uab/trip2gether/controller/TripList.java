@@ -39,7 +39,6 @@ public class TripList extends ActionBarActivity {
     protected ListAdapter adapter;
     protected ListView lista;
     private static Context context;
-    @SuppressWarnings("FieldCanBeLocal")
     private static Intent intent;
     private User myUser;
     private ArrayList<Trip> trips = new ArrayList<Trip>();
@@ -47,7 +46,6 @@ public class TripList extends ActionBarActivity {
     private ListView leftDrawerList;
     private DrawerLayout mDrawerLayout;
     private SmoothActionBarDrawerToggle mDrawerToggle;
-    @SuppressWarnings("FieldCanBeLocal")
     private ArrayAdapter<String> navigationDrawerAdapter;
 
     /**
@@ -62,7 +60,6 @@ public class TripList extends ActionBarActivity {
         intent = this.getIntent();
 
         setRef();
-        //Set the custom toolbar
         setSupportActionBar(mToolbar);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
