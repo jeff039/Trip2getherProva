@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.parse.ParseCloud;
@@ -101,6 +102,8 @@ public class RegisterForm extends ActionBarActivity {
         gallery.setOnClickListener(clickGallery);
         Button google = (Button)findViewById(R.id.google);
         google.setOnClickListener(clickGoogle);
+        ImageButton backActvity = (ImageButton) findViewById(R.id.backActvity);
+        backActvity.setOnClickListener(doBackActivity);
 
         Button sendRegister = (Button)findViewById(R.id.sendRegister);
         sendRegister.setOnClickListener(clickSendRegister);
@@ -345,4 +348,13 @@ public class RegisterForm extends ActionBarActivity {
         int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
+    /**
+     * Method ImageButton.OnClickListener doBackActivity
+     */
+    public ImageButton.OnClickListener doBackActivity = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(RegisterForm.this, MainLaunchLogin.class);
+            startActivity(i);
+        }
+    };
 }

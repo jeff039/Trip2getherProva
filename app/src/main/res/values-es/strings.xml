@@ -29,20 +29,20 @@
     <string name="fecha_nacimiento">Fecha de Nacimiento</string>
     <string name="mail">Correo electrónico</string>
     <string name="send_register">Enviar Registro</string>
-    <string name="tripHint">Trip title</string>
+    <string name="tripHint">Título del viaje</string>
     <string name="saveTrip">GUARDAR</string>
-    <string name="description">Descripcion:</string>
+    <string name="description">Descripción:</string>
     <string name="stars">Puntuación:</string>
-    <string name="editSite">editSite</string>
+    <string name="editSite">editarSitio</string>
     <string name="title_activity_site_view">Sitio</string>
     <string name="dateStart">Fecha de Inicio</string>
     <string name="dateEnd">Fecha Final</string>
     <string name="tripName">Nombre del Viaje</string>
     <string name="addFriendToTrip">Agregar Amigos</string>
-    <string name="addImageToTrip">Agregar imagen desde:</string>
+    <string name="addImageToTrip">Añadir imagen desde:</string>
     <string name="precio">Precio:</string>
-    <string name="duracion">Duracion:</string>
-    <string name="duracionMin">Duracion (minutos)</string>
+    <string name="duracion">Duración:</string>
+    <string name="duracionMin">Duración (minutos)</string>
     <string name="moneda">€</string>
     <string name="minutos">minutos</string>
     <string name="mailFriend">Mail amistad</string>
@@ -63,11 +63,11 @@
     <string name="userNotExist">El usuario no existe.</string>
     <string name="userAreYou">Este es tu usuario.</string>
     <string name="friendShipExisting">La amistad ya existe entre vosotros.</string>
-    <string name="notificationAlreadySent">La notificación ya se ha enviado/recibido.</string>
+    <string name="notificationAlreadySent">Notificación se ha enviado/recibido.</string>
     <string name="userProfileUpdated">Perfil de usuario actualizado.</string>
-    <string name="samePasswords">La contraseña nueva y la antigua son iguales.</string>
+    <string name="samePasswords">La nueva contraseña no puede coicidir con la anterior.</string>
     <string name="deletedSite">Sitio eliminado </string>
-    <string name="deleteSitePermits">Solo el administrador puede eliminar el sitio </string>
+    <string name="deleteSitePermits">Solo el administrador puede eliminar este sitio </string>
     <string name="nameRequired">Nombre obligatorio</string>
     <string name="deletedTrip">Viaje eliminado </string>
     <string name="errorUpdatingProfile">Error actualizando el perfil de usuario</string>
@@ -75,7 +75,7 @@
     <string name="NotInternet">Sin conexión a internet</string>
     <string name="registrationOK">Registro completado</string>
     <string name="errorRegistration">Error en el registro del usuario</string>
-    <string name="invalidEmail">Dirección de correo electrónico invalida</string>
+    <string name="invalidEmail">Dirección de correo electrónico inválida</string>
 
 
 
@@ -122,7 +122,7 @@
         <item>Cerrar Sesión</item>
     </string-array>
     <string name="OK">Listo</string>
-    <string name="mapRoute">View route in map</string>
+    <string name="mapRoute">Ver ruta en el mapa</string>
     <string name="addSite">Añade nuevo sitio</string>
     <string name="addSiteCorrectly">Nuevo sitio añadido correctamente</string>
     <string name="anyLocation">No has seleccionado ninguna ubicación!</string>
@@ -138,25 +138,25 @@
     <string name="title_activity_settings">Sobre Nosotros</string>
     <string name="siteView">Ver Sitio</string>
     <string name="updatePasswordButton">Actualizar contraseña</string>
-    <string name="oldPasswHint">vieja Contraseñad</string>
-    <string name="newPasswHint">nueva Contraseña</string>
+    <string name="oldPasswHint">Contraseña antigua</string>
+    <string name="newPasswHint">Contraseña nueva</string>
     <string name="editPasswordForm">Editar Contraseña</string>
     <string name="myLocation">Mi localización</string>
     <string name="tryAgain">Volver a intentarlo</string>
     <string name="notificationAdd">Te ha añadido a un viaje</string>
     <string name="notificationDelete">Se ha eliminado de un viaje</string>
     <string name="notificationDrop">Has sido eliminado de un viaje</string>
-    <string name="friendDel">¿Seguro que deseas dejar la amistad con este usuario?</string>
-    <string name="tripDel">¿Seguro que deseas dejar de hacer este viaje?</string>
-    <string name="siteDel">¿Seguro que deseas dejar de visitar este sitio?</string>
+    <string name="friendDel">¿Seguro que deseas eliminar la amistad con este usuario?</string>
+    <string name="tripDel">¿Seguro que deseas salir de este viaje?</string>
+    <string name="siteDel">¿Seguro que deseas eliminar este sitio?</string>
 
     <string name="notificationAccept">Acepta tu solicitud de amistad</string>
     <string name="notificationDecline">Rechaza tu solicitud de amistad</string>
     <string name="noInternet">No se ha encontrado conexión a Internet. Revisa la conexión o inténtalo de nuevo.</string>
     <string name="about">Esta app ha sido desarrollada por:\nMireia Andreu\nDavid Cara\nVictor Cruz\nDavid García\nJofré Orús\nVíctor Segura\nMarc Solé\nJavier Villar\nContáctanos en infotrip2gether@gmail.com</string>
-    <string name="allFieldsRequired">Todos los campos son requeridos.</string>
-    <string name="errorDateFinal">La fecha de inicio a de ser inferior a la de final.</string>
-    <string name="errorMaxTrips">Máximo de viajes activos alcanzado, por favor elimina un viaje antiguo antes de continuar.</string>
+    <string name="allFieldsRequired">Todos los campos son obligatorios.</string>
+    <string name="errorDateFinal">La fecha de inicio a de ser antetior a la de final.</string>
+    <string name="errorMaxTrips">Máximo de viajes activos alcanzado, por favor elimina algun viaje antes de continuar.</string>
 
     <string name="textNoElements">Sin elementos que mostrar.</string>
     <string name="textNoElementsSiteList">Sin sitios que mostrar, adelante añade un nuevo sitio a visitar!</string>

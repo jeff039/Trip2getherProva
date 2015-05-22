@@ -156,9 +156,7 @@
     <string name="deleteTrip">ELIMINAR VIATJE</string>
     <string name="textNoElements">Sense elements per mostrar.</string>
     <string name="textNoElementsSiteList">Sense llocs per mostrar, endavant afegeix un nou lloc a visitar!</string>
-    <string name="textNoElementsTripList">No tens viatges per mostrar, pitja en el botó \'+\' per començar
-        la teva aventura!</string>
-    <string name="textNoElementsTripList2">Estàs preparat?</string>
+    <string name="textNoElementsTripList">Sense viatjes per mostrar, endavant afegeix un nou viatje!</string>
     <string name="textNoElementsFriends">Sense amistads per mostrar, endavant afegeix una amistad nova!</string>
     <string name="textNoElementsNotificationList">Sense notificacions per llegir.</string>
 
