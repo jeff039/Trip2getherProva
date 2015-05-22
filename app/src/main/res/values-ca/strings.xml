@@ -154,5 +154,11 @@
     <string name="noInternet">No s\'ha trobat connexió a Internet. Revisa la connexió o intenta-ho de nou.</string>
     <string name="about">Aquesta app ha estat desenvolupada per:\nMireia Andreu\nDavid Cara\nVictor Cruz\nDavid García\nJofré Orús\nVíctor Segura\nMarc Solé\nJavier Villar\nContacta\'ns a infotrip2gether@gmail.com</string>
     <string name="deleteTrip">ELIMINAR VIATJE</string>
+    <string name="textNoElements">Sense elements per mostrar.</string>
+    <string name="textNoElementsSiteList">Sense llocs per mostrar, endavant afegeix un nou lloc a visitar!</string>
+    <string name="textNoElementsTripList">Sense viatjes per mostrar, endavant afegeix un nou viatje!</string>
+    <string name="textNoElementsFriends">Sense amistads per mostrar, endavant afegeix una amistad nova!</string>
+    <string name="textNoElementsNotificationList">Sense notificacions per llegir.</string>
+
 
 </resources>

@@ -153,5 +153,10 @@
     <string name="noInternet">No Internet connection found. Check your connection or try again.</string>
     <string name="about">This app has been developed by:\nMireia Andreu\nDavid Cara\nVictor Cruz\nDavid García\nJofré Orús\nVíctor Segura\nMarc Solé\nJavier Villar\nContact us at: infotrip2gether@gmail.com</string>
     <string name="deleteTrip">DELETE THIS TRIP</string>
+    <string name="textNoElements">No items to show.</string>
+    <string name="textNoElementsSiteList">No sites that show, please add a new site to visit!</string>
+    <string name="textNoElementsTripList">No trips to show, please create a new trip!</string>
+    <string name="textNoElementsFriends">No friendship to show, please add a new friendship!</string>
+    <string name="textNoElementsNotificationList">No notifications to read.</string>
 
 </resources>

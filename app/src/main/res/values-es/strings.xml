@@ -158,4 +158,10 @@
     <string name="errorDateFinal">La fecha de inicio a de ser inferior a la de final.</string>
     <string name="errorMaxTrips">Máximo de viajes activos alcanzado, por favor elimina un viaje antiguo antes de continuar.</string>
 
+    <string name="textNoElements">Sin elementos que mostrar.</string>
+    <string name="textNoElementsSiteList">Sin sitios que mostrar, adelante añade un nuevo sitio a visitar!</string>
+    <string name="textNoElementsTripList">Sin viajes que mostrar, adelante crea un nuevo viaje!</string>
+    <string name="textNoElementsFriends">Sin amistades que mostrar, adelante añade una amistad nueva!</string>
+    <string name="textNoElementsNotificationList">Sin notificaciones por leer.</string>
+
 </resources>
