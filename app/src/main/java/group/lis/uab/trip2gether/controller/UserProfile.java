@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -153,11 +154,13 @@ public class UserProfile extends ActionBarActivity {
     }
 
     /**
-     * Method initializeButtons. Button Open Drawer
+     * Method initializeButtons.
      */
     public void initializeButtons(){
         Button addFriend = (Button) findViewById(R.id.addFriend);
         addFriend.setOnClickListener(clickAddFriend);
+        ImageButton openEditThisUser = (ImageButton) findViewById(R.id.EditThisUser);
+        openEditThisUser.setOnClickListener(clickEditThisUser);
     }
 
     public Button.OnClickListener clickAddFriend = new Button.OnClickListener() {
@@ -165,6 +168,13 @@ public class UserProfile extends ActionBarActivity {
         Intent addFriendIntent = new Intent(UserProfile.this, AddFriend.class);
         addFriendIntent.putExtra("myUser", myUser);
         startActivity(addFriendIntent);
+        }
+    };
+    public ImageButton.OnClickListener clickEditThisUser = new ImageButton.OnClickListener() {
+        public void onClick(View v) {
+            Intent editUserIntent = new Intent(UserProfile.this, EditUserForm.class);
+            editUserIntent.putExtra("myUser", myUser);
+            startActivity(editUserIntent);
         }
     };
 
@@ -196,7 +206,7 @@ public class UserProfile extends ActionBarActivity {
             case R.id.edit_user_profile:
                 Intent editUserForm = new Intent(this, EditUserForm.class);
                 editUserForm.putExtra("myUser", myUser);
-                startActivityForResult(editUserForm, 0);
+                startActivity(editUserForm);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
