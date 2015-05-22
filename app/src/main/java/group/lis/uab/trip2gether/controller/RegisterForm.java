@@ -147,7 +147,7 @@ public class RegisterForm extends ActionBarActivity {
                     || RegisterForm.this.getMail().equalsIgnoreCase("")
                     || RegisterForm.this.getPassword().equalsIgnoreCase("")
                     || RegisterForm.this.getCountry().equalsIgnoreCase("")) {
-                Toast.makeText(RegisterForm.this, R.string.allFieldsRequired, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterForm.this, getResources().getString(R.string.allFieldsRequired), Toast.LENGTH_SHORT).show();
             }
             checkemail(RegisterForm.this.getMail());
             if (emailcheck == true) {
@@ -157,14 +157,14 @@ public class RegisterForm extends ActionBarActivity {
                         RegisterForm.this.getCountry(), RegisterForm.this.getDateOfBirth());
 
                 if (register) {
-                    Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.registrationOK), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error registering the user", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.errorRegistration), Toast.LENGTH_SHORT).show();
                 }
             }
             else{
-                Toast.makeText(RegisterForm.this, "Invalid email adress.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterForm.this, getResources().getString(R.string.invalidEmail), Toast.LENGTH_SHORT).show();
             }
     } catch (ParseException e) {
         e.printStackTrace();

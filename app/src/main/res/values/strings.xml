@@ -59,8 +59,26 @@
     <string name="allFieldsRequired">All Fields Required.</string>
     <string name="errorDateFinal">La fecha de inicio a de ser inferior a la de final.</string>
     <string name="errorMaxTrips">Máximo de viajes activos alcanzado, por favor elimina un viaje antiguo antes de continuar.</string>
-
     <string name="country_prompt">Choose a country</string>
+    <string name="addAvatar">Add profile picture from:</string>
+
+    <string name="sentFriendRequest">Sent friend request to </string>
+    <string name="userNotExist">The user does not exist.</string>
+    <string name="userAreYou">This is your user.</string>
+    <string name="friendShipExisting">Friendship exists between theirs.</string>
+    <string name="notificationAlreadySent">The notification has already been sent/received.</string>
+    <string name="userProfileUpdated">Updated user profile.</string>
+    <string name="samePasswords">Old and new passwords are equal.</string>
+    <string name="deletedSite">Deleted Site </string>
+    <string name="deleteSitePermits">Only the administrator can delete the site </string>
+    <string name="nameRequired">Name required</string>
+    <string name="deletedTrip">Deleted Trip </string>
+    <string name="errorUpdatingProfile">Error updating the user profile</string>
+    <string name="errorCreatingTrip">Can\'t create de Trip, please try again</string>
+    <string name="NotInternet">Not internet connection</string>
+    <string name="registrationOK">Registration completed</string>
+    <string name="errorRegistration">Error registering the user</string>
+    <string name="invalidEmail">Invalid email adress</string>
 
     <string-array name="arrayDefault">
         <item>Country not selected</item>
@@ -126,6 +144,7 @@
     <string name="OK">OK</string>
     <string name="mapRoute">View route in map</string>
     <string name="addSite">Add new Site</string>
+    <string name="addSiteCorrectly">New site added correctly</string>
     <string name="anyLocation">You have not selected any location!</string>
     <string name="title_activity_friends">Amigos</string>
     <string name="action_settings">About us</string>
@@ -151,6 +170,5 @@
     <string name="notificationAccept">Accepts your friend request</string>
     <string name="notificationDecline">Rejects your friend request</string>
     <string name="noInternet">No Internet connection found. Check your connection or try again.</string>
-    <string name="about">This App...</string>
-
+    <string name="about">This app has been developed by:\nMireia Andreu\nDavid Cara\nVictor Cruz\nDavid García\nJofré Orús\nVíctor Segura\nMarc Solé\nJavier Villar\nContact us at: infotrip2gether@gmail.com</string>
 </resources>

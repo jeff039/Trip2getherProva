@@ -95,7 +95,7 @@ public class EditSiteForm extends ActionBarActivity {
             nuevoSitio.setId(mySiteId);
             nuevoSitio.setIdViaje(idViaje);
             if (nuevoSitio.getNombre().equalsIgnoreCase("")){
-                Toast.makeText(EditSiteForm.this, "Nombre obligatorio", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditSiteForm.this, getResources().getString(R.string.nameRequired), Toast.LENGTH_SHORT).show();
             }
             else {
                 Intent intent = new Intent(EditSiteForm.this, SiteView.class);
@@ -323,9 +323,9 @@ public class EditSiteForm extends ActionBarActivity {
                     if (myUser.getObjectId().equals(participantes.get(i).getString("Id_Usuario"))) {
                         ParseObject.createWithoutData("Sitio", mySiteId).deleteEventually();
                         //TODO eliminar también las puntuaciones.
-                        msn = "Deleted Site " + mySiteId;
+                        msn = getResources().getString(R.string.deletedSite) + " " + sitio.getString("Nombre");
                     } else {
-                        msn = "Solo el administrador puede eliminar el sitio" + sitio.getString("Nombre");
+                        msn = getResources().getString(R.string.deleteSitePermits) + sitio.getString("Nombre");
                     }
                 }
             }

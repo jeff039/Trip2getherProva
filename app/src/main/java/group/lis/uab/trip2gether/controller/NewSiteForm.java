@@ -165,7 +165,7 @@ public class NewSiteForm extends ActionBarActivity {
                 Site nuevoSitio = CargarSitio();
                 //double testDuracion = nuevoSitio.getDuracion();
                 if (nuevoSitio.getNombre().equalsIgnoreCase("")){
-                    Toast.makeText(NewSiteForm.this, "Nombre obligatorio", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewSiteForm.this, getResources().getString(R.string.nameRequired), Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Intent intent = new Intent(NewSiteForm.this, SiteList.class);
@@ -183,7 +183,7 @@ public class NewSiteForm extends ActionBarActivity {
 
                     try {
                         GuardarSitioBDD(nuevoSitio);
-
+                        Toast.makeText(NewSiteForm.this, getResources().getString(R.string.addSiteCorrectly), Toast.LENGTH_SHORT).show();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

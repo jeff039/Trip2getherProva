@@ -102,6 +102,7 @@
     <string name="OK">OK</string>
     <string name="mapRoute">Veure ruta en el mapa</string>
     <string name="addSite">Afegeix un nou lloc</string>
+    <string name="addSiteCorrectly">Nou lloc afegit correctament</string>
     <string name="anyLocation">No has seleccionat cap ubicació!</string>
     <string name="title_activity_friends">Amics</string>
     <string name="action_settings">Sobre nosaltres</string>
@@ -129,4 +130,27 @@
     <string name="allFieldsRequired">Tots els camps son requerits.</string>
     <string name="errorDateFinal">La data inici a de ser inferior a la final.</string>
     <string name="errorMaxTrips">Màxim de viatjes actius alcançat, siusplau elimina un viatje antic abans de continuar.</string>
+    <string name="addAvatar">Afegir imatge de perfil des de: </string>
+
+    <string name="sentFriendRequest">Enviada solicitud d\'amistad a </string>
+    <string name="userNotExist">L\'usuari no existeix</string>
+    <string name="userAreYou">Aquest el teu usuari</string>
+    <string name="friendShipExisting">L\'amistad ja existeix entre vosaltres</string>
+    <string name="notificationAlreadySent">La notificació ja ha sigut enviada/rebuda</string>
+    <string name="userProfileUpdated">Perfil d\'usuari actualizat.</string>
+    <string name="samePasswords">La contrasenya nova i l\'antigua son iguals.</string>
+    <string name="deletedSite">Lloc eliminat </string>
+    <string name="deleteSitePermits">Només l\'administrador pot eliminar el lloc </string>
+    <string name="nameRequired">Nom obligatori</string>
+    <string name="deletedTrip">Viatje eliminat </string>
+    <string name="errorUpdatingProfile">Error al actualizar el perfil d\'usuari</string>
+    <string name="errorCreatingTrip">No s\'ha pogut crear el viatje, si us plau torni a intentar-ho més tard.</string>
+    <string name="NotInternet">Sense connexió a internet.</string>
+    <string name="registrationOK">Registre complet</string>
+    <string name="errorRegistration">Error del registre de l\'usuari</string>
+    <string name="invalidEmail">Adreça de correu electrònic invalida</string>
+    <string name="noInternet">No s\'ha trobat connexió a Internet. Revisa la connexió o intenta-ho de nou.</string>
+    <string name="about">Aquesta app ha estat desenvolupada per:\nMireia Andreu\nDavid Cara\nVictor Cruz\nDavid García\nJofré Orús\nVíctor Segura\nMarc Solé\nJavier Villar\nContacta\'ns a infotrip2gether@gmail.com</string>
+    <string name="deleteTrip">ELIMINAR VIATJE</string>
+
 </resources>

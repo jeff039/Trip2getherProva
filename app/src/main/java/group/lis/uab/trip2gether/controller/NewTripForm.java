@@ -287,15 +287,6 @@ public class NewTripForm extends ActionBarActivity {
         spinnerPaises.setAdapter(arrayAdapterPaises);
         spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
 
-
-        /*try {
-            spinnerPaises.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_row, Utils.getCountriesOfBBDD()));
-            spinnerPaises.setOnItemSelectedListener(new SpinnerListener());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-
-
         pickDateIni = (EditText) findViewById(R.id.EditTextFechaInicio);
         pickDateIni.setOnClickListener(clickPickDateIni);
         pickDateIni.setInputType(InputType.TYPE_NULL);
@@ -448,10 +439,10 @@ public class NewTripForm extends ActionBarActivity {
                         || nuevoViaje.getCiudad().equalsIgnoreCase("")
                         || nuevoViaje.getFechaInicio() == null
                         || nuevoViaje.getFechaFinal() == null) {
-                    Toast.makeText(NewTripForm.this, R.string.allFieldsRequired, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewTripForm.this, getResources().getString(R.string.allFieldsRequired), Toast.LENGTH_SHORT).show();
                 }else{
                     if(nuevoViaje.getFechaFinal().before(nuevoViaje.getFechaInicio())){
-                        Toast.makeText(NewTripForm.this, R.string.errorDateFinal, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewTripForm.this, getResources().getString(R.string.errorDateFinal), Toast.LENGTH_SHORT).show();
                     }else {
                         Integer numberTrips = 0;
                         List<ParseObject> numberTripsResponse = null;
@@ -462,7 +453,7 @@ public class NewTripForm extends ActionBarActivity {
                             e.printStackTrace();
                         }
                         if (numberTrips >= MAX_TRIP) {
-                            Toast.makeText(NewTripForm.this, R.string.errorMaxTrips, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewTripForm.this, getResources().getString(R.string.errorMaxTrips), Toast.LENGTH_SHORT).show();
                         } else {
                             Intent intent = new Intent(NewTripForm.this, TripList.class);
                             intent.putExtra("nombre", nuevoViaje.getNombre());
@@ -515,7 +506,7 @@ public class NewTripForm extends ActionBarActivity {
                                 //////////////////////////////////////
                                 startActivity(intent);
                             } else {
-                                Toast.makeText(NewTripForm.this, "Can't create de Trip, please try again.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(NewTripForm.this, getResources().getString(R.string.errorCreatingTrip), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
