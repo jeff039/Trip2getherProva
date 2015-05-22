@@ -72,7 +72,33 @@ public class SiteList  extends ActionBarActivity {
         this.checkNotifications();
 
         try {
-            this.ViewSiteFromBBDD();
+            boolean thereAreSites = this.ViewSiteFromBBDD();
+
+            if(!thereAreSites) {
+                setContentView(R.layout.no_element_layout_site);
+                context = this;
+                intent = getIntent();
+                idViaje = intent.getStringExtra("id_viaje");
+                this.nombreViaje = intent.getStringExtra("nombre_viaje");
+                name = (TextView) findViewById(R.id.txtSiteName);
+                name.setText(nombreViaje);
+
+                setRef();
+                //Set the custom toolbar
+                setSupportActionBar(mToolbar);
+
+                //text a mostrar
+                TextView tv = (TextView)findViewById(R.id.textNoElement);
+                tv.setText(getResources().getString(R.string.textNoElementsSiteList));
+
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+                mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+                mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+                myUser = (User) intent.getSerializableExtra("myUser");
+
+                this.checkNotifications();
+            }
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
@@ -160,11 +186,18 @@ public class SiteList  extends ActionBarActivity {
      * Method ViewSiteFromBBDD. Métode per visualitzar els Sites associats a un Vaitge en la llista SiteList
      * @throws com.parse.ParseException
      */
-    public void ViewSiteFromBBDD() throws com.parse.ParseException {
+    public boolean ViewSiteFromBBDD() throws com.parse.ParseException {
+        boolean thereAreSites = false;
         if(this.idViaje==null){
             this.idViaje="";
         }
         List<ParseObject> idsSitio = Utils.getRegistersFromBBDD(this.idViaje, "Sitio", "Id_Viaje");
+
+        if(!idsSitio.isEmpty())
+        {
+            thereAreSites = true;
+        }
+
         int len = idsSitio.size();
         for(int i=0;i<len;i++){
             ParseObject idSitio = idsSitio.get(i);
@@ -190,6 +223,8 @@ public class SiteList  extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+        return thereAreSites;
     }
 
     /**

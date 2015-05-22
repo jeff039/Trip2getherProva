@@ -6,21 +6,17 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,16 +69,17 @@ public class TripList extends ActionBarActivity {
             boolean thereAreTrips = this.ViewTripFromBBDD();
             if (!thereAreTrips)
             {
-                setContentView(R.layout.no_element_layout);
-                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-                mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
-                mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+                setContentView(R.layout.no_element_layout_trip);
                 context = this;
                 intent = this.getIntent();
 
                 setRef();
                 setSupportActionBar(mToolbar);
+
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+                mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+                mDrawerLayout.setDrawerListener(mDrawerToggle);
+
                 myUser = (User) intent.getSerializableExtra("myUser");
                 this.checkNotifications(); //per canviar el botó
             }

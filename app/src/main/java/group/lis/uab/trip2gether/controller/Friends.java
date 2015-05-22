@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -54,7 +56,26 @@ public class Friends extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         try {
-            this.ViewFriendsFromBBDD();
+            boolean thereAreFriends = this.ViewFriendsFromBBDD();
+            if(!thereAreFriends)
+            {
+                setContentView(R.layout.no_element_layout_friend);
+                context = this;
+                myUser = (User) intent.getSerializableExtra("myUser");
+
+                setRef();
+                //Set the custom toolbar
+                setSupportActionBar(mToolbar);
+
+                //text a mostrar
+                TextView tv = (TextView)findViewById(R.id.textNoElement);
+                tv.setText(getResources().getString(R.string.textNoElementsFriends));
+
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+                mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+                mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+            }
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
@@ -111,9 +132,14 @@ public class Friends extends ActionBarActivity {
         leftDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-    public void ViewFriendsFromBBDD() throws com.parse.ParseException {
+    public boolean ViewFriendsFromBBDD() throws com.parse.ParseException {
+        boolean thereAreFriends = false;
         final List<ParseObject> idsFriends = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Amistad", "Id_Usuario_1");
 
+        if (!idsFriends.isEmpty())
+        {
+            thereAreFriends = true;
+        }
         for(int i=0;i<idsFriends.size();i++){
             ParseObject idFriends = idsFriends.get(i);
             List<ParseObject> friends = Utils.getRegistersFromBBDD(idFriends.getString("Id_Usuario_2"), "Usuario", "objectId");
@@ -192,6 +218,8 @@ public class Friends extends ActionBarActivity {
                 return true;
             }
         });
+
+        return  thereAreFriends;
     }
 
     /**

@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -49,7 +51,25 @@ public class NotificationList extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         try {
-            this.ViewNotificationsFromBBDD();
+            boolean thereAreNotfications =  this.ViewNotificationsFromBBDD();
+
+            if(!thereAreNotfications)
+            {
+                setContentView(R.layout.no_element_layout_notification);
+                context = this;
+                myUser = (User) intent.getSerializableExtra("myUser");
+                setRef();
+                setSupportActionBar(mToolbar);
+
+                //text a mostrar
+                TextView tv = (TextView)findViewById(R.id.textNoElement);
+                tv.setText(getResources().getString(R.string.textNoElementsNotificationList));
+
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+                mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+                mDrawerLayout.setDrawerListener(mDrawerToggle);
+            }
+
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
@@ -132,8 +152,14 @@ public class NotificationList extends ActionBarActivity {
         }
     }
 
-    public void ViewNotificationsFromBBDD() throws com.parse.ParseException {
+    public boolean ViewNotificationsFromBBDD() throws com.parse.ParseException {
         List<ParseObject> idsNotificacion = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Notificacion", "Id_Receptor");
+
+        boolean thereAreNotfications = false;
+        if(!idsNotificacion.isEmpty())
+        {
+            thereAreNotfications = true;
+        }
 
         for(int i=0;i<idsNotificacion.size();i++){
             ParseObject idNotificacion = idsNotificacion.get(i);
@@ -157,6 +183,8 @@ public class NotificationList extends ActionBarActivity {
                 startActivity(intent);*/
             }
         });
+
+        return thereAreNotfications;
     }
 
     /**

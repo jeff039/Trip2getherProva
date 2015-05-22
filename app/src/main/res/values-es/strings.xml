@@ -160,8 +160,10 @@
 
     <string name="textNoElements">Sin elementos que mostrar.</string>
     <string name="textNoElementsSiteList">Sin sitios que mostrar, adelante añade un nuevo sitio a visitar!</string>
-    <string name="textNoElementsTripList">Sin viajes que mostrar, adelante crea un nuevo viaje!</string>
+    <string name="textNoElementsTripList">No tienes viajes para mostrar, pulsa en el botón \'+\'
+        para comenzar tu aventura</string>
+    <string name="textNoElementsTripList2">¿Estás preparado?</string>
     <string name="textNoElementsFriends">Sin amistades que mostrar, adelante añade una amistad nueva!</string>
-    <string name="textNoElementsNotificationList">Sin notificaciones por leer.</string>
+    <string name="textNoElementsNotificationList">Sin notificaciones por leer</string>
 
 </resources>
