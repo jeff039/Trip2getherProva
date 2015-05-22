@@ -47,19 +47,19 @@ public class EditPasswordForm extends ActionBarActivity {
         try {
             if (EditPasswordForm.this.getOldPassword().equalsIgnoreCase("")
                     || EditPasswordForm.this.getNewPassword().equalsIgnoreCase("")) {
-                Toast.makeText(EditPasswordForm.this, R.string.allFieldsRequired, Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditPasswordForm.this, getResources().getString(R.string.allFieldsRequired), Toast.LENGTH_SHORT).show();
             }
             else {
                 if (EditPasswordForm.this.getOldPassword().compareTo(EditPasswordForm.this.getNewPassword())!= 0) {
                     User myUpdatedUser = EditPasswordForm.this.updatePassword(myUser.getObjectId(),
                         EditPasswordForm.this.getOldPassword(), EditPasswordForm.this.getNewPassword());
-                    Toast.makeText(getApplicationContext(), "Updated user profile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.userProfileUpdated), Toast.LENGTH_SHORT).show();
                     Intent userProfile = new Intent();
                     userProfile.putExtra("myUser", myUser);
                     setResult(Activity.RESULT_OK, userProfile);
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Old and new passwords are equal", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.samePasswords), Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (ParseException e) {

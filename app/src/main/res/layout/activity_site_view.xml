@@ -79,7 +79,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#ffffff"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:shadowColor="#7F000000"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2.0"/>
             </LinearLayout>
 
             <!-- SITE DESCRIPTION -->

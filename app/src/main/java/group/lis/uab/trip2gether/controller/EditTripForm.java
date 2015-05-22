@@ -137,102 +137,106 @@ public class EditTripForm extends ActionBarActivity {
                     || nuevoViaje.getCiudad().equalsIgnoreCase("")
                     || nuevoViaje.getFechaInicio() == null
                     || nuevoViaje.getFechaFinal() == null) {
-                Toast.makeText(EditTripForm.this, R.string.allFieldsRequired, Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditTripForm.this, getResources().getString(R.string.allFieldsRequired), Toast.LENGTH_SHORT).show();
             } else {
+                if (nuevoViaje.getFechaFinal().before(nuevoViaje.getFechaInicio())) {
+                    Toast.makeText(EditTripForm.this, getResources().getString(R.string.errorDateFinal), Toast.LENGTH_SHORT).show();
+                } else {
 
-                try {
-                    String idCiudad = getIdCiudad(nuevoViaje);
-                    nuevoViaje.setCiudad(idCiudad);
-                    EditarViajeBDD(nuevoViaje);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                //añadir los nuevos participantes al grupo de Viaje, quitar los que ya no estan
-                //y mandar notificacion
-                List<ParseObject> participantsObjectsToDelete = new ArrayList<>(); // los registros de los participantes a eliminar
-
-                String participanteActual = "";
-                String participantePosterior = "";
-
-                //recuperamos los registros a eliminar
-                //aquellos que estan en el Grupo en BBDD y no en la lista seleccionada en la App.
-                for (int i = 0; i < participantesViaje.size(); i++) {
-                    participanteActual = participantesViaje.get(i).getString("Id_Usuario");
-                    participantGroupTrip.add(participanteActual);
-                    if ((!includedFriends.contains(participanteActual)) & (!participanteActual.equals(myUser.getObjectId()))) {
-                        participantGroupToDelete.add(participanteActual);
-                        participantsObjectsToDelete.add(participantesViaje.get(i));
-                    }
-                }
-
-                //recuperamos los objectId de usuario a añadir
-                //aquellos que estan en la lista seleccionada en la App y no en el Grupo en BBDD.
-                for (int i = 0; i < includedFriends.size(); i++) {
-                    participantePosterior = includedFriends.get(i);
-                    if (!participantGroupTrip.contains(participantePosterior)) {
-                        participantGroupToAdd.add(participantePosterior);
-                    }
-                }
-
-                //añadir al grupo a los usuarios
-                for (int i = 0; i < participantGroupToAdd.size(); i++) {
                     try {
-                        Utils.addGroupFriend(nuevoViaje.getId(), participantGroupToAdd.get(i));
+                        String idCiudad = getIdCiudad(nuevoViaje);
+                        nuevoViaje.setCiudad(idCiudad);
+                        EditarViajeBDD(nuevoViaje);
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                }
-                //eliminar del grupo a los usuarios
-                try {
-                    if (!participantsObjectsToDelete.isEmpty()) {
-                        ParseObject.deleteAll(participantsObjectsToDelete);
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                    //añadir los nuevos participantes al grupo de Viaje, quitar los que ya no estan
+                    //y mandar notificacion
+                    List<ParseObject> participantsObjectsToDelete = new ArrayList<>(); // los registros de los participantes a eliminar
 
-                //Notificacion a todos los participantes del viaje tras actualizar
-                try {
-                    participantesViaje = Utils.getRegistersFromBBDD(myTrip, "Grupo", "Id_Viaje");
-                    //notificacion a los componentes de todas las personas añadidas
+                    String participanteActual = "";
+                    String participantePosterior = "";
+
+                    //recuperamos los registros a eliminar
+                    //aquellos que estan en el Grupo en BBDD y no en la lista seleccionada en la App.
+                    for (int i = 0; i < participantesViaje.size(); i++) {
+                        participanteActual = participantesViaje.get(i).getString("Id_Usuario");
+                        participantGroupTrip.add(participanteActual);
+                        if ((!includedFriends.contains(participanteActual)) & (!participanteActual.equals(myUser.getObjectId()))) {
+                            participantGroupToDelete.add(participanteActual);
+                            participantsObjectsToDelete.add(participantesViaje.get(i));
+                        }
+                    }
+
+                    //recuperamos los objectId de usuario a añadir
+                    //aquellos que estan en la lista seleccionada en la App y no en el Grupo en BBDD.
+                    for (int i = 0; i < includedFriends.size(); i++) {
+                        participantePosterior = includedFriends.get(i);
+                        if (!participantGroupTrip.contains(participantePosterior)) {
+                            participantGroupToAdd.add(participantePosterior);
+                        }
+                    }
+
+                    //añadir al grupo a los usuarios
                     for (int i = 0; i < participantGroupToAdd.size(); i++) {
-                        for (int j = 0; j < participantesViaje.size(); j++) {
-                            try {
-                                if (!participantesViaje.get(j).equals(myUser)) {
-                                    Utils.addNotification(participantGroupToAdd.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "add", myTrip);
-                                }
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    //notificacion a los componentes de todas las personas eliminadas
-                    for (int i = 0; i < participantGroupToDelete.size(); i++) {
-                        for (int j = 0; j < participantesViaje.size(); j++) {
-                            try {
-                                Utils.addNotification(participantGroupToDelete.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "delete", myTrip);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    //notificacion a las personas eliminadas
-                    for (int i = 0; i < participantGroupToDelete.size(); i++) {
                         try {
-                            Utils.addNotification(participantGroupToDelete.get(i), participantGroupToDelete.get(i), "Grupo", "drop", myTrip);
+                            Utils.addGroupFriend(nuevoViaje.getId(), participantGroupToAdd.get(i));
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                    //eliminar del grupo a los usuarios
+                    try {
+                        if (!participantsObjectsToDelete.isEmpty()) {
+                            ParseObject.deleteAll(participantsObjectsToDelete);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
-                Intent intent = new Intent(EditTripForm.this, TripList.class);
-                intent.putExtra("myUser", myUser);
-                startActivity(intent);
-                return true;
+                    //Notificacion a todos los participantes del viaje tras actualizar
+                    try {
+                        participantesViaje = Utils.getRegistersFromBBDD(myTrip, "Grupo", "Id_Viaje");
+                        //notificacion a los componentes de todas las personas añadidas
+                        for (int i = 0; i < participantGroupToAdd.size(); i++) {
+                            for (int j = 0; j < participantesViaje.size(); j++) {
+                                try {
+                                    if (!participantesViaje.get(j).equals(myUser)) {
+                                        Utils.addNotification(participantGroupToAdd.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "add", myTrip);
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        //notificacion a los componentes de todas las personas eliminadas
+                        for (int i = 0; i < participantGroupToDelete.size(); i++) {
+                            for (int j = 0; j < participantesViaje.size(); j++) {
+                                try {
+                                    Utils.addNotification(participantGroupToDelete.get(i), participantesViaje.get(j).getString("Id_Usuario"), "Grupo", "delete", myTrip);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        //notificacion a las personas eliminadas
+                        for (int i = 0; i < participantGroupToDelete.size(); i++) {
+                            try {
+                                Utils.addNotification(participantGroupToDelete.get(i), participantGroupToDelete.get(i), "Grupo", "drop", myTrip);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    Intent intent = new Intent(EditTripForm.this, TripList.class);
+                    intent.putExtra("myUser", myUser);
+                    startActivity(intent);
+                    return true;
+                }
             }
         }
         return super.onOptionsItemSelected(item);
@@ -641,9 +645,9 @@ public class EditTripForm extends ActionBarActivity {
          * @throws ParseException
          */
         public String getIdCiudad(Trip nuevoViaje) throws ParseException{
-            boolean success = false;
             HashMap<String, Object> params = new HashMap<String, Object>();
             params.put("ciudad", nuevoViaje.getCiudad());
+            params.put("pais", nuevoViaje.getPais());
             String idCiudad = ParseCloud.callFunction("getIdCity", params);
             return idCiudad;
         }
@@ -750,7 +754,7 @@ public class EditTripForm extends ActionBarActivity {
                             }
                             ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
 
-                            msn = "Deleted Trip " + myTrip;
+                            msn = getResources().getString(R.string.deletedTrip) +" " + Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId").get(0).getString("Nombre");
                             break;
                         case 1:
                             //se elimina el grupo, el viaje, los sitios y las puntuaciones
@@ -770,7 +774,7 @@ public class EditTripForm extends ActionBarActivity {
 
                             ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
 
-                            msn = "Deleted Trip " + myTrip;
+                            msn = getResources().getString(R.string.deletedTrip) +" " + Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId").get(0).getString("Nombre");
                             break;
                         default:
                             //Se elimina el usuario del grupo y se asigna un nuevo administrador.
@@ -789,7 +793,7 @@ public class EditTripForm extends ActionBarActivity {
                                 Utils.setValueBBDD(true, "Grupo", "Administrador", componentesDelViaje.get(0).getObjectId());
                             }
 
-                            msn = "Deleted Trip " + myTrip;
+                            msn = getResources().getString(R.string.deletedTrip) +" " + Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId").get(0).getString("Nombre");
                             break;
                     }
                 }else {

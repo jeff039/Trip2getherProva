@@ -62,11 +62,7 @@ public class Utils {
         HashMap<String, Object> params = new HashMap<String, Object>();
         List<ParseObject> listaPaises = ParseCloud.callFunction("getCountriesOfBBDD", params);
         for(int i=0;i<listaPaises.size();i++){
-            ParseObject pais = listaPaises.get(i);
-            String nombreCiudad = pais.getString("Pais");
-            if(!paises.contains(nombreCiudad)) {
-                paises.add(nombreCiudad);
-            }
+             paises.add(listaPaises.get(i).getString("Nombre"));
         }
         Collections.sort(paises);
         return paises;

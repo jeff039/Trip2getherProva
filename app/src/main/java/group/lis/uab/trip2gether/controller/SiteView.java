@@ -40,7 +40,6 @@ public class SiteView  extends ActionBarActivity {
     private String nombreViaje;
     private User myUser;
     private String idViaje;
-    private String idViajeRefresh;
     private GoogleMap mMap;
     private double latitude;
     private double longitude;

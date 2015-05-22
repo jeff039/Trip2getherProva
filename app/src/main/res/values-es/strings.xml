@@ -57,8 +57,28 @@
     <string name="deleteSite">ELIMINAR ESTE SITIO</string>
     <string name="deleteTrip">ELIMINAR VIAJE</string>
     <string name="editSiteTitle">EDITAR SITIO</string>
-
     <string name="country_prompt">Selecciona un país</string>
+
+    <string name="sentFriendRequest">Enviada solicitud de amistad a </string>
+    <string name="userNotExist">El usuario no existe.</string>
+    <string name="userAreYou">Este es tu usuario.</string>
+    <string name="friendShipExisting">La amistad ya existe entre vosotros.</string>
+    <string name="notificationAlreadySent">La notificación ya se ha enviado/recibido.</string>
+    <string name="userProfileUpdated">Perfil de usuario actualizado.</string>
+    <string name="samePasswords">La contraseña nueva y la antigua son iguales.</string>
+    <string name="deletedSite">Sitio eliminado </string>
+    <string name="deleteSitePermits">Solo el administrador puede eliminar el sitio </string>
+    <string name="nameRequired">Nombre obligatorio</string>
+    <string name="deletedTrip">Viaje eliminado </string>
+    <string name="errorUpdatingProfile">Error actualizando el perfil de usuario</string>
+    <string name="errorCreatingTrip">No se ha podido crear el viaje, por favor intentelo más tarde</string>
+    <string name="NotInternet">Sin conexión a internet</string>
+    <string name="registrationOK">Registro completado</string>
+    <string name="errorRegistration">Error en el registro del usuario</string>
+    <string name="invalidEmail">Dirección de correo electrónico invalida</string>
+
+
+
 
     <string-array name="arrayDefault">
         <item>País no seleccionado</item>
@@ -104,6 +124,7 @@
     <string name="OK">Listo</string>
     <string name="mapRoute">View route in map</string>
     <string name="addSite">Añade nuevo sitio</string>
+    <string name="addSiteCorrectly">Nuevo sitio añadido correctamente</string>
     <string name="anyLocation">No has seleccionado ninguna ubicación!</string>
     <string name="title_activity_friends">Amigos</string>
     <string name="action_settings">Sobre nosotros</string>
@@ -128,9 +149,10 @@
     <string name="friendDel">¿Seguro que deseas eliminar este amigo?</string>
     <string name="notificationAccept">Acepta tu solicitud de amistad</string>
     <string name="notificationDecline">Rechaza tu solicitud de amistad</string>
-    <string name="noInternet">No se ha encontrado conexión a Internet. Revisa la conexión o inténtalo denuevo.</string>
-    <string name="about">Esta app ha sido desarrollada por:\n\nMireia Andreu\nDavid Cara\nVictor Cruz\nDavid García\nJofré Orús\nVíctor Segura\nMarc Solé\nJavier Villar</string>
+    <string name="noInternet">No se ha encontrado conexión a Internet. Revisa la conexión o inténtalo de nuevo.</string>
+    <string name="about">Esta app ha sido desarrollada por:\nMireia Andreu\nDavid Cara\nVictor Cruz\nDavid García\nJofré Orús\nVíctor Segura\nMarc Solé\nJavier Villar\nContáctanos en infotrip2gether@gmail.com</string>
     <string name="allFieldsRequired">Todos los campos son requeridos.</string>
     <string name="errorDateFinal">La fecha de inicio a de ser inferior a la de final.</string>
     <string name="errorMaxTrips">Máximo de viajes activos alcanzado, por favor elimina un viaje antiguo antes de continuar.</string>
+
 </resources>

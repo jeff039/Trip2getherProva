@@ -51,21 +51,21 @@ public class AddFriend extends ActionBarActivity {
             sendNotification = addFriend(AddFriend.this.getFriendMail());
             switch (sendNotification) {
                 case 0:
-                    String toastText = "Enviada solicitud de amistad a "+AddFriend.this.getFriendMail();
+                    String toastText = getResources().getString(R.string.sentFriendRequest) + " " + AddFriend.this.getFriendMail();
                     Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
                     finish();
                     break;
                 case 1:
-                    Toast.makeText(getApplicationContext(), "El usuario no existe", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),  getResources().getString(R.string.userNotExist), Toast.LENGTH_SHORT).show();
                     break;
                 case 2:
-                    Toast.makeText(getApplicationContext(), "Este es tu usuario", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.userAreYou), Toast.LENGTH_SHORT).show();
                     break;
                 case 3:
-                    Toast.makeText(getApplicationContext(), "La amistad ya existe entre vosotros", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.friendShipExisting), Toast.LENGTH_SHORT).show();
                     break;
                 case 4:
-                    Toast.makeText(getApplicationContext(), "La notificación ya se ha enviado/recibido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.notificationAlreadySent), Toast.LENGTH_SHORT).show();
                     break;
             }
         } catch (ParseException e) {

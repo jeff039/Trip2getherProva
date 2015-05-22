@@ -32,7 +32,7 @@ public class NoInternetConnection  extends ActionBarActivity {
             Intent login = new Intent(NoInternetConnection.this, MainLaunchLogin.class);
             startActivity(login);
         }
-        else Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(getApplicationContext(), getResources().getString(R.string.NotInternet), Toast.LENGTH_SHORT).show();
         }
     };
 
