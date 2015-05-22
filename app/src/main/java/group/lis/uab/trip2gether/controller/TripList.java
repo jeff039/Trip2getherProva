@@ -70,7 +70,22 @@ public class TripList extends ActionBarActivity {
         this.checkNotifications(); //per canviar el botó
 
         try {
-            this.ViewTripFromBBDD();
+            boolean thereAreTrips = this.ViewTripFromBBDD();
+            if (!thereAreTrips)
+            {
+                setContentView(R.layout.no_element_layout);
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+                mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+                mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+                context = this;
+                intent = this.getIntent();
+
+                setRef();
+                setSupportActionBar(mToolbar);
+                myUser = (User) intent.getSerializableExtra("myUser");
+                this.checkNotifications(); //per canviar el botó
+            }
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
@@ -160,10 +175,12 @@ public class TripList extends ActionBarActivity {
      * Method ViewTripFromBBDD. Métode per visualitzar els viatjes associats a un usuari en la llista TripList
      * @throws com.parse.ParseException
      */
-    public void ViewTripFromBBDD() throws com.parse.ParseException {
+    public boolean ViewTripFromBBDD() throws com.parse.ParseException {
+        boolean thereAreTrips = false;
         List<ParseObject> idsViatje = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Grupo", "Id_Usuario");
         int len = idsViatje.size();
         if(!idsViatje.isEmpty()) {
+            thereAreTrips = true;
             for(int i=0;i<len;i++){
                 String idViaje = idsViatje.get(i).getString("Id_Viaje");
 
@@ -198,6 +215,8 @@ public class TripList extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+        return thereAreTrips;
     }
 
     /**
@@ -295,9 +314,8 @@ public class TripList extends ActionBarActivity {
     }
 
     public void openMyTrips() {
-        Intent myTrips = new Intent(this, TripList.class);
-        myTrips.putExtra("myUser", myUser);
-        startActivity(myTrips);
+        //ja estem als viatges, només tanquem la drawer
+        mDrawerLayout.closeDrawers();
     }
 
     public void openNotificationList() {

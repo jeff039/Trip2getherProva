@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DRAWER NAVIGATION -->
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="group.lis.uab.trip2gether.controller.TripList"
+        tools:ignore="MergeRootFrame">
+
+        <include
+            android:id="@+id/action_bar_trip_list"
+            layout="@layout/action_bar_trip_list"></include>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/hello_world"
+            android:layout_marginTop="56dp"/>
+    </FrameLayout>
+
+    <!-- CONTENT DRAWER -->
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:background="#ffffff"/>
+</android.support.v4.widget.DrawerLayout>

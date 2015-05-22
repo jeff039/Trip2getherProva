@@ -1,68 +1,78 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background">
+    android:orientation="vertical">
 
-    <!--USERNAME LABEL-->
-    <EditText
-        android:id="@+id/user"
+    <ScrollView
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:hint="@string/userHint"
-        android:padding="10dp"
-        android:layout_marginTop="290dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginRight="55dp"
-        android:singleLine="true"
-        android:textColor="#333333"
-        android:textColorHint="#5e6266"
-        android:background="@drawable/rounded_corner"
-        android:drawableRight="@drawable/ic_person_grey600_18dp"/>
+        android:background="@drawable/background"
+        android:fillViewport="true">
 
-    <!--PASSWORD LABEL-->
-    <EditText
-        android:id="@+id/passw"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/rounded_corner"
-        android:hint="@string/passwHint"
-        android:padding="10dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginRight="55dp"
-        android:singleLine="true"
-        android:textColor="#333333"
-        android:textColorHint="#5e6266"
-        android:inputType="textPassword"
-        android:drawableRight="@drawable/ic_vpn_key_grey600_18dp"/>
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <!--LOGIN BUTTON-->
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:text="@string/loginButton"
-        android:textColor="#FFFFFF"
-        android:layout_marginLeft="55dp"
-        android:layout_marginRight="55dp"
-        android:background="@drawable/button_login"
-        android:gravity="center"
-        android:textSize="15dp" />
+            <!--USERNAME LABEL-->
+                    <EditText
+                        android:id="@+id/user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:hint="@string/userHint"
+                        android:padding="10dp"
+                        android:layout_marginTop="290dp"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginRight="55dp"
+                        android:singleLine="true"
+                        android:textColor="#333333"
+                        android:textColorHint="#5e6266"
+                        android:background="@drawable/rounded_corner"
+                        android:drawableRight="@drawable/ic_person_grey600_18dp"/>
+
+                    <!--PASSWORD LABEL-->
+                    <EditText
+                        android:id="@+id/passw"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:background="@drawable/rounded_corner"
+                        android:hint="@string/passwHint"
+                        android:padding="10dp"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginRight="55dp"
+                        android:singleLine="true"
+                        android:textColor="#333333"
+                        android:textColorHint="#5e6266"
+                        android:inputType="textPassword"
+                        android:drawableRight="@drawable/ic_vpn_key_grey600_18dp"/>
+
+                    <!--LOGIN BUTTON-->
+                    <Button
+                        android:id="@+id/loginButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="45dp"
+                        android:text="@string/loginButton"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginRight="55dp"
+                        android:background="@drawable/button_login"
+                        android:gravity="center"
+                        android:textSize="15dp" />
 
 
-    <!-- REGISTER BUTTON-->
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@null"
-        android:text="@string/registerButton"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        />
-
-</LinearLayout>
+                    <!-- REGISTER BUTTON-->
+                    <Button
+                        android:id="@+id/registerButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@null"
+                        android:text="@string/registerButton"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
