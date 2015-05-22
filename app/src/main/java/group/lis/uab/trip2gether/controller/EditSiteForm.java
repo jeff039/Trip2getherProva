@@ -1,5 +1,7 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -314,31 +316,49 @@ public class EditSiteForm extends ActionBarActivity {
 
     public Button.OnClickListener clickSendDeleteThisSite = new Button.OnClickListener() {
         public void onClick(View v) {
-        String msn="";
-        try {
-            List<ParseObject> participantes = Utils.getRegistersFromBBDD(idViaje,"Grupo", "Id_Viaje");
-            ParseObject sitio = Utils.getRegistersFromBBDD(mySiteId,"Sitio", "objectId").get(0);
-            for (int i=0;i<participantes.size();i++) {
-                if (participantes.get(i).getBoolean("Administrador")) {
-                    if (myUser.getObjectId().equals(participantes.get(i).getString("Id_Usuario"))) {
-                        ParseObject.createWithoutData("Sitio", mySiteId).deleteEventually();
-                        //TODO eliminar también las puntuaciones.
-                        msn = getResources().getString(R.string.deletedSite) + " " + sitio.getString("Nombre");
-                    } else {
-                        msn = getResources().getString(R.string.deleteSitePermits) + sitio.getString("Nombre");
-                    }
-                }
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-        Toast.makeText(getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
-        Intent siteList = new Intent(EditSiteForm.this, SiteList.class);
-        siteList.putExtra("id_viaje", idViaje);
-        siteList.putExtra("myUser", myUser);
-        siteList.putExtra("nombre_viaje", nombreViaje);
-        startActivity(siteList);
+            //ELIMINAR UN SITIO
+            String alertString = getResources().getString(R.string.siteDel); //missatge de alerta
+            new AlertDialog.Builder(EditSiteForm.this)
+                    //.setTitle("DB")
+                    .setMessage(alertString)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) { //si és sí, eliminem
+                            String msn="";
+                            try {
+                                List<ParseObject> participantes = Utils.getRegistersFromBBDD(idViaje,"Grupo", "Id_Viaje");
+                                ParseObject sitio = Utils.getRegistersFromBBDD(mySiteId,"Sitio", "objectId").get(0);
+                                for (int i=0;i<participantes.size();i++) {
+                                    if (participantes.get(i).getBoolean("Administrador")) {
+                                        if (myUser.getObjectId().equals(participantes.get(i).getString("Id_Usuario"))) {
+                                            ParseObject.createWithoutData("Sitio", mySiteId).deleteEventually();
+                                            //TODO eliminar también las puntuaciones.
+                                            msn = getResources().getString(R.string.deletedSite) + " " + sitio.getString("Nombre");
+                                        } else {
+                                            msn = getResources().getString(R.string.deleteSitePermits) + sitio.getString("Nombre");
+                                        }
+                                    }
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            Toast.makeText(getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+                            Intent siteList = new Intent(EditSiteForm.this, SiteList.class);
+                            siteList.putExtra("id_viaje", idViaje);
+                            siteList.putExtra("myUser", myUser);
+                            siteList.putExtra("nombre_viaje", nombreViaje);
+                            startActivity(siteList);
+                        }
+                    })
+
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert) //ICONA!!!!
+                    .show();
         }
     };
 }

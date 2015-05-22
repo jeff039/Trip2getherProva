@@ -1,6 +1,8 @@
 package group.lis.uab.trip2gether.controller;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -52,11 +54,9 @@ public class EditTripForm extends ActionBarActivity {
     private EditText pickDateFin;
     private DatePickerDialog pickDateDialogFin;
     private SimpleDateFormat dateFormatter;
-    private static Intent intentR = null;
     private User myUser;
     private String myTrip;
     private ParseFile file;
-    private static String[] paises = { "Ninguno", "España", "Alemania", "Francia"};
 
     //LLISTES PER GESTIONAR ELS AMICS
     private ArrayList<String> friendsIdList = new ArrayList<String>(); //llista de ids de amics TOTS (en ordre amb checks)
@@ -730,85 +730,99 @@ public class EditTripForm extends ActionBarActivity {
 
     public Button.OnClickListener clickSendDeleteThisTrip = new Button.OnClickListener() {
         public void onClick(View v) {
-            String msn="";
-            List<ParseObject> sitiosAEliminar;
-            List<ParseObject> puntuacionesAEliminar = null;
-            List<ParseObject> componentesDelViaje;
-            Boolean cambiarAdministrador = false;
+            //ELIMINAR VIAJE
+            String alertString = getResources().getString(R.string.tripDel); //missatge de alerta
+            new AlertDialog.Builder(EditTripForm.this)
+                    //.setTitle("DB")
+                    .setMessage(alertString)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) { //si és sí, eliminem
+                            String msn="";
+                            List<ParseObject> sitiosAEliminar;
+                            List<ParseObject> puntuacionesAEliminar = null;
+                            List<ParseObject> componentesDelViaje;
+                            Boolean cambiarAdministrador = false;
 
-            try {
-                componentesDelViaje = Utils.getRegistersFromBBDD(myTrip, "Grupo", "Id_Viaje");
-                if (!componentesDelViaje.isEmpty()) {
-                    switch (componentesDelViaje.size()) {
-                        case 0:
-                            //se elimina viaje, sitios y puntuaciones, con datos consistentes
-                            // no deberia de entrar nunca aqui
-                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip, "Sitio", "Id_Viaje");
-                            puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip, "Puntuacion", "Id_Viaje");
-
-                            if (!sitiosAEliminar.isEmpty()) {
-                                ParseObject.deleteAll(sitiosAEliminar);
-                            }
-                            if (!puntuacionesAEliminar.isEmpty()) {
-                                ParseObject.deleteAll(puntuacionesAEliminar);
-                            }
-                            ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
-
-                            msn = getResources().getString(R.string.deletedTrip) +" " + Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId").get(0).getString("Nombre");
-                            break;
-                        case 1:
-                            //se elimina el grupo, el viaje, los sitios y las puntuaciones
-                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip, "Sitio", "Id_Viaje");
-                            for (int i = 0; i < sitiosAEliminar.size(); i++) {
-                                puntuacionesAEliminar = Utils.getRegistersFromBBDD(sitiosAEliminar.get(i).getObjectId(), "Puntuacion", "Id_Sitio");
-                                if (!puntuacionesAEliminar.isEmpty()) {
-                                    ParseObject.deleteAll(puntuacionesAEliminar);
-                                }
-                            }
-                            if (!sitiosAEliminar.isEmpty()){
-                                ParseObject.deleteAll(sitiosAEliminar);
-                            }
-                            if(!componentesDelViaje.isEmpty()){
-                                ParseObject.deleteAll(componentesDelViaje);
-                            }
-
-                            ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
-
-                            msn = getResources().getString(R.string.deletedTrip) +" " + Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId").get(0).getString("Nombre");
-                            break;
-                        default:
-                            //Se elimina el usuario del grupo y se asigna un nuevo administrador.
-                            for(int i=0;i<componentesDelViaje.size();i++) {
-                                ParseObject componente = componentesDelViaje.get(i);
-                                if (componente.getString("Id_Usuario").equals(myUser.getObjectId())){
-                                    if(componente.getBoolean("Administrador")){
-                                        cambiarAdministrador = true;
-                                    }
-                                    ParseObject.createWithoutData("Grupo", componente.getObjectId()).delete();
-                                }
-                                Utils.addNotification(myUser.getObjectId(),componente.getString("Id_Usuario"),"Grupo","delete",myTrip);
-                            }
-                            if(cambiarAdministrador) {
+                            try {
                                 componentesDelViaje = Utils.getRegistersFromBBDD(myTrip, "Grupo", "Id_Viaje");
-                                Utils.setValueBBDD(true, "Grupo", "Administrador", componentesDelViaje.get(0).getObjectId());
+                                if (!componentesDelViaje.isEmpty()) {
+                                    switch (componentesDelViaje.size()) {
+                                        case 0:
+                                            //se elimina viaje, sitios y puntuaciones, con datos consistentes
+                                            // no deberia de entrar nunca aqui
+                                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip, "Sitio", "Id_Viaje");
+                                            puntuacionesAEliminar = Utils.getRegistersFromBBDD(myTrip, "Puntuacion", "Id_Viaje");
+
+                                            if (!sitiosAEliminar.isEmpty()) {
+                                                ParseObject.deleteAll(sitiosAEliminar);
+                                            }
+                                            if (!puntuacionesAEliminar.isEmpty()) {
+                                                ParseObject.deleteAll(puntuacionesAEliminar);
+                                            }
+                                            ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
+
+                                            msn = getResources().getString(R.string.deletedTrip) +" " + Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId").get(0).getString("Nombre");
+                                            break;
+                                        case 1:
+                                            //se elimina el grupo, el viaje, los sitios y las puntuaciones
+                                            sitiosAEliminar = Utils.getRegistersFromBBDD(myTrip, "Sitio", "Id_Viaje");
+                                            for (int i = 0; i < sitiosAEliminar.size(); i++) {
+                                                puntuacionesAEliminar = Utils.getRegistersFromBBDD(sitiosAEliminar.get(i).getObjectId(), "Puntuacion", "Id_Sitio");
+                                                if (!puntuacionesAEliminar.isEmpty()) {
+                                                    ParseObject.deleteAll(puntuacionesAEliminar);
+                                                }
+                                            }
+                                            if (!sitiosAEliminar.isEmpty()){
+                                                ParseObject.deleteAll(sitiosAEliminar);
+                                            }
+                                            if(!componentesDelViaje.isEmpty()){
+                                                ParseObject.deleteAll(componentesDelViaje);
+                                            }
+
+                                            ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
+                                            msn = getResources().getString(R.string.deletedTrip) +" " + Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId").get(0).getString("Nombre");
+                                            break;
+                                        default:
+                                            //Se elimina el usuario del grupo y se asigna un nuevo administrador.
+                                            for(int i=0;i<componentesDelViaje.size();i++) {
+                                                ParseObject componente = componentesDelViaje.get(i);
+                                                if (componente.getString("Id_Usuario").equals(myUser.getObjectId())){
+                                                    if(componente.getBoolean("Administrador")){
+                                                        cambiarAdministrador = true;
+                                                    }
+                                                    ParseObject.createWithoutData("Grupo", componente.getObjectId()).delete();
+                                                }
+                                                Utils.addNotification(myUser.getObjectId(),componente.getString("Id_Usuario"),"Grupo","delete",myTrip);
+                                            }
+                                            if(cambiarAdministrador) {
+                                                componentesDelViaje = Utils.getRegistersFromBBDD(myTrip, "Grupo", "Id_Viaje");
+                                                Utils.setValueBBDD(true, "Grupo", "Administrador", componentesDelViaje.get(0).getObjectId());
+                                            }
+                                            msn = getResources().getString(R.string.deletedTrip) +" " + Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId").get(0).getString("Nombre");
+                                            break;
+                                    }
+                                }else {
+                                    //se elimina el viaje, ¿los sitios y las puntuaciones?
+                                    ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
 
-                            msn = getResources().getString(R.string.deletedTrip) +" " + Utils.getRegistersFromBBDD(myTrip, "Viaje", "objectId").get(0).getString("Nombre");
-                            break;
-                    }
-                }else {
-                    //se elimina el viaje, ¿los sitios y las puntuaciones?
-                    ParseObject.createWithoutData("Viaje", myTrip).deleteEventually();
-                }
+                            Toast.makeText(getApplicationContext(), msn , Toast.LENGTH_SHORT).show();
+                            Intent tripList = new Intent(EditTripForm.this, TripList.class);
+                            tripList.putExtra("myUser", myUser);
+                            startActivity(tripList);
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            Toast.makeText(getApplicationContext(), msn , Toast.LENGTH_SHORT).show();
-            Intent tripList = new Intent(EditTripForm.this, TripList.class);
-            tripList.putExtra("myUser", myUser);
-            startActivity(tripList);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert) //ICONA!!!!
+                    .show();
         }
     };
 }

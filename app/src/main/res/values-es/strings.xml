@@ -146,7 +146,10 @@
     <string name="notificationAdd">Te ha añadido a un viaje</string>
     <string name="notificationDelete">Se ha eliminado de un viaje</string>
     <string name="notificationDrop">Has sido eliminado de un viaje</string>
-    <string name="friendDel">¿Seguro que deseas eliminar este amigo?</string>
+    <string name="friendDel">¿Seguro que deseas dejar la amistad con este usuario?</string>
+    <string name="tripDel">¿Seguro que deseas dejar de hacer este viaje?</string>
+    <string name="siteDel">¿Seguro que deseas dejar de visitar este sitio?</string>
+
     <string name="notificationAccept">Acepta tu solicitud de amistad</string>
     <string name="notificationDecline">Rechaza tu solicitud de amistad</string>
     <string name="noInternet">No se ha encontrado conexión a Internet. Revisa la conexión o inténtalo de nuevo.</string>
