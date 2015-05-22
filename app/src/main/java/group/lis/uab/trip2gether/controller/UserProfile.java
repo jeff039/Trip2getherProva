@@ -170,7 +170,7 @@ public class UserProfile extends ActionBarActivity {
         startActivity(addFriendIntent);
         }
     };
-    public ImageButton.OnClickListener clickEditThisUser = new ImageButton.OnClickListener() {
+    public Button.OnClickListener clickEditThisUser = new Button.OnClickListener() {
         public void onClick(View v) {
             Intent editUserIntent = new Intent(UserProfile.this, EditUserForm.class);
             editUserIntent.putExtra("myUser", myUser);

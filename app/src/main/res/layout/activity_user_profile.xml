@@ -10,6 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <!-- PROFILE CONTENT -->
     <FrameLayout
         android:id="@+id/container"
@@ -32,14 +33,15 @@
             android:layout_gravity="end|top"
             android:src="@drawable/ic_mode_edit_white_18dp"
             android:background="@android:color/transparent"/>
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="260dp"
-            android:background="@drawable/back_user">
+            android:background="@drawable/back_user"
+            android:orientation="vertical">
             <!-- AVATAR -->
             <LinearLayout
                 android:id="@+id/linear_layout_avatar"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="80dp">
@@ -106,7 +108,7 @@
                     android:textSize="16sp"
                     android:layout_marginLeft="5dp"/>
             </LinearLayout>
-        </TableLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linear_layout_mail"
