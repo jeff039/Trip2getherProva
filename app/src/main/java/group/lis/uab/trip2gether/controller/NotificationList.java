@@ -155,12 +155,6 @@ public class NotificationList extends ActionBarActivity {
     public boolean ViewNotificationsFromBBDD() throws com.parse.ParseException {
         List<ParseObject> idsNotificacion = Utils.getRegistersFromBBDD(myUser.getObjectId(), "Notificacion", "Id_Receptor");
 
-        boolean thereAreNotfications = false;
-        if(!idsNotificacion.isEmpty())
-        {
-            thereAreNotfications = true;
-        }
-
         for(int i=0;i<idsNotificacion.size();i++){
             ParseObject idNotificacion = idsNotificacion.get(i);
             Notification notificacion = new Notification(idNotificacion.getObjectId(), idNotificacion.getBoolean("Estado"),
@@ -170,6 +164,11 @@ public class NotificationList extends ActionBarActivity {
                 this.notifications.add(notificacion);
                 this.notificationsNames.add(notificacion.getIdEmisor());
             }
+        }
+
+        boolean thereAreNotfications = false;
+        if(this.notifications.size()>0)        {
+            thereAreNotfications = true;
         }
 
         NotificationListAdapter adaptador = new NotificationListAdapter(context, R.layout.notification_list_item_row, notifications, myUser);
