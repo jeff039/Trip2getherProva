@@ -110,6 +110,15 @@
         <item>Marsella</item>
     </string-array>
 
+    <string-array name="nav_drawer_items">
+        <item>Perfil</item>
+        <item>Mis viajes</item>
+        <item>Amistades</item>
+        <item>Notificaciones</item>
+        <item>Sobre nosotros</item>
+        <item>Cerrar sesión</item>
+    </string-array>
+
     <string name="title_activity_site_maps">Map</string>
     <string name="title_activity_map">Mapa de Viaje</string>
     <!-- OPCIONS DE LA DRAWER LIST -->

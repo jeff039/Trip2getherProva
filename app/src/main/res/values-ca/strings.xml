@@ -88,6 +88,15 @@
         <item>Marsella</item>
     </string-array>
 
+    <string-array name="nav_drawer_items">
+        <item>PPerfil</item>
+        <item>Els meus viatges</item>
+        <item>Amistats</item>
+        <item>Notificacions</item>
+        <item>Sobre nosaltres</item>
+        <item>Tancar sessió</item>
+    </string-array>
+
     <string name="title_activity_site_maps">Map</string>
     <string name="title_activity_map">Mapa de Viatge</string>
     <!-- OPCIONS DE LA DRAWER LIST -->
@@ -158,6 +167,7 @@
     <string name="textNoElementsSiteList">Sense llocs per mostrar, endavant afegeix un nou lloc a visitar!</string>
     <string name="textNoElementsTripList">Sense viatjes per mostrar, endavant afegeix un nou viatje!</string>
     <string name="textNoElementsFriends">Sense amistads per mostrar, endavant afegeix una amistad nova!</string>
+    <string name="textNoElementsTripList2">Estas preparat?</string>
     <string name="textNoElementsNotificationList">Sense notificacions per llegir.</string>
 
 
